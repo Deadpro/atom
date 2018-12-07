@@ -33,7 +33,7 @@
                mysqli_close($dbconnect);
             }
          } else {
-            echo json_encode("Не все поля заполнены!");
+            echo json_encode("Не все поля заполнены!!");
          }
       }
       //testQuery();
