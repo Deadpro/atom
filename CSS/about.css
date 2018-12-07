@@ -1,0 +1,20 @@
+.aboutContainer {
+   background: linear-gradient(180deg, #FFFAF0,white );
+}
+#about {
+   width: 100%;
+   max-width: 1600px;);
+}
+.logo-small {
+   color: #f4511e;
+   font-size: 50px;
+}
+.logo {
+   color: #f4511e;
+   font-size: 200px;
+}
+@media screen and (max-width: 480px) {
+   .logo {
+      font-size: 150px;
+   }
+}
