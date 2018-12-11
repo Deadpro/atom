@@ -1,0 +1,33 @@
+<?php
+   include("dbconnect.php");
+
+   if($_SERVER["REQUEST_METHOD"]=="POST") {
+     if (isset($_POST["SalesPartner"], $_POST["ItemName"])) {
+        $salesPartner = $_POST["SalesPartner"];
+        $itemName = $_POST["ItemName"];
+        if (!empty($salesPartner) && !empty($itemName)) {
+          $sql = "SELECT номенклатура.Цена, скидка.Скидка, скидка.Тип_скидки FROM (((номенклатура
+            INNER JOIN номенклатурасоскидкой ON номенклатура.Артикул = номенклатурасоскидкой.Артикул)
+            INNER JOIN скидка ON скидка.ID = номенклатурасоскидкой.ID_скидки)
+            INNER JOIN salespartners ON salespartners.ID LIKE номенклатурасоскидкой.ID_контрагента)
+            WHERE номенклатура.Наименование LIKE '$itemName' AND salespartners.Наименование LIKE '$salesPartner' ";
+            if ($result = mysqli_query($dbconnect, $sql)) {
+               $resultArray = array();
+               $tempArray = array();
+               while($row = $result->fetch_object()) {
+                  $tempArray = $row;
+                  array_push($resultArray, $tempArray);
+               }
+               echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+               mysqli_close($dbconnect);
+            }else{
+               $json['ошибка'] = 'Что-то пошло не так';
+               echo json_encode($json, JSON_UNESCAPED_UNICODE);
+               mysqli_close($dbconnect);
+            }
+        }else{
+            echo json_encode("Не все поля заполнены");
+        }
+     }
+   }
+?>
