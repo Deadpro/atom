@@ -1,25 +1,74 @@
-.item {
+/* .item {
 			text-align:center;
 			float:left;
 			margin:5px;
 			position:relative;
-		}
+			border: solid green;
+		} */
 
-			.item,
+			/* .item,
 			.item-hover,
 			.item-hover .mask,
 			.item-img,
 			.item-info {
 				width: 300px;
 				height: 225px;
-			}
+			} */
 
-			.item-hover,
+			/* .item-hover,
 			.item-hover .mask,
 			.item-img {
 				position:absolute;
 				top:0;
 				left:0;
+			} */
+
+			input[type='checkbox'] {
+				display: none;
+			}
+			#check_one {
+				width: 100%;
+				height: 100%;
+			}
+
+			.popup_one {
+				display: none;
+				width: 100%;
+				height: 100%;
+				background: black;
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+				filter: alpha(opacity=80);
+				opacity:0.8;
+				position: absolute;
+				text-align: center;
+				/* top: 10%;
+				bottom: 10%;
+				right: 10%;
+				left: 10%; */
+				/* margin: 0 auto; */
+				z-index: 100;
+			}
+			.popup_one h1 {
+				display:table-cell;
+				vertical-align:middle;
+				position:relative;
+				top: 20%;
+				border: solid red;
+			}
+
+			input:checked ~ .popup_one {
+				display: block;
+			}
+
+			.item-hover,
+			.item-hover .mask {
+				position:absolute;
+				/* top: 10%;
+				left: 10%; */
+				/* margin: 0 auto; */
+				/* border: solid red; */
+				width: 100%;
+				height: 100%;
 			}
 
 			.item-type-line .item-hover {
@@ -35,14 +84,14 @@
 				text-align:center;
 			}
 
-				.item-type-line .item-info {
+				/* .item-type-line .item-info {
 					z-index:10;
 					color:#ffffff;
 					display:table-cell;
 					vertical-align:middle;
 					position:relative;
 					z-index:5;
-				}
+				} */
 
 				.item-type-line .item-info .headline {
 					font-size:20px;
@@ -66,21 +115,22 @@
 
 				.item-type-line .item-hover .mask {
 					background-color:#000;
-					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-					filter: alpha(opacity=50);
-					opacity:0.5;
+					-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+					filter: alpha(opacity=80);
+					opacity:0.8;
 					z-index:0;
 				}
 
-				.item-type-line .item-hover:hover .line {
+				.item-type-line .item-hover:visited .line {
 					width:40%;
 				}
 
-				.item-type-line .item-hover:hover {
+				.item-type-line .item-hover:visited {
 					opacity:1;
 				}
 
 			.item-img {
-				background-color:#7a548f;
+				/* background-color:red; */
+				/* background-color:#7a548f; */
 				z-index:0;
 			}
