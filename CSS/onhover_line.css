@@ -26,28 +26,49 @@
 			input[type='checkbox'] {
 				display: none;
 			}
-			#check_one {
+			#check_one,
+			#check_two,
+			#check_three,
+			#check_four,
+			#check_five,
+			#check_six,
+			#check_seven,
+			#check_eight,
+			#check_nine,
+			#check_ten,
+			#check_eleven,
+			#check_twelve,
+			#check_thierteen {
 				width: 100%;
-				min-height: 100%;
+				height: 100%;
 			}
 
-			.popup_one {
+			.popup_one,
+			.popup_two,
+			.popup_three,
+			.popup_four,
+			.popup_five,
+			.popup_six,
+			.popup_seven,
+			.popup_eight,
+			.popup_nine,
+			.popup_ten,
+			.popup_eleven,
+			.popup_twelve,
+			.popup_thirteen {
 				display: none;
 				width: 100%;
 				height: 100%;
-				background: black;
-				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-				filter: alpha(opacity=80);
-				opacity:0.8;
-				position: absolute;
+				color: white;
+				position: fixed;
 				text-align: center;
-				/* top: 10%;
-				bottom: 10%;
-				right: 10%;
+				/* top: 10%; */
+				/* bottom: 0; */
+				/* right: 10%;
 				left: 10%; */
 				margin: 0 auto;
 				z-index: 100;
-				border: solid yellow;
+				/* border: solid yellow; */
 			}
 			.popup_one h1 {
 				display:table-cell;
@@ -57,12 +78,37 @@
 				border: solid red;
 			}
 
-			input:checked ~ .popup_one {
+			.popup_one p {
+				display:table-cell;
+				vertical-align:middle;
+				position:relative;
+				top: 20%;
+				border: solid red;
+			}
+
+			#check_one_input:checked ~ .popup_one,
+			#check_two_input:checked ~ .popup_two,
+			#check_three_input:checked ~ .popup_three,
+			#check_four_input:checked ~ .popup_four,
+			#check_five_input:checked ~ .popup_five,
+			#check_six_input:checked ~ .popup_six,
+			#check_seven_input:checked ~ .popup_seven,
+			#check_eight_input:checked ~ .popup_eight,
+			#check_nine_input:checked ~ .popup_nine,
+			#check_ten_input:checked ~ .popup_ten,
+			#check_eleven_input:checked ~ .popup_eleven,
+			#check_twelve_input:checked ~ .popup_twelve,
+			#check_thirteen_input:checked ~ .popup_thirteen,
+			input:checked ~ .mask {
 				display: block;
 			}
 
+			/* #check_one_input:checked ~ .mask {
+				display: block;
+			} */
+
 			.item-hover,
-			.item-hover .mask {
+			.item-hover {
 				position:absolute;
 				/* top: 10%;
 				left: 10%; */
@@ -70,6 +116,21 @@
 				/* border: solid red; */
 				width: 100%;
 				height: 100%;
+			}
+
+			.mask {
+				display: none;
+				width: 100%;
+				height: 100%;
+				background: black;
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+				filter: alpha(opacity=80);
+				opacity:0.8;
+				position: fixed;
+				text-align: center;
+				bottom: 0;
+				margin: 0 auto;
+				z-index: 99;
 			}
 
 			.item-type-line .item-hover {
@@ -95,7 +156,7 @@
 				} */
 
 				.item-type-line .item-info .headline {
-					font-size:20px;
+					/* font-size:20px; */
 				}
 
 				.item-type-line .item-info .line {
