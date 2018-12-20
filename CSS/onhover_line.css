@@ -38,7 +38,7 @@
 			#check_ten,
 			#check_eleven,
 			#check_twelve,
-			#check_thierteen {
+			#check_thirteen {
 				width: 100%;
 				height: 100%;
 			}
@@ -70,7 +70,19 @@
 				z-index: 100;
 				/* border: solid yellow; */
 			}
-			.popup_one h1 {
+			.popup_one h1,
+			.popup_two h1,
+			.popup_three h1,
+			.popup_four h1,
+			.popup_five h1,
+			.popup_six h1,
+			.popup_seven h1,
+			.popup_eight h1,
+			.popup_nine h1,
+			.popup_ten h1,
+			.popup_eleven h1,
+			.popup_twelve h1,
+			.popup_thirteen h1 {
 				display:table-cell;
 				vertical-align:middle;
 				position:relative;
@@ -78,7 +90,19 @@
 				border: solid red;
 			}
 
-			.popup_one p {
+			.popup_one p,
+			.popup_two p,
+			.popup_three p,
+			.popup_four p,
+			.popup_five p,
+			.popup_six p,
+			.popup_seven p,
+			.popup_eight p,
+			.popup_nine p,
+			.popup_ten p,
+			.popup_eleven p,
+			.popup_twelve p,
+			.popup_thirteen p {
 				display:table-cell;
 				vertical-align:middle;
 				position:relative;
