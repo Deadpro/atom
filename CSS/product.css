@@ -1,7 +1,7 @@
 #products {
    background-color: white;
    /* border: solid red 1px; */
-   /* z-index: 9999; */
+   z-index: 100;
 }
 .thumbnail {
    padding: 0 0 10px 0;
@@ -20,6 +20,7 @@
 .col-sm-6 {
    background-color: white;
    /* border: solid red 1px; */
+   /* z-index: 100; */
 }
 .col-sm-6 img {
    /* border: solid red 1px; */
