@@ -1,8 +1,8 @@
 /* COMMON CLASSES */
-.break { clear:both; }
+/* .break { clear:both; }
 .cf:before, .cf:after { content: " "; display: table; }
 .cf:after { clear: both; }
-.cf { *zoom: 1; }
+.cf { *zoom: 1; } */
 
 /* WRAPPER */
 /* #wrapper { width:; margin:; } */
@@ -53,25 +53,23 @@ Verdana,sans-serif; line-height:16px; margin:15px auto; width:; }
    position: relative;
 }
 #explode {
-   /* top: 10%; */
-   /* border: solid red 1px; */
    height: 275px;
 }
 /* By default, the info is smaller */
-#explode .info, .pic2, .box-with-text {
+/* #explode .info, .pic2, .box-with-text {
     transition: all 0.7s;
     transform: scale(1);
-}
-#explode .pic, .box-with-text {
+} */
+/* #explode .pic, .box-with-text {
     transition: all 0.7s;
-}
+} */
 /* On hover, fade in and show original size */
-#explode:hover .pic2 {
+/* #explode:hover .pic2 {
     opacity:1;
     transform: scale(1.1);
-}
+} */
 /* On hover, fade out and grow */
-#explode:hover .pic, .box-with-text{
+/* #explode:hover .pic, .box-with-text{
     opacity:0;
     transform: scale(1.4);
-}
+} */
