@@ -13,7 +13,7 @@
          if (!empty($area) && !empty($accountingType)) {
             //$encrypted_password = md5($password);
             //$user -> does_user_exist($login, $encrypted_password);
-            $sql = "SELECT Наименование FROM контрагент where Район LIKE '$area'
+            $sql = "SELECT Наименование FROM salespartners where Район LIKE '$area'
             and Учет LIKE '$accountingType' ";
 
             if ($result = mysqli_query($dbconnect, $sql)) {
@@ -28,12 +28,12 @@
                //echo json_encode($json, JSON_UNESCAPED_UNICODE);
                mysqli_close($dbconnect);
             }else{
-               $json['ошибка'] = 'Что-то пошло не так';
+               $json['error'] = 'Something went wrong';
                echo json_encode($json, JSON_UNESCAPED_UNICODE);
                mysqli_close($dbconnect);
             }
          } else {
-            echo json_encode("Не все поля заполнены");
+            echo json_encode("Not all fields are filled");
          }
       }
       //testQuery();
