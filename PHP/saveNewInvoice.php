@@ -1,33 +1,14 @@
 <?php
   include("dbconnect.php");
-  
-  if($_SERVER["REQUEST_METHOD"]=="POST") {
-    if (isset($_POST["Login"], $_POST["Password"])) {
-      $login = $_POST["Login"];
-      $password = $_POST["Password"];
 
-      if (!empty($login) && !empty($password)) {
-        $encrypted_password = md5($password);
-        $sql = "SELECT * FROM security where login LIKE '$login' AND password LIKE '$password' ";
+  // if($_SERVER["REQUEST_METHOD"]=="POST") {
+  //   if (isset($_POST["array"]) {
+      $array = $_POST["array"];
 
-  			if ($result = mysqli_query($dbconnect, $sql))	{
-  				$resultArray = array();
-          $tempArray = array();
-          while($row = $result->fetch_object()) {
-            $tempArray = $row;
-            array_push($resultArray, $tempArray);
-          }
-          echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-          mysqli_close($dbconnect);
-        }	else {
-            $json["failed"] = 'Login failed. Invalid login
-                                and/or password';
-            echo json_encode($json, JSON_UNESCAPED_UNICODE);
-            mysqli_close($dbconnect);
-          }
-      } else {
-          echo json_encode("You must fill both fields");
-        }
-    }
-  }
+      // if (!empty($array)) {
+        $new_array = json_decode($array, true);
+        print_r($new_array);
+    //   }
+    // }
+  // }
 ?>
