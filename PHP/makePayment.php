@@ -2,7 +2,7 @@
    mysqli_set_charset("utf8");
    include("dbconnect.php");
 
-   $array = $_POST["array"];
+   $array = $_POST["paymentAmount"];
    $invoiceNumber = $_POST["invoiceNumber"];
 
    $new_array = json_decode($array, true);
