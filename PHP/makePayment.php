@@ -13,8 +13,8 @@
    $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
    $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
 
-   for ($i = 0; $i < count($new_array); $i++) {
-      $paymentAmount = $new_array[$i]['payment'];
+   // for ($i = 0; $i < count($new_array); $i++) {
+      $paymentAmount = $new_array[0]['payment'];
 
       $sql = "INSERT INTO платежи (дата_платежа, №_накладной, сумма_внесения, автор) VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author') ";
 
@@ -23,5 +23,5 @@
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
       }
-   }
+   // }
 ?>

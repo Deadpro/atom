@@ -75,6 +75,7 @@
            $totalCost = $new_array[$i]['totalCost'];
            $exchange = $new_array[$i]['exchange'];
            $returns = $new_array[$i]['returns'];
+           $invoiceSum = $new_array[$i]['invoiceSum'];
 
            $sql = "SELECT Артикул FROM номенклатура WHERE номенклатура.Наименование LIKE '$item' ";
            if ($result = mysqli_query($dbconnect, $sql)) {
@@ -87,17 +88,19 @@
 
           $sql = "INSERT INTO invoice (InvoiceNumber, AgentID, SalesPartnerID,
             AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-           ReturnQuantity, DateTimeDoc) VALUES ($invoiceNumber, $agentID, $salesPartnerID,
+           ReturnQuantity, DateTimeDoc, InvoiceSum) VALUES ($invoiceNumber, $agentID, $salesPartnerID,
              '$accountingType', $itemID, $quantity, $price, $totalCost, $exchange,
-             $returns, '$dateTimeDoc') ";
+             $returns, '$dateTimeDoc', $invoiceSum) ";
 
             if (mysqli_query($dbconnect, $sql)) {
-               // echo "New record created successfully";
+               $tmpInfo = "New record created successfully";
             } else {
                echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
             }
         }
-        echo $invoiceNumber;
+        if ($tmpInfo == "New record created successfully") {
+          echo $invoiceNumber;
+        }
         mysqli_close($dbconnect);
     //   }
     // }
