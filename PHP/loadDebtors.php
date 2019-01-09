@@ -33,34 +33,55 @@
       }
     }
   }
+  // print_r($invoiceNumber);
 
-  $sql = "SELECT №_накладной, сумма_внесения FROM платежи ";
-  if ($result = mysqli_query($dbconnect, $sql)) {
-    while($row = mysqli_fetch_array($result)) {
-      if (mysqli_num_rows($result) != 0) {
-        $invoiceNumberPay[] = $row['№_накладной'];
-        $paymentSum[] = $row['сумма_внесения'];
+  $paymentSum = array();
+  for ($i = 0; $i < count($invoiceNumber); $i++) {
+    $tmpInvoiceNumber = $invoiceNumber[$i];
+    $sql = "SELECT сумма_внесения FROM платежи
+    WHERE платежи.№_накладной LIKE '$tmpInvoiceNumber' ";
+    if ($result = mysqli_query($dbconnect, $sql)) {
+      while($row = mysqli_fetch_array($result)) {
+        if (mysqli_num_rows($result) != 0) {
+          if (array_key_exists($tmpInvoiceNumber, $paymentSum)) {
+            $paymentSum[$tmpInvoiceNumber] = $paymentSum[$tmpInvoiceNumber] + $row['сумма_внесения'];
+          } else {
+            $paymentSum[$tmpInvoiceNumber] = $row['сумма_внесения'];
+          }
+        }
+      }
+      if (array_key_exists($tmpInvoiceNumber, $paymentSum)) {
+        if ($paymentSum[$tmpInvoiceNumber] < $invoiceSum[$i]) {
+
+        }
+        if ($paymentSum[$tmpInvoiceNumber] > $invoiceSum[$i]) {
+
+        }
+        if ($paymentSum[$tmpInvoiceNumber] == $invoiceSum[$i]) {
+
+        }
+      } else {
+
       }
     }
   }
-
-  for ($i = 0; $i < count($invoiceNumberPay); $i++) {
-    if ($invoiceNumberPay[0] == $invoiceNumberPay[1]) {
-      $invoiceNumberPayDistinct[0] = $invoiceNumberPay[0];
-    }
-    if ($invoiceNumberPay[0] != $invoiceNumberPay[1]) {
-      $invoiceNumberPayDistinct[0] = $invoiceNumberPay[0];
-    }
-    if ($i > 0) {
-      if ($invoiceNumberPay[$i] == $invoiceNumberPay[$i + 1]) {
-
-      }
-      if ($invoiceNumberPay[$i] != $invoiceNumberPay[$i + 1]) {
-        $invoiceNumberPayDistinct[$i] = $invoiceNumberPay[$i + 1];
-      }
-    }
-
+  // print_r($paymentSum);
+  $resultArray = array();
+  $tempArray = array();
+  foreach(array_keys($paymentSum) as $key){
+    $myObj->invoiceNumber = $key;
+    $myObj->paymentSum = $paymentSum[$key];
+    $tempArray = $myObj;
+    array_push($resultArray, $tempArray);
   }
+  echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+
+  // for ($i = 0; $i < count($invoiceNumberPay) - 1; $i++) {
+  //   if ($invoiceNumberPay[$i] == $invoiceNumberPay[$i + 1]) {
+  //     array_splice($invoiceNumberPay, $i, 1);
+  //   }
+  // }
+  // print_r($invoiceNumberPay);
 
 
    // $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartner'
