@@ -21,9 +21,22 @@
     }
   }
 
-  if (isset($_POST["dateStart"], $_POST["dateEnd"], $_POST["accountingType"])) {
+  if (isset($_POST["dateStart"])) {
     $dateStart = $_POST["dateStart"].' '.$time;
+  } else {
+    $dateStart = "2019-01-01 00:00:00";
+  }
+  if (isset($_POST["dateEnd"])) {
     $dateEnd = $_POST["dateEnd"].' '.$time;
+  } else {
+    date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
+    $time = time(); // Вот это значение отправляем в базу
+    $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
+    $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
+    $dateEnd = date("Y-m-d H:i:s", $time);
+  }
+
+  if (isset($_POST["accountingType"])) {
     $accountingType = $_POST["accountingType"];
     if (!empty($dateStart) && !empty($dateEnd) && !empty($accountingType)) {
       $sql = "SELECT DISTINCT InvoiceNumber, InvoiceSum FROM invoice
