@@ -5,10 +5,8 @@
   $time = '00:00:00';
   $dateEnd = date("Y-m-d H:i:s");
   $dateStart = date("Y-m-d H:i:s");
-  $accountingType = $_POST["accountingType"];
   $loginSecurity = $_POST["loginSecurity"];
-  $dateStart = $_POST["dateStart"].' '.$time;
-  $dateEnd = $_POST["dateEnd"].' '.$time;
+
 
   $sql = "SELECT агент.ID FROM агент
   INNER JOIN security ON агент.Фамилия = security.secondname
@@ -23,16 +21,25 @@
     }
   }
 
-  $sql = "SELECT DISTINCT InvoiceNumber, InvoiceSum FROM invoice
-  WHERE invoice.AgentID LIKE '$agentID' AND (DateTimeDoc BETWEEN '$dateStart' AND '$dateEnd') ";
-  if ($result = mysqli_query($dbconnect, $sql)) {
-    while($row = mysqli_fetch_array($result)) {
-      if (mysqli_num_rows($result) != 0) {
-        $invoiceNumber[] = $row['InvoiceNumber'];
-        $invoiceSum[] = $row['InvoiceSum'];
+  if (isset($_POST["dateStart"], $_POST["dateEnd"], $_POST["accountingType"])) {
+    $dateStart = $_POST["dateStart"].' '.$time;
+    $dateEnd = $_POST["dateEnd"].' '.$time;
+    $accountingType = $_POST["accountingType"];
+    if (!empty($dateStart) && !empty($dateEnd) && !empty($accountingType)) {
+      $sql = "SELECT DISTINCT InvoiceNumber, InvoiceSum FROM invoice
+      WHERE invoice.AgentID LIKE '$agentID' AND (DateTimeDoc BETWEEN '$dateStart' AND '$dateEnd')
+      AND invoice.AccountingType LIKE '$accountingType' ";
+      if ($result = mysqli_query($dbconnect, $sql)) {
+        while($row = mysqli_fetch_array($result)) {
+          if (mysqli_num_rows($result) != 0) {
+            $invoiceNumber[] = $row['InvoiceNumber'];
+            $invoiceSum[] = $row['InvoiceSum'];
+          }
+        }
       }
     }
   }
+
   // print_r($invoiceNumber);
 
   $paymentSum = array();
