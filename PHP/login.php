@@ -1,6 +1,6 @@
 <?php
   include("dbconnect.php");
-  
+
   if($_SERVER["REQUEST_METHOD"]=="POST") {
     if (isset($_POST["Login"], $_POST["Password"])) {
       $login = $_POST["Login"];
@@ -8,7 +8,23 @@
 
       if (!empty($login) && !empty($password)) {
         $encrypted_password = md5($password);
+
         $sql = "SELECT * FROM security where login LIKE '$login' AND password LIKE '$password' ";
+
+        if ($result = mysqli_query($dbconnect, $sql)) {
+          while($row = mysqli_fetch_array($result)) {
+            if (mysqli_num_rows($result) != 0) {
+              $agentAttribute = $row['attribute'];
+            } else {
+              echo "Login.php error 001";
+            }
+          }
+        }
+
+        if ($agentAttribute == "agent"){
+          $sql = "SELECT Район FROM агент INNER JOIN security ON агент.Фамилия = security.secondname
+          where login LIKE '$login' AND password LIKE '$password' ";
+        }
 
   			if ($result = mysqli_query($dbconnect, $sql))	{
   				$resultArray = array();
