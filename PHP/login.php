@@ -2,6 +2,10 @@
    include("dbconnect.php");
 
    if($_SERVER["REQUEST_METHOD"]=="POST"){
+      date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
+      $time = time(); // Вот это значение отправляем в базу
+      $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
+      $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
       if (isset($_POST["Login"], $_POST["Password"])) {
          $login = $_POST["Login"];
          $password = $_POST["Password"];
@@ -47,7 +51,7 @@
       } else {
          $resultArray = array();
          $tempArray = array();
-         $tempArray = array("dayOfTheWeek" => date("N"));
+         $tempArray = array("dayOfTheWeek" => date("N", $time ));
          array_push($resultArray, $tempArray);
          echo json_encode($resultArray);
       }
