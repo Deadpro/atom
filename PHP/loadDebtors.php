@@ -74,7 +74,7 @@
         }
       }
     }
-   if (array_key_exists($tmpInvoiceNumber, $paymentSum)) {
+    if (array_key_exists($tmpInvoiceNumber, $paymentSum)) {
       if ($paymentSum[$tmpInvoiceNumber] < $invoiceSum[$i]) {
          $debtsList[$tmpInvoiceNumber] = $invoiceSum[$i] - $paymentSum[$tmpInvoiceNumber];
          $paymentSumKey[] = $tmpInvoiceNumber;
@@ -86,14 +86,14 @@
       if ($paymentSum[$tmpInvoiceNumber] == $invoiceSum[$i]) {
 
       }
-   } else {
+    } else {
       $debtsList[$tmpInvoiceNumber] = $invoiceSum[$i];
       $paymentSumKey[] = $tmpInvoiceNumber;
-   }
+    }
   }
 
-   $resultArray = array();
-   $tempArray = array();
+  $resultArray = array();
+  $tempArray = array();
    // foreach(array_keys($paymentSum) as $key){
    //    $myObj->invoiceNumber = $key;
    //    $myObj->paymentSum = $paymentSum[$key];
@@ -101,12 +101,12 @@
    //    array_push($resultArray, $tempArray);
    // }
 
-   for ($i = 0; $i < count($paymentSumKey); $i++) {
-      $tempArray = array('invoiceNumber' => $paymentSumKey[$i], 'paymentSum' => $debtsList[$paymentSumKey[$i]]);
-      array_push($resultArray, $tempArray);
-   }
-   // print_r($resultArray);
-   echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+  for ($i = 0; $i < count($paymentSumKey); $i++) {
+    $tempArray = array('invoiceNumber' => $paymentSumKey[$i], 'paymentSum' => $debtsList[$paymentSumKey[$i]]);
+    array_push($resultArray, $tempArray);
+  }
+  // print_r($resultArray);
+  echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
 
   // for ($i = 0; $i < count($invoiceNumberPay) - 1; $i++) {
   //   if ($invoiceNumberPay[$i] == $invoiceNumberPay[$i + 1]) {
