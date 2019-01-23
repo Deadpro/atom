@@ -26,7 +26,7 @@
             }
 
             if ($agentAttribute == "agent"){
-               $sql = "SELECT Район FROM агент INNER JOIN security ON агент.Фамилия = security.secondname
+               $sql = "SELECT * FROM агент INNER JOIN security ON агент.Фамилия = security.secondname
                where login LIKE '$login' AND password LIKE '$password' ";
             }
 
