@@ -99,7 +99,9 @@
             }
         }
         if ($tmpInfo == "New record created successfully") {
-          echo $invoiceNumber;
+          $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+          array_push($resultArray, $tempArray);
+          echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
         }
         mysqli_close($dbconnect);
     //   }
