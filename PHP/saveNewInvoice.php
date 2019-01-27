@@ -9,6 +9,8 @@
          $area = $_POST["area"];
          $accountingType = $_POST["accountingType"];
          $loginSecurity = $_POST["loginSecurity"];
+         $invoiceNumberLocal = $_POST["invoiceNumberLocal"];
+         $dateTimeDocLocal = $_POSt["dateTimeDocLocal"];
          // $dayOfTheWeek = $_POST["dayOfTheWeek"];
       // }
       // if (!empty($array)) {
@@ -88,9 +90,9 @@
 
           $sql = "INSERT INTO invoice (InvoiceNumber, AgentID, SalesPartnerID,
             AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-           ReturnQuantity, DateTimeDoc, InvoiceSum) VALUES ($invoiceNumber, $agentID, $salesPartnerID,
+           ReturnQuantity, DateTimeDoc, InvoiceSum, InvoiceNumberLocal, DateTimeDocLocal) VALUES ($invoiceNumber, $agentID, $salesPartnerID,
              '$accountingType', $itemID, $quantity, $price, $totalCost, $exchange,
-             $returns, '$dateTimeDoc', $invoiceSum) ";
+             $returns, '$dateTimeDoc', $invoiceSum, $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
             if (mysqli_query($dbconnect, $sql)) {
                $tmpInfo = "New record created successfully";
