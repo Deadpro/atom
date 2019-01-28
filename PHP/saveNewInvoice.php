@@ -6,11 +6,11 @@
   //   if (isset($_POST["array"]) {
       $array = $_POST["array"];
       // if (isset($_POST["area"], $_POST["accountingType"], $_POST["dayOfTheWeek"])) {
-         $area = $_POST["area"];
-         $accountingType = $_POST["accountingType"];
+         $area = $_POST["areaDefault"];
+         $accountingTypeDefault = $_POST["accountingType"];
          $loginSecurity = $_POST["loginSecurity"];
          $invoiceNumberLocal = $_POST["invoiceNumberLocal"];
-         $dateTimeDocLocal = $_POSt["dateTimeDocLocal"];
+         $dateTimeDocLocal = $_POST["dateTimeDocLocal"];
          // $dayOfTheWeek = $_POST["dayOfTheWeek"];
       // }
       // if (!empty($array)) {
@@ -24,6 +24,7 @@
         $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
         $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
         $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
+        // $dateTimeDocLocal = date($dateTimeDocLocal);
         // print_r(time());
         $sql = "SELECT агент.ID FROM агент
         INNER JOIN security ON агент.Фамилия = security.secondname
@@ -59,7 +60,7 @@
         $salesPartner = $new_array[0]['salesPartner'];
 
         $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartner'
-        AND salespartners.Район LIKE '$area' AND salespartners.Учет LIKE '$accountingType' ";
+        AND salespartners.Район LIKE '$area' AND salespartners.Учет LIKE '$accountingTypeDefault' ";
         // AND salesPartner.dayoftheweek LIKE '$dayOfTheWeek'
         if ($result = mysqli_query($dbconnect, $sql)) {
            while($row = mysqli_fetch_array($result)) {
@@ -70,6 +71,7 @@
         }
         // print_r("SalesPartner ID: ".$salesPartnerID);
 
+        $accountingType = $new_array[0]['accountingType'];
         for ($i = 0; $i < count($new_array); $i++) {
            $item = $new_array[$i]['item'];
            $quantity = $new_array[$i]['quantity'];
@@ -90,15 +92,16 @@
 
           $sql = "INSERT INTO invoice (InvoiceNumber, AgentID, SalesPartnerID,
             AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-           ReturnQuantity, DateTimeDoc, InvoiceSum, InvoiceNumberLocal, DateTimeDocLocal) VALUES ($invoiceNumber, $agentID, $salesPartnerID,
+           ReturnQuantity, DateTimeDoc, InvoiceSum, InvoiceNumberLocal, DateTimeDocLocal)
+           VALUES ($invoiceNumber, $agentID, $salesPartnerID,
              '$accountingType', $itemID, $quantity, $price, $totalCost, $exchange,
              $returns, '$dateTimeDoc', $invoiceSum, $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
-            if (mysqli_query($dbconnect, $sql)) {
-               $tmpInfo = "New record created successfully";
-            } else {
-               echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
-            }
+          if (mysqli_query($dbconnect, $sql)) {
+             $tmpInfo = "New record created successfully";
+          } else {
+             echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+          }
         }
         if ($tmpInfo == "New record created successfully") {
           $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
