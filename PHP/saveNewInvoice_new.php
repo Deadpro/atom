@@ -23,6 +23,7 @@
 
   for ($i = 0; $i < count($new_array); $i++) {
     $invoiceNumber = $new_array[$i]['invoiceNumber'];
+    $invoiceNumberLocal = $invoiceNumber;
     $agentID = $new_array[$i]['agentID'];
     $salesPartnerName = $new_array[$i]['salesPartnerName'];
     $accountingTypeDoc = $new_array[$i]['accountingTypeDoc'];
@@ -57,11 +58,11 @@
       }
     }
 
-    $sql = "INSERT INTO '$tableName' (InvoiceNumber, AgentID, SalesPartnerID,
+    $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
       AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
      ReturnQuantity, DateTimeDoc, InvoiceSum, InvoiceNumberLocal, DateTimeDocLocal)
      VALUES ($invoiceNumber, $agentID, $salesPartnerID,
-       '$accountingType', $itemID, $quantity, $price, $totalCost, $exchange,
+       '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
        $returns, '$dateTimeDoc', $invoiceSum, $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
     if (mysqli_query($dbconnect, $sql)) {
