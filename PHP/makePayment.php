@@ -6,6 +6,16 @@
    $invoiceNumber = $_POST["invoiceNumber"];
    $author = $_POST["agent"];
    $new_array = json_decode($array, true);
+   $agentID = $_POST['agentID'];
+
+   $sql = "SELECT tableName FROM paymenttables WHERE agentID LIKE '$agentID' ";
+   if ($result = mysqli_query($dbconnect, $sql)) {
+     while($row = mysqli_fetch_array($result)) {
+       if (mysqli_num_rows($result) != 0) {
+         $tableName = $row['tableName'];
+       }
+     }
+   }
 
    date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
    $time = time(); // Вот это значение отправляем в базу
@@ -28,7 +38,7 @@
    // for ($i = 0; $i < count($new_array); $i++) {
       $paymentAmount = $new_array[0]['payment'];
 
-      $sql = "INSERT INTO платежи (дата_платежа, №_накладной, сумма_внесения, автор)
+      $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор)
       VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author') ";
 
       if (mysqli_query($dbconnect, $sql)) {

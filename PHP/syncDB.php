@@ -3,6 +3,8 @@
 
   if($_SERVER["REQUEST_METHOD"]=="POST"){
     $tableName = $_POST["tableName"];
+    $agentID = $_POST["agentID"];
+
     if($tableName == "salesPartners"){
       $sql = "SELECT ID, Наименование, Район, Учет, DayOfTheWeek, Автор FROM salespartners ";
 
@@ -80,9 +82,17 @@
       }
     }
     if($tableName == "invoice"){
+      $sql = "SELECT tableName FROM invoicetables WHERE agentID LIKE '$agentID' ";
+      if ($result = mysqli_query($dbconnect, $sql)) {
+        while($row = mysqli_fetch_array($result)) {
+          if (mysqli_num_rows($result) != 0) {
+            $tableName = $row['tableName'];
+          }
+        }
+      }
       $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDoc,
-      InvoiceSum, Comment FROM invoice ";
+      InvoiceSum, Comment FROM $tableName ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();
@@ -101,7 +111,16 @@
       }
     }
     if($tableName == "платежи"){
-      $sql = "SELECT ID, дата_платежа, №_накладной, сумма_внесения, автор FROM платежи ";
+      $sql = "SELECT tableName FROM paymenttables WHERE agentID LIKE '$agentID' ";
+      if ($result = mysqli_query($dbconnect, $sql)) {
+        while($row = mysqli_fetch_array($result)) {
+          if (mysqli_num_rows($result) != 0) {
+            $tableName = $row['tableName'];
+          }
+        }
+      }
+
+      $sql = "SELECT ID, дата_платежа, №_накладной, сумма_внесения, автор FROM $tableName ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();

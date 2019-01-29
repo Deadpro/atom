@@ -40,7 +40,6 @@
 
     $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
     AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
-    // AND salesPartner.dayoftheweek LIKE '$dayOfTheWeek'
     if ($result = mysqli_query($dbconnect, $sql)) {
       while($row = mysqli_fetch_array($result)) {
         if (mysqli_num_rows($result) != 0) {
@@ -73,20 +72,11 @@
   }
 
   if ($tmpInfo == "New record created successfully") {
-    $sql = "SELECT DISTINCT InvoiceNumber, DateTimeDoc FROM $tableName ORDER BY ID ";
-    if ($result = mysqli_query($dbconnect, $sql)) {
-      $resultArray = array();
-      $tempArray = array();
-      while($row = mysqli_fetch_array($result)) {
-        if (mysqli_num_rows($result) != 0) {
-          $invoiceNumber = $row['InvoiceNumber'];
-          $dateTimeDocServer = $row['DateTimeDoc'];
-          $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDocServer);
-          array_push($resultArray, $tempArray);
-        }
-      }
-      echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-    }
+   $resultArray = array();
+   $tempArray = array();
+    $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+    array_push($resultArray, $tempArray);
+    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
   }
   mysqli_close($dbconnect);
 ?>
