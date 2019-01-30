@@ -2,11 +2,11 @@
    mysqli_set_charset("utf8");
    include("dbconnect.php");
 
-   $array = $_POST["paymentAmount"];
-   $invoiceNumber = $_POST["invoiceNumber"];
+   $array = $_POST["array"];
    $author = $_POST["agent"];
-   $new_array = json_decode($array, true);
    $agentID = $_POST['agentID'];
+
+   $new_array = json_decode($array, true);
 
    $sql = "SELECT tableName FROM paymenttables WHERE agentID LIKE '$agentID' ";
    if ($result = mysqli_query($dbconnect, $sql)) {
@@ -22,7 +22,8 @@
    $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
    $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
    $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
-
+   $resultArray = array();
+   $tempArray = array();
    // $sql = "SELECT Фамилия, Имя, Отчество FROM агент WHERE Район LIKE '$author' ";
    // if ($result = mysqli_query($dbconnect, $sql)) {
    //   while($row = mysqli_fetch_array($result)) {
@@ -35,16 +36,28 @@
    //   $author = $secondName + " " + $firstName + " " + $middleName;
    // }
 
-   // for ($i = 0; $i < count($new_array); $i++) {
-      $paymentAmount = $new_array[0]['payment'];
+    for ($i = 0; $i < count($new_array); $i++) {
+      $paymentAmount = $new_array[$i]['payment'];
+      $invoiceNumber = $new_array[$i]['invoiceNumber'];
+      $paymentID = $new_array[$i]['paymentID'];
 
-      $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор)
-      VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author') ";
+      $tempArray = array('invoiceNumber' => $invoiceNumber, 'paymentID' => $paymentID, 'status' => "Бабло внесено");
+      array_push($resultArray, $tempArray);
+
+      $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор, paymentID)
+      VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author', $paymentID) ";
 
       if (mysqli_query($dbconnect, $sql)) {
-         echo "Бабло внесено";
+         $tmpInfo = "New record created successfully";
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
       }
-   // }
+    }
+    
+    if ($tmpInfo == "New record created successfully") {
+      echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+    }
+    mysqli_close($dbconnect);
+
+
 ?>

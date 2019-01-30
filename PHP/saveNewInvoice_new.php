@@ -20,6 +20,9 @@
   $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
   $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
   $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
+  $resultArray = array();
+  $tempArray = array();
+  $tmpI = array();
 
   for ($i = 0; $i < count($new_array); $i++) {
     $invoiceNumber = $new_array[$i]['invoiceNumber'];
@@ -37,6 +40,18 @@
     $returns = $new_array[$i]['returns'];
     $dateTimeDocLocal = $new_array[$i]['dateTimeDocLocal'];
     $invoiceSum = $new_array[$i]['invoiceSum'];
+
+    if ($i > 0){
+      if ($invoiceNumber != $tmp[count($tmp) - 1]){
+        $tmpI[$i] = $invoiceNumber;
+         $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+         array_push($resultArray, $tempArray);
+      }
+    } else {
+      $tmp[$i] = $invoiceNumber;
+      $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+      array_push($resultArray, $tempArray);
+    }
 
     $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
     AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
@@ -72,10 +87,6 @@
   }
 
   if ($tmpInfo == "New record created successfully") {
-   $resultArray = array();
-   $tempArray = array();
-    $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
-    array_push($resultArray, $tempArray);
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
   }
   mysqli_close($dbconnect);
