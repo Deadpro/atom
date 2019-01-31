@@ -40,6 +40,8 @@
     $returns = $new_array[$i]['returns'];
     $dateTimeDocLocal = $new_array[$i]['dateTimeDocLocal'];
     $invoiceSum = $new_array[$i]['invoiceSum'];
+    $comment = $new_array[$i]['comment'];
+
 
     if ($i > 0){
       if ($invoiceNumber != $tmp[count($tmp) - 1]){
@@ -74,10 +76,10 @@
 
     $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
       AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-     ReturnQuantity, DateTimeDoc, InvoiceSum, InvoiceNumberLocal, DateTimeDocLocal)
+     ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
      VALUES ($invoiceNumber, $agentID, $salesPartnerID,
        '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-       $returns, '$dateTimeDoc', $invoiceSum, $invoiceNumberLocal, '$dateTimeDocLocal') ";
+       $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
     if (mysqli_query($dbconnect, $sql)) {
        $tmpInfo = "New record created successfully";
