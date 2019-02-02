@@ -53,7 +53,7 @@
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
       }
     }
-    
+
     if ($tmpInfo == "New record created successfully") {
       echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     }
