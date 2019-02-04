@@ -39,13 +39,12 @@
     for ($i = 0; $i < count($new_array); $i++) {
       $paymentAmount = $new_array[$i]['payment'];
       $invoiceNumber = $new_array[$i]['invoiceNumber'];
-      $paymentID = $new_array[$i]['paymentID'];
 
-      $tempArray = array('invoiceNumber' => $invoiceNumber, 'paymentID' => $paymentID, 'status' => "Бабло внесено");
+      $tempArray = array('invoiceNumber' => $invoiceNumber, 'status' => "Бабло внесено");
       array_push($resultArray, $tempArray);
 
-      $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор, paymentID)
-      VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author', $paymentID) ";
+      $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор)
+      VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author') ";
 
       if (mysqli_query($dbconnect, $sql)) {
          $tmpInfo = "New record created successfully";
