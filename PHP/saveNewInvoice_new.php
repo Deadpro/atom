@@ -78,7 +78,8 @@
         $row = mysqli_fetch_row($result);
           $totalMatches = $row[0];
 
-    } if ($totalMatches == 0) {
+    }
+    if ($totalMatches == 0) {
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
         AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
        ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
