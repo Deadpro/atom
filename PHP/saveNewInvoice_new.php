@@ -28,7 +28,7 @@
     $invoiceNumber = $new_array[$i]['invoiceNumber'];
     $invoiceNumberLocal = $invoiceNumber;
     $agentID = $new_array[$i]['agentID'];
-    $salesPartnerName = $new_array[$i]['salesPartnerName'];
+    $salesPartnerID = $new_array[$i]['salesPartnerID'];
     $accountingTypeDoc = $new_array[$i]['accountingTypeDoc'];
     $accountingTypeSP = $new_array[$i]['accountingTypeSP'];
     $areaSP = $new_array[$i]['areaSP'];
@@ -55,15 +55,15 @@
       array_push($resultArray, $tempArray);
     }
 
-    $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
-    AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
-    if ($result = mysqli_query($dbconnect, $sql)) {
-      while($row = mysqli_fetch_array($result)) {
-        if (mysqli_num_rows($result) != 0) {
-          $salesPartnerID = $row['ID'];
-        }
-      }
-    }
+    // $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
+    // AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
+    // if ($result = mysqli_query($dbconnect, $sql)) {
+    //   while($row = mysqli_fetch_array($result)) {
+    //     if (mysqli_num_rows($result) != 0) {
+    //       $salesPartnerID = $row['ID'];
+    //     }
+    //   }
+    // }
 
     $sql = "SELECT Артикул FROM номенклатура WHERE номенклатура.Наименование LIKE '$itemName' ";
     if ($result = mysqli_query($dbconnect, $sql)) {
@@ -73,20 +73,27 @@
         }
       }
     }
+    $sql = "SELECT COUNT(InvoiceNumber) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber LIMIT 1";
+    if ($result = mysqli_query($dbconnect, $sql)) {
+        $row = mysqli_fetch_row($result);
+          $totalMatches = $row[0];
 
-    $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
-      AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-     ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
-     VALUES ($invoiceNumber, $agentID, $salesPartnerID,
-       '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-       $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
+    } if ($totalMatches == 0) {
+      $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
+        AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
+       ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
+       VALUES ($invoiceNumber, $agentID, $salesPartnerID,
+         '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
+         $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
-    if (mysqli_query($dbconnect, $sql)) {
-       $tmpInfo = "New record created successfully";
-    } else {
-       echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+      if (mysqli_query($dbconnect, $sql)) {
+         $tmpInfo = "New record created successfully";
+      } else {
+         echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+      }
     }
   }
+
 
   if ($tmpInfo == "New record created successfully") {
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
