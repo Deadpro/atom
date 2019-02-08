@@ -11,9 +11,12 @@
     while($row = mysqli_fetch_array($result)) {
       if (mysqli_num_rows($result) != 0) {
         $tableName = $row['tableName'];
+        $postfix = $row['tableName'];
       }
     }
   }
+
+  $postfix.="_twin";
 
   date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
   $time = time(); // Вот это значение отправляем в базу
@@ -73,11 +76,23 @@
         }
       }
     }
-    $sql = "SELECT COUNT(InvoiceNumber) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber LIMIT 1";
+
+    $sql = "INSERT INTO $postfix (InvoiceNumber, AgentID, SalesPartnerID,
+     AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
+     ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
+     VALUES ($invoiceNumber, $agentID, $salesPartnerID,
+     '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
+     $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
+   mysqli_query($dbconnect, $sql);
+
+    $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID";
+    // AgentID LIKE $agentID AND SalesPartnerID LIKE $salesPartnerID AND AccountingType LIKE '$accountingTypeDoc' AND
+    //  AND Quantity LIKE $quantity AND Price LIKE $price AND Total LIKE $totalCost AND
+    // ExchangeQuantity LIKE $exchange AND ReturnQuantity LIKE $returns AND InvoiceSum LIKE $invoiceSum AND
+    // Comment LIKE '$comment' AND DateTimeDocLocal LIKE '$dateTimeDocLocal' LIMIT 1";
     if ($result = mysqli_query($dbconnect, $sql)) {
         $row = mysqli_fetch_row($result);
           $totalMatches = $row[0];
-
     }
     if ($totalMatches == 0) {
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
@@ -92,7 +107,7 @@
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
       }
-    }
+   }
   }
 
 
