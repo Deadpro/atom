@@ -91,7 +91,7 @@
         }
       }
       $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
-      ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDoc,
+      ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
       InvoiceSum, Comment FROM $tableName ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
