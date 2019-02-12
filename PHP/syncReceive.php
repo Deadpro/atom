@@ -16,7 +16,8 @@
         }
       }
     }
-
+    $resultArray = array();
+    $tempArray = array();
     for ($i = 0; $i < count($new_array); $i++) {
       $itemID = $new_array[$i]['itemID'];
       $agentID = $new_array[$i]['agentID'];
@@ -30,7 +31,10 @@
          $tempArray = array('requestMessage' => $tmpInfo);
          array_push($resultArray, $tempArray);
       } else {
-         echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+         // echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+         $tmpInfo = "Error";
+         $tempArray = array('requestMessage' => $tmpInfo);
+         array_push($resultArray, $tempArray);
       }
     }
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
