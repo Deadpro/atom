@@ -138,5 +138,33 @@
         mysqli_close($dbconnect);
       }
     }
+    if($tableName == "receive"){
+      $sql = "SELECT tableName FROM receivetables WHERE agentID LIKE '$agentID' ";
+      if ($result = mysqli_query($dbconnect, $sql)) {
+        while($row = mysqli_fetch_array($result)) {
+          if (mysqli_num_rows($result) != 0) {
+            $tableName = $row['tableName'];
+          }
+        }
+      }
+
+      $sql = "SELECT itemID, dateTimeDoc, quantity, agentID FROM $tableName ";
+
+      if ($result = mysqli_query($dbconnect, $sql)){
+        $resultArray = array();
+        $tempArray = array();
+        while($row = $result->fetch_object()){
+          $tempArray = $row;
+          array_push($resultArray, $tempArray);
+        }
+        echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+        mysqli_close($dbconnect);
+      } else {
+        $json["failed"] = 'Login failed. Invalid login
+        and/or password';
+        echo json_encode($json, JSON_UNESCAPED_UNICODE);
+        mysqli_close($dbconnect);
+      }
+    }
   }
 ?>
