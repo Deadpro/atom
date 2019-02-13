@@ -95,6 +95,8 @@
           $totalMatches = $row[0];
     }
     if ($totalMatches == 0) {
+      $resultArray = array();
+      $tempArray = array();
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
         AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
        ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
@@ -104,15 +106,13 @@
 
       if (mysqli_query($dbconnect, $sql)) {
          $tmpInfo = "New record created successfully";
+         $tempArray = array('requestMessage' => $tmpInfo);
+         array_push($resultArray, $tempArray);
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
       }
    }
   }
-
-
-  if ($tmpInfo == "New record created successfully") {
-    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-  }
-  mysqli_close($dbconnect);
+   echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+   mysqli_close($dbconnect);
 ?>
