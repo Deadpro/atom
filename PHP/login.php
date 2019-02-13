@@ -69,7 +69,7 @@
                   and/or password';
                   echo json_encode($json, JSON_UNESCAPED_UNICODE);
                   mysqli_close($dbconnect);
-            }            
+            }
          } else {
             echo json_encode("Почему-то пустой Логин и/или Пароль");
          }
