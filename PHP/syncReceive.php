@@ -22,7 +22,8 @@
       $agentID = $new_array[$i]['agentID'];
       $quantity = $new_array[$i]['quantity'];
       $dateTimeDoc = $new_array[$i]['dateTimeDoc'];
-
+      $resultArray = array();
+      $tempArray = array();
       $sql = "INSERT INTO $tableName (itemID, agentID, quantity, dateTimeDoc)
       VALUES ($itemID, $agentID, $quantity, '$dateTimeDoc') ";
       if (mysqli_query($dbconnect, $sql)) {
