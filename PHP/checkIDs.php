@@ -74,9 +74,7 @@
         array_push($comment, $commentTmp);
         array_push($dateTimeDocLocal, $dateTimeDocLocalTmp);
         array_push($accountingType, $accountingTypeTmp);
-        $sql = "INSERT INTO salespartners (Наименование, Район, Учет, DayOfTheWeek, Автор)
-        VALUES ('$commentTmp', $agentID, '$accountingTypeTmp', '$dayOfTheWeekString', '$agentName') ";
-        mysqli_query($dbconnect, $sql);
+
       }
     }
   }
@@ -96,16 +94,17 @@
     }
   }
 
-// echo count($comment);
-  // echo json_encode($salesPartnerIDList, JSON_UNESCAPED_UNICODE);
   for ($i = 0; $i < count($salesPartnerIDList); $i++){
     $salesPartnerIDTmp = $salesPartnerIDList[i];
     $commentTmp = $comment[$i];
-    $sql = "UPDATE $tableName SET $tableName.SalesPartnerID = $salesPartnerIDTmp WHERE
-    Comment LIKE '$commentTmp' AND SalesPartnerID LIKE '$salesPartnerID' ";
+    $sql = "UPDATE $tableName SET SalesPartnerID = $salesPartnerIDTmp WHERE
+    Comment LIKE '$commentTmp' AND SalesPartnerID LIKE $salesPartnerIDTmp ";
     mysqli_query($dbconnect, $sql);
   }
 
+  echo count($salesPartnerIDList);
+// echo $commentTmp;
+  // echo json_encode($salesPartnerIDList, JSON_UNESCAPED_UNICODE);
 
  //  $sql = "SELECT DISTINCT ItemID, Price, Comment, DateTimeDocLocal
  //   FROM $tableName WHERE Comment NOT LIKE '' ";
