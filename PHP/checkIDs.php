@@ -49,15 +49,20 @@
   $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
   $resultArray = array();
   $tempArray = array();
+  $salesPartnerIDList = array();
 
-  $sql = "SELECT DISTINCT Comment, DateTimeDocLocal, AccountingType FROM $tableName WHERE Comment NOT LIKE ''
-  AND SalesPartnerID LIKE '$salesPartnerID' ";
+  $sql = "SELECT DISTINCT Comment, DateTimeDocLocal, AccountingType, ItemID, Price FROM $tableName WHERE Comment NOT LIKE ''
+  -- AND SalesPartnerID LIKE '$salesPartnerID' ";
   if ($result = mysqli_query($dbconnect, $sql)) {
     $comment = array();
     $dateTimeDocLocal = array();
     $accountingType = array();
+    $itemID = array();
+    $price = array();
     while($row = mysqli_fetch_array($result)) {
       if (mysqli_num_rows($result) != 0) {
+        $itemIDTmp = $row['ItemID'];
+        $priceTmp = $row['Price'];
         $commentTmp = $row['Comment'];
         $dateTimeDocLocalTmp = $row['DateTimeDocLocal'];
         $accountingTypeTmp = $row['AccountingType'];
@@ -71,123 +76,100 @@
         if ($dayOfTheWeekTmp == 3){
           $dayOfTheWeekString = "среда";
         }
+        array_push($itemID, $itemIDTmp);
+        array_push($price, $priceTmp);
         array_push($comment, $commentTmp);
         array_push($dateTimeDocLocal, $dateTimeDocLocalTmp);
         array_push($accountingType, $accountingTypeTmp);
 
+        $sql_new = "SELECT ID FROM salespartners  WHERE Наименование LIKE '$commentTmp'
+        AND Район LIKE $agentID AND Автор LIKE '$agentName' ";
+        if ($result_new = mysqli_query($dbconnect, $sql_new)) {
+          while($row_new = mysqli_fetch_array($result_new)) {
+            if (mysqli_num_rows($result_new) != 0) {
+              $salesPartnerIDTmp = $row_new['ID'];
+              array_push($salesPartnerIDList, $salesPartnerIDTmp);
+            }
+          }
+        }
+
       }
     }
   }
 
-  $salesPartnerIDList = array();
-  for ($i = 0; $i < count($comment); $i++){
-    $commentTmp = $comment[$i];
-    $sql = "SELECT ID FROM salespartners  WHERE Наименование LIKE '$commentTmp'
-    AND Район LIKE $agentID AND Автор LIKE '$agentName'";
-    if ($result = mysqli_query($dbconnect, $sql)) {
-      while($row = mysqli_fetch_array($result)) {
-        if (mysqli_num_rows($result) != 0) {
-          $salesPartnerIDTmp = $row['ID'];
-          array_push($salesPartnerIDList, $salesPartnerIDTmp);
-        }
-      }
-    }
-  }
+  // $salesPartnerIDList = array();
+  // for ($i = 0; $i < count($comment); $i++){
+  //   $commentTmp = $comment[$i];
+  //   $sql = "SELECT ID FROM salespartners  WHERE Наименование LIKE '$commentTmp'
+  //   AND Район LIKE $agentID AND Автор LIKE '$agentName'";
+  //   if ($result = mysqli_query($dbconnect, $sql)) {
+  //     while($row = mysqli_fetch_array($result)) {
+  //       if (mysqli_num_rows($result) != 0) {
+  //         $salesPartnerIDTmp = $row['ID'];
+  //         array_push($salesPartnerIDList, $salesPartnerIDTmp);
+  //       }
+  //     }
+  //   }
+  // }
 
   for ($i = 0; $i < count($salesPartnerIDList); $i++){
-    $salesPartnerIDTmp = $salesPartnerIDList[i];
+    $salesPartnerIDTmp = $salesPartnerIDList[$i];
     $commentTmp = $comment[$i];
-    $sql = "UPDATE $tableName SET SalesPartnerID = $salesPartnerIDTmp WHERE
-    Comment LIKE '$commentTmp' AND SalesPartnerID LIKE $salesPartnerIDTmp ";
+    $sql = "UPDATE $tableName SET SalesPartnerID = '$salesPartnerIDTmp' WHERE
+    Comment LIKE '$commentTmp' ";
     mysqli_query($dbconnect, $sql);
   }
 
-  echo count($salesPartnerIDList);
-// echo $commentTmp;
-  // echo json_encode($salesPartnerIDList, JSON_UNESCAPED_UNICODE);
+  echo count($itemID);
+   // echo $tableName;
+  echo json_encode($itemID, JSON_UNESCAPED_UNICODE);
 
- //  $sql = "SELECT DISTINCT ItemID, Price, Comment, DateTimeDocLocal
- //   FROM $tableName WHERE Comment NOT LIKE '' ";
- //  if ($result = mysqli_query($dbconnect, $sql)) {
- //    $comment = array();
- //    $itemID = array();
- //    $price = array();
- //    $accountingType = array();
- //    $dateTimeDocLocal = array();
- //    while($row = mysqli_fetch_array($result)) {
- //      if (mysqli_num_rows($result) != 0) {
- //        $commentTmp = $row['Comment'];
- //        $itemIDTmp = $row['ItemID'];
- //        $priceTmp = $row['Price'];
- //        $accountingTypeTmp = $row['AccountingType'];
- //        $dateTimeDocLocalTmp = $row['DateTimeDocLocal'];
- //        $totalMatches += 1;
- //        array_push($accountingType, $accountingTypeTmp);
- //        array_push($dateTimeDocLocal, $dateTimeDocLocalTmp);
- //        array_push($itemID, $itemIDTmp);
- //        array_push($comment, $commentTmp);
- //        array_push($price, $priceTmp);
- //      }
- //    }
- //
- //  for ($i = 0; $i < count($itemID)){
- //    $itemIDTmp = $itemID[i];
- //    $priceTmp = $price[i];
- //    $commentTmp = $comment[i];
- //    $accountingTypeTmp = $accountingType[i];
- //    $dateTimeDocLocalTmp = $dateTimeDocLocal[i];
- //    $sql = "SELECT Цена FROM номенклатура WHERE Артикул LIKE $itemIDTmp AND Цена > $priceTmp";
- //    if ($result = mysqli_query($dbconnect, $sql)) {
- //      if (mysqli_num_rows($result) != 0) {
- //        $priceStandard = row['Цена'];
- //        $discountValue = $priceStandard - $priceTmp;
- //        if ($discountValue == 10){
- //          $discountID = 4;
- //          $discountType = 1;
- //        }
- //        if ($discountValue == 20){
- //          $discountID = 2;
- //          $discountType = 1;
- //        }
- //        if ($discountValue == 25){
- //          $discountID = 6;
- //          $discountType = 1;
- //        }
- //        if ($discountValue == 30){
- //          $discountID = 3;
- //          $discountType = 1;
- //        }
- //        if ($discountValue == 40){
- //          $discountID = 5;
- //          $discountType = 1;
- //        }
- //        // if ($discountValue > 0 && $discountValue != 10 && $discountValue != 20
- //        // && $discountValue != 25 && $discountValue != 30 && $discountValue != 40){
- //        //   $discountID = 7;
- //        //   $discountType = 2;
- //        // }
- //    }
- //    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
- //    mysqli_close($dbconnect);
- // }
- //
- //  if ($totalMatches > 0) {
- //    $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
- //      AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
- //      ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
- //      VALUES ($invoiceNumber, $agentID, $salesPartnerID,
- //      '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
- //      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
- //
- //    if (mysqli_query($dbconnect, $sql)) {
- //      $tmpInfo = "New record created successfully";
- //    } else {
- //      echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
- //    }
- //  }
- //
- //  if ($tmpInfo == "New record created successfully") {
- //    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
- //  }
-  mysqli_close($dbconnect);
+  for ($i = 0; $i < count($itemID); $i++){
+    $itemIDTmp = $itemID[$i];
+    $priceTmp = $price[$i];
+    $commentTmp = $comment[$i];
+    $accountingTypeTmp = $accountingType[$i];
+    $dateTimeDocLocalTmp = $dateTimeDocLocal[$i];
+    $salesPartnerIDTmp = $salesPartnerIDList[$i];
+    $sql = "SELECT Цена FROM номенклатура WHERE Артикул LIKE $itemIDTmp AND Цена > $priceTmp";
+    if ($result = mysqli_query($dbconnect, $sql)) {
+      if (mysqli_num_rows($result) != 0) {
+         while($row = mysqli_fetch_array($result)) {
+           $priceStandard = $row['Цена'];
+           $discountValue = $priceStandard - $priceTmp;
+           if ($discountValue == 10){
+             $discountID = 4;
+             $discountType = 1;
+           }
+           if ($discountValue == 20){
+             $discountID = 2;
+             $discountType = 1;
+           }
+           if ($discountValue == 25){
+             $discountID = 6;
+             $discountType = 1;
+           }
+           if ($discountValue == 30){
+             $discountID = 3;
+             $discountType = 1;
+           }
+           if ($discountValue == 40){
+             $discountID = 5;
+             $discountType = 1;
+           }
+         }
+        // if ($discountValue > 0 && $discountValue != 10 && $discountValue != 20
+        // && $discountValue != 25 && $discountValue != 30 && $discountValue != 40){
+        //   $discountID = 7;
+        //   $discountType = 2;
+        // }
+       $sqlI = "INSERT INTO номенклатурасоскидкой (Артикул, ID_скидки, ID_контрагента, Автор)
+       VALUES ($itemIDTmp, $discountID, $salesPartnerIDTmp, '$agentName') ";
+       mysqli_query($dbconnect, $sqlI);
+      }
+    }
+    mysqli_close($dbconnect);
+ }
+
+mysqli_close($dbconnect);
 ?>
