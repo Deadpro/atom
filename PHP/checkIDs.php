@@ -92,25 +92,9 @@
             }
           }
         }
-
       }
     }
   }
-
-  // $salesPartnerIDList = array();
-  // for ($i = 0; $i < count($comment); $i++){
-  //   $commentTmp = $comment[$i];
-  //   $sql = "SELECT ID FROM salespartners  WHERE Наименование LIKE '$commentTmp'
-  //   AND Район LIKE $agentID AND Автор LIKE '$agentName'";
-  //   if ($result = mysqli_query($dbconnect, $sql)) {
-  //     while($row = mysqli_fetch_array($result)) {
-  //       if (mysqli_num_rows($result) != 0) {
-  //         $salesPartnerIDTmp = $row['ID'];
-  //         array_push($salesPartnerIDList, $salesPartnerIDTmp);
-  //       }
-  //     }
-  //   }
-  // }
 
   for ($i = 0; $i < count($salesPartnerIDList); $i++){
     $salesPartnerIDTmp = $salesPartnerIDList[$i];
@@ -131,44 +115,62 @@
     $accountingTypeTmp = $accountingType[$i];
     $dateTimeDocLocalTmp = $dateTimeDocLocal[$i];
     $salesPartnerIDTmp = $salesPartnerIDList[$i];
-    $sql = "SELECT Цена FROM номенклатура WHERE Артикул LIKE $itemIDTmp AND Цена > $priceTmp";
+    $sql = "SELECT Цена FROM номенклатура WHERE Артикул LIKE $itemIDTmp ";
     if ($result = mysqli_query($dbconnect, $sql)) {
       if (mysqli_num_rows($result) != 0) {
          while($row = mysqli_fetch_array($result)) {
            $priceStandard = $row['Цена'];
-           $discountValue = $priceStandard - $priceTmp;
-           if ($discountValue == 10){
-             $discountID = 4;
-             $discountType = 1;
-           }
-           if ($discountValue == 20){
-             $discountID = 2;
-             $discountType = 1;
-           }
-           if ($discountValue == 25){
-             $discountID = 6;
-             $discountType = 1;
-           }
-           if ($discountValue == 30){
-             $discountID = 3;
-             $discountType = 1;
-           }
-           if ($discountValue == 40){
-             $discountID = 5;
-             $discountType = 1;
+           if ($priceStandard > $priceTmp) {
+             $discountValue = $priceStandard - $priceTmp;
+             if ($discountValue == 10){
+               $discountID = 4;
+               $discountType = 1;
+             }
+             if ($discountValue == 20){
+               $discountID = 2;
+               $discountType = 1;
+             }
+             if ($discountValue == 25){
+               $discountID = 6;
+               $discountType = 1;
+             }
+             if ($discountValue == 30){
+               $discountID = 3;
+               $discountType = 1;
+             }
+             if ($discountValue == 40){
+               $discountID = 5;
+               $discountType = 1;
+             }
+             if ($discountValue != 10 && $discountValue != 40 && $discountValue != 20 && $discountValue != 25
+             && $discountValue != 30) {
+               $sql = "INSERT INTO скидка (Тип_скидки, Скидка, Автор)
+               VALUES (1, $discountValue, '$agentName') ";
+               mysqli_query($dbconnect, $sql);
+               $sql = "SELECT ID FROM скидка ORDER BY ID DESC LIMIT 1 ";
+               if ($result = mysqli_query($dbconnect, $sql)) {
+                 if (mysqli_num_rows($result) != 0) {
+                   while($row = mysqli_fetch_array($result)) {
+                     $lastIDTmp = $row['ID'];
+                   }
+                 }
+               }
+             }
+
+             if ($discountValue == 10 || $discountValue == 20 || $discountValue == 25
+             || $discountValue == 30 || $discountValue == 40){
+               $sql = "INSERT INTO номенклатурасоскидкой (Артикул, ID_скидки, ID_контрагента, Автор)
+               VALUES ($itemIDTmp, $discountID, $salesPartnerIDTmp, '$agentName') ";
+               mysqli_query($dbconnect, $sql);
+             } else {
+               $sql = "INSERT INTO номенклатурасоскидкой (Артикул, ID_скидки, ID_контрагента, Автор)
+               VALUES ($itemIDTmp, $lastIDTmp, $salesPartnerIDTmp, '$agentName') ";
+               mysqli_query($dbconnect, $sql);
+             }
            }
          }
-        // if ($discountValue > 0 && $discountValue != 10 && $discountValue != 20
-        // && $discountValue != 25 && $discountValue != 30 && $discountValue != 40){
-        //   $discountID = 7;
-        //   $discountType = 2;
-        // }
-       $sqlI = "INSERT INTO номенклатурасоскидкой (Артикул, ID_скидки, ID_контрагента, Автор)
-       VALUES ($itemIDTmp, $discountID, $salesPartnerIDTmp, '$agentName') ";
-       mysqli_query($dbconnect, $sqlI);
       }
     }
-    mysqli_close($dbconnect);
  }
 
 mysqli_close($dbconnect);
