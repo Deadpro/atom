@@ -11,8 +11,7 @@
          echo json_encode("You must fill all DB Settings fields");
       }
    }
-   //$dbconnect = mysqli_connect("localhost", "u0582_cevladimir", "oiftop@1984", "u0582840_test");
-
+   
    if (mysqli_connect_errno()){
       echo "Connection failed:".mysqli_connect_errno();
       exit;
