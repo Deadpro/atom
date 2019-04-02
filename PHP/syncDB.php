@@ -25,7 +25,7 @@
       }
     }
     if($tableName == "items"){
-      $sql = "SELECT Артикул, Наименование, Цена, Описание FROM номенклатура ";
+      $sql = "SELECT Артикул, Наименование, Цена, Описание, Артикул_1С FROM номенклатура ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();
