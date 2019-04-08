@@ -1,6 +1,16 @@
 <?php
   include("dbconnect.php");
 
+  date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
+  $time = time(); // Вот это значение отправляем в базу
+  $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
+  $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
+
+  $date = date("Y-m-d H:i:s");
+  $date = strtotime($dateTimeDoc);
+  $date = strtotime("-14 day", $date);
+  $dateTime = date('Y-m-d H:i:s', $date);
+
   if($_SERVER["REQUEST_METHOD"]=="POST"){
     $tableName = $_POST["tableName"];
     $agentID = $_POST["agentID"];
@@ -92,7 +102,7 @@
       }
       $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-      InvoiceSum, Comment FROM $tableName ";
+      InvoiceSum, Comment FROM $tableName WHERE DateTimeDocLocal >= '$dateTime' ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();

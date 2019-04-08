@@ -113,6 +113,9 @@
       }
    }
   }
-   echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+  if ($tmpInfo == "New record created successfully") {
+    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+  }
+   // echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
    mysqli_close($dbconnect);
 ?>
