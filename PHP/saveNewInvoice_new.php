@@ -25,7 +25,7 @@
   $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
   $resultArray = array();
   $tempArray = array();
-  $tmpI = array();
+  $tmpInfo;
 
   for ($i = 0; $i < count($new_array); $i++) {
     $invoiceNumber = $new_array[$i]['invoiceNumber'];
@@ -46,17 +46,17 @@
     $comment = $new_array[$i]['comment'];
 
 
-    if ($i > 0){
-      if ($invoiceNumber != $tmp[count($tmp) - 1]){
-        $tmpI[$i] = $invoiceNumber;
-         $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
-         array_push($resultArray, $tempArray);
-      }
-    } else {
-      $tmp[$i] = $invoiceNumber;
-      $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
-      array_push($resultArray, $tempArray);
-    }
+    // if ($i > 0){
+    //   if ($invoiceNumber != $tmp[count($tmp) - 1]){
+    //     $tmpI[$i] = $invoiceNumber;
+    //      $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+    //      array_push($resultArray, $tempArray);
+    //   }
+    // } else {
+    //   $tmp[$i] = $invoiceNumber;
+    //   $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
+    //   array_push($resultArray, $tempArray);
+    // }
 
     // $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
     // AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
@@ -95,8 +95,8 @@
           $totalMatches = $row[0];
     }
     if ($totalMatches == 0) {
-      $resultArray = array();
-      $tempArray = array();
+      // $resultArray = array();
+      // $tempArray = array();
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
         AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
        ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
@@ -105,17 +105,44 @@
          $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
       if (mysqli_query($dbconnect, $sql)) {
-         $tmpInfo = "New record created successfully";
-         $tempArray = array('requestMessage' => $tmpInfo);
-         array_push($resultArray, $tempArray);
+         // $tmpInfo = "New record created successfully";
+         // $tempArray = array('requestMessage' => $tmpInfo);
+         // array_push($resultArray, $tempArray);
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
+         $tmpInfo = "Error";
       }
    }
   }
-  if ($tmpInfo == "New record created successfully") {
-    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-  }
+  // $itemsSoldCount = 0;
+  // if ($tmpInfo == "New record created successfully") {
+    $sql = "SELECT DISTINCT InvoiceNumber FROM $tableName WHERE DateTimeDoc LIKE '$dateTimeDoc' ";
+    if ($result = mysqli_query($dbconnect, $sql)) {
+       $resultArray = array();
+       $tempArray = array();
+       while($row = $result->fetch_object()) {
+          $tempArray = $row;
+          array_push($resultArray, $tempArray);
+       }
+       echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+       // mysqli_close($dbconnect);
+    }
+    // $sql = "SELECT InvoiceNumber FROM $tableName WHERE DateTimeDoc LIKE '$dateTimeDoc' ";
+    // if ($result = mysqli_query($dbconnect, $sql)) {
+    //    // $resultArray = array();
+    //    $tempArray = array();
+    //    while($row = $result->fetch_object()) {
+    //       $itemsSoldCount += 1;
+    //    }
+    //    $tempArray = array('itemsSoldCount' => $itemsSoldCount);
+    //    array_push($resultArray, $tempArray);
+    //    echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+    //    // mysqli_close($dbconnect);
+    // }
+    // $tempArray = array('requestMessage' => $tmpInfo);
+    // array_push($resultArray, $tempArray);
+    // echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+  // }
    // echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
    mysqli_close($dbconnect);
 ?>
