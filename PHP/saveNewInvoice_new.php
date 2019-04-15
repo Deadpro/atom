@@ -125,7 +125,7 @@
           array_push($resultArray, $tempArray);
        }
        echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-       // mysqli_close($dbconnect);
+       mysqli_close($dbconnect);
     }
     // $sql = "SELECT InvoiceNumber FROM $tableName WHERE DateTimeDoc LIKE '$dateTimeDoc' ";
     // if ($result = mysqli_query($dbconnect, $sql)) {
@@ -144,5 +144,4 @@
     // echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
   // }
    // echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-   mysqli_close($dbconnect);
 ?>
