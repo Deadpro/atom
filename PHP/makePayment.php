@@ -40,13 +40,14 @@
       $paymentAmount = $new_array[$i]['payment'];
       $invoiceNumber = $new_array[$i]['invoiceNumber'];
 
-      $tempArray = array('invoiceNumber' => $invoiceNumber, 'status' => "Бабло внесено");
-      array_push($resultArray, $tempArray);
+
 
       $sql = "INSERT INTO $tableName (дата_платежа, №_накладной, сумма_внесения, автор)
       VALUES ('$dateTimeDoc', $invoiceNumber, $paymentAmount, '$author') ";
 
       if (mysqli_query($dbconnect, $sql)) {
+        $tempArray = array('invoiceNumber' => $invoiceNumber, 'status' => "Бабло внесено");
+        array_push($resultArray, $tempArray);
          $tmpInfo = "New record created successfully";
       } else {
          echo "Error: " . $sql . "<br>" . mysqli_error($dbconnect);
