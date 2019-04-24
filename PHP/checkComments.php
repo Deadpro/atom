@@ -23,6 +23,9 @@
   if ($agentID == 6){
     $salesPartnerName = "Для Себя Район 6";
   }
+  if ($agentID == 7){
+    $salesPartnerName = "Для Себя Район 7";
+  }
 
   $sql = "SELECT ID FROM salespartners WHERE Наименование LIKE '$salesPartnerName' ";
   if ($result = mysqli_query($dbconnect, $sql)) {
