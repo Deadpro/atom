@@ -5,26 +5,32 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <link href="https://fonts.googleapis.com/css?family=Carter+One|Chewy|Cinzel+Decorative|Della+Respira|El+Messiri|Fahkwang|Kalam|Lobster|Merienda|Mirza|Oleo+Script|Oswald|Playfair+Display|Pridi|Righteous|Shrikhand" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Pacifico" rel="stylesheet">
+   <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
    <link rel="stylesheet" href="CSS/commonStyles.css">
    <link rel="stylesheet" href="CSS/navigationBar.css">
    <link rel="stylesheet" href="CSS/header.css">
    <link rel="stylesheet" href="CSS/product.css">
    <link rel="stylesheet" href="CSS/about.css">
    <link rel="stylesheet" href="CSS/contacts.css">
-   <link rel="stylesheet" href="CSS/news.css">
    <link rel="stylesheet" href="CSS/footer.css">
    <link rel="stylesheet" href="CSS/onhover_line.css">
+   <link rel="stylesheet" href="CSS/news.css">
    <!-- <link rel="stylesheet" href="sliderStyles.css"> -->
-   <link href="https://fonts.googleapis.com/css?family=Carter+One|Chewy|Cinzel+Decorative|Della+Respira|El+Messiri|Fahkwang|Kalam|Lobster|Merienda|Mirza|Oleo+Script|Oswald|Playfair+Display|Pridi|Righteous|Shrikhand" rel="stylesheet">
 
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
    <!-- Container (NavigationMenu Section) -->
    <nav class="navbar navbar-default navbar-fixed-top">
      <div class="navContainer">
+       <div class="text-logo">
+         CAIMAN
+       </div>
+       <div class="text-sub-logo">
+         корейские салаты
+       </div>
        <div class="navbar-header">
          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
            <span class="icon-bar"></span>
@@ -34,7 +40,7 @@
          <!-- <a class="navbar-brand" href="#"><img src="images/caiman_logo_2.png" style="height:500%"></a> -->
        </div>
        <div class="collapse navbar-collapse" id="myNavbar">
-         <ul class="nav navbar-nav navbar-right">
+         <ul class="nav navbar-nav">
            <li><a href="#products">ПРОДУКЦИЯ</a></li>
            <li><a href="#about">О НАС</a></li>
            <li><a href="#contacts">КОНТАКТЫ</a></li>
@@ -301,7 +307,7 @@
         <div id="explode" class="profiles cf">
            <li>
              <img class="pic" src="images/final_low/asian food 9_low.jpg" style="width:100%">
-             <img class="pic" src="images/final_low/специи_low.jpg" style="width:100%">
+             <!-- <img class="pic" src="images/final_low/специи_low.jpg" style="width:100%"> -->
              <!-- <img class="pic" src="images/test1.jpg" style="width:100%"><br> -->
              <!-- <img class="pic" src="images/test1.jpg" style="width:100%"><br> -->
              <!--<ul class="info">-->
@@ -385,8 +391,8 @@
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
          </div> -->
-         <div class="row text-center slideanim">
-            <div class="col-sm-6 item item-type-line">
+         <div class="row text-center products-row">
+            <div class="col-sm-4 item item-type-line">
               <label for="check_one_input" class="thumbnail item-img">
                 <!-- <div class="item-hover">
                   <div class="item-info">
@@ -401,100 +407,171 @@
                 <!-- <p>В традициях Кореи</p> -->
               </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_two_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/редька по-восточному_low_resized.png" >
                   <p><strong>Редька по-восточному</strong></p>
                   <!-- <p>Высокая кухня эпохи Чосон</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_three_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/морская капуста_low_resized.png" >
                   <p><strong>Морская капуста по-восточному</strong></p>
                   <!-- <p>Здоровье нации</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_four_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/капуста по-восточному_low_resized.png" >
                   <p><strong>Капуста белокочанная</strong></p>
                   <!-- <p>Краткое или не очень описание</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_five_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/редька с морковкой_low_resized.png" >
                   <p><strong>Редька с морковью по-восточному</strong></p>
                   <!-- <p>Краткое или не очень описание</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_six_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/морковь по-восточному_low_resized.png" >
                   <p><strong>Морковь по-восточному</strong></p>
                   <!-- <p>Краткое или не очень описание</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
+            <div class="col-sm-4 item item-type-line">
                <label for="check_seven_input" class="thumbnail item-img">
                   <img src="images/final_low_resized/грибы по-восточному_low_resized.png" >
                   <p><strong>Грибы по-восточному</strong></p>
                   <!-- <p>Краткое или не очень описание</p> -->
                </label>
             </div>
-            <div class="col-sm-6 item item-type-line">
-               <label for="check_eight_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/салат пекинский_low_resized.png" >
-                  <p><strong>Салат "Пекинский"</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Салат "Пекинский"</strong></p>
             </div>
-			   <div class="col-sm-6 item item-type-line">
-               <label for="check_nine_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/щике_low_resized.png" >
-                  <p><strong>Щике</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+            <label for="check_eight_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/салат пекинский_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
             </div>
-			   <div class="col-sm-6 item item-type-line">
-               <label for="check_ten_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/кактуги с кетой_low_resized.png" >
-                  <p><strong>Кактуги</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Щике</strong></p>
             </div>
-			   <div class="col-sm-6 item item-type-line">
-               <label for="check_eleven_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/каракатица_low_resized.png" >
-                  <p><strong>Каракатица</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+            <label for="check_nine_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/щике_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
             </div>
-			   <div class="col-sm-6 item item-type-line">
-               <label for="check_twelve_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/квашеная капуста_low_resized.png" >
-                  <p><strong>Квашеная капуста</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Кактуги</strong></p>
             </div>
-			   <div class="col-sm-6 item item-type-line">
-               <label for="check_thirteen_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/горчица_low_resized.png" >
-                  <p><strong>Горчица</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+            <label for="check_ten_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/кактуги с кетой_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
             </div>
-            <div class="col-sm-6 item item-type-line">
-               <label for="check_thirteen_input" class="thumbnail item-img">
-                  <img src="images/final_low_resized/blank_resized.jpg" >
-                  <p><strong>Ожидается расширение</strong></p>
-                  <!-- <p>Краткое или не очень описание</p> -->
-               </label>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Каракатица</strong></p>
             </div>
-         </div>
+            <label for="check_eleven_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/каракатица_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Квашеная капуста</strong></p>
+            </div>
+            <label for="check_twelve_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/квашеная капуста_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Горчица</strong></p>
+            </div>
+            <label for="check_thirteen_input">
+              <div class="panel-body">
+                <img src="images/final_low_resized/горчица_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Ожидается расширение</strong></p>
+            </div>
+            <label for="check_thirteen_input">
+              <div class="panel-body"> -->
+                <!-- <img src="images/final_low_resized/blank_resized.jpg" > -->
+              <!-- </div>
+            </label>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div> -->
+
       </div>
-   </div>
+    </div>
+  </div>
 
    <!-- Container (About Section) -->
    <div class="aboutContainer">
@@ -561,11 +638,10 @@
    </div>
 
    <!-- Container (News Section) -->
-   <div class="newsContainer">
+   <!-- <div class="newsContainer">
       <div id="news" class="container-fluid">
         <div class="text-center">
           <h2>Новости Компании</h2>
-          <!-- <h4>Бла-бла-бла</h4> -->
         </div>
         <div class="row slideanim">
           <div class="col-sm-4 col-xs-12">
@@ -575,7 +651,6 @@
               </div>
               <div class="panel-body">
                 <p>2019 - год акций и розыгрышей призов.</p>
-                <!-- <img class="pic" src="images/news/дети азии.jpg" style="width:100%"> -->
               </div>
               <div class="panel-footer">
                 <h3></h3>
@@ -613,7 +688,7 @@
           </div>
         </div>
       </div>
-   </div>
+   </div> -->
 
    <!-- Container (Footer Section) -->
    <footer class="container-fluid text-center">
@@ -625,5 +700,10 @@
 
    <script src="JS/script.js"></script>
    <script src="JS/scroll.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 </body>
 </html>
