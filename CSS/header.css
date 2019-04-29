@@ -13,19 +13,28 @@
 Verdana,sans-serif; line-height:16px; margin:15px auto; width:; }
 #content p a { text-decoration:none; color:#fff; }
 #content p a:hover { text-decoration:underline; } */
+
 .jumbotron-container {
    /* margin: 0 auto; */
-   border: solid transparent 0.5px;
-   /* max-width: 1900px; */
+   /* position: relative; */
+   /* border: solid black 1px; */
+   /* max-height: 30vh; */
    /* background-color: #FFFAF0; */
-   background: linear-gradient(180deg, #F0FFF0, #FFFAF0);
-   /* z-index: 1; */
+   /* background: linear-gradient(180deg, #F0FFF0, #FFFAF0); */
+   z-index: 80;
 }
 .profiles, .info { list-style:none; cursor:pointer; }
 /* .profiles > li { width:auto; height:;  margin-right:; } */
 .info, .pic {
-   position: relative;
+   /* position: relative; */
+   /* max-width: 100%;
+   display: block; */
    /* z-index: 0; */
+   max-width: 100vw;
+   width: 100vw;
+   margin: 0 calc(-50vw + 50%);
+   max-height: 60vh;
+   object-fit: cover;
 }
 .info {
    font-family: 'Lato', sans-serif; color:black; font-size:80px;
