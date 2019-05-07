@@ -17,334 +17,336 @@
    <link rel="stylesheet" href="CSS/footer.css">
    <link rel="stylesheet" href="CSS/onhover_line.css">
    <link rel="stylesheet" href="CSS/news.css">
+   <link rel="stylesheet" href="CSS/wicart.css">
    <!-- <link rel="stylesheet" href="sliderStyles.css"> -->
+   <script src="js/wicart.js"  type="text/javascript" ></script>
 
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-   <!-- Container (NavigationMenu Section) -->
-   <nav class="navbar navbar-default navbar-fixed-top">
-     <div class="navContainer">
-       <div class="text-logo">
-         CAIMAN
-       </div>
-       <div class="text-sub-logo">
-         корейские салаты
-       </div>
-       <div class="navbar-header">
-         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-           <span class="icon-bar"></span>
-           <span class="icon-bar"></span>
-           <span class="icon-bar"></span>
-         </button>
-         <!-- <a class="navbar-brand" href="#"><img src="images/caiman_logo_2.png" style="height:500%"></a> -->
-       </div>
-       <div class="collapse navbar-collapse" id="myNavbar">
-         <ul class="nav navbar-nav">
-           <li><a href="#products">ПРОДУКЦИЯ</a></li>
-           <li><a href="#about">О НАС</a></li>
-           <li><a href="#contacts">КОНТАКТЫ</a></li>
-           <li><a href="#how-to-buy">УСЛОВИЯ ПОКУПКИ</a></li>
-           <li><a href="#cart">КОРЗИНА</a></li>
-           <!-- <li><a href="#write">НАПИСАТЬ ДИРЕКТОРУ</a></li> -->
-         </ul>
-      </div>
+  <!-- Container (NavigationMenu Section) -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="navContainer">
+     <div class="text-logo">
+       CAIMAN
      </div>
-   </nav>
-
-   <!-- Container (Descrition Section) -->
-   <div class="description">
-     <input type="checkbox" id="check_one_input">
-     <div class="popup_one_parent">
-       <input type="checkbox" id="check_one_input_additional">
-       <div class="popup_one">
-         <h1>Ким-ча весовая:</h1></br>
-         <p>Состав:</p></br>
-         <p>1. пекинская капуста 2. соль</p></br>
-         <p>3. сахар 4. пряности 5. чеснок</p></br>
-         <p>6. перец красный молотый</p></br>
-         <p>100г продукта содержат:</p></br>
-         <p>белок - 1.7г, углеводы - 5.0г</p></br>
-         <p>Энергетическая ценность: 109.0ккал</p></br>
-         <p>Срок годности и условия хранения:</p></br>
-         <p>хранить при t от 2&#176; до 6&#176; - 30 суток</p></br>
-         <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-         <p>СТО 0174390564-1-2011</p></br>
-         <label for="check_one_input" id="check_one"></label>
-         <label for="check_one_input_additional" id="check_one_additional"><p>--ДОПОЛНИТЕЛЬНО--</p></label>
-       </div>
-       <div class="popup_one_additional">
-         <h1>Ким-ча экспортная:</h1></br>
-         <p>Состав:</p></br>
-         <p>1. пекинская капуста 2. соль</p></br>
-         <p>3. сахар 4. редька 5. чеснок</p></br>
-         <p>6. перец красный молотый 7. лук</p></br>
-         <p>8. имбирь</p></br>
-         <p>100г продукта содержат:</p></br>
-         <p>белок - 1.2г, углеводы - 3.2г</p></br>
-         <p>Энергетическая ценность: 19.0ккал</p></br>
-         <p>Срок годности и условия хранения:</p></br>
-         <p>хранить при t от -5&#176; до 5&#176; - 90 суток</p></br>
-         <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-         <p>СТО 0174390564-1-2011</p></br>
-         <label for="check_one_input_additional" id="check_one_additional"></p></label>
-       </div>
+     <div class="text-sub-logo">
+       корейские салаты
      </div>
-
-     <input type="checkbox" id="check_two_input">
-     <div class="popup_two">
-         <h1>Редька по-восточному</h1></br>
-         <p>Состав:</p></br>
-         <p>1. редька 2. соль 3. сахар</p></br>
-         <p>4. пряности 5. чеснок</p></br>
-         <p>6. перец красный молотый</p></br>
-         <p>100г продукта содержат:</p></br>
-         <p>белок - 1.7г, углеводы - 5.0г</p></br>
-         <p>Энергетическая ценность: 109.0ккал</p></br>
-         <p>Срок годности и условия хранения:</p></br>
-         <p>хранить при t от 2&#176; до 6&#176; - 30 суток</p></br>
-         <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-         <p>СТО 0174390564-1-2011</p></br>
-         <label for="check_two_input" id="check_two"></label>
+     <div class="navbar-header">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <!-- <a class="navbar-brand" href="#"><img src="images/caiman_logo_2.png" style="height:500%"></a> -->
      </div>
+     <div class="collapse navbar-collapse" id="myNavbar">
+       <ul class="nav navbar-nav">
+         <li><a href="#products">ПРОДУКЦИЯ</a></li>
+         <li><a href="#about">О НАС</a></li>
+         <li><a href="#contacts">КОНТАКТЫ</a></li>
+         <li><a href="#how-to-buy">УСЛОВИЯ ПОКУПКИ</a></li>
+         <li><a href="#cart">КОРЗИНА</a></li>
+         <!-- <li><a href="#write">НАПИСАТЬ ДИРЕКТОРУ</a></li> -->
+       </ul>
+    </div>
+   </div>
+  </nav>
 
-     <input type="checkbox" id="check_three_input">
-     <div class="popup_three">
-       <h1>Морская капуста по-восточному</h1></br>
+  <!-- Container (Descrition Section) -->
+  <div class="description">
+   <input type="checkbox" id="check_one_input">
+   <div class="popup_one_parent">
+     <input type="checkbox" id="check_one_input_additional">
+     <div class="popup_one">
+       <h1>Ким-ча весовая:</h1></br>
        <p>Состав:</p></br>
-       <p>1. морская капуста 2. морковь 3. соль</p></br>
-       <p>4. красный и черный перец 5. чеснок</p></br>
-       <p>6. уксус 7. кунжутное семя</p></br>
+       <p>1. пекинская капуста 2. соль</p></br>
+       <p>3. сахар 4. пряности 5. чеснок</p></br>
+       <p>6. перец красный молотый</p></br>
        <p>100г продукта содержат:</p></br>
-       <p>белок - 9г, жир - 0.2г, углеводы - 3.0г</p></br>
-       <p>Энергетическая ценность: 286.1ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_three_input" id="check_three"></label>
-     </div>
-
-     <input type="checkbox" id="check_four_input">
-     <div class="popup_four">
-       <h1>Капуста белокочанная по-восточному</h1></br>
-       <p>Состав:</p></br>
-       <p>1. капуста 2. морковь 3. соль</p></br>
-       <p>4. красный перец 5. чеснок</p></br>
-       <p>6. сахар</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 1.7г, жир - 0.1г, углеводы - 5.2г</p></br>
-       <p>Энергетическая ценность: 25ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_four_input" id="check_four"></label>
-     </div>
-
-     <input type="checkbox" id="check_five_input">
-     <div class="popup_five">
-       <h1>Редька с морковью по-восточному</h1></br>
-       <p>Состав:</p></br>
-       <p>1. редька 2. морковь 3. соль</p></br>
-       <p>4. красный перец 5. сахар</p></br>
-       <p>6. уксус 7. специи</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 2.18г, жир - 0.31г, углеводы - 5.81г</p></br>
-       <p>Энергетическая ценность: 34.01ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_five_input" id="check_five"></label>
-     </div>
-
-     <input type="checkbox" id="check_six_input">
-     <div class="popup_six">
-       <h1>Морковь по-восточному</h1></br>
-       <p>Состав:</p></br>
-       <p>1. кунжут 2. морковь 3. соль</p></br>
-       <p>4. черный перец 5. сахар</p></br>
-       <p>6. уксус 7. специи</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 2.22г, жир - 0.76г, углеводы - 8.09г</p></br>
-       <p>Энергетическая ценность: 37.9ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_six_input" id="check_six"></label>
-     </div>
-
-     <input type="checkbox" id="check_seven_input">
-     <div class="popup_seven">
-       <h1>Грибы по-восточному</h1></br>
-       <p>Состав:</p></br>
-       <p>1. грибы 2. морковь 3. специи</p></br>
-       <p>4. масло растительное</p></br>
-       <p>5. кунжут</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 10.45г, жир - 2.56г, углеводы - 5.31г</p></br>
-       <p>Энергетическая ценность: 85.12ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_seven_input" id="check_seven"></label>
-     </div>
-
-     <input type="checkbox" id="check_eight_input">
-     <div class="popup_eight">
-       <h1>Салат "Пекинский"</h1></br>
-       <p>Состав:</p></br>
-       <p>1. капуста 2. морковь 3. соль</p></br>
-       <p>4. красный перец 5. чеснок</p></br>
-       <p>6. уксус 7. редька 8. огурец</p></br>
-       <p>9. сахар 10. специи</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 1.4г, жир - 10г, углеводы - 4.2г</p></br>
-       <p>Энергетическая ценность: 111.8ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_eight_input" id="check_eight"></label>
-     </div>
-
-     <input type="checkbox" id="check_nine_input">
-     <div class="popup_nine">
-       <h1>Щике</h1></br>
-       <p>Состав:</p></br>
-       <p>1. камбала 2. редька 3. соль</p></br>
-       <p>4. красный перец 5. чеснок</p></br>
-       <p>6. сахар 7. пряности</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 24.3г, жир - 9.6г, углеводы - 5г</p></br>
-       <p>Энергетическая ценность: 184ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_nine_input" id="check_nine"></label>
-     </div>
-
-     <input type="checkbox" id="check_ten_input">
-     <div class="popup_ten">
-       <h1>Кактуги с кетой</h1></br>
-       <p>Состав:</p></br>
-       <p>1. кета 2. редька 3. соль</p></br>
-       <p>4. красный перец молотый5. чеснок</p></br>
-       <p>6. сахар 7. пряности</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 24.3г, жир - 9.6г, углеводы - 5г</p></br>
-       <p>Энергетическая ценность: 184ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_ten_input" id="check_ten"></label>
-     </div>
-
-     <input type="checkbox" id="check_eleven_input">
-     <div class="popup_eleven">
-       <h1>Каракатица</h1></br>
-       <p>Состав:</p></br>
-       <p>1. каракатица 2. стучковый перец</p></br>
-       <p>3. соль4. красный перец 5. чеснок</p></br>
-       <p>6. сахар 7. пряности</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 16.2г, жир - 0.7г, углеводы - 0.8г</p></br>
-       <p>Энергетическая ценность: 79ккал</p></br>
-       <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
-       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
-       <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_eleven_input" id="check_eleven"></label>
-     </div>
-
-     <input type="checkbox" id="check_twelve_input">
-     <div class="popup_twelve">
-       <h1>Капуста квашеная</h1></br>
-       <p>Состав:</p></br>
-       <p>1. капуста 2. морковью 3. соль</p></br>
-       <p>4. перец горошек 5. сахар</p></br>
-       <p>6. лавровый лист</p></br>
-       <p>100г продукта содержат:</p></br>
-       <p>белок - 1.7г, жир - 0.1г, углеводы - 5.2г</p></br>
-       <p>Энергетическая ценность: 25ккал</p></br>
+       <p>белок - 1.7г, углеводы - 5.0г</p></br>
+       <p>Энергетическая ценность: 109.0ккал</p></br>
        <p>Срок годности и условия хранения:</p></br>
        <p>хранить при t от 2&#176; до 6&#176; - 30 суток</p></br>
        <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
        <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_twelve_input" id="check_twelve"></label>
+       <label for="check_one_input" id="check_one"></label>
+       <label for="check_one_input_additional" id="check_one_additional"><p>--ДОПОЛНИТЕЛЬНО--</p></label>
      </div>
-
-     <input type="checkbox" id="check_thirteen_input">
-     <div class="popup_thirteen">
-       <h1>Горчица "Русская"</h1></br>
+     <div class="popup_one_additional">
+       <h1>Ким-ча экспортная:</h1></br>
        <p>Состав:</p></br>
-       <p>1. горчичный порошок 2. масло растительное</p></br>
-       <p>3. соль 4. уксус 5. сахар</p></br>
-       <p>6. специи 7. вода</p></br>
+       <p>1. пекинская капуста 2. соль</p></br>
+       <p>3. сахар 4. редька 5. чеснок</p></br>
+       <p>6. перец красный молотый 7. лук</p></br>
+       <p>8. имбирь</p></br>
        <p>100г продукта содержат:</p></br>
-       <p>белок - 1.7г, углеводы - 5г</p></br>
-       <p>Энергетическая ценность: 164.6ккал</p></br>
+       <p>белок - 1.2г, углеводы - 3.2г</p></br>
+       <p>Энергетическая ценность: 19.0ккал</p></br>
        <p>Срок годности и условия хранения:</p></br>
-       <p>хранить при t от 0&#176; до 10&#176; - 45 суток</p></br>
+       <p>хранить при t от -5&#176; до 5&#176; - 90 суток</p></br>
        <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
        <p>СТО 0174390564-1-2011</p></br>
-       <label for="check_thirteen_input" id="check_thirteen"></label>
+       <label for="check_one_input_additional" id="check_one_additional"></p></label>
      </div>
-
-     <div class="mask"></div>
    </div>
 
-   <!-- Container (Header Section) -->
-   <div class="jumbotron-container" id="">
-      <!-- <div class="jumbotron text-center" id="content"> -->
-        <!-- <div id="explode" class="profiles cf">
-           <li> -->
-             <img class="pic" src="images/final_low/asian food 9_low_edited.jpg">
-           <!-- </li>
-        </div> -->
-      <!-- </div> -->
+   <input type="checkbox" id="check_two_input">
+   <div class="popup_two">
+       <h1>Редька по-восточному</h1></br>
+       <p>Состав:</p></br>
+       <p>1. редька 2. соль 3. сахар</p></br>
+       <p>4. пряности 5. чеснок</p></br>
+       <p>6. перец красный молотый</p></br>
+       <p>100г продукта содержат:</p></br>
+       <p>белок - 1.7г, углеводы - 5.0г</p></br>
+       <p>Энергетическая ценность: 109.0ккал</p></br>
+       <p>Срок годности и условия хранения:</p></br>
+       <p>хранить при t от 2&#176; до 6&#176; - 30 суток</p></br>
+       <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+       <p>СТО 0174390564-1-2011</p></br>
+       <label for="check_two_input" id="check_two"></label>
    </div>
 
-   <!-- Container (Start Section) -->
-   <!-- <div id="start" class="container-fluid text-center">
-      <h1><q>Кайман</q></h1>
-      <div id="myCarousel" class="carousel slide text-center" data-ride="carousel"> -->
-       <!-- Indicators -->
-       <!-- <ol class="carousel-indicators">
-         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-         <li data-target="#myCarousel" data-slide-to="1"></li>
-         <li data-target="#myCarousel" data-slide-to="2"></li>
-       </ol> -->
-       <!-- Wrapper for slides -->
-       <!-- <div class="carousel-inner" role="listbox">
-         <div class="item active">
-           <h3><i>Восемь лет на рынке</i><br><span>По всей Сахалинской Области</span></h3>
-         </div>
-         <div class="item">
-           <h3><i>Традиции национальной кухни</i><br><span>Современные технологии производства</span></h3>
-         </div>
-         <div class="item">
-           <h3><i>Более 200 партнеров</i><br><span>Ваш выбор - Наша ответственность</span></h3>
-         </div>
-       </div> -->
-       <!-- Left and right controls -->
-       <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-         <span class="sr-only">Previous</span>
-       </a>
-       <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-         <span class="sr-only">Next</span>
-       </a>
-     </div>
-   </div> -->
+   <input type="checkbox" id="check_three_input">
+   <div class="popup_three">
+     <h1>Морская капуста по-восточному</h1></br>
+     <p>Состав:</p></br>
+     <p>1. морская капуста 2. морковь 3. соль</p></br>
+     <p>4. красный и черный перец 5. чеснок</p></br>
+     <p>6. уксус 7. кунжутное семя</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 9г, жир - 0.2г, углеводы - 3.0г</p></br>
+     <p>Энергетическая ценность: 286.1ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_three_input" id="check_three"></label>
+   </div>
 
-   <!-- Container (Products Section) -->
+   <input type="checkbox" id="check_four_input">
+   <div class="popup_four">
+     <h1>Капуста белокочанная по-восточному</h1></br>
+     <p>Состав:</p></br>
+     <p>1. капуста 2. морковь 3. соль</p></br>
+     <p>4. красный перец 5. чеснок</p></br>
+     <p>6. сахар</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 1.7г, жир - 0.1г, углеводы - 5.2г</p></br>
+     <p>Энергетическая ценность: 25ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_four_input" id="check_four"></label>
+   </div>
+
+   <input type="checkbox" id="check_five_input">
+   <div class="popup_five">
+     <h1>Редька с морковью по-восточному</h1></br>
+     <p>Состав:</p></br>
+     <p>1. редька 2. морковь 3. соль</p></br>
+     <p>4. красный перец 5. сахар</p></br>
+     <p>6. уксус 7. специи</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 2.18г, жир - 0.31г, углеводы - 5.81г</p></br>
+     <p>Энергетическая ценность: 34.01ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_five_input" id="check_five"></label>
+   </div>
+
+   <input type="checkbox" id="check_six_input">
+   <div class="popup_six">
+     <h1>Морковь по-восточному</h1></br>
+     <p>Состав:</p></br>
+     <p>1. кунжут 2. морковь 3. соль</p></br>
+     <p>4. черный перец 5. сахар</p></br>
+     <p>6. уксус 7. специи</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 2.22г, жир - 0.76г, углеводы - 8.09г</p></br>
+     <p>Энергетическая ценность: 37.9ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_six_input" id="check_six"></label>
+   </div>
+
+   <input type="checkbox" id="check_seven_input">
+   <div class="popup_seven">
+     <h1>Грибы по-восточному</h1></br>
+     <p>Состав:</p></br>
+     <p>1. грибы 2. морковь 3. специи</p></br>
+     <p>4. масло растительное</p></br>
+     <p>5. кунжут</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 10.45г, жир - 2.56г, углеводы - 5.31г</p></br>
+     <p>Энергетическая ценность: 85.12ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_seven_input" id="check_seven"></label>
+   </div>
+
+   <input type="checkbox" id="check_eight_input">
+   <div class="popup_eight">
+     <h1>Салат "Пекинский"</h1></br>
+     <p>Состав:</p></br>
+     <p>1. капуста 2. морковь 3. соль</p></br>
+     <p>4. красный перец 5. чеснок</p></br>
+     <p>6. уксус 7. редька 8. огурец</p></br>
+     <p>9. сахар 10. специи</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 1.4г, жир - 10г, углеводы - 4.2г</p></br>
+     <p>Энергетическая ценность: 111.8ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_eight_input" id="check_eight"></label>
+   </div>
+
+   <input type="checkbox" id="check_nine_input">
+   <div class="popup_nine">
+     <h1>Щике</h1></br>
+     <p>Состав:</p></br>
+     <p>1. камбала 2. редька 3. соль</p></br>
+     <p>4. красный перец 5. чеснок</p></br>
+     <p>6. сахар 7. пряности</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 24.3г, жир - 9.6г, углеводы - 5г</p></br>
+     <p>Энергетическая ценность: 184ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_nine_input" id="check_nine"></label>
+   </div>
+
+   <input type="checkbox" id="check_ten_input">
+   <div class="popup_ten">
+     <h1>Кактуги с кетой</h1></br>
+     <p>Состав:</p></br>
+     <p>1. кета 2. редька 3. соль</p></br>
+     <p>4. красный перец молотый5. чеснок</p></br>
+     <p>6. сахар 7. пряности</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 24.3г, жир - 9.6г, углеводы - 5г</p></br>
+     <p>Энергетическая ценность: 184ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_ten_input" id="check_ten"></label>
+   </div>
+
+   <input type="checkbox" id="check_eleven_input">
+   <div class="popup_eleven">
+     <h1>Каракатица</h1></br>
+     <p>Состав:</p></br>
+     <p>1. каракатица 2. стучковый перец</p></br>
+     <p>3. соль4. красный перец 5. чеснок</p></br>
+     <p>6. сахар 7. пряности</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 16.2г, жир - 0.7г, углеводы - 0.8г</p></br>
+     <p>Энергетическая ценность: 79ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 10 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_eleven_input" id="check_eleven"></label>
+   </div>
+
+   <input type="checkbox" id="check_twelve_input">
+   <div class="popup_twelve">
+     <h1>Капуста квашеная</h1></br>
+     <p>Состав:</p></br>
+     <p>1. капуста 2. морковью 3. соль</p></br>
+     <p>4. перец горошек 5. сахар</p></br>
+     <p>6. лавровый лист</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 1.7г, жир - 0.1г, углеводы - 5.2г</p></br>
+     <p>Энергетическая ценность: 25ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 2&#176; до 6&#176; - 30 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_twelve_input" id="check_twelve"></label>
+   </div>
+
+   <input type="checkbox" id="check_thirteen_input">
+   <div class="popup_thirteen">
+     <h1>Горчица "Русская"</h1></br>
+     <p>Состав:</p></br>
+     <p>1. горчичный порошок 2. масло растительное</p></br>
+     <p>3. соль 4. уксус 5. сахар</p></br>
+     <p>6. специи 7. вода</p></br>
+     <p>100г продукта содержат:</p></br>
+     <p>белок - 1.7г, углеводы - 5г</p></br>
+     <p>Энергетическая ценность: 164.6ккал</p></br>
+     <p>Срок годности и условия хранения:</p></br>
+     <p>хранить при t от 0&#176; до 10&#176; - 45 суток</p></br>
+     <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
+     <p>СТО 0174390564-1-2011</p></br>
+     <label for="check_thirteen_input" id="check_thirteen"></label>
+   </div>
+
+   <div class="mask"></div>
+  </div>
+
+  <!-- Container (Header Section) -->
+  <div class="jumbotron-container" id="">
+    <!-- <div class="jumbotron text-center" id="content"> -->
+      <!-- <div id="explode" class="profiles cf">
+         <li> -->
+           <img class="pic" src="images/final_low/asian food 9_low_edited.jpg">
+         <!-- </li>
+      </div> -->
+    <!-- </div> -->
+  </div>
+
+  <!-- Container (Start Section) -->
+  <!-- <div id="start" class="container-fluid text-center">
+    <h1><q>Кайман</q></h1>
+    <div id="myCarousel" class="carousel slide text-center" data-ride="carousel"> -->
+     <!-- Indicators -->
+     <!-- <ol class="carousel-indicators">
+       <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+       <li data-target="#myCarousel" data-slide-to="1"></li>
+       <li data-target="#myCarousel" data-slide-to="2"></li>
+     </ol> -->
+     <!-- Wrapper for slides -->
+     <!-- <div class="carousel-inner" role="listbox">
+       <div class="item active">
+         <h3><i>Восемь лет на рынке</i><br><span>По всей Сахалинской Области</span></h3>
+       </div>
+       <div class="item">
+         <h3><i>Традиции национальной кухни</i><br><span>Современные технологии производства</span></h3>
+       </div>
+       <div class="item">
+         <h3><i>Более 200 партнеров</i><br><span>Ваш выбор - Наша ответственность</span></h3>
+       </div>
+     </div> -->
+     <!-- Left and right controls -->
+     <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+       <span class="sr-only">Previous</span>
+     </a>
+     <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+       <span class="sr-only">Next</span>
+     </a>
+   </div>
+  </div> -->
+
+  <!-- Container (Products Section) -->
   <div id="productsContainer" >
     <div id="products">
 
@@ -393,7 +395,9 @@
               </div>
             </label>
             <div class="panel-footer">
-              <h3></h3>
+              <h3>
+                <!-- <button id="wicartbutton_001" onclick="cart.addToCart(this, '001', priceList['001'])">Купить</button> -->
+              </h3>
               <h4></h4>
             </div>
           </div>
@@ -410,7 +414,9 @@
               </div>
             </label>
             <div class="panel-footer">
-              <h3></h3>
+              <h3>
+                <!-- <button id="wicartbutton_002" onclick="cart.addToCart(this, '002', priceList['002'])">Купить</button> -->
+              </h3>
               <h4></h4>
             </div>
           </div>
@@ -624,135 +630,182 @@
     </div>
   </div>
 
-   <!-- Container (About Section) -->
-   <div class="aboutContainer">
-      <div id="about" class="container-fluid">
-        <div class="row">
-          <div class="col-sm-12">
-            <h2>О Нас</h2><br>
-            <h4>Деятельность</h4><br>
-            <p>Компания осуществляет деятельность в области общественного питания,
-               начиная с 2010 года, под брендом "Клондайк". Начиная с 2019 года продукция
-               выпускается под брендом "Кайман" (Caiman).</p><br>
-          </div>
-          <div class="col-sm-4">
-            <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
-            <!-- <h1>Какая-нибудь картинка</h1> -->
-          </div>
-          <div class="col-sm-12">
-            <h4>Расширение</h4><br>
-            <p>Продукцию нашей компании можно найти более чем в 200 магазинах по всей
-               Сахалинской Области. В 2019 году ожидается открытие собственного магазина
-               готовой еды. Каждый день мы неустанно работаем над расширением партнерской сети.</p><br>
-         </div>
-          <div class="col-sm-4">
-            <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
-            <!-- <h1>Какая-нибудь картинка</h1> -->
-          </div>
-          <div class="col-sm-12">
-            <h4>Сайт</h4><br>
-            <p>Запуск настоящего сайта - первая ступень к масштабному ребрендингу компании,
-               грядущему расширению ассортимента и способов взаимодествия с конечным
-               потребителем.</p><br>
-         </div>
-          <div class="col-sm-4">
-            <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
-            <!-- <h1>Какая-нибудь картинка</h1> -->
-          </div>
-          <div class="col-sm-12">
-            <h4>Акции</h4><br>
-            <p>Внимательно следите за изменениями на нашем сайте, для того чтобы не
-               упустить интересные акции и розыгрыши призов. Всегда на связи с вами
-               по указанному ниже адресу электронной почты.</p><br>
-         </div>
-          <div class="col-sm-4">
-            <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
-            <!-- <h1>Какая-нибудь картинка</h1> -->
-          </div>
+  <!-- Container (About Section) -->
+  <div class="aboutContainer">
+    <div id="about" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>О Нас</h2><br>
+          <h4>Деятельность</h4><br>
+          <p>Компания осуществляет деятельность в области общественного питания,
+             начиная с 2010 года, под брендом "Клондайк". Начиная с 2019 года продукция
+             выпускается под брендом "Кайман" (Caiman).</p><br>
+        </div>
+        <div class="col-sm-4">
+          <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
+          <!-- <h1>Какая-нибудь картинка</h1> -->
+        </div>
+        <div class="col-sm-12">
+          <h4>Расширение</h4><br>
+          <p>Продукцию нашей компании можно найти более чем в 200 магазинах по всей
+             Сахалинской Области. В 2019 году ожидается открытие собственного магазина
+             готовой еды. Каждый день мы неустанно работаем над расширением партнерской сети.</p><br>
+       </div>
+        <div class="col-sm-4">
+          <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
+          <!-- <h1>Какая-нибудь картинка</h1> -->
+        </div>
+        <div class="col-sm-12">
+          <h4>Сайт</h4><br>
+          <p>Запуск настоящего сайта - первая ступень к масштабному ребрендингу компании,
+             грядущему расширению ассортимента и способов взаимодествия с конечным
+             потребителем.</p><br>
+       </div>
+        <div class="col-sm-4">
+          <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
+          <!-- <h1>Какая-нибудь картинка</h1> -->
+        </div>
+        <div class="col-sm-12">
+          <h4>Акции</h4><br>
+          <p>Внимательно следите за изменениями на нашем сайте, для того чтобы не
+             упустить интересные акции и розыгрыши призов. Всегда на связи с вами
+             по указанному ниже адресу электронной почты.</p><br>
+       </div>
+        <div class="col-sm-4">
+          <!-- <span class="glyphicon glyphicon-signal logo"></span> -->
+          <!-- <h1>Какая-нибудь картинка</h1> -->
         </div>
       </div>
-   </div>
+    </div>
+  </div>
 
-   <!-- Container (Contacts Section) -->
-   <div class="contactsContainer">
-      <div id="contacts" class="jumbotron text-center">
-         <h1>Наши контакты</h1>
-         <p>Реквизиты: ИП Че Владимир Енгунович<br>
-         ИНН/КПП 651600635813 / 650101001<br>
-         <!-- <p>693001 Сахалинская Обл., г.Южно-Сахалинск, ул. 2-я Комсомольская 10А, 25</p><br> -->
-         Рас.счет 40802810608560002360, кор.счет 30101810300000000827<br>
-         БИК 040813827 Филиал №2754 ВТБ 24 (ПАО) ОГРН 310650134400052</p><br>
-         <p>Офис: г.Южно-Сахалинск, ул.Колодезная 8, оф.205</p><br>
-         <p>Для партнеров: +7(4242)250262<br> Почта: ceo@caiman.ru.com</p><br>
-         <!-- <p>Здесь может быть красивая схематичная карта проезда от руки</p> -->
+  <!-- Container (Contacts Section) -->
+  <div class="contactsContainer">
+    <div id="contacts" class="jumbotron text-center">
+       <h1>Наши контакты</h1>
+       <p>Реквизиты: ИП Че Владимир Енгунович<br>
+       ИНН/КПП 651600635813 / 650101001<br>
+       <!-- <p>693001 Сахалинская Обл., г.Южно-Сахалинск, ул. 2-я Комсомольская 10А, 25</p><br> -->
+       Рас.счет 40802810608560002360, кор.счет 30101810300000000827<br>
+       БИК 040813827 Филиал №2754 ВТБ 24 (ПАО) ОГРН 310650134400052</p><br>
+       <p>Офис: г.Южно-Сахалинск, ул.Колодезная 8, оф.205</p><br>
+       <p>Для партнеров: +7(4242)250262<br> Почта: ceo@caiman.ru.com</p><br>
+       <!-- <p>Здесь может быть красивая схематичная карта проезда от руки</p> -->
+    </div>
+  </div>
+
+  <!-- Container (News Section) -->
+  <!-- <div class="newsContainer">
+    <div id="news" class="container-fluid">
+      <div class="text-center">
+        <h2>Новости Компании</h2>
       </div>
-   </div>
-
-   <!-- Container (News Section) -->
-   <!-- <div class="newsContainer">
-      <div id="news" class="container-fluid">
-        <div class="text-center">
-          <h2>Новости Компании</h2>
-        </div>
-        <div class="row slideanim">
-          <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
-              <div class="panel-heading">
-                <h1>Акции</h1>
-              </div>
-              <div class="panel-body">
-                <p>2019 - год акций и розыгрышей призов.</p>
-              </div>
-              <div class="panel-footer">
-                <h3></h3>
-                <h4></h4>
-              </div>
+      <div class="row slideanim">
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h1>Акции</h1>
             </div>
-          </div>
-          <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
-              <div class="panel-heading">
-                <h1>Смена дизайна</h1>
-              </div>
-              <div class="panel-body">
-                 <p>Начиная с Января 2019 года продукция выпускается под новым брендом Кайман. Ранее Клондайк.</p>
-              </div>
-              <div class="panel-footer">
-                <h3></h3>
-                <h4></h4>
-              </div>
+            <div class="panel-body">
+              <p>2019 - год акций и розыгрышей призов.</p>
             </div>
-          </div>
-          <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
-              <div class="panel-heading">
-                <h1>Наш новый сайт</h1>
-              </div>
-              <div class="panel-body">
-                 <p>Настоящий сайт находится в режиме разработки.</p>
-              </div>
-              <div class="panel-footer">
-                <h3></h3>
-                <h4></h4>
-              </div>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
             </div>
           </div>
         </div>
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h1>Смена дизайна</h1>
+            </div>
+            <div class="panel-body">
+               <p>Начиная с Января 2019 года продукция выпускается под новым брендом Кайман. Ранее Клондайк.</p>
+            </div>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h1>Наш новый сайт</h1>
+            </div>
+            <div class="panel-body">
+               <p>Настоящий сайт находится в режиме разработки.</p>
+            </div>
+            <div class="panel-footer">
+              <h3></h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
       </div>
-   </div> -->
+    </div>
+  </div> -->
 
-   <!-- Container (Footer Section) -->
-   <footer class="container-fluid text-center">
-     <a href="#myPage" title="To Top">
-       <span class="glyphicon glyphicon-chevron-up"></span>
-     </a>
-     <p>Made By iamcomputers <a href="#" title="Admin">www.iamcomputers.com</a></p>
-   </footer>
+  <!-- Container (Price List) -->
+  <script>
+    var priceList = {
+    "001" : {"id" : "001", "subid" : {}, "name" : "Ким-чи весовая", "price" : "230"},
+    "002" : {"id" : "002", "subid" : {}, "name" : "Редька по-восточному весовая", "price" : "230"}
+    };
+  </script>
 
-   <script src="JS/script.js"></script>
-   <script src="JS/scroll.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Container (Cart Widget) -->
+  <!-- <div class="cart">
+    <span>Корзина: </span>
+    <a href="#" onclick="cart.clearBasket()" style="float: right;">Очистить</a>
+    <a href="#" id="basketwidjet" onclick="cart.showWinow('bcontainer', 1)"></a>
+    <span style="font: normal 11px Arial"></span>
+  </div> -->
+
+  <!-- Форма заказа -->
+  <div id="order" class="popup">
+    <a href="#" onclick="cart.closeWindow('order', 0)" style="float:right"><img src="img/close.png" /></a>
+    <p><h4>Введите ваши контактные данные</h4></p>
+    <form id="formToSend">
+      <input id="fio" type="text" placeholder="Ваши фамилия и имя"  class="" />
+      <input id="city" type="text" placeholder="Город"  class=""/>
+      <input id="phone" type="text" placeholder="Контактный телефон" class=""/>
+      <input id="email" type="text" placeholder="Электронная почта" class="" />
+    </form>
+    <button onclick="cart.sendOrder('formToSend,overflw,bsum');" href="#">Отправить заказ</button>
+  </div>
+
+  <!-- Container (Footer Section) -->
+  <footer class="container-fluid text-center">
+   <a href="#myPage" title="To Top">
+     <span class="glyphicon glyphicon-chevron-up"></span>
+   </a>
+   <p>Made By iamcomputers <a href="#" title="Admin">www.iamcomputers.com</a></p>
+  </footer>
+
+  <script src="JS/script.js"></script>
+  <script src="JS/scroll.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+  <!-- <script>
+   var cart;
+   var config;
+   var wiNumInputPrefID;
+
+   $(document).ready(function(){
+
+       cart = new WICard("cart");
+       cart.init("basketwidjet", config);
+
+
+   });
+   document.addEventListener('visibilitychange', function(e) {
+   cart.init("basketwidjet", config);
+   }, false);
+  </script> -->
    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
