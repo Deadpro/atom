@@ -17,7 +17,7 @@
    <link rel="stylesheet" href="CSS/footer.css">
    <link rel="stylesheet" href="CSS/onhover_line.css">
    <link rel="stylesheet" href="CSS/news.css">
-   <link rel="stylesheet" href="CSS/wicart.css">
+   <!-- <link rel="stylesheet" href="CSS/wicart.css"> -->
    <!-- <link rel="stylesheet" href="sliderStyles.css"> -->
    <script src="js/wicart.js"  type="text/javascript" ></script>
 
@@ -748,12 +748,12 @@
   </div> -->
 
   <!-- Container (Price List) -->
-  <script>
+  <!-- <script>
     var priceList = {
     "001" : {"id" : "001", "subid" : {}, "name" : "Ким-чи весовая", "price" : "230"},
     "002" : {"id" : "002", "subid" : {}, "name" : "Редька по-восточному весовая", "price" : "230"}
     };
-  </script>
+  </script> -->
 
   <!-- Container (Cart Widget) -->
   <!-- <div class="cart">
@@ -764,17 +764,47 @@
   </div> -->
 
   <!-- Форма заказа -->
-  <div id="order" class="popup">
-    <a href="#" onclick="cart.closeWindow('order', 0)" style="float:right"><img src="img/close.png" /></a>
-    <p><h4>Введите ваши контактные данные</h4></p>
-    <form id="formToSend">
-      <input id="fio" type="text" placeholder="Ваши фамилия и имя"  class="" />
-      <input id="city" type="text" placeholder="Город"  class=""/>
-      <input id="phone" type="text" placeholder="Контактный телефон" class=""/>
-      <input id="email" type="text" placeholder="Электронная почта" class="" />
-    </form>
-    <button onclick="cart.sendOrder('formToSend,overflw,bsum');" href="#">Отправить заказ</button>
-  </div>
+  <!-- <div class="container-form">
+    <div id="order" class="popup">
+      <a href="#" onclick="cart.closeWindow('order', 0)" style="float:right"><img src="img/close.png" /></a>
+      <p><h4>Введите ваши контактные данные</h4></p>
+      <form id="formToSend">
+        <div class="row-form">
+          <div class="col-25">
+            <label for="fio">Имя</label>
+          </div>
+          <div class="col-75">
+            <input id="fio" type="text" placeholder="Ваши фамилия и имя"  class="" />
+          </div>
+        </div>
+        <div class="row-form">
+          <div class="col-25">
+            <label for="city">Город</label>
+          </div>
+          <div class="col-75">
+            <input id="city" type="text" placeholder="Город"  class=""/>
+          </div>
+        </div>
+        <div class="row-form">
+          <div class="col-25">
+            <label for="phone">Телефон</label>
+          </div>
+          <div class="col-75">
+            <input id="phone" type="text" placeholder="Контактный телефон" class=""/>
+          </div>
+        </div>
+        <div class="row-form">
+          <div class="col-25">
+            <label for="email">Почта</label>
+          </div>
+          <div class="col-75">
+            <input id="email" type="text" placeholder="Электронная почта" class="" />
+          </div>
+        </div>
+      </form>
+      <button onclick="cart.sendOrder('formToSend,overflw,bsum');" href="#">Отправить заказ</button>
+    </div>
+  </div> -->
 
   <!-- Container (Footer Section) -->
   <footer class="container-fluid text-center">
@@ -808,6 +838,6 @@
   </script> -->
    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
