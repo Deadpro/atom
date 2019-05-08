@@ -255,7 +255,7 @@ function WICard(obj, plugins)
 	this.center = function(obj)
 		{
 
-		obj.css({"top" : "-100px"});
+		obj.css({"top" : "-0px"});
     		obj.css({"left" : Math.max(0, (($(window).width() - $(obj).outerWidth()) / 2) + $(window).scrollLeft()) + "px"});
     		return obj;
 		}
