@@ -68,18 +68,20 @@
   </script>
 
   <!-- Container (Cart Widget) -->
-  <div class="cart">
-    <span>Корзина: </span>
+  <div id="cart">
+    <!-- <span>Корзина: </span> -->
     <!-- <a href="#" onclick="cart.clearBasket()" style="float: right;">Очистить</a> -->
     <!-- <a href="#" id="basketwidjet" onclick="cart.showWinow('bcontainer', 1)"></a> -->
-    <span style="font: normal 11px Arial"></span>
+    <!-- <span style="font: normal 11px Arial"></span> -->
   </div>
 
   <!-- Форма заказа -->
   <div class="container-form">
     <div id="order" class="popup">
-      <a href="#" onclick="cart.closeWindow('order', 0)" style="float:right"><img src="img/close.png" /></a>
-      <p><h4>Введите ваши контактные данные</h4></p>
+      <a href="#" onclick="cart.closeWindow('order', 0)">
+         <img width="5%" src="images/icons/black-close-icon-3.png" style="float:right"/>
+      </a>
+      <p><h4>Оформление заказа</h4></p>
       <form id="formToSend">
         <div class="row-form">
           <div class="col-25">
@@ -114,7 +116,7 @@
           </div>
         </div>
       </form>
-      <button onclick="cart.sendOrder('formToSend,overflw,bsum');" href="#">Отправить заказ</button>
+      <button onclick="cart.sendOrder('formToSend,overflw,bsum');" href="#" class="buttonSend">Отправить заказ</button>
     </div>
   </div>
 
