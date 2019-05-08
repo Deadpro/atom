@@ -23,6 +23,7 @@ function WICard(obj, plugins)
 	this.widjetX = 0;
 	this.widjetY = 0;
 	this.widjetObj;
+  this.widjetObjTest;
 	this.widjetPos;
 	this.cardID = "";
 	this.DATA = {};
@@ -61,7 +62,7 @@ function WICard(obj, plugins)
 		this.cardID = widjetID;
 
 		this.widjetObj = $("#" + widjetID);
-
+    this.widjetObjTest = $('#bWTest');
 
 		if ($.isEmptyObject(this.DATA))
 			{
@@ -71,8 +72,8 @@ function WICard(obj, plugins)
 			{
 			this.reCalc();
 			this.renderBasketTable();
+      this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
 			}
-
 		}
 
 /***********************************************************************************************
@@ -148,6 +149,7 @@ function WICard(obj, plugins)
 				}
 
 		// *** //
+    this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
 		this.widjetObj.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
 		localStorage.setItem(this.cardID, JSON.stringify(this.DATA));
 		}
@@ -161,6 +163,7 @@ function WICard(obj, plugins)
 		$("#btable").html('');
 		$("#bcontainer").remove();
 		$("#blindLayer").remove();
+    this.widjetObjTest.html('МЕНЮ');
 		}
 	this.renderBasketTable = function()
 		{
@@ -294,7 +297,7 @@ function WICard(obj, plugins)
 
 			};
 		$('.basket_num_buttons').remove();
-		$.post( "/php/sendmail.php?subj=Order WICart", { "order": bodyHTML }).done(function( data ) {
+		$.post( "/php/sendmail.php?subj=Новый Заказ Кайман ", { "order": bodyHTML }).done(function( data ) {
 		cart.closeWindow("bcontainer", 1)
 		cart.closeWindow("order", 0);
 		if (cart.CONFIG.clearAfterSend)
