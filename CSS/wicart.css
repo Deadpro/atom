@@ -30,10 +30,10 @@ display: none;
 {
 position: absolute;
 max-width: 550px;
-width: calc(100vw - 1em);
+width: 100vw;
 margin: 0 auto;
-max-height: 1000px;
-height: calc(100vh - 1em);
+/* max-height: 1000px; */
+height: 100%;
 background: white;
 /* border: 8px solid #999; */
 padding: 20px;
@@ -45,7 +45,8 @@ z-index: 1002;
 {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 300px;
+  max-height: 90vh;
+  min-height: 10vh;
 }
 #bcaption
 {
@@ -109,7 +110,8 @@ z-index: 1002;
    border: solid 20px red; */
 }
 .popup {
-  background: none repeat scroll 0 0 #F0FFF0;
+  /* background: none repeat scroll 0 0 #F0FFF0; */
+  background-color: white;
   /* border: 5px solid #808040; */
   /* left: 50%;
   margin-left: -275px; */
@@ -117,9 +119,9 @@ z-index: 1002;
   position: relative;
   /* top: 50px; */
   max-width: 550px;
-  width: calc(100vw - 1em);
-  max-height: 1000px;
-  height: calc(100vh - 1em);
+  width: 100vw;
+  /* max-height: 1000px; */
+  height: 100%;
   margin: 0 auto;
   z-index: 2002;
   display: none;
@@ -147,7 +149,7 @@ z-index: 1002;
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  border: 1px solid #D9D9D9;
+  /* border: 1px solid #D9D9D9;   */
   display: inline-block;
   height: 40px;
   line-height: 40px;
@@ -163,7 +165,7 @@ z-index: 1002;
   margin-bottom: 10px;
   text-align: left;
   width: 100%;
-  border: 1px solid #D9D9D9;
+  /* border: 1px solid #D9D9D9; */
 }
 .basket_num
 {
