@@ -126,10 +126,10 @@ function WICard(obj, plugins)	{
 
 	this.renderBasketTable = function()	{
 		if ($('#bcontainer').length == 0)	{
-  		$("body").append(" \
+  		$("#cart").append(" \
   			<div id='blindLayer' class='blindLayer'></div> \
   			<div id='bcontainer' class='bcontainer'> \
-  			<div id='bsubject'>" + local.basket + "<a id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'><img src='data:image/jpeg;base64,"+ this.IMG + "' /></a></div> \
+  			<div id='bsubjectHeader'><a class='col-25' id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'><img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a><div id='bsubject' class='col-75'>" + local.basket + "</div></div> \
   			<table id='bcaption'><tr><td>ID</td><td>" + local.name + "</td><td>" + local.price + "</td><td>" + local.num + "</td><td>" + local.all + "</td><td></td></tr></table> \
   			<div id='overflw'><table class='btable' id='btable'></table></div> \
   			<div id='bfooter'> <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button><span id='bsum'>...</span></div> \
@@ -151,7 +151,7 @@ function WICard(obj, plugins)	{
 													<span class="basket_num" id="basket_num_' + id + '">'+ num +'</span> \
 													<div class="basket_num_buttons" id="plus_' + id + '">+</div></td> \
 													<td id="linesum_' + id + '">'+ parseFloat(price * num) +' руб.</td> \
-													<td><a href="#" onclick="' + this.objNAME + '.delItem(\'' + id + '\')"><img src="data:image/jpeg;base64,'+ this.IMG + '" /></a></td> \
+													<td><a href="#" onclick="' + this.objNAME + '.delItem(\'' + id + '\')"><img width="30px" src="images/icons/delete-icon.png" /></a></td> \
 													</tr>';
 			}
 			$("#btable").append(productLine);
@@ -198,7 +198,7 @@ function WICard(obj, plugins)	{
 
 	this.center = function(obj)	{
 		obj.css({"top" : "-0px"});
-		obj.css({"left" : Math.max(0, (($(window).width() - $(obj).outerWidth()) / 2) + $(window).scrollLeft()) + "px"});
+		// obj.css({"left" : Math.max(0, (($(window).width() - $(obj).outerWidth()) / 2) + $(window).scrollLeft()) + "px"});
 		return obj;
 	}
 
@@ -207,6 +207,9 @@ function WICard(obj, plugins)	{
 		if (blind) {
       $("#blindLayer").show();
       document.getElementsByTagName("body")[0].style.overflowY = "hidden";
+    }
+    if (win == 'order') {
+      $("#bcontainer").hide();
     }
 	}
 
@@ -217,6 +220,9 @@ function WICard(obj, plugins)	{
     }
     if (win == 'bcontainer') {
       document.getElementsByTagName("body")[0].style.overflowY = "scroll";
+    }
+    if (win == 'order') {
+      $("#bcontainer").show();
     }
 	}
 
