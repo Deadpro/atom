@@ -28,7 +28,7 @@ display: none;
 }
 .bcontainer {
   position: relative;
-  max-width: 540px;
+  max-width: 700px;
   width: 100vw;
   margin: 0 auto;
   /* max-height: 1000px; */
@@ -50,9 +50,17 @@ display: none;
   max-height: 90vh;
   min-height: 10vh;
 }
+#btable {
+  /* overflow-y: hidden; */
+}
+.additional {
+  /* border: solid 2px red; */
+  height: 150px;
+}
 #bcaption
 {
   background: #C0C0C0;
+  /* border-bottom: solid 4px red; */
 }
 #bcaption td
 {
@@ -85,9 +93,20 @@ display: none;
 #bclose {
   float: right;
   /* border: solid 1px red; */
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
+#orderClose {
+  /* border: solid 1px red; */
+  position: relative;
+  padding-bottom: 20px;
+  font: normal 18px Arial;
+  max-width: 595px;
+  width: 95vw;
+  margin: 0 auto;
+  float: right;
 
+  padding-bottom: 20px;
+}
 .bcontainer table
 {
   width: 100%;
@@ -95,22 +114,39 @@ display: none;
 .bbutton
 {
   color: #999;
-  -webkit-box-shadow: 0px 0px 3px 0px rgba(50, 50, 50, 0.75);
+  /* -webkit-box-shadow: 0px 0px 3px 0px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    0px 0px 3px 0px rgba(50, 50, 50, 0.75);
-  box-shadow:         0px 0px 3px 0px rgba(50, 50, 50, 0.75);
-  padding: 5px;
+  box-shadow:         0px 0px 3px 0px rgba(50, 50, 50, 0.75); */
+  padding: 20px;
   font: bold 16px Arial;
+  margin-bottom: 10px;
 }
 #bsum
 {
-  float: right;
-  margin: 0 20px;
+  float: left;
+  position: relative;
+  padding-bottom: 10px;
   font: normal 18px Arial;
+  max-width: 595px;
+  width: 95vw;
+  margin: 0 auto;
+  /* border: solid 1px green; */
 }
 #cart {
-   /* position: relative;
-   top: 10px;
-   border: solid 20px red; */
+   /* position: relative; */
+   top: -1px;
+   /* border: solid 5px red; */
+}
+#orderHeader {
+  /* background-color: black; */
+  /* border: solid 1px blue; */
+  position: relative;
+  padding-bottom: 20px;
+  font: normal 18px Arial;
+  max-width: 595px;
+  width: 95vw;
+  margin: 0 auto;
+  float:left;
 }
 .popup {
   /* background: none repeat scroll 0 0 #F0FFF0; */
@@ -121,7 +157,7 @@ display: none;
   padding: 20px;
   position: relative;
   /* top: 50px; */
-  max-width: 540px;
+  max-width: 700px;
   width: 100vw;
   /* max-height: 1000px; */
   height: 100vh;
@@ -131,7 +167,7 @@ display: none;
 }
 .buttonSend {
    width: 100%;
-   padding: 15px;
+   padding: 20px;
    margin-top: 15px;
 }
 .image-close-icon {
@@ -144,7 +180,7 @@ display: none;
 		margin-bottom: 4px;
 }
 .popup form	{
-  padding: 30px 0 0 0;
+  /* padding: 30px 0 0 0; */
 }
 .popup input[type="text"] {
   text-align: center;
@@ -160,7 +196,7 @@ display: none;
   vertical-align: middle;
 }
 .popup .alignCenter	{
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 .popup textarea {
   display: block;
@@ -234,8 +270,8 @@ input[type=submit]:hover {
   display: table;
   clear: both;
 }
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
   .col-25, .col-75, input[type=text] {
     width: 100%;
     margin-top: 0;

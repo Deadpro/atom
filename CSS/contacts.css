@@ -1,12 +1,14 @@
 .contactsContainer {
-   background: linear-gradient(180deg, white, #FFFAF0);
+   /* background: linear-gradient(180deg, white, #FFFAF0); */
+   background-color: white;
 }
 .contactsContainer p {
    color: gray;
+   /* font-size: 12pt; */
 }
 #contacts {
-   width: 100%;
-   max-width: 1600px;
-   position: relative;
-   margin: 0 auto;
+  width: calc(100vw - 6em);
+  max-width: 800px;
+  position: relative;
+  margin: 0 auto;
 }

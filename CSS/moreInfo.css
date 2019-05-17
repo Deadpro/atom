@@ -1,0 +1,44 @@
+.more-info-parent {
+  width: 100vw;
+  height: 100vh;
+  background-color: #F0FFF0;
+  z-index: 100;
+  position: absolute;
+}
+
+.more-info {
+  max-width: 700px;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  background-color: white;
+  z-index: 99;
+  position: relative;
+  text-align: center;
+}
+
+.additional-panels {
+  max-width: 700px;
+  width: 100vw;
+  margin: 0 auto;
+  /* display: inline-block; */
+}
+
+.panel-thumbnail {
+  /* border: solid 1px red; */
+  text-align: center;
+  max-width: 500px;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.col-30 {
+  float: left;
+  width: 33%;
+  /* margin-top: 6px; */
+}
+
+.panel-mod {
+   /* box-shadow: 0px 0px 1px rgba(1,1,10, .2); */
+   /* margin: 2px; */
+}

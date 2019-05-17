@@ -2,8 +2,8 @@
    background: linear-gradient(180deg, #FFFAF0,white );
 }
 #about {
-   width: 100%;
-   max-width: 1600px;);
+   width: calc(100vw - 6em);
+   max-width: 800px;
 }
 .logo-small {
    color: #f4511e;

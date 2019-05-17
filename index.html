@@ -18,9 +18,9 @@
    <link rel="stylesheet" href="CSS/onhover_line.css">
    <link rel="stylesheet" href="CSS/news.css">
    <link rel="stylesheet" href="CSS/wicart.css">
+   <link rel="stylesheet" href="CSS/moreInfo.css">
    <!-- <link rel="stylesheet" href="sliderStyles.css"> -->
    <script src="js/wicart.js"  type="text/javascript" ></script>
-
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
@@ -64,19 +64,21 @@
     var priceList = {
     "001" : {"id" : "001", "subid" : {}, "name" : "Ким-чи весовая", "price" : "230"},
     "002" : {"id" : "002", "subid" : {}, "name" : "Редька по-восточному весовая", "price" : "230"},
-    "003" : {"id" : "003", "subid" : {}, "name" : "Морская капуста по-восточному", "price" : "230"},
-    "004" : {"id" : "004", "subid" : {}, "name" : "Морковь по-восточному", "price" : "230"},
-    "005" : {"id" : "005", "subid" : {}, "name" : "Капуста белокочанная", "price" : "230"},
-    "006" : {"id" : "006", "subid" : {}, "name" : "Морковь по-восточному", "price" : "230"},
-    "007" : {"id" : "007", "subid" : {}, "name" : "Грибы по-восточному", "price" : "230"},
-    "008" : {"id" : "008", "subid" : {}, "name" : "Салат Пекинский", "price" : "230"},
-    "009" : {"id" : "009", "subid" : {}, "name" : "Щике", "price" : "230"},
-    "010" : {"id" : "010", "subid" : {}, "name" : "Кактуги", "price" : "230"},
-    "011" : {"id" : "011", "subid" : {}, "name" : "Каракатица", "price" : "230"},
-    "012" : {"id" : "012", "subid" : {}, "name" : "Квашеная капуста", "price" : "230"},
-    "013" : {"id" : "013", "subid" : {}, "name" : "Горчица", "price" : "230"}
+    "003" : {"id" : "003", "subid" : {}, "name" : "Морская капуста по-восточному", "price" : "90"},
+    "004" : {"id" : "004", "subid" : {}, "name" : "Морковь по-восточному", "price" : "90"},
+    "005" : {"id" : "005", "subid" : {}, "name" : "Капуста белокочанная", "price" : "90"},
+    "006" : {"id" : "006", "subid" : {}, "name" : "Редька с морковью по-восточному", "price" : "90"},
+    "007" : {"id" : "007", "subid" : {}, "name" : "Грибы по-восточному", "price" : "100"},
+    "008" : {"id" : "008", "subid" : {}, "name" : "Салат Пекинский", "price" : "90"},
+    "009" : {"id" : "009", "subid" : {}, "name" : "Щике", "price" : "110"},
+    "010" : {"id" : "010", "subid" : {}, "name" : "Кактуги", "price" : "110"},
+    "011" : {"id" : "011", "subid" : {}, "name" : "Каракатица", "price" : "90"},
+    "012" : {"id" : "012", "subid" : {}, "name" : "Квашеная капуста", "price" : "150"},
+    "013" : {"id" : "013", "subid" : {}, "name" : "Горчица", "price" : "50"}
     };
   </script>
+
+  <div id="placeHolder"></div>
 
   <!-- Container (Cart Widget) -->
   <div id="cart">
@@ -89,32 +91,32 @@
   <!-- Форма заказа -->
   <div class="container-form">
     <div id="order" class="popup">
+      <a id="orderClose" href="#" onclick="cart.closeWindow('order', 0)">
+         <img width="30px" src="images/icons/black-close-icon-3.png" style="float:right"/>
+      </a>
       <div id="orderHeader">
-        <a id="orderClose" href="#" onclick="cart.closeWindow('order', 0)"  style="border: 5px yellow">
-           <img width="30px" src="images/icons/black-close-icon-3.png" style="float:right"/>
-        </a>
-        <p><h4 style="border: 1px red">Оформление заказа</h4></p>
+        <p><h4>Оформление заказа</h4></p>
       </div>
       <form id="formToSend">
         <div class="row-form">
           <div class="col-25">
-            <label for="fio">Имя</label>
+            <label for="fio">Имя (обязательно)</label>
           </div>
           <div class="col-75">
-            <input id="fio" type="text" placeholder="Ваши фамилия и имя"  class="" />
+            <input id="fio" type="text" placeholder="Ваши Фамилия и Имя"  class="" />
           </div>
         </div>
         <div class="row-form">
           <div class="col-25">
-            <label for="city">Город</label>
+            <label for="city">Адрес</label>
           </div>
           <div class="col-75">
-            <input id="city" type="text" placeholder="Город"  class=""/>
+            <input id="city" type="text" placeholder="Адрес доставки"  class=""/>
           </div>
         </div>
         <div class="row-form">
           <div class="col-25">
-            <label for="phone">Телефон</label>
+            <label for="phone">Телефон (обязательно)</label>
           </div>
           <div class="col-75">
             <input id="phone" type="text" placeholder="Контактный телефон" class=""/>
@@ -125,7 +127,7 @@
             <label for="email">Почта</label>
           </div>
           <div class="col-75">
-            <input id="email" type="text" placeholder="Электронная почта" class="" />
+            <input id="email" type="text" placeholder="Электронная почта (если есть)" class="" />
           </div>
         </div>
       </form>
@@ -135,7 +137,7 @@
 
   <!-- Container (Descrition Section) -->
   <div class="description">
-   <input type="checkbox" id="check_one_input">
+   <!-- <input type="checkbox" id="check_one_input">
    <div class="popup_one_parent">
      <input type="checkbox" id="check_one_input_additional">
      <div class="popup_one">
@@ -170,9 +172,9 @@
        <p>СТО 0174390564-1-2011</p></br>
        <label for="check_one_input_additional" id="check_one_additional"></p></label>
      </div>
-   </div>
+   </div> -->
 
-   <input type="checkbox" id="check_two_input">
+   <!-- <input type="checkbox" id="check_two_input">
    <div class="popup_two">
        <h1>Редька по-восточному</h1></br>
        <p>Состав:</p></br>
@@ -375,7 +377,7 @@
      <p>Декларация ЕАЭС № RU Д RU.АЯ23.В.01182</p></br>
      <p>СТО 0174390564-1-2011</p></br>
      <label for="check_thirteen_input" id="check_thirteen"></label>
-   </div>
+   </div> -->
 
    <div class="mask"></div>
   </div>
@@ -468,14 +470,17 @@
             <div class="panel-heading">
               <p><strong>Ким-чи</strong></p>
             </div>
-            <label for="check_one_input" class="thumbnail item-img">
+            <label for="check_one_input" class="thumbnail item-img" onclick="test(0);">
               <div class="panel-body">
                 <img src="images/final_low_resized/ким-ча_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_001" onclick="cart.addToCart(this, '001', priceList['001'])">Купить</button>
+                <button id="wicartbutton_001" onclick="cart.addToCart(this, '001', priceList['001'])">
+                  <span> 230 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -487,14 +492,17 @@
             <div class="panel-heading">
               <p><strong>Редька по-восточному</strong></p>
             </div>
-            <label for="check_two_input" class="thumbnail item-img">
+            <label for="check_two_input" class="thumbnail item-img" onclick="test(1);">
               <div class="panel-body">
                 <img src="images/final_low_resized/редька по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_002" onclick="cart.addToCart(this, '002', priceList['002'])">Купить</button>
+                <button id="wicartbutton_002" onclick="cart.addToCart(this, '002', priceList['002'])">
+                  <span> 230 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+              </button>
               </h3>
               <h4></h4>
             </div>
@@ -506,14 +514,17 @@
             <div class="panel-heading">
               <p><strong>Морская капуста по-восточному</strong></p>
             </div>
-            <label for="check_three_input" class="thumbnail item-img">
+            <label for="check_three_input" class="thumbnail item-img" onclick="test(2);">
               <div class="panel-body">
                 <img src="images/final_low_resized/морская капуста_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_003" onclick="cart.addToCart(this, '003', priceList['003'])">Купить</button>
+                <button id="wicartbutton_003" onclick="cart.addToCart(this, '003', priceList['003'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -525,15 +536,17 @@
             <div class="panel-heading">
               <p><strong>Капуста белокочанная</strong></p>
             </div>
-            <label for="check_four_input" class="thumbnail item-img">
+            <label for="check_four_input" class="thumbnail item-img" onclick="test(3);">
               <div class="panel-body">
                 <img src="images/final_low_resized/капуста по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_004" onclick="cart.addToCart(this, '004', priceList['004'])">Купить</button>
-              </h3>
+                <button id="wicartbutton_005" onclick="cart.addToCart(this, '005', priceList['005'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               <h4></h4>
             </div>
           </div>
@@ -544,14 +557,17 @@
             <div class="panel-heading">
               <p><strong>Редька с морковью по-восточному</strong></p>
             </div>
-            <label for="check_five_input" class="thumbnail item-img">
+            <label for="check_five_input" class="thumbnail item-img" onclick="test(4);">
               <div class="panel-body">
                 <img src="images/final_low_resized/редька с морковкой_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_005" onclick="cart.addToCart(this, '005', priceList['005'])">Купить</button>
+                <button id="wicartbutton_006" onclick="cart.addToCart(this, '006', priceList['006'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -563,14 +579,17 @@
             <div class="panel-heading">
               <p><strong>Морковь по-восточному</strong></p>
             </div>
-            <label for="check_six_input" class="thumbnail item-img">
+            <label for="check_six_input" class="thumbnail item-img" onclick="test(5);">
               <div class="panel-body">
                 <img src="images/final_low_resized/морковь по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_006" onclick="cart.addToCart(this, '006', priceList['006'])">Купить</button>
+                <button id="wicartbutton_004" onclick="cart.addToCart(this, '004', priceList['004'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -582,14 +601,17 @@
             <div class="panel-heading">
               <p><strong>Грибы по-восточному</strong></p>
             </div>
-            <label for="check_seven_input" class="thumbnail item-img">
+            <label for="check_seven_input" class="thumbnail item-img" onclick="test(6);">
               <div class="panel-body">
                 <img src="images/final_low_resized/грибы по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_007" onclick="cart.addToCart(this, '007', priceList['007'])">Купить</button>
+                <button id="wicartbutton_007" onclick="cart.addToCart(this, '007', priceList['007'])">
+                  <span> 100 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -601,14 +623,17 @@
             <div class="panel-heading">
               <p><strong>Салат "Пекинский</strong></p>
             </div>
-            <label for="check_eight_input" class="thumbnail item-img">
+            <label for="check_eight_input" class="thumbnail item-img" onclick="test(7);">
               <div class="panel-body">
                 <img src="images/final_low_resized/салат пекинский_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_008" onclick="cart.addToCart(this, '008', priceList['008'])">Купить</button>
+                <button id="wicartbutton_008" onclick="cart.addToCart(this, '008', priceList['008'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -620,14 +645,17 @@
             <div class="panel-heading">
               <p><strong>Щике</strong></p>
             </div>
-            <label for="check_nine_input" class="thumbnail item-img">
+            <label for="check_nine_input" class="thumbnail item-img" onclick="test(8);">
               <div class="panel-body">
                 <img src="images/final_low_resized/щике_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_009" onclick="cart.addToCart(this, '009', priceList['009'])">Купить</button>
+                <button id="wicartbutton_009" onclick="cart.addToCart(this, '009', priceList['009'])">
+                  <span> 110 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -639,14 +667,17 @@
             <div class="panel-heading">
               <p><strong>Кактуги</strong></p>
             </div>
-            <label for="check_ten_input" class="thumbnail item-img">
+            <label for="check_ten_input" class="thumbnail item-img" onclick="test(9);">
               <div class="panel-body">
                 <img src="images/final_low_resized/кактуги с кетой_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_010" onclick="cart.addToCart(this, '010', priceList['010'])">Купить</button>
+                <button id="wicartbutton_010" onclick="cart.addToCart(this, '010', priceList['010'])">
+                  <span> 110 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -658,14 +689,17 @@
             <div class="panel-heading">
               <p><strong>Каракатица</strong></p>
             </div>
-            <label for="check_eleven_input" class="thumbnail item-img">
+            <label for="check_eleven_input" class="thumbnail item-img" onclick="test(10);">
               <div class="panel-body">
                 <img src="images/final_low_resized/каракатица_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_011" onclick="cart.addToCart(this, '011', priceList['011'])">Купить</button>
+                <button id="wicartbutton_011" onclick="cart.addToCart(this, '011', priceList['011'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -677,14 +711,17 @@
             <div class="panel-heading">
               <p><strong>Квашеная капуста</strong></p>
             </div>
-            <label for="check_twelve_input" class="thumbnail item-img">
+            <label for="check_twelve_input" class="thumbnail item-img" onclick="test(11);">
               <div class="panel-body">
                 <img src="images/final_low_resized/квашеная капуста_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_012" onclick="cart.addToCart(this, '012', priceList['012'])">Купить</button>
+                <button id="wicartbutton_012" onclick="cart.addToCart(this, '012', priceList['012'])">
+                  <span> 150 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -696,14 +733,17 @@
             <div class="panel-heading">
               <p><strong>Горчица</strong></p>
             </div>
-            <label for="check_thirteen_input" class="thumbnail item-img">
+            <label for="check_thirteen_input" class="thumbnail item-img" onclick="test(12);">
               <div class="panel-body">
                 <img src="images/final_low_resized/горчица_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_013" onclick="cart.addToCart(this, '013', priceList['013'])">Купить</button>
+                <button id="wicartbutton_013" onclick="cart.addToCart(this, '013', priceList['013'])">
+                  <span> 50 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
               </h3>
               <h4></h4>
             </div>
@@ -782,15 +822,30 @@
 
   <!-- Container (Contacts Section) -->
   <div class="contactsContainer">
-    <div id="contacts" class="jumbotron text-center">
-       <h1>Наши контакты</h1>
-       <p>Реквизиты: ИП Че Владимир Енгунович<br>
-       ИНН/КПП 651600635813 / 650101001<br>
-       <!-- <p>693001 Сахалинская Обл., г.Южно-Сахалинск, ул. 2-я Комсомольская 10А, 25</p><br> -->
-       Рас.счет 40802810608560002360, кор.счет 30101810300000000827<br>
-       БИК 040813827 Филиал №2754 ВТБ 24 (ПАО) ОГРН 310650134400052</p><br>
-       <p>Офис: г.Южно-Сахалинск, ул.Колодезная 8, оф.205</p><br>
-       <p>Для партнеров: +7(4242)250262<br> Почта: ceo@caiman.ru.com</p><br>
+    <div id="contacts" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Наши контакты</h2><br>
+          <h4>Реквизиты:</h4><br>
+          <p>ИП Че Владимир Енгунович
+            ИНН/КПП 651600635813 / 650101001
+            <!-- <p>693001 Сахалинская Обл., г.Южно-Сахалинск, ул. 2-я Комсомольская 10А, 25</p><br> -->
+            Рас.счет 40802810608560002360, кор.счет 30101810300000000827
+            БИК 040813827 Филиал №2754 ВТБ 24 (ПАО) ОГРН 310650134400052</p><br>
+        </div>
+        <div class="col-sm-12">
+          <h4>Офис:</h4><br>
+          <p>г.Южно-Сахалинск, ул.Колодезная 8, оф.205</p><br>
+        </div>
+        <div class="col-sm-12">
+          <h4>Для партнеров:</h4><br>
+          <p> +7(4242)250262<br> Почта: ceo@caiman.ru.com</p><br>
+        </div>
+        <div class="col-sm-12">
+          <h4>Обратная связь:</h4><br>
+          <p>Почта: info@caiman.ru.com</p><br>
+        </div>
+      </div>
        <!-- <p>Здесь может быть красивая схематичная карта проезда от руки</p> -->
     </div>
   </div>
@@ -878,6 +933,7 @@
    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+   <script src="js/popup.js" type="text/javascript" ></script>
 
 </body>
 </html>

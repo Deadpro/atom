@@ -107,8 +107,22 @@ function WICard(obj, plugins)	{
 		}
 
 		// *** //
-    this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
-		this.widjetObj.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+    if (this.IDS.length == 0 && $(document).width() < 540) {
+      this.widjetObj.html(local.basket_is_empty);
+      this.widjetObjTest.html("");
+      this.widjetObjTest.append(" \
+        <span class='icon-bar'></span> \
+        <span class='icon-bar'></span> \
+        <span class='icon-bar'></span> \
+      ");
+    } else if (this.IDS.length == 0 && $(document).width() >= 540){
+      this.widjetObj.html(local.basket_is_empty);
+  		// this.widjetObjTest.html(local.basket_is_empty);
+    }
+    if (this.IDS.length > 0) {
+      this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+      this.widjetObj.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+    }
 		localStorage.setItem(this.cardID, JSON.stringify(this.DATA));
 	}
 
@@ -120,8 +134,13 @@ function WICard(obj, plugins)	{
 		localStorage.setItem(this.cardID + "_ids", "[]");
 		$("#btable").html('');
 		$("#bcontainer").remove();
-		$("#blindLayer").remove();
-    this.widjetObjTest.html('МЕНЮ');
+    $("#blindLayer").remove();
+    this.widjetObjTest.html("");
+    this.widjetObjTest.append(" \
+      <span class='icon-bar'></span> \
+      <span class='icon-bar'></span> \
+      <span class='icon-bar'></span> \
+    ");
 	}
 
 	this.renderBasketTable = function()	{
@@ -129,10 +148,13 @@ function WICard(obj, plugins)	{
   		$("#cart").append(" \
   			<div id='blindLayer' class='blindLayer'></div> \
   			<div id='bcontainer' class='bcontainer'> \
-  			<div id='bsubjectHeader'><a class='col-25' id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'><img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a><div id='bsubject' class='col-75'>" + local.basket + "</div></div> \
+  			<a id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'> \
+        <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a> \
+        <div id='bsum'></div> \
+        <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button> \
   			<table id='bcaption'><tr><td>ID</td><td>" + local.name + "</td><td>" + local.price + "</td><td>" + local.num + "</td><td>" + local.all + "</td><td></td></tr></table> \
   			<div id='overflw'><table class='btable' id='btable'></table></div> \
-  			<div id='bfooter'> <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button><span id='bsum'>...</span></div> \
+  			<div id='bfooter'> <span id='bsum'>...</span></div> \
   			</div> \
   		");
 		}	else {
@@ -157,6 +179,7 @@ function WICard(obj, plugins)	{
 			$("#btable").append(productLine);
 			$(".basket_num_buttons").data("min-value");
 		}
+    $("#btable").append("<tr class='additional'></tr>");
 		//* кнопки +/-
 		var self = this;
 		for(var ids in this.IDS) {
@@ -193,7 +216,7 @@ function WICard(obj, plugins)	{
 	this.sumAll = function() {
 		var sum = 0;
 		for(var idkey in this.DATA) { sum += parseFloat(this.DATA[idkey].price * this.DATA[idkey].num); }
-		$("#bsum").html(sum + " руб.");
+		$("#bsum").html("Всего: " + sum + " руб.");
 	}
 
 	this.center = function(obj)	{
@@ -203,13 +226,15 @@ function WICard(obj, plugins)	{
 	}
 
 	this.showWinow = function(win, blind)	{
+    var strTmp = this.widjetObj.html;
 		$("#" + win).show();
-		if (blind) {
+		if (blind && !$.isEmptyObject(this.DATA)) {
       $("#blindLayer").show();
       document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     }
-    if (win == 'order') {
+    if (win == 'order' && !$.isEmptyObject(this.DATA)) {
       $("#bcontainer").hide();
+      // document.getElementsByTagName("body")[0].style.position = "fixed";
     }
 	}
 
@@ -223,6 +248,8 @@ function WICard(obj, plugins)	{
     }
     if (win == 'order') {
       $("#bcontainer").show();
+      // document.getElementsByTagName("body")[0].style.overflowY = "scroll";
+      // document.getElementsByTagName("body")[0].style.position = "";
     }
 	}
 
@@ -235,8 +262,16 @@ function WICard(obj, plugins)	{
 			this.renderBasketTable();
 			localStorage.setItem(this.cardID, JSON.stringify(this.DATA));
 			localStorage.setItem(this.cardID + "_ids", JSON.stringify(this.IDS));
-			if (this.IDS.length == 0)
-			this.widjetObj.html(local.basket_is_empty);
+			if (this.IDS.length == 0 && $(document).width() >= 540) {
+        this.widjetObj.html(local.basket_is_empty);
+      }
+      // if (this.IDS.length == 0 && $(document).width() < 540) {
+      //   this.widjetObjTest.append(" \
+      //     <span class='icon-bar'></span> \
+      //     <span class='icon-bar'></span> \
+      //     <span class='icon-bar'></span> \
+      //   ");
+      // }
 		}
 	}
 
