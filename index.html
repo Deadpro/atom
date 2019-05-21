@@ -34,7 +34,7 @@
        корейские салаты
      </div>
      <div class="navbar-header">
-       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" id="bWTest">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" id="bWMobile">
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
          <span class="icon-bar"></span>
@@ -62,19 +62,19 @@
   <!-- Container (Price List) -->
   <script>
     var priceList = {
-    "001" : {"id" : "001", "subid" : {}, "name" : "Ким-чи весовая", "price" : "230"},
-    "002" : {"id" : "002", "subid" : {}, "name" : "Редька по-восточному весовая", "price" : "230"},
-    "003" : {"id" : "003", "subid" : {}, "name" : "Морская капуста по-восточному", "price" : "90"},
-    "004" : {"id" : "004", "subid" : {}, "name" : "Морковь по-восточному", "price" : "90"},
-    "005" : {"id" : "005", "subid" : {}, "name" : "Капуста белокочанная", "price" : "90"},
-    "006" : {"id" : "006", "subid" : {}, "name" : "Редька с морковью по-восточному", "price" : "90"},
-    "007" : {"id" : "007", "subid" : {}, "name" : "Грибы по-восточному", "price" : "100"},
-    "008" : {"id" : "008", "subid" : {}, "name" : "Салат Пекинский", "price" : "90"},
-    "009" : {"id" : "009", "subid" : {}, "name" : "Щике", "price" : "110"},
-    "010" : {"id" : "010", "subid" : {}, "name" : "Кактуги", "price" : "110"},
-    "011" : {"id" : "011", "subid" : {}, "name" : "Каракатица", "price" : "90"},
-    "012" : {"id" : "012", "subid" : {}, "name" : "Квашеная капуста", "price" : "150"},
-    "013" : {"id" : "013", "subid" : {}, "name" : "Горчица", "price" : "50"}
+    "000" : {"id" : "000", "subid" : {}, "name" : "Ким-чи весовая", "price" : "230"},
+    "001" : {"id" : "001", "subid" : {}, "name" : "Редька по-восточному весовая", "price" : "230"},
+    "002" : {"id" : "002", "subid" : {}, "name" : "Морская капуста по-восточному", "price" : "90"},
+    "005" : {"id" : "005", "subid" : {}, "name" : "Морковь по-восточному", "price" : "90"},
+    "003" : {"id" : "003", "subid" : {}, "name" : "Капуста белокочанная", "price" : "90"},
+    "004" : {"id" : "004", "subid" : {}, "name" : "Редька с морковью по-восточному", "price" : "90"},
+    "006" : {"id" : "006", "subid" : {}, "name" : "Грибы по-восточному", "price" : "100"},
+    "007" : {"id" : "007", "subid" : {}, "name" : "Салат Пекинский", "price" : "90"},
+    "008" : {"id" : "008", "subid" : {}, "name" : "Щике", "price" : "110"},
+    "009" : {"id" : "009", "subid" : {}, "name" : "Кактуги", "price" : "110"},
+    "010" : {"id" : "010", "subid" : {}, "name" : "Каракатица", "price" : "90"},
+    "011" : {"id" : "011", "subid" : {}, "name" : "Квашеная капуста", "price" : "150"},
+    "012" : {"id" : "012", "subid" : {}, "name" : "Горчица", "price" : "50"}
     };
   </script>
 
@@ -470,14 +470,14 @@
             <div class="panel-heading">
               <p><strong>Ким-чи</strong></p>
             </div>
-            <label for="check_one_input" class="thumbnail item-img" onclick="test(0);">
+            <label for="check_one_input" class="thumbnail item-img" onclick="popupAdditional(0);">
               <div class="panel-body">
                 <img src="images/final_low_resized/ким-ча_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_001" onclick="cart.addToCart(this, '001', priceList['001'])">
+                <button id="wicartbutton_000" onclick="cart.addToCart(this, '000', priceList['000'])">
                   <span> 230 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -492,14 +492,14 @@
             <div class="panel-heading">
               <p><strong>Редька по-восточному</strong></p>
             </div>
-            <label for="check_two_input" class="thumbnail item-img" onclick="test(1);">
+            <label for="check_two_input" class="thumbnail item-img" onclick="popupAdditional(1);">
               <div class="panel-body">
                 <img src="images/final_low_resized/редька по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_002" onclick="cart.addToCart(this, '002', priceList['002'])">
+                <button id="wicartbutton_001" onclick="cart.addToCart(this, '001', priceList['001'])">
                   <span> 230 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
               </button>
@@ -514,14 +514,14 @@
             <div class="panel-heading">
               <p><strong>Морская капуста по-восточному</strong></p>
             </div>
-            <label for="check_three_input" class="thumbnail item-img" onclick="test(2);">
+            <label for="check_three_input" class="thumbnail item-img" onclick="popupAdditional(2);">
               <div class="panel-body">
                 <img src="images/final_low_resized/морская капуста_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_003" onclick="cart.addToCart(this, '003', priceList['003'])">
+                <button id="wicartbutton_002" onclick="cart.addToCart(this, '002', priceList['002'])">
                   <span> 90 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -536,14 +536,14 @@
             <div class="panel-heading">
               <p><strong>Капуста белокочанная</strong></p>
             </div>
-            <label for="check_four_input" class="thumbnail item-img" onclick="test(3);">
+            <label for="check_four_input" class="thumbnail item-img" onclick="popupAdditional(3);">
               <div class="panel-body">
                 <img src="images/final_low_resized/капуста по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_005" onclick="cart.addToCart(this, '005', priceList['005'])">
+                <button id="wicartbutton_003" onclick="cart.addToCart(this, '003', priceList['003'])">
                   <span> 90 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -557,31 +557,9 @@
             <div class="panel-heading">
               <p><strong>Редька с морковью по-восточному</strong></p>
             </div>
-            <label for="check_five_input" class="thumbnail item-img" onclick="test(4);">
+            <label for="check_five_input" class="thumbnail item-img" onclick="popupAdditional(4);">
               <div class="panel-body">
                 <img src="images/final_low_resized/редька с морковкой_low_resized.png" >
-              </div>
-            </label>
-            <div class="panel-footer">
-              <h3>
-                <button id="wicartbutton_006" onclick="cart.addToCart(this, '006', priceList['006'])">
-                  <span> 90 руб.</span>
-                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
-                </button>
-              </h3>
-              <h4></h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4 col-xs-12">
-          <div class="panel panel-custom border">
-            <div class="panel-heading">
-              <p><strong>Морковь по-восточному</strong></p>
-            </div>
-            <label for="check_six_input" class="thumbnail item-img" onclick="test(5);">
-              <div class="panel-body">
-                <img src="images/final_low_resized/морковь по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
@@ -599,16 +577,38 @@
         <div class="col-sm-4 col-xs-12">
           <div class="panel panel-custom border">
             <div class="panel-heading">
+              <p><strong>Морковь по-восточному</strong></p>
+            </div>
+            <label for="check_six_input" class="thumbnail item-img" onclick="popupAdditional(5);">
+              <div class="panel-body">
+                <img src="images/final_low_resized/морковь по-восточному_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3>
+                <button id="wicartbutton_005" onclick="cart.addToCart(this, '004', priceList['005'])">
+                  <span> 90 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
+              </h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
               <p><strong>Грибы по-восточному</strong></p>
             </div>
-            <label for="check_seven_input" class="thumbnail item-img" onclick="test(6);">
+            <label for="check_seven_input" class="thumbnail item-img" onclick="popupAdditional(6);">
               <div class="panel-body">
                 <img src="images/final_low_resized/грибы по-восточному_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_007" onclick="cart.addToCart(this, '007', priceList['007'])">
+                <button id="wicartbutton_006" onclick="cart.addToCart(this, '006', priceList['006'])">
                   <span> 100 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -623,14 +623,14 @@
             <div class="panel-heading">
               <p><strong>Салат "Пекинский</strong></p>
             </div>
-            <label for="check_eight_input" class="thumbnail item-img" onclick="test(7);">
+            <label for="check_eight_input" class="thumbnail item-img" onclick="popupAdditional(7);">
               <div class="panel-body">
                 <img src="images/final_low_resized/салат пекинский_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_008" onclick="cart.addToCart(this, '008', priceList['008'])">
+                <button id="wicartbutton_007" onclick="cart.addToCart(this, '007', priceList['007'])">
                   <span> 90 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -645,9 +645,31 @@
             <div class="panel-heading">
               <p><strong>Щике</strong></p>
             </div>
-            <label for="check_nine_input" class="thumbnail item-img" onclick="test(8);">
+            <label for="check_nine_input" class="thumbnail item-img" onclick="popupAdditional(8);">
               <div class="panel-body">
                 <img src="images/final_low_resized/щике_low_resized.png" >
+              </div>
+            </label>
+            <div class="panel-footer">
+              <h3>
+                <button id="wicartbutton_008" onclick="cart.addToCart(this, '008', priceList['008'])">
+                  <span> 110 руб.</span>
+                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
+                </button>
+              </h3>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-custom border">
+            <div class="panel-heading">
+              <p><strong>Кактуги</strong></p>
+            </div>
+            <label for="check_ten_input" class="thumbnail item-img" onclick="popupAdditional(9);">
+              <div class="panel-body">
+                <img src="images/final_low_resized/кактуги с кетой_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
@@ -665,38 +687,16 @@
         <div class="col-sm-4 col-xs-12">
           <div class="panel panel-custom border">
             <div class="panel-heading">
-              <p><strong>Кактуги</strong></p>
-            </div>
-            <label for="check_ten_input" class="thumbnail item-img" onclick="test(9);">
-              <div class="panel-body">
-                <img src="images/final_low_resized/кактуги с кетой_low_resized.png" >
-              </div>
-            </label>
-            <div class="panel-footer">
-              <h3>
-                <button id="wicartbutton_010" onclick="cart.addToCart(this, '010', priceList['010'])">
-                  <span> 110 руб.</span>
-                  <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
-                </button>
-              </h3>
-              <h4></h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-4 col-xs-12">
-          <div class="panel panel-custom border">
-            <div class="panel-heading">
               <p><strong>Каракатица</strong></p>
             </div>
-            <label for="check_eleven_input" class="thumbnail item-img" onclick="test(10);">
+            <label for="check_eleven_input" class="thumbnail item-img" onclick="popupAdditional(10);">
               <div class="panel-body">
                 <img src="images/final_low_resized/каракатица_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_011" onclick="cart.addToCart(this, '011', priceList['011'])">
+                <button id="wicartbutton_010" onclick="cart.addToCart(this, '010', priceList['010'])">
                   <span> 90 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -711,14 +711,14 @@
             <div class="panel-heading">
               <p><strong>Квашеная капуста</strong></p>
             </div>
-            <label for="check_twelve_input" class="thumbnail item-img" onclick="test(11);">
+            <label for="check_twelve_input" class="thumbnail item-img" onclick="popupAdditional(11);">
               <div class="panel-body">
                 <img src="images/final_low_resized/квашеная капуста_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_012" onclick="cart.addToCart(this, '012', priceList['012'])">
+                <button id="wicartbutton_011" onclick="cart.addToCart(this, '012', priceList['011'])">
                   <span> 150 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>
@@ -733,14 +733,14 @@
             <div class="panel-heading">
               <p><strong>Горчица</strong></p>
             </div>
-            <label for="check_thirteen_input" class="thumbnail item-img" onclick="test(12);">
+            <label for="check_thirteen_input" class="thumbnail item-img" onclick="popupAdditional(12);">
               <div class="panel-body">
                 <img src="images/final_low_resized/горчица_low_resized.png" >
               </div>
             </label>
             <div class="panel-footer">
               <h3>
-                <button id="wicartbutton_013" onclick="cart.addToCart(this, '013', priceList['013'])">
+                <button id="wicartbutton_012" onclick="cart.addToCart(this, '012', priceList['012'])">
                   <span> 50 руб.</span>
                   <span><img src="images/icons/shopping cart icon.png" width="50px"></span>
                 </button>

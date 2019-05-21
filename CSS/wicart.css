@@ -16,12 +16,16 @@ font-size: 18px;
 }
 .blindLayer {
 /* background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8); */
-background-color: #F0FFF0;
+/* background-color: #F0FFF0; */
+background-color: white;
 bottom: 0;
 left: 0;
 position: fixed;
 right: 0;
 top: 0;
+/* width: 100vw;
+height: 100vh;
+position: absolute; */
 z-index: 1001;
 display: none;
 /* border: solid 5px yellow; */
@@ -104,8 +108,6 @@ display: none;
   width: 95vw;
   margin: 0 auto;
   float: right;
-
-  padding-bottom: 20px;
 }
 .bcontainer table
 {
@@ -253,6 +255,18 @@ input[type=submit]:hover {
   position: relative;
   align-content: center;
   border: solid 2px red; */
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: white;
+  /* width: 100vw;
+  height: 100vh; */
+  /* position: absolute; */
+  z-index: 1001;
+  display: none;
+  /* border: solid 5px yellow; */
 }
 .col-25 {
   float: left;

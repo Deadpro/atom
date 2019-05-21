@@ -15,7 +15,8 @@ function WICard(obj, plugins)	{
   this.widjetX = 0;
   this.widjetY = 0;
   this.widjetObj;
-  this.widjetObjTest;
+  this.widjetObjMobile;
+  this.widjetObjAdditional;
   this.widjetPos;
   this.cardID = "";
   this.DATA = {};
@@ -46,14 +47,16 @@ function WICard(obj, plugins)	{
 		this.cardID = widjetID;
 
 		this.widjetObj = $("#" + widjetID);
-    this.widjetObjTest = $('#bWTest');
+    this.widjetObjMobile = $('#bWMobile');
+    this.widjetObjAdditional = $('#bwAdditional');
 
     if ($.isEmptyObject(this.DATA))	{
     	this.widjetObj.html(local.basket_is_empty);
+      this.widjetObjAdditional.append(local.basket_is_empty);
     }	else {
     	this.reCalc();
     	this.renderBasketTable();
-      this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+      this.widjetObjMobile.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
     }
   }
   /***********************************************************************************************
@@ -109,18 +112,24 @@ function WICard(obj, plugins)	{
 		// *** //
     if (this.IDS.length == 0 && $(document).width() < 540) {
       this.widjetObj.html(local.basket_is_empty);
-      this.widjetObjTest.html("");
-      this.widjetObjTest.append(" \
+      // this.widjetObjAdditional.html("");
+      this.widjetObjAdditional.html(local.basket_is_empty);
+      this.widjetObjMobile.html("");
+      this.widjetObjMobile.append(" \
         <span class='icon-bar'></span> \
         <span class='icon-bar'></span> \
         <span class='icon-bar'></span> \
       ");
     } else if (this.IDS.length == 0 && $(document).width() >= 540){
       this.widjetObj.html(local.basket_is_empty);
-  		// this.widjetObjTest.html(local.basket_is_empty);
+      // this.widjetObjAdditional.html("");
+      this.widjetObjAdditional.html(local.basket_is_empty);
+  		// this.widjetObjMobile.html(local.basket_is_empty);
     }
     if (this.IDS.length > 0) {
-      this.widjetObjTest.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+      this.widjetObjMobile.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+      // this.widjetObjAdditional.html("");
+      this.widjetObjAdditional.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
       this.widjetObj.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
     }
 		localStorage.setItem(this.cardID, JSON.stringify(this.DATA));
@@ -130,13 +139,15 @@ function WICard(obj, plugins)	{
 		this.DATA = {};
 		this.IDS = [];
 		this.widjetObj.html(local.basket_is_empty);
+    // this.widjetObjAdditional.html("");
+    this.widjetObjAdditional.html(local.basket_is_empty);
 		localStorage.setItem(this.cardID, "{}");
 		localStorage.setItem(this.cardID + "_ids", "[]");
 		$("#btable").html('');
 		$("#bcontainer").remove();
     $("#blindLayer").remove();
-    this.widjetObjTest.html("");
-    this.widjetObjTest.append(" \
+    this.widjetObjMobile.html("");
+    this.widjetObjMobile.append(" \
       <span class='icon-bar'></span> \
       <span class='icon-bar'></span> \
       <span class='icon-bar'></span> \
@@ -146,7 +157,7 @@ function WICard(obj, plugins)	{
 	this.renderBasketTable = function()	{
 		if ($('#bcontainer').length == 0)	{
   		$("#cart").append(" \
-  			<div id='blindLayer' class='blindLayer'></div> \
+  			<div id='blindLayer' class='blindLayer'> \
   			<div id='bcontainer' class='bcontainer'> \
   			<a id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'> \
         <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a> \
@@ -155,7 +166,7 @@ function WICard(obj, plugins)	{
   			<table id='bcaption'><tr><td>ID</td><td>" + local.name + "</td><td>" + local.price + "</td><td>" + local.num + "</td><td>" + local.all + "</td><td></td></tr></table> \
   			<div id='overflw'><table class='btable' id='btable'></table></div> \
   			<div id='bfooter'> <span id='bsum'>...</span></div> \
-  			</div> \
+  			</div></div> \
   		");
 		}	else {
 			$("#btable").html("");
@@ -227,19 +238,24 @@ function WICard(obj, plugins)	{
 
 	this.showWinow = function(win, blind)	{
     var strTmp = this.widjetObj.html;
-		$("#" + win).show();
+    if (win == 'bcontainer') {
+      // $("#blindLayer").show();
+    }
 		if (blind && !$.isEmptyObject(this.DATA)) {
       $("#blindLayer").show();
+      $("#" + win).show();
       document.getElementsByTagName("body")[0].style.overflowY = "hidden";
     }
-    if (win == 'order' && !$.isEmptyObject(this.DATA)) {
-      $("#bcontainer").hide();
+    if (win == 'order') {
+      $("#blindLayer").hide();
+      $(".container-form").show();
       // document.getElementsByTagName("body")[0].style.position = "fixed";
     }
+
 	}
 
 	this.closeWindow = function(win, blind)	{
-		$("#" + win).hide();
+		// $("#" + win).hide();
 		if (blind) {
       $("#blindLayer").hide();
     }
@@ -247,7 +263,8 @@ function WICard(obj, plugins)	{
       document.getElementsByTagName("body")[0].style.overflowY = "scroll";
     }
     if (win == 'order') {
-      $("#bcontainer").show();
+      $(".container-form").hide();
+      $("#blindLayer").show();
       // document.getElementsByTagName("body")[0].style.overflowY = "scroll";
       // document.getElementsByTagName("body")[0].style.position = "";
     }
@@ -266,7 +283,7 @@ function WICard(obj, plugins)	{
         this.widjetObj.html(local.basket_is_empty);
       }
       // if (this.IDS.length == 0 && $(document).width() < 540) {
-      //   this.widjetObjTest.append(" \
+      //   this.widjetObjMobile.append(" \
       //     <span class='icon-bar'></span> \
       //     <span class='icon-bar'></span> \
       //     <span class='icon-bar'></span> \

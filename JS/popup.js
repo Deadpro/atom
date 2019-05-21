@@ -14,13 +14,41 @@ var popupImages = [
     "<img src='images/final_low_resized/горчица_low_resized.png' >"
   ];
 
-function test(i)	{
-  this.popup(i);
+var pLIndex;
+
+var prices = ["230 руб.", "230 руб.", "90 руб.", "90 руб.", "90 руб.", "90 руб.", "100 руб.", "90 руб.",
+              "110 руб.", "110 руб.", "90 руб.", "150 руб.", "50 руб.",];
+
+function popupAdditional(i)	{
+  if (i != 'close') {
+    this.popup(i);
+  }
+  if (i == 'close') {
+    this.closeAdditionalWindow();
+  }
+}
+
+this.closeAdditionalWindow = function() {
+  $(".more-info-parent").hide();
+  $("#products").show();
+  $("footer").show();
+  $(".aboutContainer").show();
+  $(".contactsContainer").show();
 }
 
 this.popup = function(i)	{
+  if (i <= 9) {
+    pLIndex = "00" + i;
+  }
+  if (i >= 10 && i <= 99) {
+    pLIndex = "0" + i;
+  }
   $("#placeHolder").append("<div class='more-info-parent'> \
                               <div class='more-info'> \
+                                <a id='close' href='#' onclick='popupAdditional(\"close\");'> \
+                                  <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /> \
+                                </a> \
+                                <button type='button' id='bwAdditional' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></button> \
                                 <div class='panel-thumbnail panel-body'> \
                                   " + popupImages[i] + " \
                                 </div> \
@@ -36,6 +64,14 @@ this.popup = function(i)	{
                                     <p>1.Редька 2. Соль 3. Сахар </p><br> \
                                   </div> \
                                 </div> \
+                                <div class='price-button'> \
+                                  <h3> \
+                                    <button id='wicartbutton_" + pLIndex + "' onclick=\"cart.addToCart('this', '"+pLIndex+"', priceList['"+pLIndex+"'])\"> \
+                                      <span id='pricePopup'>  " + prices[i] + " </span> \
+                                      <span><img src='images/icons/shopping cart icon.png' width='50px'></span> \
+                                    </button> \
+                                  </h3> \
+                                </div> \
                               </div> \
                             </div> \
                             ");
@@ -43,38 +79,4 @@ this.popup = function(i)	{
   $("footer").hide();
   $(".aboutContainer").hide();
   $(".contactsContainer").hide();
-}
-
-this.addToCart = function(curObj, id, params)	{
-  var kol = 1;
-
-  if ( $("input").is("#" + wiNumInputPrefID + id) )	{
-    kol = parseInt( $("#" + wiNumInputPrefID + id).val() );
-  }
-  id = ( $.isNumeric(id) ) ? "ID" + id.toString() : id;
-  var id_ = ( $.isEmptyObject(params.subid) ) ? id : id + "_" + params.subid;
-  var goodieLine = {"id" : id_, "name" : params.name, "price": params.price, "num" : kol, "url" : document.location.href, "photo" : ""};
-
-  if ($.isEmptyObject(this.DATA))	{
-    this.DATA[id_] = goodieLine;
-    this.IDS.push(id_);
-  }
-  else for(var idkey in this.DATA)	{
-    if($.inArray(id_, this.IDS) === -1)	{
-      this.DATA[id_] = goodieLine;
-      this.IDS.push(id_)
-    }
-    else if (idkey == id_) {
-      this.DATA[idkey].num += kol;
-    }
-  }
-
-  localStorage.setItem(this.cardID, JSON.stringify(this.DATA));
-  localStorage.setItem(this.cardID + "_ids", JSON.stringify(this.IDS));
-  this.reCalc();
-  this.renderBasketTable();
-
-  if (this.CONFIG.showAfterAdd)	{
-    cart.showWinow('bcontainer', 1);
-  }
 }
