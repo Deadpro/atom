@@ -29,6 +29,8 @@ function popupAdditional(i)	{
 }
 
 this.closeAdditionalWindow = function() {
+  $("#header").show();
+  $(".navbar").show();
   $(".more-info-parent").hide();
   $("#products").show();
   $("footer").show();
@@ -48,7 +50,7 @@ this.popup = function(i)	{
                                 <a id='close' href='#' onclick='popupAdditional(\"close\");'> \
                                   <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /> \
                                 </a> \
-                                <button type='button' id='bwAdditional' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></button> \
+                                <a type='button' class='bwAdditional' id='basketwidjet' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></a> \
                                 <div class='panel-thumbnail panel-body'> \
                                   " + popupImages[i] + " \
                                 </div> \
@@ -74,7 +76,10 @@ this.popup = function(i)	{
                                 </div> \
                               </div> \
                             </div> \
+                            <script src='js/busketInit.js' type='text/javascript' ></script> \
                             ");
+  $("#header").hide();
+  $(".navbar").hide();
   $("#products").hide();
   $("footer").hide();
   $(".aboutContainer").hide();

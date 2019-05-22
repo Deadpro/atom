@@ -48,7 +48,7 @@ function WICard(obj, plugins)	{
 
 		this.widjetObj = $("#" + widjetID);
     this.widjetObjMobile = $('#bWMobile');
-    this.widjetObjAdditional = $('#bwAdditional');
+    this.widjetObjAdditional = $('.bwAdditional');
 
     if ($.isEmptyObject(this.DATA))	{
     	this.widjetObj.html(local.basket_is_empty);
@@ -333,4 +333,21 @@ function WICard(obj, plugins)	{
 			}
 		});
   	return copyForm.innerHTML;
-	}}
+	}
+
+  // $(".to-cart").on("click",function(){
+  //       id = $(this).attr("for");
+  //
+  //       $("#product"+id)
+  //           .clone()
+  //           .css({'position' : 'absolute', 'z-index' : '11100', top: $(this).offset().top-300, left:$(this).offset().left-100})
+  //           .appendTo("body")
+  //           .animate({opacity: 0.05,
+  //               left: $(".cart-text").offset()['left'],
+  //               top: $(".cart-text").offset()['top'],
+  //               width: 20}, 1000, function() {
+  //               $(this).remove();
+  //           });
+  //
+  //   });
+}
