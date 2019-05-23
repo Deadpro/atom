@@ -52,11 +52,15 @@ function WICard(obj, plugins)	{
 
     if ($.isEmptyObject(this.DATA))	{
     	this.widjetObj.html(local.basket_is_empty);
-      this.widjetObjAdditional.append(local.basket_is_empty);
+      this.widjetObjAdditional.html(local.basket_is_empty);
     }	else {
     	this.reCalc();
     	this.renderBasketTable();
       this.widjetObjMobile.html(local.goods + " " + num + " " + local.amount + " " + sum + " Руб.");
+    }
+
+    if ($(document).width() <= 500) {
+      document.getElementById("myNavbar").style.marginLeft = "5%";
     }
   }
   /***********************************************************************************************

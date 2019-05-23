@@ -1,5 +1,6 @@
 #myNavbar {
    margin-top: 1%;
+   left: 0;
    /* border: solid red 1px; */
 }
 .navContainer {
@@ -51,6 +52,7 @@
   flex-wrap: wrap;
   /* border: 1px solid black; */
   width: 100%;
+  text-align: center;
   /* background-color: rgba(108, 121, 68, 0.611764705882353); */
 }
 

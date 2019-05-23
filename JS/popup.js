@@ -19,12 +19,15 @@ var pLIndex;
 var prices = ["230 руб.", "230 руб.", "90 руб.", "90 руб.", "90 руб.", "90 руб.", "100 руб.", "90 руб.",
               "110 руб.", "110 руб.", "90 руб.", "150 руб.", "50 руб.",];
 
-function popupAdditional(i)	{
+function popupAdditional(i, params)	{
   if (i != 'close') {
-    this.popup(i);
+    this.popup(i, params);
   }
   if (i == 'close') {
     this.closeAdditionalWindow();
+  }
+  if (i == 'description') {
+    this.getDescription(params);
   }
 }
 
@@ -38,7 +41,11 @@ this.closeAdditionalWindow = function() {
   $(".contactsContainer").show();
 }
 
-this.popup = function(i)	{
+this.getDescription = function(params) {
+
+}
+
+this.popup = function(i, params)	{
   if (i <= 9) {
     pLIndex = "00" + i;
   }
@@ -61,9 +68,10 @@ this.popup = function(i)	{
                                 </div> \
                                 <div class='description container-fluid'> \
                                   <div class='col-sm-12'> \
-                                    <h2>Описание продукции</h2><br> \
-                                    <h4>Состав:</h4><br> \
-                                    <p>1.Редька 2. Соль 3. Сахар </p><br> \
+                                    <h3>" + params.name + "</h3><br> \
+                                    <p>" + params.composition + "</p><br> \
+                                    <p>" + params.description + "</p><br> \
+                                    <p>" + params.bestBefore + "</p><br> \
                                   </div> \
                                 </div> \
                                 <div class='price-button'> \
