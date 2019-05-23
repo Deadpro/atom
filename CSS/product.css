@@ -19,7 +19,7 @@
    /* border: solid white 1px; */
    margin-bottom: 0;
 }
-.thumbnail img {
+.products-row .thumbnail img {
    width: 50%;
    height: 50%;
    /* margin-bottom: 0px; */

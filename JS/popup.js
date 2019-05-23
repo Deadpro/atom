@@ -61,10 +61,10 @@ this.popup = function(i, params)	{
                                 <div class='panel-thumbnail panel-body'> \
                                   " + popupImages[i] + " \
                                 </div> \
-                                <div class='row additional-panels panel-footer'> \
-                                  <div class='panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
+                                <div class='row '> \
+                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
                                 </div> \
                                 <div class='description container-fluid'> \
                                   <div class='col-sm-12'> \
