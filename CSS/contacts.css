@@ -2,8 +2,9 @@
    /* background: linear-gradient(180deg, white, #FFFAF0); */
    background-color: white;
 }
-.contactsContainer p {
+.contactsContainer > p {
    color: gray;
+   text-align: left;
    /* font-size: 12pt; */
 }
 #contacts {

@@ -97,7 +97,7 @@ function WICard(obj, plugins)	{
 
 		if (this.CONFIG.showAfterAdd)	{
 			cart.showWinow('bcontainer', 1);
-		}
+		}    
 	}
 
 	this.reCalc = function() {

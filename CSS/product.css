@@ -11,7 +11,7 @@
   background-color: rgb(246, 248, 245);
   /* max-width: 1400px; */
 }
-.thumbnail {
+.products-row .thumbnail {
    /* padding: 0 0 10px 0; */
    border: none;
    border-radius: 0;

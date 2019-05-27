@@ -58,13 +58,13 @@ this.popup = function(i, params)	{
                                   <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /> \
                                 </a> \
                                 <a type='button' class='bwAdditional' id='basketwidjet' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></a> \
-                                <div class='panel-thumbnail panel-body'> \
+                                <div class='row panel-thumbnail'> \
                                   " + popupImages[i] + " \
                                 </div> \
-                                <div class='row '> \
-                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='panel panel-custom border panel-body panel-mod thumbnail col-30'>" + popupImages[i] + "</div> \
+                                <div class='additional'> \
+                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
                                 </div> \
                                 <div class='description container-fluid'> \
                                   <div class='col-sm-12'> \
