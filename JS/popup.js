@@ -19,6 +19,8 @@ var pLIndex;
 var prices = ["230 руб.", "230 руб.", "90 руб.", "90 руб.", "90 руб.", "90 руб.", "100 руб.", "90 руб.",
               "110 руб.", "110 руб.", "90 руб.", "150 руб.", "50 руб.",];
 
+var indexTmp;
+
 function popupAdditional(i, params)	{
   if (i != 'close') {
     this.popup(i, params);
@@ -29,6 +31,7 @@ function popupAdditional(i, params)	{
   if (i == 'description') {
     this.getDescription(params);
   }
+  indexTmp = i;
 }
 
 this.closeAdditionalWindow = function() {
@@ -41,8 +44,8 @@ this.closeAdditionalWindow = function() {
   $(".contactsContainer").show();
 }
 
-this.getDescription = function(params) {
-
+this.changePicture = function(j) {
+  alert(indexTmp + " " + j);
 }
 
 this.popup = function(i, params)	{
@@ -62,9 +65,9 @@ this.popup = function(i, params)	{
                                   " + popupImages[i] + " \
                                 </div> \
                                 <div class='additional'> \
-                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
-                                  <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div onclick='changePicture(0);' class='thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div onclick='changePicture(1);' class='thumbnail col-30'>" + popupImages[i] + "</div> \
+                                  <div onclick='changePicture(2);' class='thumbnail col-30'>" + popupImages[i] + "</div> \
                                 </div> \
                                 <div class='description'> \
                                   <div class='col-sm-12'> \
