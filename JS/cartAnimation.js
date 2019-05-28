@@ -1,6 +1,31 @@
 $('.add-to-cart').on('click', function () {
-  var cart = $('#basketwidjet');
-  var imgtodrag = $('#wicartbutton_000');
+  var cart;
+  var imgtodrag;
+
+  if ($(this).parents().is($('.col-sm-4'))) {
+    if ($(document).width() <= 500) {
+      cart = $('.bwShrinked');
+    } else {
+      cart = $('#basketwidjet');
+    }
+  } else {
+    if ($(document).width() <= 500) {
+      cart = $('.bwShrinked');
+    } else {
+      cart = $('.bwShrinked');
+    }
+  }
+  if ($(document).width() <= 500) {
+    cart = $('.bwShrinked');
+  } else {
+    cart = $('#basketwidjet');
+  }
+  if ($(this).parents().is($('.col-sm-4'))) {
+      imgtodrag = $(this).parents('.col-sm-4').children('.panel').children('.thumbnail').children('.panel-body').find("img").eq(0);
+  } else {
+    // imgtodrag = $(this).parents('.more-info').children('.row').find("img").eq(0);
+    imgtodrag = $(this).find("img").eq(0);
+  }
   var imgclone = imgtodrag.clone()
     .css({'position' : 'absolute', 'z-index' : '11100', 'opacity' : '0.5', 'height' : '150px', 'width' : '150px'})
     .offset({top: imgtodrag.offset().top, left: imgtodrag.offset().left})

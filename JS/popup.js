@@ -57,7 +57,7 @@ this.popup = function(i, params)	{
                                 <a id='close' href='#' onclick='popupAdditional(\"close\");'> \
                                   <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /> \
                                 </a> \
-                                <a type='button' class='bwAdditional' id='basketwidjet' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></a> \
+                                <a type='button' class='bwAdditional bwShrinked' id='basketwidjet' href='#' onclick=\"cart.showWinow('bcontainer', 1)\"></a> \
                                 <div class='row panel-thumbnail'> \
                                   " + popupImages[i] + " \
                                 </div> \
@@ -66,7 +66,7 @@ this.popup = function(i, params)	{
                                   <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
                                   <div class='thumbnail col-30'>" + popupImages[i] + "</div> \
                                 </div> \
-                                <div class='description container-fluid'> \
+                                <div class='description'> \
                                   <div class='col-sm-12'> \
                                     <h3>" + params.name + "</h3><br> \
                                     <p>" + params.composition + "</p><br> \
@@ -76,15 +76,19 @@ this.popup = function(i, params)	{
                                 </div> \
                                 <div class='price-button'> \
                                   <h3> \
-                                    <button id='wicartbutton_" + pLIndex + "' onclick=\"cart.addToCart('this', '"+pLIndex+"', priceList['"+pLIndex+"'])\"> \
+                                    <button class='add-to-cart' id='wicartbutton_" + pLIndex + "' onclick=\"cart.addToCart('this', '"+pLIndex+"', priceList['"+pLIndex+"'])\"> \
                                       <span id='pricePopup'>  " + prices[i] + " </span> \
                                       <span><img src='images/icons/shopping cart icon.png' width='50px'></span> \
                                     </button> \
                                   </h3> \
                                 </div> \
+                                <a id='back' href='#' onclick='popupAdditional(\"close\");'> \
+                                  <img width='30px' style='float:left' src='images/icons/back-button.png' /> \
+                                </a> \
                               </div> \
                             </div> \
                             <script src='js/busketInit.js' type='text/javascript' ></script> \
+                            <script src='js/cartAnimation.js' type='text/javascript' ></script> \
                             ");
   $("#header").hide();
   $(".navbar").hide();
