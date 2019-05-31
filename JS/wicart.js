@@ -97,7 +97,7 @@ function WICard(obj, plugins)	{
 
 		if (this.CONFIG.showAfterAdd)	{
 			cart.showWinow('bcontainer', 1);
-		}    
+		}
 	}
 
 	this.reCalc = function() {
@@ -303,14 +303,21 @@ function WICard(obj, plugins)	{
 			bodyHTML +=  this.getForm(arr[f]) + "<br><br>";
 		};
 		$('.basket_num_buttons').remove();
-		$.post( "/php/sendmail.php?subj=Новый Заказ Кайман ", { "order": bodyHTML }).done(function( data ) {
+		$.post( "/php/sendmail.php?subj=Caiman ", { "order": bodyHTML }).done(function( data ) {
 		cart.closeWindow("bcontainer", 1)
 		cart.closeWindow("order", 0);
 		if (cart.CONFIG.clearAfterSend)	{
 			cart.clearBasket();
 		}
-		alert(local.send);
+    $("#header").hide();
+    $(".navbar").hide();
+    $("#products").hide();
+    $("footer").hide();
+    $(".aboutContainer").hide();
+    $(".contactsContainer").hide();
+    document.getElementsByTagName("body")[0].style.overflowY = "hidden";
 		});
+    this.goodByePage();
 	}
 
 	this.getForm = function (formId) {
@@ -339,19 +346,27 @@ function WICard(obj, plugins)	{
   	return copyForm.innerHTML;
 	}
 
-  // $(".to-cart").on("click",function(){
-  //       id = $(this).attr("for");
-  //
-  //       $("#product"+id)
-  //           .clone()
-  //           .css({'position' : 'absolute', 'z-index' : '11100', top: $(this).offset().top-300, left:$(this).offset().left-100})
-  //           .appendTo("body")
-  //           .animate({opacity: 0.05,
-  //               left: $(".cart-text").offset()['left'],
-  //               top: $(".cart-text").offset()['top'],
-  //               width: 20}, 1000, function() {
-  //               $(this).remove();
-  //           });
-  //
-  //   });
+  this.goodByePage = function() {
+    $(".container-form").hide();
+    $("#blindLayer").hide();
+    $("#placeHolder").append(" \
+      <div id='goodByeParent' class='goodByeParent'> \
+        <div id='goodByeInfo' class='goodByeInfo'> \
+          <button onclick=\"cart.goHome()\"> " + local.send + " </button> \
+        </div> \
+      </div> \
+    ");
+  }
+
+  this.goHome = function() {
+    $(".goodByeParent").hide();
+    $("#header").show();
+    $(".navbar").show();
+    $("#products").show();
+    $("footer").show();
+    $(".aboutContainer").show();
+    $(".contactsContainer").show();
+    $(".more-info-parent").hide();
+    document.getElementsByTagName("body")[0].style.overflowY = "scroll";
+  }
 }
