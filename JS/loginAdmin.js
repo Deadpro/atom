@@ -7,6 +7,8 @@ $('input#connection-submit').on('click', function() {
   var responseData;
   var quantity = 0;
   var salesQuantity = new Object();
+  var salesExchange = new Object();
+  var salesReturn = new Object();
   var tmpName;
   var tmpQuantity;
   var text = "";
@@ -61,7 +63,7 @@ $('input#connection-submit').on('click', function() {
                 } else {
                   if (key == tmp[i].Наименование) {
                     tmpName = tmp[i].Наименование;
-                    tmpQuantity = tmp[i].Quantity * 0.5;
+                    tmpQuantity = tmp[i].Quantity;
                     quantity = parseFloat(salesQuantity[tmpName], 10) + parseFloat(tmpQuantity, 10);
                     text += tmpName + ": " + quantity + " = " + parseFloat(salesQuantity[tmpName], 10) + " + " + parseFloat(tmpQuantity, 10) + "\r\n";
                     salesQuantity[tmpName] = quantity;
@@ -115,24 +117,57 @@ $('input#connection-submit').on('click', function() {
                 }
               }
             } else {
-              tmpName = tmp[i].Наименование;
-              tmpQuantity = tmp[i].Quantity;
-              quantity = parseFloat(tmpQuantity, 10);
-              Object.defineProperty(salesQuantity, tmpName, {
-                value: quantity,
-                writable: true,
-                enumerable: true,
-                configurable: true
-              });
+               if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                  tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+                  tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                  tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+                  if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                     tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+                     tmpName = "Ким-ча весовая";
+                     tmpQuantity = tmp[i].Quantity * 0.7;
+                     quantity = parseFloat(tmpQuantity, 10);
+                     // salesQuantity.tmpName = quantity;
+                     Object.defineProperty(salesQuantity, tmpName, {
+                        value: quantity,
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                     });
+                  }
+                  if (tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                     tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+                     tmpName = "Редька по-восточному весовая";
+                     tmpQuantity = tmp[i].Quantity * 0.5;
+                     quantity = parseFloat(tmpQuantity, 10);
+                     // salesQuantity.tmpName = quantity;
+                     Object.defineProperty(salesQuantity, tmpName, {
+                        value: quantity,
+                        writable: true,
+                        enumerable: true,
+                        configurable: true
+                     });
+                  }
+               } else {
+                  tmpName = tmp[i].Наименование;
+                  tmpQuantity = tmp[i].Quantity;
+                  quantity = parseFloat(tmpQuantity, 10);
+                  Object.defineProperty(salesQuantity, tmpName, {
+                     value: quantity,
+                     writable: true,
+                     enumerable: true,
+                     configurable: true
+                  });
+               }
             }
-            // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
-          }
-          // alert(Object.keys(salesQuantity).length);
-          // alert(salesQuantity["Щике"]);
-          // $('div#connection-data').text(text);
-          $('div#connection-data').text(Object.entries(salesQuantity));
-        });
-      }
-    });
-  }
+         }
+               // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
+
+               // alert(Object.keys(salesQuantity).length);
+               // alert(salesQuantity["Щике"]);
+               // $('div#connection-data').text(text);
+               $('div#connection-data').text(Object.entries(salesQuantity));
+            });
+         }
+      });
+   }
 });
