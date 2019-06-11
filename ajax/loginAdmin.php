@@ -13,7 +13,7 @@
       // mysql_result($query, 0, 'firstname');
       while($row = mysqli_fetch_array($query)) {
         // echo $row['firstname'];
-        echo 'success';
+        echo 'Успешный вход';
       }
     } else {
       echo 'Name not found';
