@@ -112,9 +112,12 @@ this.createObject = function(paramOne, paramTwo, paramThree) {
 }
 
 this.closeReportTable = function() {
+   $(".reportContainer").html("");
   $(".reportContainer").hide();
+  $("#connecton-data").html("");
   $(".menuContainer").show();
-  loadLoginData();
+  // loadLoginData();
+  renderMenuPage();
 }
 
 this.renderReportTable = function()	{
@@ -139,6 +142,7 @@ this.renderReportTable = function()	{
     $("#tableData").append(productLine);
     // alert(Object.keys(salesQuantity)[0]);
   }
+  $(".menuContainer").html("");
   $(".menuContainer").hide();
 }
 
@@ -253,5 +257,6 @@ this.renderMenuPage = function() {
     </div> \
     <script src='../js/loginAdmin.js' type='text/javascript' ></script> \
   ");
+  $(".loginContainer").html("");
   $(".loginContainer").hide();
 }
