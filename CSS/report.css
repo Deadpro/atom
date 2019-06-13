@@ -1,0 +1,159 @@
+#connection-data {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1001;
+}
+#close {
+  /* border: solid 1px red; */
+  position: relative;
+  padding-bottom: 40px;
+  font: normal 18px Arial;
+  max-width: 595px;
+  width: 95vw;
+  margin: 0 auto;
+  float: right;
+}
+#connection-submit,
+#connection-save,
+#connection-load,
+#report-ceo,
+#report-sales-manager {
+  padding: 5px;
+  margin: 5px;
+  width: 90%;
+}
+#dbName, #dbUser, #dbPassword, #login, #password, #dateStart, #dateEnd {
+  width: 100%;
+}
+.loginContainer {
+  position: relative;
+  max-width: 700px;
+  width: 100vw;
+  margin: 0 auto;
+  /* max-height: 1000px; */
+  height: calc(100vh + 3%);
+  background-color: white;
+  /* border: 1px solid red; */
+  padding: 20px;
+  /* display: none; */
+  z-index: 1002;
+  padding-bottom: 3%;
+  /* top: -200px; */
+}
+.reportContainer {
+  position: relative;
+  max-width: 700px;
+  width: 100vw;
+  margin: 0 auto;
+  /* max-height: 1000px; */
+  height: calc(100vh + 3%);
+  background-color: white;
+  /* border: 1px solid red; */
+  padding: 20px;
+  /* display: none; */
+  z-index: 1002;
+  padding-bottom: 3%;
+  /* top: -200px; */
+}
+.menuContainer {
+  position: relative;
+  max-width: 700px;
+  width: 100vw;
+  margin: 0 auto;
+  /* max-height: 1000px; */
+  height: calc(100vh + 3%);
+  background-color: white;
+  /* border: 1px solid red; */
+  padding: 20px;
+  /* display: none; */
+  z-index: 1002;
+  padding-bottom: 3%;
+  /* top: -200px; */
+}
+#overflw {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 90vh;
+  min-height: 10vh;
+}
+#tableData {
+  /* overflow-y: hidden; */
+}
+.additional {
+  /* border: solid 2px red; */
+  height: 150px;
+}
+#tableHeader td {
+  border-right: 2px solid #999;
+  font-weight: bold;
+  text-align: center;
+  background-color: grey;
+}
+#tableHeader td {padding: 5px;}
+#tableHeader td:nth-child(1) { width: 50px; }		/*№*/
+#tableHeader td:nth-child(2) { width: 50px; }		/*Exchange*/
+#tableHeader td:nth-child(3) { width: 300px; }		/*NAME*/
+#tableHeader td:nth-child(4) { width: 50px; }		/*Quantity*/
+#tableHeader td:nth-child(5) { width: 50px; }		/*Return*/
+
+.tableData td
+{
+  font: normal 18px Arial;
+  color: #999;
+  padding: 5px;
+  border-bottom: 1px solid #999;
+  border-right: 2px solid #FFF;
+}
+
+.tableData td:nth-child(1) { width: 50px; text-align: right;}
+.tableData td:nth-child(2) { width: 50px; text-align: center;}
+.tableData td:nth-child(3) { width: 300px; text-align: left;}
+.tableData td:nth-child(4) { width: 50px; text-align: left;}
+.tableData td:nth-child(5) { width: 50px; text-align: center;}
+
+.reportContainer table
+{
+  width: 100%;
+}
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+.col-40 {
+  float: left;
+  width: 40%;
+  margin-top: 6px;
+}
+.col-60 {
+  float: left;
+  width: 60%;
+  margin-top: 6px;
+}
+.col-30 {
+  float: left;
+  width: 33.33%;
+}
+.col-50 {
+  float: left;
+  width: 50%;
+}
+/* Clear floats after the columns */
+.row-form:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+  .col-25, .col-75, input[type=text] {
+    width: 100%;
+    margin-top: 0;
+  }
+}

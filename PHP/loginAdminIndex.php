@@ -7,14 +7,19 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Carter+One|Chewy|Cinzel+Decorative|Della+Respira|El+Messiri|Fahkwang|Kalam|Lobster|Merienda|Mirza|Oleo+Script|Oswald|Playfair+Display|Pridi|Righteous|Shrikhand" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Pacifico" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/report.css">
 </head>
 <body>
-  DBName: <input type="text" id="dbName">
-  DBUser: <input type="text" id="dbUser">
-  DBPassword: <input type="text" id="dbPassword">
-  Login: <input type="text" id="login">
-  Password: <input type="text" id="password">
-  <input type="submit" id="connection-submit" value="Enter">
+  <div class="loginContainer">
+    <div class="col-25"> DBName: </div><div class="col-75"><input type="text" id="dbName"></div>
+    <div class="col-25"> DBUser: </div><div class="col-75"><input type="text" id="dbUser"></div>
+    <div class="col-25"> DBPassword: </div><div class="col-75"><input type="password" id="dbPassword"></div>
+    <div class="col-25"> Login: </div><div class="col-75"><input type="text" id="login"></div>
+    <div class="col-25"> Password: </div><div class="col-75"><input type="password" id="password"></div>
+    <div class="col-30"><input type="submit" id="connection-save" value="Сохранить"></div>
+    <div class="col-30"><input type="submit" id="connection-load" value="Загрузить"></div>
+    <div class="col-30"><input type="submit" id="connection-submit" value="Войти"></div>
+  </div>
   <div id="connection-data"></div>
 
 
