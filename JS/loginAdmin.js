@@ -114,7 +114,7 @@ this.createObject = function(paramOne, paramTwo, paramThree) {
 this.closeReportTable = function() {
    $(".reportContainer").html("");
   $(".reportContainer").hide();
-  $("#connecton-data").html("");
+  $("#connection-data").html("");
   $(".menuContainer").show();
   // loadLoginData();
   renderMenuPage();
