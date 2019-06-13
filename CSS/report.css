@@ -1,6 +1,6 @@
 #connection-data {
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   position: absolute;
   z-index: 1001;
 }
@@ -41,30 +41,21 @@
   max-width: 700px;
   width: 100vw;
   margin: 0 auto;
-  /* max-height: 1000px; */
-  height: calc(100vh + 3%);
+  height: 100vh;
   background-color: white;
   border: 1px solid green;
-  padding: 20px;
-  /* display: none; */
   z-index: 1002;
-  padding-bottom: 3%;
-  /* top: -200px; */
 }
 .menuContainer {
   position: relative;
   max-width: 700px;
   width: 100vw;
   margin: 0 auto;
-  /* max-height: 1000px; */
-  height: calc(100vh + 3%);
+  height: 100vh;
   background-color: white;
   border: 1px solid yellow;
   padding: 20px;
-  /* display: none; */
   z-index: 1002;
-  padding-bottom: 3%;
-  /* top: -200px; */
 }
 #overflw {
   overflow-y: scroll;
