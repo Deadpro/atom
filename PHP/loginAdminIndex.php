@@ -16,9 +16,9 @@
     <div class="col-25"> DBPassword: </div><div class="col-75"><input type="password" id="dbPassword"></div>
     <div class="col-25"> Login: </div><div class="col-75"><input type="text" id="login"></div>
     <div class="col-25"> Password: </div><div class="col-75"><input type="password" id="password"></div>
-    <div class="col-30"><input type="submit" id="connection-save" value="Сохранить"></div>
-    <div class="col-30"><input type="submit" id="connection-load" value="Загрузить"></div>
-    <div class="col-30"><input type="submit" id="connection-submit" value="Войти"></div>
+    <div class="col-30"><button id="connection-save"><span>Сохранить</span></button></div>
+    <div class="col-30"><button id="connection-load"><span>Загрузить</span></button></div>
+    <div class="col-30"><button id="connection-submit"><span>Войти</span></button></div>
   </div>
   <div id="connection-data"></div>
 

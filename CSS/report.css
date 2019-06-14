@@ -7,12 +7,17 @@
 #close {
   /* border: solid 1px red; */
   position: relative;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-right: 5px;
   font: normal 18px Arial;
   max-width: 595px;
   width: 95vw;
   margin: 0 auto;
   float: right;
+}
+.reportSubject {
+  font: normal 12px Arial;
 }
 #connection-submit,
 #connection-save,
@@ -22,18 +27,23 @@
   padding: 5px;
   margin: 5px;
   width: 90%;
+  z-index: 2000;
+  /* background-color: yellow; */
 }
 #dbName, #dbUser, #dbPassword, #login, #password, #dateStart, #dateEnd {
   width: 100%;
+  /* background-color: green; */
 }
 .loginContainer {
+  top: 30vh;
   position: relative;
   max-width: 700px;
   width: 100vw;
   margin: 0 auto;
   height: 100vh;
-  background-color: white;
-  border: 1px solid red;
+  padding: 10px;
+  /* background-color: red; */
+  /* border: 1px solid red; */
   z-index: 1002;
 }
 .reportContainer {
@@ -43,7 +53,7 @@
   margin: 0 auto;
   height: 100vh;
   background-color: white;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   z-index: 1002;
 }
 .menuContainer {
@@ -53,7 +63,7 @@
   margin: 0 auto;
   height: 100vh;
   background-color: white;
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
   padding: 20px;
   z-index: 1002;
 }
@@ -74,7 +84,7 @@
   border-right: 2px solid #999;
   font-weight: bold;
   text-align: center;
-  background-color: grey;
+  /* background-color: grey; */
 }
 #tableHeader td {padding: 5px;}
 #tableHeader td:nth-child(1) { width: 50px; }		/*№*/
@@ -85,8 +95,8 @@
 
 .tableData td
 {
-  font: normal 18px Arial;
-  color: #999;
+  font: normal 14px Arial;
+  color: black;
   padding: 5px;
   border-bottom: 1px solid #999;
   border-right: 2px solid #FFF;
@@ -116,15 +126,18 @@
   float: left;
   width: 40%;
   margin-top: 6px;
+  /* background-color: brown; */
 }
 .col-60 {
   float: left;
   width: 60%;
   margin-top: 6px;
+  /* background-color: red; */
 }
 .col-30 {
   float: left;
   width: 33.33%;
+  /* background-color: grey; */
 }
 .col-50 {
   float: left;
