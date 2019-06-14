@@ -43,10 +43,9 @@ var totalExchangeWeightSum;
 var totalReturnWeightSum;
 var totalExchange;
 var totalReturn;
-var totalQuantity;
-var totalQuantitySum;
-var totalWeight;
-var totalWeightSum;
+var totalSalesQuantity;
+var totalSalesWeight;
+var totalSalesWeightSum;
 var totalSalesSum;
 
 $('#connection-submit').on('click', function() {
@@ -99,7 +98,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
           totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity * 0.5);
           totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
           totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity * 0.5);
-          totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);          
+          totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
           totalExchange += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
           totalReturn += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
           totalSalesWeight += parseFloat(tmp[paramThree].Quantity * 0.5);
@@ -124,7 +123,6 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     totalReturnQuantity;
     totalReturnQuantitySum;
     totalSalesQuantity;
-    totalSalesQuantitySum;
     totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
   }
 
