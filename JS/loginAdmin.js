@@ -2,21 +2,34 @@ var local = {
   "name" : "Номенклатура",
   "price" : "Цена",
   "quantity" : "Кол-во",
+  "sum" : "Сумма",
   "exchangeQuantity" : "Обмен",
   "returnQuantity" : "Возврат",
   "ID" : "№",
+  "total" : "Сумма",
   "dateStart" : "Начало (год-месяц-день часы:минуты):",
   "dateEnd" : "Конец (год-месяц-день часы:минуты):",
   "reportSubjectHeadSalesManager" : "Краткий отчет за период:",
   "reportSubjectHeadCEO" : "Подробный отчет за период:",
-  "reportSubjectDash" : "---"
+  "reportSubjectDash" : "---",
+  "totalExchangeWeight" : "Всего обменов весовой (кг)",
+  "totalReturnWeight" : "Всего возвратов весовой (кг)",
+  "totalExchangeQuantity" : "Всего обменов в пачках (шт)",
+  "totalReturnQuantity" : "Всего возвратов в пачках (шт)",
+  "totalExchangeSum" : "Всего обменов",
+  "totalReturnSum" : "Всего возвратов",
+  "totalSalesWeight" : "Всего продаж весовой (кг)",
+  "totalSalesQuantity" : "Всего продаж в пачках (шт)",
+  "totalSalesSum" : "Всего продаж",
 };
 var quantity = 0;
 var exchangeQuantity = 0;
 var returnQuantity = 0;
+var total = 0;
 var salesQuantity = new Object();
 var salesExchange = new Object();
 var salesReturn = new Object();
+var salesTotal = new Object();
 var tmpName;
 var tmpQuantity;
 var tmpExchange;
@@ -31,22 +44,24 @@ var login;
 var password;
 var dateStart;
 var dateEnd;
+var tmpTotal = 0;
 var reportSubjectHead;
 var reportSubjectDash;
-var totalExchangeQuantity;
-var totalReturnQuantity;
-var totalExchangeQuantitySum;
-var totalReturnQuantitySum;
-var totalExchangeWeight;
-var totalReturnWeight;
-var totalExchangeWeightSum;
-var totalReturnWeightSum;
-var totalExchange;
-var totalReturn;
-var totalSalesQuantity;
-var totalSalesWeight;
-var totalSalesWeightSum;
-var totalSalesSum;
+var totalExchangeQuantity = 0;
+var totalReturnQuantity = 0;
+var totalExchangeQuantitySum = 0;
+var totalReturnQuantitySum = 0;
+var totalExchangeWeight = 0;
+var totalReturnWeight = 0;
+var totalExchangeWeightSum = 0;
+var totalReturnWeightSum = 0;
+var totalExchangeSum = 0;
+var totalReturnSum = 0;
+var totalSalesQuantity = 0;
+var totalSalesQuantitySum = 0;
+var totalSalesWeight = 0;
+var totalSalesWeightSum = 0;
+var totalSalesSum = 0;
 
 $('#connection-submit').on('click', function() {
   if ($.trim($('input#dbName').val()) != '' && $.trim($('input#dbUser').val()) != '' && $.trim($('input#login').val()) != '') {
@@ -83,11 +98,11 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
         tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
       totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity * 0.7);
       totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-      totalExchange += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+      totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
 
       totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity * 0.7);
       totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-      totalReturn += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+      totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
 
       totalSalesWeight += parseFloat(tmp[paramThree].Quantity * 0.7);
       totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
@@ -97,10 +112,12 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
         tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
           totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity * 0.5);
           totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+          totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+
           totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity * 0.5);
           totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-          totalExchange += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-          totalReturn += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+          totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+
           totalSalesWeight += parseFloat(tmp[paramThree].Quantity * 0.5);
           totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
           totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
@@ -109,31 +126,39 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
         tmp[paramThree].Наименование == "Редька по-восточному весовая") {
           totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity);
           totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+          totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+
           totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity);
           totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+          totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+
           totalSalesWeight += parseFloat(tmp[paramThree].Quantity);
           totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
-          totalExchange += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-          totalReturn += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
           totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
     }
   } else {
-    totalExchangeQuantity;
-    totalExchangeQuantitySum;
-    totalReturnQuantity;
-    totalReturnQuantitySum;
-    totalSalesQuantity;
+    totalExchangeQuantity += parseFloat(tmp[paramThree].ExchangeQuantity);
+    totalExchangeQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+    totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+
+    totalReturnQuantity += parseFloat(tmp[paramThree].ReturnQuantity);
+    totalReturnQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+    totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+
+    totalSalesQuantity += parseFloat(tmp[paramThree].Quantity);
+    totalSalesQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
     totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
   }
 
   if (paramOne == 0) {
     // alert(0 + ": " + paramOne);
     tmpName = tmp[paramThree].Наименование;
+    tmpQuantity = tmp[paramThree].Quantity;
+    tmpPrice = tmp[paramThree].Price;
     if (paramFour == 1) {
-      tmpPrice = tmp[paramThree].Price;
       tmpName = tmp[paramThree].Наименование  + " " + tmpPrice;
     }
-    tmpQuantity = tmp[paramThree].Quantity;
+    tmpTotal = tmpQuantity * tmpPrice;
     tmpExchange = tmp[paramThree].ExchangeQuantity;
     tmpReturn = tmp[paramThree].ReturnQuantity;
   }
@@ -156,6 +181,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     quantity = parseFloat(tmpQuantity, 10);
     exchangeQuantity = parseFloat(tmpExchange, 10);
     returnQuantity = parseFloat(tmpReturn, 10);
+    total = parseFloat(tmpTotal, 10);
     Object.defineProperty(salesQuantity, tmpName, {
        value: quantity,
        writable: true,
@@ -174,16 +200,24 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
        enumerable: true,
        configurable: true
     });
+    Object.defineProperty(salesTotal, tmpName, {
+       value: total,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });    
   }
   if (paramTwo == 1) {
     // alert(01);
     quantity = parseFloat(salesQuantity[tmpName], 10) + parseFloat(tmpQuantity, 10);
     exchangeQuantity = parseFloat(salesExchange[tmpName], 10) + parseFloat(tmpExchange, 10);
     returnQuantity = parseFloat(salesReturn[tmpName], 10) + parseFloat(tmpReturn, 10);
-    text += tmpName + ": " + quantity + " = " + parseFloat(salesQuantity[tmpName], 10) + " + " + parseFloat(tmpQuantity, 10) + "\r\n";
+    total = parseFloat(salesTotal[tmpName], 10) + parseFloat(tmpTotal, 10);
+    // text += tmpName + ": " + quantity + " = " + parseFloat(salesQuantity[tmpName], 10) + " + " + parseFloat(tmpQuantity, 10) + "\r\n";
     salesQuantity[tmpName] = quantity;
     salesExchange[tmpName] = exchangeQuantity;
     salesReturn[tmpName] = returnQuantity;
+    salesTotal[tmpName] = total;
     trigger = true;
   }
 }
@@ -195,67 +229,6 @@ this.closeReportTable = function() {
   $(".menuContainer").show();
   // loadLoginData();
   renderMenuPage();
-}
-
-this.renderReportTable = function(param)	{
-  if ($.trim(dateStart) != '' && $.trim(dateEnd) != '') {
-    if (param == 0) {
-      reportSubjectHead = local.reportSubjectHeadSalesManager;
-      reportSubjectDash = local.reportSubjectDash;
-    } else {
-      reportSubjectHead = local.reportSubjectHeadCEO;
-      reportSubjectDash = local.reportSubjectDash;
-    }
-  } else {
-    if (param == 0) {
-      reportSubjectHead = "Краткий отчет за последние 5 дней";
-    } else {
-      reportSubjectHead = "Подробный отчет за последние 5 дней";
-    }
-    var reportSubjectDash = "";
-  }
-  $(".reportContainer").show();
-  $('div#connection-data').append(" \
-    <div id='reportContainer' class='reportContainer'> \
-      <a id='close' href='#' onclick='closeReportTable();'> \
-        <div class='reportSubject' style='float:left'>" + reportSubjectHead + ' ' + dateStart + ' ' + reportSubjectDash + ' ' + dateEnd + "</div> \
-        <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
-      </a> \
-      <table id='tableHeader'><tr><td>" + local.ID + "</td><td>" + local.exchangeQuantity + "</td><td>" + local.name + "</td><td>" + local.quantity + "</td><td>" + local.returnQuantity + "</td></tr></table> \
-      <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
-      <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div> \
-    </div> \
-  ");
-  for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
-    var productLine = '<tr> \
-                        <td>' + (i + 1) + '</td> \
-                        <td>' + salesExchange[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>'+ Object.keys(salesQuantity)[i] +'</td> \
-                        <td>' + salesQuantity[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>' + salesReturn[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                      </tr>';
-    $("#tableData").append(productLine);
-    // alert(Object.keys(salesQuantity)[0]);
-  }
-  $("#tableSummaryData").append(" \
-    <tr> \
-      <td></td> \
-      <td></td> \
-      <td></td> \
-    </tr> \
-    <tr> \
-      <td></td> \
-      <td></td> \
-      <td></td> \
-    </tr> \
-    <tr> \
-      <td></td> \
-      <td></td> \
-      <td></td> \
-    </tr> \
-  ");
-  $(".menuContainer").html("");
-  $(".menuContainer").hide();
 }
 
 $('#connection-save').on('click', function() {
@@ -404,4 +377,104 @@ this.renderMenuPage = function() {
   ");
   $(".loginContainer").html("");
   $(".loginContainer").hide();
+}
+
+this.renderReportTable = function(param)	{
+  if ($.trim(dateStart) != '' && $.trim(dateEnd) != '') {
+    if (param == 0) {
+      reportSubjectHead = local.reportSubjectHeadSalesManager;
+      reportSubjectDash = local.reportSubjectDash;
+    } else {
+      reportSubjectHead = local.reportSubjectHeadCEO;
+      reportSubjectDash = local.reportSubjectDash;
+    }
+  } else {
+    if (param == 0) {
+      reportSubjectHead = "Краткий отчет за последние 5 дней";
+    } else {
+      reportSubjectHead = "Подробный отчет за последние 5 дней";
+    }
+    var reportSubjectDash = "";
+  }
+  $(".reportContainer").show();
+  $('div#connection-data').append(" \
+    <div id='reportContainer' class='reportContainer'> \
+      <a id='close' href='#' onclick='closeReportTable();'> \
+        <div class='reportSubject' style='float:left'>" + reportSubjectHead + ' ' + dateStart + ' ' + reportSubjectDash + ' ' + dateEnd + "</div> \
+        <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
+      </a> \
+      <table id='tableHeader'><tr><td>" + local.ID + "</td><td>" + local.exchangeQuantity + "</td><td>" + local.name + "</td><td>" + local.quantity + "</td><td>" + local.total + "</td><td>" + local.returnQuantity + "</td></tr></table> \
+      <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
+      <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
+      <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div> \
+    </div> \
+  ");
+  for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
+    var productLine = '<tr> \
+                        <td>' + (i + 1) + '</td> \
+                        <td>' + salesExchange[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
+                        <td>'+ Object.keys(salesQuantity)[i] +'</td> \
+                        <td>' + salesQuantity[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
+                        <td>' + salesTotal[Object.keys(salesTotal)[i]].toFixed(2) + '</td> \
+                        <td>' + salesReturn[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
+                      </tr>';
+    $("#tableData").append(productLine);
+    // alert(Object.keys(salesQuantity)[0]);
+  }
+  $("#tableSummaryHeaderData").append(" \
+    <tr> \
+      <td></td> \
+      <td>" + local.quantity + "</td> \
+      <td>" + local.sum + "</td> \
+    </tr><tr class='tableSeparator'></tr>\
+  ");
+  $("#tableSummaryData").append(" \
+    <tr> \
+      <td>" + local.totalExchangeQuantity + "</td> \
+      <td>" + totalExchangeQuantity.toFixed(2) + "</td> \
+      <td>" + totalExchangeQuantitySum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalExchangeWeight + "</td> \
+      <td>" + totalExchangeWeight.toFixed(2) + "</td> \
+      <td>" + totalExchangeWeightSum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalExchangeSum + "</td> \
+      <td></td> \
+      <td>" + totalExchangeSum.toFixed(2) + "</td> \
+    </tr> <tr class='tableSeparator'></tr>\
+    <tr> \
+      <td>" + local.totalReturnQuantity + "</td> \
+      <td>" + totalReturnQuantity.toFixed(2) + "</td> \
+      <td>" + totalReturnQuantitySum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalReturnWeight + "</td> \
+      <td>" + totalReturnWeight.toFixed(2) + "</td> \
+      <td>" + totalReturnWeightSum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalReturnSum + "</td> \
+      <td></td> \
+      <td>" + totalReturnSum.toFixed(2) + "</td> \
+    </tr> <tr class='tableSeparator'></tr>\
+    <tr> \
+      <td>" + local.totalSalesQuantity + "</td> \
+      <td>" + totalSalesQuantity.toFixed(2) + "</td> \
+      <td>" + totalSalesQuantitySum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalSalesWeight + "</td> \
+      <td>" + totalSalesWeight.toFixed(2) + "</td> \
+      <td>" + totalSalesWeightSum.toFixed(2) + "</td> \
+    </tr> \
+    <tr> \
+      <td>" + local.totalSalesSum + "</td> \
+      <td></td> \
+      <td>" + totalSalesSum.toFixed(2) + "</td> \
+    </tr> \
+  ");
+  $(".menuContainer").html("");
+  $(".menuContainer").hide();
 }
