@@ -37,11 +37,6 @@ var tmpReturn;
 var text = "";
 var trigger = false;
 var tmp = new Object();
-var dbName;
-var dbUser;
-var dbPassword;
-var login;
-var password;
 var dateStart;
 var dateEnd;
 var tmpTotal = 0;
@@ -64,27 +59,26 @@ var totalSalesWeightSum = 0;
 var totalSalesSum = 0;
 
 $('#connection-submit').on('click', function() {
-  if ($.trim($('input#dbName').val()) != '' && $.trim($('input#dbUser').val()) != '' && $.trim($('input#login').val()) != '') {
-    dbName = $('input#dbName').val();
-    dbUser = $('input#dbUser').val();
-    dbPassword = $('input#dbPassword').val();
-    login = $('input#login').val();
-    password = $('input#password').val();
-    dateStart = $('input#dateStart').val();
-    dateEnd = $('input#dateEnd').val();
+  if ($.trim(localStorage.getItem('dbName')) != '' && $.trim(localStorage.getItem('dbUser')) != '' &&
+      $.trim(localStorage.getItem('dbPassword')) != '' && $.trim(localStorage.getItem('login')) != '' &&
+      $.trim(localStorage.getItem('password')) != '') {
+    login(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
+          localStorage.getItem('login'), localStorage.getItem('password'));
   } else {
-    // alert("Введите данные для входа");
-  }
-  // var responseData;
-  if ($.trim(dbName) != '' && $.trim(dbUser) != '' && $.trim(dbPassword) != '' && $.trim(login) != '' && $.trim(password) != '') {
-    $.post('../ajax/loginAdmin.php', {dbName: dbName, dbUser: dbUser, dbPassword: dbPassword, login: login, password: password}, function(data) {
-      // $('div#connection-data').text(data);
-      if (data == 'Успешный вход') {
-        renderMenuPage();
-      }
-    });
+    login($('input#dbName').val(), $('input#dbUser').val(), $('input#dbPassword').val(), $('input#login').val(), $('input#password').val());
   }
 });
+
+this.login = function(dbName, dbUser, dbPassword, login, password) {
+   $.post('../ajax/loginAdmin.php', {dbName: dbName, dbUser: dbUser,
+                                     dbPassword: dbPassword, login: login,
+                                     password: password}, function(data) {
+     // $('div#connection-data').text(data);
+     if (data == 'Успешный вход') {
+       renderMenuPage();
+     }
+   });
+}
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   // alert('start: ' + paramOne + "; " + paramTwo + "; " + trigger + "; " + Object.keys(salesQuantity).length);
@@ -205,7 +199,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
        writable: true,
        enumerable: true,
        configurable: true
-    });    
+    });
   }
   if (paramTwo == 1) {
     // alert(01);
@@ -245,21 +239,23 @@ $('#connection-save').on('click', function() {
 
 $('#connection-load').on('click', function() {
   loadLoginData();
-  alert('Данные загружены');
 });
 
 this.loadLoginData = function() {
-  dbName = localStorage.getItem('dbName');
-  dbUser = localStorage.getItem('dbUser');
-  dbPassword = localStorage.getItem('dbPassword');
-  login = localStorage.getItem('login');
-  password = localStorage.getItem('password');
+  if ($.trim(localStorage.getItem('dbName')) != '' && $.trim(localStorage.getItem('dbUser')) != '' &&
+      $.trim(localStorage.getItem('dbPassword')) != '' && $.trim(localStorage.getItem('login')) != '' &&
+      $.trim(localStorage.getItem('password')) != '') {
+    alert('Данные загружены');
+  } else {
+    alert('Нет данных. Заполните поля для авторизации');
+  }
 }
 
 $('#report-sales-manager').on('click', function() {
   dateStart = $('input#dateStart').val();
   dateEnd = $('input#dateEnd').val();
-  $.post('../php/receiveReportData.php', {dbName: dbName, dbUser: dbUser, dbPassword: dbPassword, dateStart: dateStart, dateEnd: dateEnd}, function(data) {
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: dateStart, dateEnd: dateEnd}, function(data) {
     tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(tmp).length; i++) {
       trigger = false;
@@ -337,7 +333,8 @@ $('#report-sales-manager').on('click', function() {
 $('#report-ceo').on('click', function() {
   dateStart = $('input#dateStart').val();
   dateEnd = $('input#dateEnd').val();
-  $.post('../php/receiveReportData.php', {dbName: dbName, dbUser: dbUser, dbPassword: dbPassword, dateStart: dateStart, dateEnd: dateEnd}, function(data) {
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: dateStart, dateEnd: dateEnd}, function(data) {
     tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(tmp).length; i++) {
       trigger = false;
@@ -366,6 +363,7 @@ $('#report-ceo').on('click', function() {
 });
 
 this.renderMenuPage = function() {
+  $('#connection-data').html("");
   $('div#connection-data').append(" \
     <div id='menuContainer' class='menuContainer'> \
       <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
@@ -375,6 +373,10 @@ this.renderMenuPage = function() {
     </div> \
     <script src='../js/loginAdmin.js' type='text/javascript' ></script> \
   ");
+  if (dateStart != "" && dateEnd != "") {
+     $('input#dateStart').val(dateStart);
+     $('input#dateEnd').val(dateEnd);
+  }
   $(".loginContainer").html("");
   $(".loginContainer").hide();
 }
