@@ -3,14 +3,23 @@ var areaStatusSalesSum = new Object();
 var areaStatusInvoicesNumber = new Object();
 var areaStatusLastSyncDateTime = new Object();
 var areaCashStatus = new Object();
+var areaCashlessStatus = new Object();
+var areaDevelopmentStatus = new Object();
 var trigger = false;
 var tmpAgentID;
+var endTriggerOne;
+var endTriggerTwo;
+var endTriggerThree;
+var endTriggerFour;
 var localVars = {
   "area" : "Район: ",
   "space" : " ",
   "salesTotal" : "На сумму: ",
-  "salesCash" : "Наличными: ",
+  "salesCash" : "Наличный: ",
+  "salesCashless" : "Безналичный: ",
+  "debtSale" : "Реализация: ",
   "salesInvoicesQuantity" : "Накладных: ",
+  "areaDevelopmentStatus" : "Развитие: ",
   "lastSyncDateTime" : "Завершение: "
 };
 
@@ -52,12 +61,13 @@ this.getAgentStatus = function(dbName, dbUser, dbPassword, login, password) {
                                         dbPassword: dbPassword, login: login,
                                         password: password}, function(data) {
     processResponse(data, areaStatusSalesSum, 0);
+    processResponse(data, areaCashlessStatus, 2);
+    processResponse(data, areaDevelopmentStatus, 3);
   });
 }
 
 this.processResponse = function(response, obj, type) {
   tmp = JSON.parse(response);
-  // alert(Object.keys(tmp).length);
   for (var i = 0; i < Object.keys(tmp).length; i++) {
     trigger = false;
     if (Object.keys(obj).length > 0) {
@@ -73,7 +83,8 @@ this.processResponse = function(response, obj, type) {
       createObj(1, i, type);
     }
   }
-  if (type == 1) {
+
+  if (endTriggerOne == true && endTriggerTwo == true && endTriggerThree == true && endTriggerFour == true) {
     showAgentStatus();
   }
 }
@@ -88,11 +99,36 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
       areaStatusInvoicesNumber[tmp[paramTwo].AgentID] = invoicesNumber;
       areaStatusLastSyncDateTime[tmp[paramTwo].AgentID] = lastSyncDateTime;
       trigger = true;
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerOne = true;
+      }
     }
     if (paramThree == 1) {
       cash = parseFloat(areaCashStatus[tmp[paramTwo].AgentID], 10) + parseFloat(tmp[paramTwo].InvoiceSum, 10);
       areaCashStatus[tmp[paramTwo].AgentID] = cash;
       trigger = true;
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerTwo = true;
+      }
+    }
+    if (paramThree == 2) {
+      if (tmp[paramTwo].AccountingType == "провод") {
+        cashless = parseFloat(areaCashlessStatus[tmp[paramTwo].AgentID], 10) + parseFloat(tmp[paramTwo].InvoiceSum, 10);
+        areaCashlessStatus[tmp[paramTwo].AgentID] = cashless;
+        trigger = true;
+      }
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerThree = true;
+      }
+    }
+    if (paramThree == 3) {
+      if (tmp[paramTwo].Comment != "") {alert(tmp[paramTwo].Comment);
+        areaDevelopmentStatus[tmp[paramTwo].AgentID] += 1;
+        trigger = true;
+      }
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerFour = true;
+      }
     }
   }
   if (paramOne == 1) {
@@ -115,6 +151,9 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
          enumerable: true,
          configurable: true
       });
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerOne = true;
+      }
     }
     if (paramThree == 1) {
       Object.defineProperty(areaCashStatus, tmp[paramTwo].AgentID, {
@@ -123,6 +162,35 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
          enumerable: true,
          configurable: true
       });
+      if (paramTwo == Object.keys(tmp).length - 1) {
+        endTriggerTwo = true;
+      }
+    }
+    if (paramThree == 2) {
+      if (tmp[paramTwo].AccountingType == "провод") {
+         Object.defineProperty(areaCashlessStatus, tmp[paramTwo].AgentID, {
+           value: parseFloat(tmp[paramTwo].InvoiceSum, 10),
+           writable: true,
+           enumerable: true,
+           configurable: true
+        });
+      }
+      if (paramTwo == Object.keys(tmp).length - 1) {
+       endTriggerThree = true;
+      }
+    }
+    if (paramThree == 3) {
+      if (tmp[paramTwo].Comment != "") {
+        Object.defineProperty(areaDevelopmentStatus, tmp[paramTwo].AgentID, {
+          value: 1,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+      }
+      if (paramTwo == Object.keys(tmp).length - 1) {
+       endTriggerFour = true;
+      }
     }
   }
 }
@@ -133,17 +201,34 @@ this.showAgentStatus = function() {
       <table id='agentStatusTableData'></table> \
     </div> \
   ");
+  linebreak = "<br />";
   for (var i = 0; i < Object.keys(areaStatusSalesSum).length; i++) {
     if (Object.keys(areaStatusSalesSum)[i] == Object.keys(areaCashStatus)[i]) {
       var cashTmp = areaCashStatus[Object.keys(areaCashStatus)[i]].toFixed(2);
     } else {
       var cashTmp = 0;
     }
+    if (Object.keys(areaStatusSalesSum)[i] == Object.keys(areaCashlessStatus)[i]) {
+      var cashlessTmp = areaCashlessStatus[Object.keys(areaCashlessStatus)[i]].toFixed(2);
+    } else {
+      var cashlessTmp = 0;
+    }
+    if (cashTmp > 0) {
+      var debtSaleTmp = Math.abs(cashlessTmp - cashTmp).toFixed(2);
+    } else {
+      var debtSaleTmp = 0;
+    }
+    if (Object.keys(areaStatusSalesSum)[i] == Object.keys(areaDevelopmentStatus)[i]) {
+      var devStatus = areaDevelopmentStatus[Object.keys(areaDevelopmentStatus)[i]];
+    } else {
+      var devStatus = 0;
+    }
+    devStatus = areaDevelopmentStatus[Object.keys(areaDevelopmentStatus)[i]];
     var statusLine = '<tr> \
                         <td>' + localVars.area + Object.keys(areaStatusSalesSum)[i] + '</td> \
                         <td>' + localVars.salesTotal + areaStatusSalesSum[Object.keys(areaStatusSalesSum)[i]].toFixed(2) + '</td> \
-                        <td>' + localVars.salesCash + cashTmp + '</td> \
-                        <td>' + localVars.salesInvoicesQuantity + areaStatusInvoicesNumber[Object.keys(areaStatusInvoicesNumber)[i]] + '</td> \
+                        <td>' + localVars.salesCash + cashTmp + linebreak + localVars.salesCashless + cashlessTmp + linebreak + localVars.debtSale + debtSaleTmp + '</td> \
+                        <td>' + localVars.salesInvoicesQuantity + areaStatusInvoicesNumber[Object.keys(areaStatusInvoicesNumber)[i]] + linebreak + localVars.areaDevelopmentStatus + devStatus + '</td> \
                         <td>' + localVars.lastSyncDateTime + areaStatusLastSyncDateTime[Object.keys(areaStatusLastSyncDateTime)[i]] + '</td> \
                       </tr>';
     $("#agentStatusTableData").append(statusLine);

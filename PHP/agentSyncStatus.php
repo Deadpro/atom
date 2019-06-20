@@ -11,8 +11,8 @@
     $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
     $date = date("Y-m-d H:i:s");
     $date = strtotime($dateTimeDoc);
-    // $dateTime = date('Y-m-d', $date);
-    $dateTime = "2019-06-19 00:00:00";
+    $dateTime = date('Y-m-d', $date);
+    // $dateTime = "2019-06-19 00:00:00";
     $areaArray[0] = 'invoice_one';
     $areaArray[1] = 'invoice_two';
     $areaArray[2] = 'invoice_three';
@@ -22,7 +22,7 @@
     $tempArray = array();
     for ($i = 0; $i < 5; $i++) {
       $areaArrayTmp = $areaArray[$i];
-      $sql = "SELECT DISTINCT InvoiceNumber, AgentID, DateTimeDocLocal, DateTimeDoc, InvoiceSum
+      $sql = "SELECT DISTINCT InvoiceNumber, AccountingType, Comment, SalesPartnerID, AgentID, DateTimeDocLocal, DateTimeDoc, InvoiceSum
               FROM $areaArrayTmp WHERE DateTimeDoc > '$dateTime' ";
       if ($result = mysqli_query($dbconnect, $sql)){
         while($row = $result->fetch_object()){

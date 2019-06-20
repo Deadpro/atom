@@ -11,8 +11,8 @@
     $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
     $date = date("Y-m-d H:i:s");
     $date = strtotime($dateTimeDoc);
-    // $dateTime = date('Y-m-d', $date);
-    $dateTime = "2019-06-19 00:00:00";
+    $dateTime = date('Y-m-d', $date);
+    // $dateTime = "2019-06-19 23:00:00";
     $areaArray[0] = 'invoice_one';
     $areaArray[1] = 'invoice_two';
     $areaArray[2] = 'invoice_three';
