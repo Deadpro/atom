@@ -122,7 +122,7 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
       }
     }
     if (paramThree == 3) {
-      if (tmp[paramTwo].Comment != "") {alert(tmp[paramTwo].Comment);
+      if (tmp[paramTwo].Comment != "") {
         areaDevelopmentStatus[tmp[paramTwo].AgentID] += 1;
         trigger = true;
       }
