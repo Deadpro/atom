@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Pacifico" rel="stylesheet">
   <link rel="stylesheet" href="../CSS/report.css">
 </head>
-<body>
+<body  onload="starter();">
   <div class="loginContainer">
     <div class="col-25"> DBName: </div><div class="col-75"><input type="text" id="dbName"></div>
     <div class="col-25"> DBUser: </div><div class="col-75"><input type="text" id="dbUser"></div>
@@ -25,7 +25,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="../js/loginAdmin.js" type="text/javascript" ></script>
   <script src="../js/receiveAgentStatus.js" type="text/javascript" ></script>
+  <script src="../js/loginAdmin.js" type="text/javascript" ></script>
 </body>
 </html>

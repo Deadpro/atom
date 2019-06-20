@@ -362,25 +362,6 @@ $('#report-ceo').on('click', function() {
   });
 });
 
-this.renderMenuPage = function() {
-  $('#connection-data').html("");
-  $('div#connection-data').append(" \
-    <div id='menuContainer' class='menuContainer'> \
-      <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
-      <div class='col-60'>" + local.dateEnd + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
-      <div class='col-50'><input type='submit' id='report-ceo' value='Подробный отчет'></div> \
-      <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
-    </div> \
-    <script src='../js/loginAdmin.js' type='text/javascript' ></script> \
-  ");
-  if (dateStart != "" && dateEnd != "") {
-     $('input#dateStart').val(dateStart);
-     $('input#dateEnd').val(dateEnd);
-  }
-  $(".loginContainer").html("");
-  $(".loginContainer").hide();
-}
-
 this.renderReportTable = function(param)	{
   if ($.trim(dateStart) != '' && $.trim(dateEnd) != '') {
     if (param == 0) {
@@ -479,4 +460,23 @@ this.renderReportTable = function(param)	{
   ");
   $(".menuContainer").html("");
   $(".menuContainer").hide();
+}
+
+this.renderMenuPage = function() {
+  $('div#connection-data').html("");
+  $('div#connection-data').append(" \
+    <div id='menuContainer' class='menuContainer'> \
+      <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
+      <div class='col-60'>" + local.dateEnd + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
+      <div class='col-50'><input type='submit' id='report-ceo' value='Подробный отчет'></div> \
+      <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
+    </div> \
+    <script src='../js/loginAdmin.js' type='text/javascript' ></script> \
+  ");
+  if (dateStart != "" && dateEnd != "") {
+     $('input#dateStart').val(dateStart);
+     $('input#dateEnd').val(dateEnd);
+  }
+  $(".loginContainer").html("");
+  $(".loginContainer").hide();
 }

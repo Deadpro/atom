@@ -18,6 +18,23 @@
   font-weight: bold;
   text-align: right;
 }
+#agentStatusTableData {
+  border: 1px solid red;
+  width: 100%;
+  max-width: 700px;
+  /* margin: 10px; */
+}
+#agentStatusContainer td {
+  border: 1px solid #999;
+  text-align: right;
+  font: normal 12px Arial;
+}
+#agentStatusContainer td {padding: 5px;}
+#agentStatusContainer td:nth-child(1) { width: 10%; }		/*Район*/
+#agentStatusContainer td:nth-child(2) { width: 25%; }		/*Сумма продаж*/
+#agentStatusContainer td:nth-child(3) { width: 15%; }		/*Наличными*/
+#agentStatusContainer td:nth-child(4) { width: 15%; }		/*Всего накладных*/
+#agentStatusContainer td:nth-child(5) { width: 35%; }		/*Завершение*/
 .tableSeparator {
   height: 1em;
 }
