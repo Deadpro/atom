@@ -21,6 +21,7 @@ var local = {
   "totalSalesWeight" : "Всего продаж весовой (кг)",
   "totalSalesQuantity" : "Всего продаж в пачках (шт)",
   "totalSalesSum" : "Всего продаж",
+  "choosePeriod" : "Выберите период"
 };
 var quantity = 0;
 var exchangeQuantity = 0;

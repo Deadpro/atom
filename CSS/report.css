@@ -63,6 +63,14 @@
 .reportSubject {
   font: normal 12px Arial;
 }
+#choosePeriodContainer {
+  background-color: red;
+}
+#choosePeriodSubject {
+  position: relative;
+  width: 100%;
+  border: 1px solid grey;
+}
 #connection-submit,
 #connection-save,
 #connection-load,

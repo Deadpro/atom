@@ -1,11 +1,11 @@
-var tmp = new Object();
+// var responseDataObject = new Object();
 var areaStatusSalesSum = new Object();
 var areaStatusInvoicesNumber = new Object();
 var areaStatusLastSyncDateTime = new Object();
 var areaCashStatus = new Object();
 var areaCashlessStatus = new Object();
 var areaDevelopmentStatus = new Object();
-var trigger = false;
+// var trigger = false;
 var tmpAgentID;
 var endTriggerOne;
 var endTriggerTwo;
@@ -20,7 +20,9 @@ var localVars = {
   "debtSale" : "Реализация: ",
   "salesInvoicesQuantity" : "Накладных: ",
   "areaDevelopmentStatus" : "Развитие: ",
-  "lastSyncDateTime" : "Завершение: "
+  "lastSyncDateTime" : "Завершение: ",
+  "responseDataObject" : new Object(),
+  "trigger" : false
 };
 
 this.starter = function() {
@@ -67,16 +69,16 @@ this.getAgentStatus = function(dbName, dbUser, dbPassword, login, password) {
 }
 
 this.processResponse = function(response, obj, type) {
-  tmp = JSON.parse(response);
-  for (var i = 0; i < Object.keys(tmp).length; i++) {
-    trigger = false;
+  localVars.responseDataObject = JSON.parse(response);
+  for (var i = 0; i < Object.keys(localVars.responseDataObject).length; i++) {
+    localVars.trigger = false;
     if (Object.keys(obj).length > 0) {
       for (var key in obj) {
-        if (key == tmp[i].AgentID) {
+        if (key == localVars.responseDataObject[i].AgentID) {
           createObj(0, i, type);
         }
       }
-      if (trigger == false) {
+      if (localVars.trigger == false) {
         createObj(1, i, type);
       }
     } else {
@@ -92,103 +94,123 @@ this.processResponse = function(response, obj, type) {
 this.createObj = function(paramOne, paramTwo, paramThree) {
   if (paramOne == 0) {
     if (paramThree == 0) {
-      total = parseFloat(areaStatusSalesSum[tmp[paramTwo].AgentID], 10) + parseFloat(tmp[paramTwo].InvoiceSum, 10);
-      invoicesNumber = areaStatusInvoicesNumber[tmp[paramTwo].AgentID] + 1;
-      lastSyncDateTime = tmp[paramTwo].DateTimeDocLocal;
-      areaStatusSalesSum[tmp[paramTwo].AgentID] = total;
-      areaStatusInvoicesNumber[tmp[paramTwo].AgentID] = invoicesNumber;
-      areaStatusLastSyncDateTime[tmp[paramTwo].AgentID] = lastSyncDateTime;
-      trigger = true;
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      total = parseFloat(areaStatusSalesSum[localVars.responseDataObject[paramTwo].AgentID], 10) + parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10);
+      invoicesNumber = areaStatusInvoicesNumber[localVars.responseDataObject[paramTwo].AgentID] + 1;
+      lastSyncDateTime = localVars.responseDataObject[paramTwo].DateTimeDocLocal;
+      areaStatusSalesSum[localVars.responseDataObject[paramTwo].AgentID] = total;
+      areaStatusInvoicesNumber[localVars.responseDataObject[paramTwo].AgentID] = invoicesNumber;
+      areaStatusLastSyncDateTime[localVars.responseDataObject[paramTwo].AgentID] = lastSyncDateTime;
+      localVars.trigger = true;
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerOne = true;
       }
     }
     if (paramThree == 1) {
-      cash = parseFloat(areaCashStatus[tmp[paramTwo].AgentID], 10) + parseFloat(tmp[paramTwo].InvoiceSum, 10);
-      areaCashStatus[tmp[paramTwo].AgentID] = cash;
-      trigger = true;
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      cash = parseFloat(areaCashStatus[localVars.responseDataObject[paramTwo].AgentID], 10) + parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10);
+      areaCashStatus[localVars.responseDataObject[paramTwo].AgentID] = cash;
+      localVars.trigger = true;
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerTwo = true;
       }
     }
     if (paramThree == 2) {
-      if (tmp[paramTwo].AccountingType == "провод") {
-        cashless = parseFloat(areaCashlessStatus[tmp[paramTwo].AgentID], 10) + parseFloat(tmp[paramTwo].InvoiceSum, 10);
-        areaCashlessStatus[tmp[paramTwo].AgentID] = cashless;
-        trigger = true;
+      if (localVars.responseDataObject[paramTwo].AccountingType == "провод") {
+        cashless = parseFloat(areaCashlessStatus[localVars.responseDataObject[paramTwo].AgentID], 10) + parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10);
+        areaCashlessStatus[localVars.responseDataObject[paramTwo].AgentID] = cashless;
+        localVars.trigger = true;
+      } else {
+        areaCashlessStatus[localVars.responseDataObject[paramTwo].AgentID] += 0;
+        localVars.trigger = true;
       }
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerThree = true;
       }
     }
     if (paramThree == 3) {
-      if (tmp[paramTwo].Comment != "") {
-        areaDevelopmentStatus[tmp[paramTwo].AgentID] += 1;
-        trigger = true;
+      if (localVars.responseDataObject[paramTwo].Comment != "") {
+        areaDevelopmentStatus[localVars.responseDataObject[paramTwo].AgentID] += 1;
+        localVars.trigger = true;
+      } else {
+        areaDevelopmentStatus[localVars.responseDataObject[paramTwo].AgentID] += 0;
+        localVars.trigger = true;
       }
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerFour = true;
       }
     }
   }
   if (paramOne == 1) {
     if (paramThree == 0) {
-      Object.defineProperty(areaStatusSalesSum, tmp[paramTwo].AgentID, {
-         value: parseFloat(tmp[paramTwo].InvoiceSum, 10),
+      Object.defineProperty(areaStatusSalesSum, localVars.responseDataObject[paramTwo].AgentID, {
+         value: parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10),
          writable: true,
          enumerable: true,
          configurable: true
       });
-      Object.defineProperty(areaStatusInvoicesNumber, tmp[paramTwo].AgentID, {
+      Object.defineProperty(areaStatusInvoicesNumber, localVars.responseDataObject[paramTwo].AgentID, {
          value: 1,
          writable: true,
          enumerable: true,
          configurable: true
       });
-      Object.defineProperty(areaStatusLastSyncDateTime, tmp[paramTwo].AgentID, {
-         value: tmp[paramTwo].DateTimeDocLocal,
+      Object.defineProperty(areaStatusLastSyncDateTime, localVars.responseDataObject[paramTwo].AgentID, {
+         value: localVars.responseDataObject[paramTwo].DateTimeDocLocal,
          writable: true,
          enumerable: true,
          configurable: true
       });
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerOne = true;
       }
     }
     if (paramThree == 1) {
-      Object.defineProperty(areaCashStatus, tmp[paramTwo].AgentID, {
-         value: parseFloat(tmp[paramTwo].InvoiceSum, 10),
+      Object.defineProperty(areaCashStatus, localVars.responseDataObject[paramTwo].AgentID, {
+         value: parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10),
          writable: true,
          enumerable: true,
          configurable: true
       });
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerTwo = true;
       }
     }
     if (paramThree == 2) {
-      if (tmp[paramTwo].AccountingType == "провод") {
-         Object.defineProperty(areaCashlessStatus, tmp[paramTwo].AgentID, {
-           value: parseFloat(tmp[paramTwo].InvoiceSum, 10),
+      if (localVars.responseDataObject[paramTwo].AccountingType == "провод") {
+         Object.defineProperty(areaCashlessStatus, localVars.responseDataObject[paramTwo].AgentID, {
+           value: parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10),
            writable: true,
            enumerable: true,
            configurable: true
-        });
-      }
-      if (paramTwo == Object.keys(tmp).length - 1) {
-       endTriggerThree = true;
-      }
-    }
-    if (paramThree == 3) {
-      if (tmp[paramTwo].Comment != "") {
-        Object.defineProperty(areaDevelopmentStatus, tmp[paramTwo].AgentID, {
-          value: 1,
+         });
+      } else {
+        Object.defineProperty(areaCashlessStatus, localVars.responseDataObject[paramTwo].AgentID, {
+          value: 0,
           writable: true,
           enumerable: true,
           configurable: true
         });
       }
-      if (paramTwo == Object.keys(tmp).length - 1) {
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
+       endTriggerThree = true;
+      }
+    }
+    if (paramThree == 3) {
+      if (localVars.responseDataObject[paramTwo].Comment != "") {
+        Object.defineProperty(areaDevelopmentStatus, localVars.responseDataObject[paramTwo].AgentID, {
+          value: 1,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+      } else {
+        Object.defineProperty(areaDevelopmentStatus, localVars.responseDataObject[paramTwo].AgentID, {
+          value: 0,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+      }
+      if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
        endTriggerFour = true;
       }
     }
@@ -223,7 +245,7 @@ this.showAgentStatus = function() {
     } else {
       var devStatus = 0;
     }
-    devStatus = areaDevelopmentStatus[Object.keys(areaDevelopmentStatus)[i]];
+    // devStatus = areaDevelopmentStatus[Object.keys(areaDevelopmentStatus)[i]];
     var statusLine = '<tr> \
                         <td>' + localVars.area + Object.keys(areaStatusSalesSum)[i] + '</td> \
                         <td>' + localVars.salesTotal + areaStatusSalesSum[Object.keys(areaStatusSalesSum)[i]].toFixed(2) + '</td> \
