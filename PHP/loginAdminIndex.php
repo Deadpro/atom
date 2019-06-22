@@ -27,5 +27,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="../js/receiveAgentStatus.js" type="text/javascript" ></script>
   <script src="../js/loginAdmin.js" type="text/javascript" ></script>
+  <script lang="javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
 </body>
 </html>
