@@ -390,21 +390,24 @@ this.renderReportTable = function(param)	{
       <table id='tableHeader'><tr><td>" + local.ID + "</td><td>" + local.exchangeQuantity + "</td><td>" + local.name + "</td><td>" + local.quantity + "</td><td>" + local.total + "</td><td>" + local.returnQuantity + "</td></tr></table> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
       <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
-      <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div> \
+      <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
+      <button id='button-a'>Сохранить файл</button> \
     </div> \
+    <script type='text/javascript' src='../js/createexcel.js'></script> \
   ");
   for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
-    var productLine = '<tr> \
+    var productLine = '<tbody><tr> \
                         <td>' + (i + 1) + '</td> \
                         <td>' + salesExchange[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
                         <td>'+ Object.keys(salesQuantity)[i] +'</td> \
                         <td>' + salesQuantity[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
                         <td>' + salesTotal[Object.keys(salesTotal)[i]].toFixed(2) + '</td> \
                         <td>' + salesReturn[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                      </tr>';
+                      </tr></tbody>';
     $("#tableData").append(productLine);
     // alert(Object.keys(salesQuantity)[0]);
   }
+  $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
   $("#tableSummaryHeaderData").append(" \
     <tr> \
       <td></td> \
