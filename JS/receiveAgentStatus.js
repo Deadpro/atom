@@ -25,6 +25,10 @@ var localVars = {
   "trigger" : false
 };
 
+$('#home').on('click', function() {
+  starter();
+});
+
 this.starter = function() {
   if ($.trim(localStorage.getItem('dbName')) != '' && $.trim(localStorage.getItem('dbUser')) != '' &&
       $.trim(localStorage.getItem('dbPassword')) != '' && $.trim(localStorage.getItem('login')) != '' &&
@@ -66,6 +70,15 @@ this.getAgentStatus = function(dbName, dbUser, dbPassword, login, password) {
     processResponse(data, areaCashlessStatus, 2);
     processResponse(data, areaDevelopmentStatus, 3);
   });
+  if (Object.keys(localVars.responseDataObject).length == 0) {
+    $('div#connection-data').html("");
+    $('#connection-data').append(" \
+      <div id='agentStatusContainer' class='agentStatusContainer'> \
+        <span><h3>Конец смены</h3></span> \
+        <span><p>Пока еще ни один район не закончил работу.</p></span> \
+      </div> \
+    ");
+  }
 }
 
 this.processResponse = function(response, obj, type) {
@@ -218,7 +231,8 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
 }
 
 this.showAgentStatus = function() {
-  $('.loginContainer').append(" \
+  $('div#connection-data').html("");
+  $('#connection-data').append(" \
     <div id='agentStatusContainer' class='agentStatusContainer'> \
       <table id='agentStatusTableData'></table> \
     </div> \

@@ -36,6 +36,12 @@ function s2ab(s) {
    return buf;
 }
 
-$("#button-a").click(function(){alert('Создать файл и сохранить локально');
+$("#button-a").click(function(){
    saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
 });
+
+if (true) {
+	$("#printReport").click(function(){
+	   saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
+	});
+}
