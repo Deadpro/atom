@@ -1,10 +1,35 @@
 .col-100 {
   font: normal 20px Arial;
-  float: left;
   width: 100%;
+  border-bottom: 1px solid darkgrey;
+  margin-bottom: 3px;
 }
-
-#menuContainer .panel {
+.accountingMenuContainer {
+   top: 10vh;
+   position: relative;
+   max-width: 700px;
+   width: 100vw;
+   margin: 0 auto;
+   height: 100vh;
+   /* border: 1px solid yellow; */
+   padding: 20px;
+   z-index: 1002;
+}
+.accountingMenuContainer .panel {
   background-color: rgb(246, 248, 245);
-  /* max-width: 1400px; */
+}
+.panel-body .radioContainer {
+   float: left;
+   position: relative;
+   /* max-width: 100px; */
+   width: 33%;
+   margin: 0 auto;
+   /* height: 100vh; */
+   /* background-color: grey; */
+   /* border: 1px solid yellow; */
+   /* padding: 20px; */
+   z-index: 1002;
+}
+.panel-body #radioLabel {
+   margin-left: 4px;
 }

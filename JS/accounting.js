@@ -26,7 +26,7 @@ $('#accounting').on('click', function() {
 this.renderAccountingOptions = function() {
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
-    <div id='menuContainer' class='menuContainer row text-center products-row'> \
+    <div id='accountingMenuContainer' class='accountingMenuContainer'> \
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + accountingLocalVars.choosePeriod + "</span></div> \
         <div class='panel-body'> \
@@ -36,6 +36,15 @@ this.renderAccountingOptions = function() {
       </div> \
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + accountingLocalVars.chooseArea + "</span></div> \
+        <div class='panel-body'> \
+           <div class='radioContainer'><input type='radio' id='checkOne' name='chooseone' value='Район 1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
+           <div class='radioContainer'><input type='radio' id='checkTwo' name='chooseone' value='Район 2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
+           <div class='radioContainer'><input type='radio' id='checkThree' name='chooseone' value='Район 3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
+           <div class='radioContainer'><input type='radio' id='checkFour' name='chooseone' value='Район 4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
+           <div class='radioContainer'><input type='radio' id='checkFive' name='chooseone' value='Район 5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
         <div class='panel-body'><input type='submit' id='executeChoice' value='Загрузить данные'></div> \
       </div> \
     </div> \

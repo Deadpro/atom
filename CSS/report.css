@@ -111,17 +111,19 @@
   /* border: 1px solid green; */
   z-index: 1002;
 }
-.menuContainer {
+.reportMenuContainer {
   top: 10vh;
   position: relative;
   max-width: 700px;
   width: 100vw;
   margin: 0 auto;
   height: 100vh;
-  background-color: white;
   /* border: 1px solid yellow; */
   padding: 20px;
   z-index: 1002;
+}
+.reportMenuContainer .panel {
+   background-color: rgb(246, 248, 245);
 }
 #overflw {
   overflow-y: scroll;

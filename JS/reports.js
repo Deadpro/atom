@@ -322,11 +322,20 @@ this.closeReportTable = function() {
 this.renderMenuPage = function() {
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
-    <div id='menuContainer' class='menuContainer'> \
-      <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
-      <div class='col-60'>" + local.dateEnd + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
-      <div class='col-50'><input type='submit' id='report-ceo' value='Подробный отчет'></div> \
-      <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
+    <div id='reportMenuContainer' class='reportMenuContainer'> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + local.choosePeriod + "</span></div> \
+        <div class='panel-body'> \
+          <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
+          <div class='col-60'>" + local.dateEnd + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-body'> \
+          <div class='col-50'><input type='submit' id='report-ceo' value='Подробный отчет'></div> \
+          <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
+        </div> \
+      </div> \
     </div> \
     <script src='../js/reports.js' type='text/javascript' ></script> \
   ");
