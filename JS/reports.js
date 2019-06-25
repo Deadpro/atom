@@ -446,6 +446,6 @@ this.renderReportTable = function(param)	{
       <td>" + totalSalesSum.toFixed(2) + "</td> \
     </tr> \
   ");
-  $(".menuContainer").html("");
-  $(".menuContainer").hide();
+  $(".reportMenuContainer").html("");
+  $(".reportMenuContainer").hide();
 }

@@ -64,7 +64,8 @@
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       ItemID, Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
-      salespartners.Наименование, salespartners.ИНН, salespartners.ID FROM $areaArrayTmp
+      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.Контакты as type, номенклатура.Наименование as itemName FROM $areaArrayTmp
+      INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
       WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";
       if ($result = mysqli_query($dbconnect, $sql)){

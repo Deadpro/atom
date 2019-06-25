@@ -22,8 +22,11 @@ var accountingLocalVars = {
   "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive"],
   "checkedValue" : "",
   "tmp" : new Object(),
-  "accounting" : "1"
-
+  "accounting" : "1",
+  "salesListLee" : [],
+  "salesListChe" : [],
+  "listLeeElem" : [],
+  "listCheElem" : []
 };
 
 $('#accounting').on('click', function() {
@@ -34,7 +37,7 @@ $('#executeChoice').on('click', function() {
   // alert(document.getElementById(accountingLocalVars.checkRadio[0]).value);
   for (var i = 0; i < 5; i++) {
     if (document.getElementById(accountingLocalVars.checkRadio[i]).checked == true) {
-      checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
+      accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
     }
   }
   accountingLocalVars.dateStart = $('input#dateStart').val();
@@ -45,7 +48,10 @@ $('#executeChoice').on('click', function() {
     accountingLocalVars.tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
       alert(Object.keys(accountingLocalVars.tmp).length);
-      alert(accountingLocalVars.tmp[i].Наименование);
+      alert(accountingLocalVars.tmp[i].itemName + " " + accountingLocalVars.tmp[i].Наименование);
+      if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+         accountingLocalVars.salesListLee.push(accountingLocalVars.listLeeElem);
+      }
    //    trigger = false;
    //    if (Object.keys(salesQuantity).length > 0) {
    //      for (var key in salesQuantity) {
