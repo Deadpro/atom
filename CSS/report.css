@@ -58,13 +58,13 @@
 #tableSummaryData td:nth-child(2) { width: 25%; }		/*Exchange*/
 #tableSummaryData td:nth-child(3) { width: 25%; }		/*Exchange*/
 
-#close {
+.reportContainer #close {
   /* border: solid 1px red; */
   position: relative;
   padding-bottom: 20px;
   padding-top: 10px;
   padding-right: 5px;
-  font: normal 18px Arial;
+  /* font: normal 18px Arial; */
   max-width: 595px;
   width: 95vw;
   margin: 0 auto;
@@ -138,19 +138,19 @@
   /* border: solid 2px red; */
   height: 150px;
 }
-#tableHeader td {
+.reportContainer #tableHeader td {
   border-right: 2px solid #999;
   font-weight: bold;
   text-align: center;
   /* background-color: grey; */
 }
-#tableHeader td {padding: 5px;}
-#tableHeader td:nth-child(1) { width: 50px; }		/*№*/
-#tableHeader td:nth-child(2) { width: 50px; }		/*Exchange*/
-#tableHeader td:nth-child(3) { width: 300px; }		/*NAME*/
-#tableHeader td:nth-child(4) { width: 50px; }		/*Quantity*/
-#tableHeader td:nth-child(5) { width: 50px; }		/*Total*/
-#tableHeader td:nth-child(6) { width: 50px; }		/*Return*/
+.reportContainer #tableHeader td {padding: 5px;}
+.reportContainer #tableHeader td:nth-child(1) { width: 50px; }		/*№*/
+.reportContainer #tableHeader td:nth-child(2) { width: 50px; }		/*Exchange*/
+.reportContainer #tableHeader td:nth-child(3) { width: 300px; }		/*NAME*/
+.reportContainer #tableHeader td:nth-child(4) { width: 50px; }		/*Quantity*/
+.reportContainer #tableHeader td:nth-child(5) { width: 50px; }		/*Total*/
+.reportContainer #tableHeader td:nth-child(6) { width: 50px; }		/*Return*/
 
 .tableData td
 {

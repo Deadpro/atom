@@ -26,7 +26,9 @@ var accountingLocalVars = {
   "salesListLee" : [],
   "salesListChe" : [],
   "listLeeElem" : [],
-  "listCheElem" : []
+  "listCheElem" : [],
+  "accountantSubjectHead" : "Продажи провод за период: ",
+  "accountantSubjectDash" : " --- "
 };
 
 $('#accounting').on('click', function() {
@@ -46,24 +48,84 @@ $('#executeChoice').on('click', function() {
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: accountingLocalVars.dateStart,
                                           dateEnd: accountingLocalVars.dateEnd, area: accountingLocalVars.checkedValue, accounting: accountingLocalVars.accounting}, function(data) {
     accountingLocalVars.tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
-      alert(Object.keys(accountingLocalVars.tmp).length);
-      alert(accountingLocalVars.tmp[i].itemName + " " + accountingLocalVars.tmp[i].Наименование);
-      if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
-         accountingLocalVars.salesListLee.push(accountingLocalVars.listLeeElem);
-      }
-   //    trigger = false;
-   //    if (Object.keys(salesQuantity).length > 0) {
-   //      for (var key in salesQuantity) {
-   //      }
-   //      if (trigger == false) {
-   //      }
-   //    } else {
-   //    }
-   }
-   //  renderReportTable(0);
+    createAccountantTables();
+    // for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+    //   for (var j = 0; j < Object.keys(accountingLocalVars.tmp[i]).length; j++) {
+    //     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+    //
+    //     } else {
+    //
+    //     }
+    //   }
+    //   // alert(Object.keys(accountingLocalVars.tmp[i]).length);
+    // }
   });
 });
+
+this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.tmp).length);
+  $('div#connection-data').html("");
+  $(".accountantContainer").show();
+  $('div#connection-data').append(" \
+    <div id='accountantContainer' class='accountantContainer'> \
+      <a id='close' href='#' onclick='closeAccountantTable();'> \
+        <div class='accountantSubject' style='float:left'>" + accountingLocalVars.accountantSubjectHead + ' ' + accountingLocalVars.dateStart + ' ' + accountingLocalVars.accountantSubjectDash + ' ' + accountingLocalVars.dateEnd + "</div> \
+        <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
+      </a> \
+      <div id='tableContainer'> \
+        <table class='tableDataLee' id='tableDataLee'></table> \
+        <table class='tableDataChe' id='tableDataChe'></table> \
+      </div> \
+      <button id='saveAccountant'>Сохранить</button> \
+    </div> \
+    <script type='text/javascript' src='../js/createexcel.js'></script> \
+  ");
+  var tableRow = '<tbody><tr> \
+                      <td>' + accountingLocalVars.ID + '</td> \
+                      <td>' + accountingLocalVars.invoiceID + '</td> \
+                      <td>' + accountingLocalVars.areaID + '</td> \
+                      <td>' + accountingLocalVars.salesPartnerName + '</td> \
+                      <td>' + accountingLocalVars.taxPayerID + '</td> \
+                      <td>' + accountingLocalVars.itemName + '</td> \
+                      <td>' + accountingLocalVars.itemID + '</td> \
+                      <td>' + accountingLocalVars.itenmPrice + '</td> \
+                      <td>' + accountingLocalVars.quantity + '</td> \
+                      <td>' + accountingLocalVars.total + '</td> \
+                      <td>' + accountingLocalVars.invoiceSum + '</td> \
+                      <td>' + accountingLocalVars.date + '</td> \
+                    </tr></tbody>';
+  $("#tableDataLee").append(tableRow);
+  var count = 0;
+  for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+    if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+      count += 1;
+      tableRow = '<tbody><tr> \
+                          <td>' + count + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].ИНН + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].ItemID + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
+                        </tr></tbody>';
+      $("#tableDataLee").append(tableRow);
+      // alert(accountingLocalVars.tmp[i].Наименование);
+    } else {
+    }
+  }
+}
+
+this.closeAccountantTable = function() {
+  $(".accountantContainer").html("");
+  $(".accountantContainer").hide();
+  $("#connection-data").html("");
+  $(".accountingMenuContainer").show();
+  renderAccountingOptions();
+}
 
 this.renderAccountingOptions = function() {
   $('div#connection-data').html("");
