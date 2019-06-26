@@ -67,12 +67,13 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
   $(".accountantContainer").show();
   $('div#connection-data').append(" \
     <div id='accountantContainer' class='accountantContainer'> \
-      <a id='close' href='#' onclick='closeAccountantTable();'> \
+      <div id='closeAccountant' href='#' onclick='closeAccountantTable();'> \
         <div class='accountantSubject' style='float:left'>" + accountingLocalVars.accountantSubjectHead + ' ' + accountingLocalVars.dateStart + ' ' + accountingLocalVars.accountantSubjectDash + ' ' + accountingLocalVars.dateEnd + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
-      </a> \
+      </div> \
       <div id='tableContainer'> \
         <table class='tableDataLee' id='tableDataLee'></table> \
+        <br><br><br><br>\
         <table class='tableDataChe' id='tableDataChe'></table> \
       </div> \
       <button id='saveAccountant'>Сохранить</button> \
@@ -94,18 +95,20 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
                       <td>' + accountingLocalVars.date + '</td> \
                     </tr></tbody>';
   $("#tableDataLee").append(tableRow);
-  var count = 0;
+  $("#tableDataChe").append(tableRow);
+  var countLee = 0;
+  var countChe = 0;
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
-      count += 1;
+      countLee += 1;
       tableRow = '<tbody><tr> \
-                          <td>' + count + '</td> \
+                          <td>' + countLee + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
                           <td>' + accountingLocalVars.tmp[i].ИНН + '</td> \
                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].ItemID + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].item + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Total + '</td> \
@@ -114,7 +117,24 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
                         </tr></tbody>';
       $("#tableDataLee").append(tableRow);
       // alert(accountingLocalVars.tmp[i].Наименование);
-    } else {
+    }
+    if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+      countChe += 1;
+      tableRow = '<tbody><tr> \
+                          <td>' + countChe + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].ИНН + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                          <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
+                        </tr></tbody>';
+      $("#tableDataChe").append(tableRow);
     }
   }
 }

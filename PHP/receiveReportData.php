@@ -63,8 +63,9 @@
     } else {
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
-      ItemID, Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
-      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.Контакты as type, номенклатура.Наименование as itemName FROM $areaArrayTmp
+      Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
+      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.Контакты as type,
+      номенклатура.Наименование as itemName, номенклатура.Артикул_1С as item FROM $areaArrayTmp
       INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
       WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";
