@@ -73,14 +73,13 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
       </div> \
       <div id='tableContainer'> \
         <table class='tableDataLee' id='tableDataLee'></table> \
-        <br><br><br><br>\
         <table class='tableDataChe' id='tableDataChe'></table> \
       </div> \
       <button id='saveAccountant'>Сохранить</button> \
     </div> \
     <script type='text/javascript' src='../js/createexcel.js'></script> \
   ");
-  var tableRow = '<tbody><tr> \
+  var tableHeaderRow = '<tbody><tr> \
                       <td>' + accountingLocalVars.ID + '</td> \
                       <td>' + accountingLocalVars.invoiceID + '</td> \
                       <td>' + accountingLocalVars.areaID + '</td> \
@@ -94,10 +93,11 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
                       <td>' + accountingLocalVars.invoiceSum + '</td> \
                       <td>' + accountingLocalVars.date + '</td> \
                     </tr></tbody>';
-  $("#tableDataLee").append(tableRow);
-  $("#tableDataChe").append(tableRow);
   var countLee = 0;
   var countChe = 0;
+  var triggerLee = true;
+  var triggerChe = true;
+  var tableRow;
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countLee += 1;
@@ -115,8 +115,12 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
                           <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                           <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
                         </tr></tbody>';
+      if (triggerLee == true) {
+         $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
+         $("#tableDataLee").append(tableHeaderRow);
+         triggerLee = false;
+      }
       $("#tableDataLee").append(tableRow);
-      // alert(accountingLocalVars.tmp[i].Наименование);
     }
     if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countChe += 1;
@@ -134,6 +138,11 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
                           <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                           <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
                         </tr></tbody>';
+      if (triggerChe == true) {
+         $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
+         $("#tableDataChe").append(tableHeaderRow);
+         triggerChe = false;
+      }
       $("#tableDataChe").append(tableRow);
     }
   }

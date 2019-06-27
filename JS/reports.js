@@ -377,7 +377,6 @@ this.renderReportTable = function(param)	{
       <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
       <button id='button-a'>Сохранить файл</button> \
     </div> \
-    <script type='text/javascript' src='../js/createexcel.js'></script> \
   ");
   for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
     var productLine = '<tbody><tr> \
