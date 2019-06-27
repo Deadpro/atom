@@ -146,6 +146,8 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
       $("#tableDataChe").append(tableRow);
     }
   }
+  // $("#tableDataChe").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
+  // $("#tableDataLee").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
 }
 
 this.closeAccountantTable = function() {
