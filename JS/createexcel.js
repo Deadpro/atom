@@ -1,4 +1,3 @@
-
 var localCreateExcel = {
   "wb" : "",
   "wbx" : "",
@@ -8,21 +7,39 @@ var localCreateExcel = {
   "wsx_name" : "",
   "sheetcols" : "",
   "wbout" : "",
-  "wbxout" : ""
+  "wbxout" : "",
+	"currDate" : "",
+	"countLee" : 0,
+	"countChe" : 0,
+	"salesDate" : ""
 };
 
-$("#button-a").click(function(){ alert(11);
+localCreateExcel.currDate = formatDate(new Date());
+localCreateExcel.countLee = accountingLocalVars.countLee + 1;
+localCreateExcel.countChe = accountingLocalVars.countChe + 1;
+
+if (accountingLocalVars.dateStart != "") {
+	localCreateExcel.salesDate = accountingLocalVars.dateStart;
+} else {
+	localCreateExcel.salesDate = localCreateExcel.currDate;
+}
+
+$("#button-a").click(function(){
 	prepairDataToSave("reports");
-   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
+   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
 
-$("#saveAccountant").click(function(){ alert(22);
+$("#saveAccountantChe").click(function(){
 	prepairDataToSave("accountant");
-   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'продажиЧе.xls');
-	saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), 'продажиЛи.xls');
+  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Че_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countChe +'.xls');
 });
 
-$("#printReport").click(function(){ alert(33);
+$("#saveAccountantLee").click(function(){
+	prepairDataToSave("accountant");
+	saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Ли_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countLee +'.xls');
+});
+
+$("#printReport").click(function(){
 	prepairDataToSave("reports");
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
 });
@@ -86,4 +103,19 @@ function s2ab(s) {
 	var view = new Uint8Array(buf);
 	for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
 	return buf;
+}
+
+function formatDate(date) {
+  var monthNames = [
+    "01", "02", "03",
+    "04", "05", "06", "07",
+    "08", "09", "10",
+    "11", "12"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + '-' + monthNames[monthIndex] + '-' + year;
 }

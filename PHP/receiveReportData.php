@@ -19,7 +19,7 @@
     $currDate = strtotime($dateTimeDoc);
     $date = strtotime($dateTimeDoc);
     if ($accounting == "1") {
-      $date = date('Y-m-d', $date);
+      // $date = date('Y-m-d', $date);
     } else {
       $date = strtotime("-4 day", $date);
     }

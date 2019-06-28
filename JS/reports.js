@@ -1,27 +1,62 @@
-var local = {
-  "name" : "Номенклатура",
-  "price" : "Цена",
-  "quantity" : "Кол-во",
-  "sum" : "Сумма",
-  "exchangeQuantity" : "Обмен",
-  "returnQuantity" : "Возврат",
-  "ID" : "№",
-  "total" : "Сумма",
-  "dateStart" : "Начало (год-месяц-день часы:минуты):",
-  "dateEnd" : "Конец (год-месяц-день часы:минуты):",
-  "reportSubjectHeadSalesManager" : "Краткий отчет за период:",
-  "reportSubjectHeadCEO" : "Подробный отчет за период:",
-  "reportSubjectDash" : "---",
-  "totalExchangeWeight" : "Всего обменов весовой (кг)",
-  "totalReturnWeight" : "Всего возвратов весовой (кг)",
-  "totalExchangeQuantity" : "Всего обменов в пачках (шт)",
-  "totalReturnQuantity" : "Всего возвратов в пачках (шт)",
-  "totalExchangeSum" : "Всего обменов",
-  "totalReturnSum" : "Всего возвратов",
-  "totalSalesWeight" : "Всего продаж весовой (кг)",
-  "totalSalesQuantity" : "Всего продаж в пачках (шт)",
-  "totalSalesSum" : "Всего продаж",
-  "choosePeriod" : "Выберите период"
+var reportsLocalVars = {
+  "itemNameLabel" : "Номенклатура",
+  "itemPriceLabel" : "Цена",
+  "salesQuantityLabel" : "Кол-во",
+  "sumLabel" : "Сумма",
+  "exchangeQuantityLabel" : "Обмен",
+  "returnQuantityLabel" : "Возврат",
+  "IDLabel" : "№",
+  "totalLabel" : "Сумма",
+  "dateStartLabel" : "Начало (год-месяц-день часы:минуты):",
+  "dateEndLabel" : "Конец (год-месяц-день часы:минуты):",
+  "reportSubjectHeadSalesManagerLabel" : "Краткий отчет за период:",
+  "reportSubjectHeadCEOLabel" : "Подробный отчет за период:",
+  "reportSubjectDashLabel" : "---",
+  "totalExchangeWeightLabel" : "Всего обменов весовой (кг)",
+  "totalReturnWeightLabel" : "Всего возвратов весовой (кг)",
+  "totalExchangeQuantityLabel" : "Всего обменов в пачках (шт)",
+  "totalReturnQuantityLabel" : "Всего возвратов в пачках (шт)",
+  "totalExchangeSumLabel" : "Всего обменов",
+  "totalReturnSumLabel" : "Всего возвратов",
+  "totalSalesWeightLabel" : "Всего продаж весовой (кг)",
+  "totalSalesQuantityLabel" : "Всего продаж в пачках (шт)",
+  "totalSalesSumLabel" : "Всего продаж",
+  "choosePeriodLabel" : "Выберите период",
+  "quantity" : 0,
+  "exchangeQuantity" : 0,
+  "returnQuantity" : 0,
+  "total" : 0,
+  "salesQuantity" : new Object(),
+  "salesExchange" : new Object(),
+  "salesReturn" : new Object(),
+  "salesTotal" : new Object(),
+  "tmp" : new Object(),
+  "tmpName" : "",
+  "tmpQuantity" : 0,
+  "tmpExchange" : 0,
+  "tmpReturn" : 0,
+  "text" : "",
+  "trigger" : false,
+  "dateStart" : "",
+  "dateEnd" : "",
+  "tmpTotal" : 0,
+  "reportSubjectHead" : "",
+  "reportSubjectDash" : "",
+  "totalExchangeQuantity" : 0,
+  "totalReturnQuantity" : 0,
+  "totalExchangeQuantitySum" : 0,
+  "totalReturnQuantitySum" : 0,
+  "totalExchangeWeight" : 0,
+  "totalReturnWeight" : 0,
+  "totalExchangeWeightSum" : 0,
+  "totalReturnWeightSum" : 0,
+  "totalExchangeSum" : 0,
+  "totalReturnSum" : 0,
+  "totalSalesQuantity" : 0,
+  "totalSalesQuantitySum" : 0,
+  "totalSalesWeight" : 0,
+  "totalSalesWeightSum" : 0,
+  "totalSalesSum" : 0
 };
 var quantity = 0;
 var exchangeQuantity = 0;
@@ -324,10 +359,10 @@ this.renderMenuPage = function() {
   $('div#connection-data').append(" \
     <div id='reportMenuContainer' class='reportMenuContainer'> \
       <div class='panel panel-custom border'> \
-        <div class='panel-heading col-100'><span>" + local.choosePeriod + "</span></div> \
+        <div class='panel-heading col-100'><span>" + reportsLocalVars.choosePeriodLabel + "</span></div> \
         <div class='panel-body'> \
-          <div class='col-60'>" + local.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
-          <div class='col-60'>" + local.dateEnd + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
+          <div class='col-60'>" + reportsLocalVars.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
+          <div class='col-60'>" + reportsLocalVars.dateEndLabel + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -350,11 +385,11 @@ this.renderMenuPage = function() {
 this.renderReportTable = function(param)	{
   if ($.trim(dateStart) != '' && $.trim(dateEnd) != '') {
     if (param == 0) {
-      reportSubjectHead = local.reportSubjectHeadSalesManager;
-      reportSubjectDash = local.reportSubjectDash;
+      reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;
+      reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     } else {
-      reportSubjectHead = local.reportSubjectHeadCEO;
-      reportSubjectDash = local.reportSubjectDash;
+      reportSubjectHead = reportsLocalVars.reportSubjectHeadCEOLabel;
+      reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     }
   } else {
     if (param == 0) {
@@ -371,7 +406,7 @@ this.renderReportTable = function(param)	{
         <div class='reportSubject' style='float:left'>" + reportSubjectHead + ' ' + dateStart + ' ' + reportSubjectDash + ' ' + dateEnd + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
-      <table id='tableHeader'><tr><td>" + local.ID + "</td><td>" + local.exchangeQuantity + "</td><td>" + local.name + "</td><td>" + local.quantity + "</td><td>" + local.total + "</td><td>" + local.returnQuantity + "</td></tr></table> \
+      <table id='tableHeader'><tr><td>" + reportsLocalVars.IDLabel + "</td><td>" + reportsLocalVars.exchangeQuantityLabel + "</td><td>" + reportsLocalVars.itemNameLabel + "</td><td>" + reportsLocalVars.salesQuantityLabel + "</td><td>" + reportsLocalVars.totalLabel + "</td><td>" + reportsLocalVars.returnQuantityLabel + "</td></tr></table> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
       <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
       <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
@@ -394,53 +429,53 @@ this.renderReportTable = function(param)	{
   $("#tableSummaryHeaderData").append(" \
     <tr> \
       <td></td> \
-      <td>" + local.quantity + "</td> \
-      <td>" + local.sum + "</td> \
+      <td>" + reportsLocalVars.salesQuantityLabel + "</td> \
+      <td>" + reportsLocalVars.sumLabel + "</td> \
     </tr><tr class='tableSeparator'></tr>\
   ");
   $("#tableSummaryData").append(" \
     <tr> \
-      <td>" + local.totalExchangeQuantity + "</td> \
+      <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
       <td>" + totalExchangeQuantity.toFixed(2) + "</td> \
       <td>" + totalExchangeQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalExchangeWeight + "</td> \
+      <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
       <td>" + totalExchangeWeight.toFixed(2) + "</td> \
       <td>" + totalExchangeWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalExchangeSum + "</td> \
+      <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
       <td></td> \
       <td>" + totalExchangeSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
-      <td>" + local.totalReturnQuantity + "</td> \
+      <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
       <td>" + totalReturnQuantity.toFixed(2) + "</td> \
       <td>" + totalReturnQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalReturnWeight + "</td> \
+      <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
       <td>" + totalReturnWeight.toFixed(2) + "</td> \
       <td>" + totalReturnWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalReturnSum + "</td> \
+      <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
       <td></td> \
       <td>" + totalReturnSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
-      <td>" + local.totalSalesQuantity + "</td> \
+      <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
       <td>" + totalSalesQuantity.toFixed(2) + "</td> \
       <td>" + totalSalesQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalSalesWeight + "</td> \
+      <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
       <td>" + totalSalesWeight.toFixed(2) + "</td> \
       <td>" + totalSalesWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
-      <td>" + local.totalSalesSum + "</td> \
+      <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
       <td></td> \
       <td>" + totalSalesSum.toFixed(2) + "</td> \
     </tr> \

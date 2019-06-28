@@ -28,7 +28,9 @@ var accountingLocalVars = {
   "listLeeElem" : [],
   "listCheElem" : [],
   "accountantSubjectHead" : "Продажи провод за период: ",
-  "accountantSubjectDash" : " --- "
+  "accountantSubjectDash" : " --- ",
+  "countChe" : 0,
+  "countLee" : 0
 };
 
 $('#accounting').on('click', function() {
@@ -40,6 +42,9 @@ $('#executeChoice').on('click', function() {
   for (var i = 0; i < 5; i++) {
     if (document.getElementById(accountingLocalVars.checkRadio[i]).checked == true) {
       accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
+    } else {
+      document.getElementById(accountingLocalVars.checkRadio[0]).checked = true;
+      accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[0]).value;
     }
   }
   accountingLocalVars.dateStart = $('input#dateStart').val();
@@ -62,7 +67,8 @@ $('#executeChoice').on('click', function() {
   });
 });
 
-this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.tmp).length);
+this.createAccountantTables = function() {
+  alert("Всего строк: " + Object.keys(accountingLocalVars.tmp).length);
   $('div#connection-data').html("");
   $(".accountantContainer").show();
   $('div#connection-data').append(" \
@@ -75,9 +81,7 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
         <table class='tableDataLee' id='tableDataLee'></table> \
         <table class='tableDataChe' id='tableDataChe'></table> \
       </div> \
-      <button id='saveAccountant'>Сохранить</button> \
     </div> \
-    <script type='text/javascript' src='../js/createexcel.js'></script> \
   ");
   var tableHeaderRow = '<tbody><tr> \
                       <td>' + accountingLocalVars.ID + '</td> \
@@ -101,6 +105,7 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countLee += 1;
+      accountingLocalVars.countLee += 1;
       tableRow = '<tbody><tr> \
                           <td>' + countLee + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
@@ -124,6 +129,7 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
     }
     if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countChe += 1;
+      accountingLocalVars.countChe += 1;
       tableRow = '<tbody><tr> \
                           <td>' + countChe + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
@@ -145,6 +151,47 @@ this.createAccountantTables = function() {alert(Object.keys(accountingLocalVars.
       }
       $("#tableDataChe").append(tableRow);
     }
+  }
+  var saveTriggerLee = false;
+  var saveTriggerChe = false;
+  var saveTriggerBtn = false;
+  for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+    if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0
+        && saveTriggerLee == false) {
+      saveTriggerLee = true;
+    }
+    if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0
+        && saveTriggerChe == false) {
+      saveTriggerChe = true;
+    }
+  }
+  if ((saveTriggerLee == true && saveTriggerChe == true) && saveTriggerBtn == false) {
+    saveTriggerBtn = true;
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAccountantLee'>Сохранить ИП Ли</button> \
+                                <button id='saveAccountantChe'>Сохранить ИП Че</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
+  }
+  if ((saveTriggerLee == false && saveTriggerChe == true) && saveTriggerBtn == false) {
+    saveTriggerBtn = true;
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAccountantChe'>Сохранить ИП Че</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
+  }
+  if ((saveTriggerLee == true && saveTriggerChe == false) && saveTriggerBtn == false) {
+    saveTriggerBtn = true;
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAccountantLee'>Сохранить ИП Ли</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
   }
   // $("#tableDataChe").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
   // $("#tableDataLee").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
