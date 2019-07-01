@@ -46,17 +46,17 @@ $("#printReport").click(function(){
 
 function prepairDataToSave(param) {
 	// var wb = XLS.utils.table_to_book(document.getElementById('tableData'),{sheet:"Sheet JS"});
-	if (param == "reports") { alert(1);
+	if (param == "reports") {
 		localCreateExcel.wb = XLSX.utils.book_new();
 		localCreateExcel.ws = XLSX.utils.table_to_sheet(document.getElementById('tableData'));
 		localCreateExcel.ws_name = "Отчет";
 		localCreateExcel.sheetcols = [
 			{wch: 3},
 			{wch: 7},
-		   {wch: 40},
-		   {wch: 8},
-		   {wch: 9},
-		   {wch: 5}
+			{wch: 40},
+			{wch: 8},
+			{wch: 9},
+			{wch: 5}
 		];
 		localCreateExcel.ws['!cols'] = localCreateExcel.sheetcols;
 		// ws['!rows'] = wsrows;
@@ -75,16 +75,16 @@ function prepairDataToSave(param) {
 		localCreateExcel.sheetcols = [
 			{wch: 3},
 			{wch: 7},
-		   {wch: 10},
-		   {wch: 40},
-		   {wch: 9},
-		   {wch: 5},
+			{wch: 10},
+			{wch: 40},
+			{wch: 9},
+			{wch: 5},
 			{wch: 3},
 			{wch: 7},
-		   {wch: 10},
-		   {wch: 8},
-		   {wch: 9},
-		   {wch: 10}
+			{wch: 10},
+			{wch: 8},
+			{wch: 9},
+			{wch: 10}
 		];
 		localCreateExcel.ws['!cols'] = localCreateExcel.sheetcols;
 		localCreateExcel.wb.SheetNames.push(localCreateExcel.ws_name);

@@ -157,8 +157,7 @@
   font: normal 14px Arial;
   color: black;
   padding: 5px;
-  border-bottom: 1px solid #999;
-  border-right: 2px solid #FFF;
+  border: 1px solid #999;
 }
 
 .tableData td:nth-child(1) { width: 50px; text-align: right;}

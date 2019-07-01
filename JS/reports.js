@@ -406,13 +406,21 @@ this.renderReportTable = function(param)	{
         <div class='reportSubject' style='float:left'>" + reportSubjectHead + ' ' + dateStart + ' ' + reportSubjectDash + ' ' + dateEnd + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
-      <table id='tableHeader'><tr><td>" + reportsLocalVars.IDLabel + "</td><td>" + reportsLocalVars.exchangeQuantityLabel + "</td><td>" + reportsLocalVars.itemNameLabel + "</td><td>" + reportsLocalVars.salesQuantityLabel + "</td><td>" + reportsLocalVars.totalLabel + "</td><td>" + reportsLocalVars.returnQuantityLabel + "</td></tr></table> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
       <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
       <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
       <button id='button-a'>Сохранить файл</button> \
     </div> \
   ");
+  var tableHeaderRow = '<tbody><tr> \
+                      <td>' + reportsLocalVars.IDLabel + '</td> \
+                      <td>' + reportsLocalVars.exchangeQuantityLabel + '</td> \
+                      <td>' + reportsLocalVars.itemNameLabel + '</td> \
+                      <td>' + reportsLocalVars.salesQuantityLabel + '</td> \
+                      <td>' + reportsLocalVars.totalLabel + '</td> \
+                      <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
+                    </tr></tbody>';
+  var triggerHeader = true;
   for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
     var productLine = '<tbody><tr> \
                         <td>' + (i + 1) + '</td> \
@@ -422,6 +430,10 @@ this.renderReportTable = function(param)	{
                         <td>' + salesTotal[Object.keys(salesTotal)[i]].toFixed(2) + '</td> \
                         <td>' + salesReturn[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
                       </tr></tbody>';
+    if (triggerHeader == true) {
+      $("#tableData").append(tableHeaderRow);
+      triggerHeader = false;
+    }
     $("#tableData").append(productLine);
     // alert(Object.keys(salesQuantity)[0]);
   }

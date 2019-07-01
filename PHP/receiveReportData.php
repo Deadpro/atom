@@ -37,11 +37,12 @@
     $areaArray[2] = 'invoice_three';
     $areaArray[3] = 'invoice_four';
     $areaArray[4] = 'invoice_five';
+    $areaArray[5] = 'invoice_seven';
 
     $resultArray = array();
     $tempArray = array();
     if ($accounting != '1') {
-      for ($i = 0; $i < 5; $i++) {
+      for ($i = 0; $i < count($areaArray); $i++) {
         $areaArrayTmp = $areaArray[$i];
         $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,

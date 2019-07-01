@@ -30,7 +30,8 @@ var accountingLocalVars = {
   "accountantSubjectHead" : "Продажи провод за период: ",
   "accountantSubjectDash" : " --- ",
   "countChe" : 0,
-  "countLee" : 0
+  "countLee" : 0,
+  "radioCheckedTrigger" : false
 };
 
 $('#accounting').on('click', function() {
@@ -42,10 +43,12 @@ $('#executeChoice').on('click', function() {
   for (var i = 0; i < 5; i++) {
     if (document.getElementById(accountingLocalVars.checkRadio[i]).checked == true) {
       accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
-    } else {
-      document.getElementById(accountingLocalVars.checkRadio[0]).checked = true;
-      accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[0]).value;
+      accountingLocalVars.radioCheckedTrigger = true;
     }
+  }
+  if (accountingLocalVars.radioCheckedTrigger == false) {
+    document.getElementById(accountingLocalVars.checkRadio[0]).checked = true;
+    accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[0]).value;
   }
   accountingLocalVars.dateStart = $('input#dateStart').val();
   accountingLocalVars.dateEnd = $('input#dateEnd').val();
