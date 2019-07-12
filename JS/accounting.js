@@ -12,14 +12,14 @@ var accountingLocalVars = {
   "taxPayerID" : "ИНН",
   "date" : "Дата",
   "salesPartnerOfficialName" : "Организация",
-  "dateStartLabel" : "Начало (год-месяц-день часы:минуты):",
-  "dateEndLabel" : "Конец (год-месяц-день часы:минуты):",
+  "dateStartLabel" : "Начало периода:",
+  "dateEndLabel" : "Конец периода:",
   "dateStart" : "",
   "dateEnd" : "",
   "dash" : "---",
   "choosePeriod" : "Выберите период",
   "chooseArea" : "Выберите район",
-  "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive"],
+  "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive", "checkSeven"],
   "checkedValue" : "",
   "tmp" : new Object(),
   "accounting" : "1",
@@ -31,16 +31,34 @@ var accountingLocalVars = {
   "accountantSubjectDash" : " --- ",
   "countChe" : 0,
   "countLee" : 0,
-  "radioCheckedTrigger" : false
+  "radioCheckedTrigger" : false,
+  "dateControl" : ""
 };
+
+function formatDate(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  hours = hours < 10 ? '0'+hours : hours;
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  seconds = seconds < 10 ? '0'+seconds : seconds;
+  day = day < 10 ? '0'+day : day;
+  month = month < 10 ? '0'+month : month;
+  var strTime = hours + ':' + minutes + ':' + seconds;
+  return  year + "." + month + "." + day + "  " + strTime;
+}
 
 $('#accounting').on('click', function() {
   renderAccountingOptions();
 });
 
 $('#executeChoice').on('click', function() {
+  accountingLocalVars.dateControl = document.querySelector('input[type="date"]');
   // alert(document.getElementById(accountingLocalVars.checkRadio[0]).value);
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 6; i++) {
     if (document.getElementById(accountingLocalVars.checkRadio[i]).checked == true) {
       accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
       accountingLocalVars.radioCheckedTrigger = true;
@@ -109,19 +127,24 @@ this.createAccountantTables = function() {
     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countLee += 1;
       accountingLocalVars.countLee += 1;
+      var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      var taxNumber = accountingLocalVars.tmp[i].ИНН;
+      var strTaxNumber = taxNumber.toString();
       tableRow = '<tbody><tr> \
                           <td>' + countLee + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].ИНН + '</td> \
+                          <td>' + strTaxNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
                           <td>' + accountingLocalVars.tmp[i].item + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Total + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
+                          <td>' + dTStrOut + '</td> \
                         </tr></tbody>';
       if (triggerLee == true) {
          $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
@@ -133,19 +156,24 @@ this.createAccountantTables = function() {
     if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
       countChe += 1;
       accountingLocalVars.countChe += 1;
+      var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      var taxNumber = accountingLocalVars.tmp[i].ИНН;
+      var strTaxNumber = taxNumber.toString();
       tableRow = '<tbody><tr> \
                           <td>' + countChe + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].ИНН + '</td> \
+                          <td>' + strTaxNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
                           <td>' + accountingLocalVars.tmp[i].item + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Total + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].DateTimeDocLocal + '</td> \
+                          <td>' + dTStrOut + '</td> \
                         </tr></tbody>';
       if (triggerChe == true) {
          $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
@@ -215,8 +243,8 @@ this.renderAccountingOptions = function() {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + accountingLocalVars.choosePeriod + "</span></div> \
         <div class='panel-body'> \
-          <div class='col-60'>" + accountingLocalVars.dateStartLabel + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
-          <div class='col-60'>" + accountingLocalVars.dateEndLabel + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
+          <div class='col-60'>" + accountingLocalVars.dateStartLabel + "</div><div class='col-40'><input type='date' id='dateStart'></div> \
+          <div class='col-60'>" + accountingLocalVars.dateEndLabel + "</div><div class='col-40'><input type='date' id='dateEnd'></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -227,6 +255,7 @@ this.renderAccountingOptions = function() {
            <div class='radioContainer'><input type='radio' id='checkThree' name='chooseone' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
            <div class='radioContainer'><input type='radio' id='checkFour' name='chooseone' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
            <div class='radioContainer'><input type='radio' id='checkFive' name='chooseone' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+           <div class='radioContainer'><input type='radio' id='checkSeven' name='chooseone' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \

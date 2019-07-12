@@ -8,15 +8,15 @@ var localCreateExcel = {
   "sheetcols" : "",
   "wbout" : "",
   "wbxout" : "",
-	"currDate" : "",
-	"countLee" : 0,
-	"countChe" : 0,
+	"currDate" : formatDate(new Date()),
+	"countLee" : accountingLocalVars.countLee + 1,
+	"countChe" : accountingLocalVars.countChe + 1,
 	"salesDate" : ""
 };
 
-localCreateExcel.currDate = formatDate(new Date());
-localCreateExcel.countLee = accountingLocalVars.countLee + 1;
-localCreateExcel.countChe = accountingLocalVars.countChe + 1;
+// localCreateExcel.currDate = formatDate(new Date());
+// localCreateExcel.countLee = accountingLocalVars.countLee + 1;
+// localCreateExcel.countChe = accountingLocalVars.countChe + 1;
 
 if (accountingLocalVars.dateStart != "") {
 	localCreateExcel.salesDate = accountingLocalVars.dateStart;
@@ -30,13 +30,13 @@ $("#button-a").click(function(){
 });
 
 $("#saveAccountantChe").click(function(){
-	prepairDataToSave("accountant");
-  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Че_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countChe +'.xls');
+	prepairDataToSave("accountantChe");
+  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Че_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countChe +'.xlsx');
 });
 
 $("#saveAccountantLee").click(function(){
-	prepairDataToSave("accountant");
-	saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Ли_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countLee +'.xls');
+	prepairDataToSave("accountantLee");
+	saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Ли_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countLee +'.xlsx');
 });
 
 $("#printReport").click(function(){
@@ -46,7 +46,7 @@ $("#printReport").click(function(){
 
 function prepairDataToSave(param) {
 	// var wb = XLS.utils.table_to_book(document.getElementById('tableData'),{sheet:"Sheet JS"});
-	if (param == "reports") {
+	if (param == "reports") { alert("Отчеты");
 		localCreateExcel.wb = XLSX.utils.book_new();
 		localCreateExcel.ws = XLSX.utils.table_to_sheet(document.getElementById('tableData'));
 		localCreateExcel.ws_name = "Отчет";
@@ -65,19 +65,61 @@ function prepairDataToSave(param) {
 		// XLS.utils.book_append_sheet(wb, ws, ws_name);
 		localCreateExcel.wbout = XLSX.write(localCreateExcel.wb, {bookType:'xlsx', bookSST:true, type:'binary'});
 	}
-	if (param == "accountant") { alert(2);
-		localCreateExcel.wb = XLS.utils.book_new();
-		localCreateExcel.wbx = XLS.utils.book_new();
-		localCreateExcel.ws = XLS.utils.table_to_sheet(document.getElementById('tableDataChe'));
-		localCreateExcel.wsx = XLS.utils.table_to_sheet(document.getElementById('tableDataLee'));
+	if (param == "accountantChe") { alert("Бухгалтерия ИП Че");
+		localCreateExcel.wb = XLSX.utils.book_new();
+		localCreateExcel.ws = XLSX.utils.table_to_sheet(document.getElementById('tableDataChe'));
 		localCreateExcel.ws_name = "Продажи Че";
+    // wb.Sheets.ws_name.L3 = {t:'s',v:'2019-07-01 00:00:00'};
+    var wsname = localCreateExcel.ws_name;
+    var workbook = localCreateExcel.wb;
+    var worksheet = localCreateExcel.ws;
+
+    // var address_of_cell = 'L2';
+    // workbook.Sheets[wsname].address_of_cell = {t:'s',v:'2019-07-01 00:00:00'};
+
+    // delete sheet.A2.w;
+    // sheet.A2.z = '0';
+
+		localCreateExcel.sheetcols = [
+			{wch: 3},
+			{wch: 7},
+			{wch: 10},
+			{wch: 40},
+			{wch: 25},
+			{wch: 5},
+			{wch: 3},
+			{wch: 7},
+			{wch: 10},
+			{wch: 8},
+			{wch: 9},
+			{wch: 20}
+		];
+		worksheet['!cols'] = localCreateExcel.sheetcols;
+		workbook.SheetNames.push(wsname);
+
+    // var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    // var desired_cell = worksheet[address_of_cell];
+    // var desired_value = (desired_cell ? desired_cell.v : undefined);
+    Object.keys(worksheet).forEach(function(s) {
+      if (worksheet[s].w) {
+          delete worksheet[s].w;
+          worksheet[s].z = '49';
+      }
+    });
+    workbook.Sheets[wsname] = worksheet;
+    // localCreateExcel.wbout = XLSX.writeFile(localCreateExcel.wb, 'MyExcel.xlsx');
+		localCreateExcel.wbout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
+	}
+  if (param == "accountantLee") { alert("Бухгалтерия ИП Ли");
+		localCreateExcel.wbx = XLSX.utils.book_new();
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataLee'));
 		localCreateExcel.wsx_name = "Продажи Ли";
 		localCreateExcel.sheetcols = [
 			{wch: 3},
 			{wch: 7},
 			{wch: 10},
 			{wch: 40},
-			{wch: 9},
+			{wch: 25},
 			{wch: 5},
 			{wch: 3},
 			{wch: 7},
@@ -86,15 +128,10 @@ function prepairDataToSave(param) {
 			{wch: 9},
 			{wch: 10}
 		];
-		localCreateExcel.ws['!cols'] = localCreateExcel.sheetcols;
-		localCreateExcel.wb.SheetNames.push(localCreateExcel.ws_name);
-		localCreateExcel.wb.Sheets[localCreateExcel.ws_name] = localCreateExcel.ws;
-
 		localCreateExcel.wsx['!cols'] = localCreateExcel.sheetcols;
 		localCreateExcel.wbx.SheetNames.push(localCreateExcel.wsx_name);
 		localCreateExcel.wbx.Sheets[localCreateExcel.wsx_name] = localCreateExcel.wsx;
-		localCreateExcel.wbout = XLS.write(localCreateExcel.wb, {bookType:'xls', bookSST:true, type:'binary'});
-		localCreateExcel.wbxout = XLS.write(localCreateExcel.wbx, {bookType:'xls', bookSST:true, type:'binary'});
+		localCreateExcel.wbxout = XLSX.write(localCreateExcel.wbx, {bookType:'xlsx', bookSST:true, type:'binary'});
 	}
 }
 

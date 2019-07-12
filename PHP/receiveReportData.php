@@ -9,6 +9,9 @@
     $accounting = trim($_POST['accounting']);
     $area = trim($_POST['area']);
     $index = (int)$area - 1;
+    if ((int)$area == 7) {
+      $index = (int)$area - 2;
+    }
     date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
     $time = time(); // Вот это значение отправляем в базу
     $time += 11 * 3600; // Добавляем 11 часов к времени по Гринвичу

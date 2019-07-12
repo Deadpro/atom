@@ -7,11 +7,12 @@ var reportsLocalVars = {
   "returnQuantityLabel" : "Возврат",
   "IDLabel" : "№",
   "totalLabel" : "Сумма",
-  "dateStartLabel" : "Начало (год-месяц-день часы:минуты):",
-  "dateEndLabel" : "Конец (год-месяц-день часы:минуты):",
+  "dateStartLabel" : "Начало периода:",
+  "dateEndLabel" : "Конец периода:",
   "reportSubjectHeadSalesManagerLabel" : "Краткий отчет за период:",
   "reportSubjectHeadCEOLabel" : "Подробный отчет за период:",
   "reportSubjectDashLabel" : "---",
+  "reportSubjectDash" : "",
   "totalExchangeWeightLabel" : "Всего обменов весовой (кг)",
   "totalReturnWeightLabel" : "Всего возвратов весовой (кг)",
   "totalExchangeQuantityLabel" : "Всего обменов в пачках (шт)",
@@ -56,93 +57,59 @@ var reportsLocalVars = {
   "totalSalesQuantitySum" : 0,
   "totalSalesWeight" : 0,
   "totalSalesWeightSum" : 0,
-  "totalSalesSum" : 0
+  "totalSalesSum" : 0,
+  "dateControl" : document.querySelector('input[type="date"]')
 };
-var quantity = 0;
-var exchangeQuantity = 0;
-var returnQuantity = 0;
-var total = 0;
-var salesQuantity = new Object();
-var salesExchange = new Object();
-var salesReturn = new Object();
-var salesTotal = new Object();
-var tmpName;
-var tmpQuantity;
-var tmpExchange;
-var tmpReturn;
-var text = "";
-var trigger = false;
-var tmp = new Object();
-var dateStart;
-var dateEnd;
-var tmpTotal = 0;
-var reportSubjectHead;
-var reportSubjectDash;
-var totalExchangeQuantity = 0;
-var totalReturnQuantity = 0;
-var totalExchangeQuantitySum = 0;
-var totalReturnQuantitySum = 0;
-var totalExchangeWeight = 0;
-var totalReturnWeight = 0;
-var totalExchangeWeightSum = 0;
-var totalReturnWeightSum = 0;
-var totalExchangeSum = 0;
-var totalReturnSum = 0;
-var totalSalesQuantity = 0;
-var totalSalesQuantitySum = 0;
-var totalSalesWeight = 0;
-var totalSalesWeightSum = 0;
-var totalSalesSum = 0;
 
 $('#reports').on('click', function() {
   renderMenuPage();
 });
 
 $('#report-sales-manager').on('click', function() {
-  dateStart = $('input#dateStart').val();
-  dateEnd = $('input#dateEnd').val();
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: dateStart, dateEnd: dateEnd}, function(data) {
-    tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(tmp).length; i++) {
-      trigger = false;
-      if (Object.keys(salesQuantity).length > 0) {
-        for (var key in salesQuantity) {
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart, dateEnd: reportsLocalVars.dateEnd}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+        for (var key in reportsLocalVars.salesQuantity) {
           // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-          if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-              tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-              tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-              tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-            if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+          if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
               if (key == "Ким-ча весовая") {
                 createObject(2, 1, i, 0);
               }
             }
-            if (tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
               if (key == "Редька по-восточному весовая") {
                 createObject(1, 1, i, 0);
               }
             }
           } else {
-            if (key == tmp[i].Наименование) {
+            if (key == reportsLocalVars.tmp[i].Наименование) {
               createObject(0, 1, i, 0);
             }
           }
         }
-        if (trigger == false) {
+        if (reportsLocalVars.trigger == false) {
         // if (!(tmp[i].Наименование in salesQuantity)) {
-          if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-              tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-              tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-              tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-            if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+          if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
               createObject(2, 0, i, 0);
             }
-            if (tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
               createObject(1, 0, i, 0);
             }
           } else {
@@ -150,16 +117,16 @@ $('#report-sales-manager').on('click', function() {
           }
         }
       } else {
-         if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-            tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-            tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-            tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-            if (tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-               tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+         if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+            reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+            reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+            reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+               reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
                createObject(2, 0, i, 0);
             }
-            if (tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-               tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+               reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
                createObject(1, 0, i, 0);
             }
          } else {
@@ -178,21 +145,21 @@ $('#report-sales-manager').on('click', function() {
 });
 
 $('#report-ceo').on('click', function() {
-  dateStart = $('input#dateStart').val();
-  dateEnd = $('input#dateEnd').val();
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: dateStart, dateEnd: dateEnd}, function(data) {
-    tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(tmp).length; i++) {
-      trigger = false;
-      if (Object.keys(salesQuantity).length > 0) {
-        for (var key in salesQuantity) {
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart, dateEnd: reportsLocalVars.dateEnd}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+        for (var key in reportsLocalVars.salesQuantity) {
           // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-          if (key == tmp[i].Наименование + " " + tmp[i].Price) {
+          if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
             createObject(0, 1, i, 1);
           }
         }
-        if (trigger == false) {
+        if (reportsLocalVars.trigger == false) {
           createObject(0, 0, i, 1);
         }
       } else {
@@ -211,120 +178,120 @@ $('#report-ceo').on('click', function() {
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   // alert('start: ' + paramOne + "; " + paramTwo + "; " + trigger + "; " + Object.keys(salesQuantity).length);
-  if (tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
-      tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2" ||
-      tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-      tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2" ||
-      tmp[paramThree].Наименование == "Ким-ча весовая" ||
-      tmp[paramThree].Наименование == "Редька по-восточному весовая") {
-    if (tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
-        tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
-      totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity * 0.7);
-      totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-      totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+  if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
+      reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2" ||
+      reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+      reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2" ||
+      reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча весовая" ||
+      reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному весовая") {
+    if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
+        reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
+      reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7);
+      reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+      reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
-      totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity * 0.7);
-      totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-      totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+      reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7);
+      reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+      reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
-      totalSalesWeight += parseFloat(tmp[paramThree].Quantity * 0.7);
-      totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
-      totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
+      reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
+      reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+      reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     }
-    if (tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-        tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
-          totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity * 0.5);
-          totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-          totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+    if (reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+        reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
+          reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5);
+          reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
-          totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity * 0.5);
-          totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-          totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5);
+          reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
-          totalSalesWeight += parseFloat(tmp[paramThree].Quantity * 0.5);
-          totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
-          totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
+          reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     }
-    if (tmp[paramThree].Наименование == "Ким-ча весовая" ||
-        tmp[paramThree].Наименование == "Редька по-восточному весовая") {
-          totalExchangeWeight += parseFloat(tmp[paramThree].ExchangeQuantity);
-          totalExchangeWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-          totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+    if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча весовая" ||
+        reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному весовая") {
+          reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
-          totalReturnWeight += parseFloat(tmp[paramThree].ReturnQuantity);
-          totalReturnWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-          totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
-          totalSalesWeight += parseFloat(tmp[paramThree].Quantity);
-          totalSalesWeightSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
-          totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     }
   } else {
-    totalExchangeQuantity += parseFloat(tmp[paramThree].ExchangeQuantity);
-    totalExchangeQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
-    totalExchangeSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ExchangeQuantity);
+    reportsLocalVars.totalExchangeQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+    reportsLocalVars.totalExchangeQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+    reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
-    totalReturnQuantity += parseFloat(tmp[paramThree].ReturnQuantity);
-    totalReturnQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
-    totalReturnSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].ReturnQuantity);
+    reportsLocalVars.totalReturnQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+    reportsLocalVars.totalReturnQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+    reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
-    totalSalesQuantity += parseFloat(tmp[paramThree].Quantity);
-    totalSalesQuantitySum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
-    totalSalesSum += parseFloat(tmp[paramThree].Price) * parseFloat(tmp[paramThree].Quantity);
+    reportsLocalVars.totalSalesQuantity += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    reportsLocalVars.totalSalesQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
   }
 
   if (paramOne == 0) {
     // alert(0 + ": " + paramOne);
-    tmpName = tmp[paramThree].Наименование;
-    tmpQuantity = tmp[paramThree].Quantity;
-    tmpPrice = tmp[paramThree].Price;
+    reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование;
+    reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity;
+    reportsLocalVars.tmpPrice = reportsLocalVars.tmp[paramThree].Price;
     if (paramFour == 1) {
-      tmpName = tmp[paramThree].Наименование  + " " + tmpPrice;
+      reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + reportsLocalVars.tmpPrice;
     }
-    tmpTotal = tmpQuantity * tmpPrice;
-    tmpExchange = tmp[paramThree].ExchangeQuantity;
-    tmpReturn = tmp[paramThree].ReturnQuantity;
+    reportsLocalVars.tmpTotal = reportsLocalVars.tmpQuantity * reportsLocalVars.tmpPrice;
+    reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
+    reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
   }
   if (paramOne == 1) {
     // alert(1);
-    tmpName = "Редька по-восточному весовая";
-    tmpQuantity = tmp[paramThree].Quantity * 0.5;
-    tmpExchange = tmp[paramThree].ExchangeQuantity * 0.5;
-    tmpReturn = tmp[paramThree].ReturnQuantity * 0.5;
+    reportsLocalVars.tmpName = "Редька по-восточному весовая";
+    reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.5;
+    reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5;
+    reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5;
   }
   if (paramOne == 2) {
     // alert(2);
-    tmpName = "Ким-ча весовая";
-    tmpQuantity = tmp[paramThree].Quantity * 0.7;
-    tmpExchange = tmp[paramThree].ExchangeQuantity * 0.7;
-    tmpReturn = tmp[paramThree].ReturnQuantity * 0.7;
+    reportsLocalVars.tmpName = "Ким-ча весовая";
+    reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.7;
+    reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7;
+    reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7;
   }
   if (paramTwo == 0) {
     // alert(00);
-    quantity = parseFloat(tmpQuantity, 10);
-    exchangeQuantity = parseFloat(tmpExchange, 10);
-    returnQuantity = parseFloat(tmpReturn, 10);
-    total = parseFloat(tmpTotal, 10);
-    Object.defineProperty(salesQuantity, tmpName, {
-       value: quantity,
+    reportsLocalVars.quantity = parseFloat(reportsLocalVars.tmpQuantity, 10);
+    reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.tmpExchange, 10);
+    reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.tmpReturn, 10);
+    reportsLocalVars.total = parseFloat(reportsLocalVars.tmpTotal, 10);
+    Object.defineProperty(reportsLocalVars.salesQuantity, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.quantity,
        writable: true,
        enumerable: true,
        configurable: true
     });
-    Object.defineProperty(salesExchange, tmpName, {
-       value: exchangeQuantity,
+    Object.defineProperty(reportsLocalVars.salesExchange, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.exchangeQuantity,
        writable: true,
        enumerable: true,
        configurable: true
     });
-    Object.defineProperty(salesReturn, tmpName, {
-       value: returnQuantity,
+    Object.defineProperty(reportsLocalVars.salesReturn, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.returnQuantity,
        writable: true,
        enumerable: true,
        configurable: true
     });
-    Object.defineProperty(salesTotal, tmpName, {
-       value: total,
+    Object.defineProperty(reportsLocalVars.salesTotal, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.total,
        writable: true,
        enumerable: true,
        configurable: true
@@ -332,16 +299,16 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   }
   if (paramTwo == 1) {
     // alert(01);
-    quantity = parseFloat(salesQuantity[tmpName], 10) + parseFloat(tmpQuantity, 10);
-    exchangeQuantity = parseFloat(salesExchange[tmpName], 10) + parseFloat(tmpExchange, 10);
-    returnQuantity = parseFloat(salesReturn[tmpName], 10) + parseFloat(tmpReturn, 10);
-    total = parseFloat(salesTotal[tmpName], 10) + parseFloat(tmpTotal, 10);
+    reportsLocalVars.quantity = parseFloat(reportsLocalVars.salesQuantity[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpQuantity, 10);
+    reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.salesExchange[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpExchange, 10);
+    reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.salesReturn[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpReturn, 10);
+    reportsLocalVars.total = parseFloat(reportsLocalVars.salesTotal[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpTotal, 10);
     // text += tmpName + ": " + quantity + " = " + parseFloat(salesQuantity[tmpName], 10) + " + " + parseFloat(tmpQuantity, 10) + "\r\n";
-    salesQuantity[tmpName] = quantity;
-    salesExchange[tmpName] = exchangeQuantity;
-    salesReturn[tmpName] = returnQuantity;
-    salesTotal[tmpName] = total;
-    trigger = true;
+    reportsLocalVars.salesQuantity[reportsLocalVars.tmpName] = reportsLocalVars.quantity;
+    reportsLocalVars.salesExchange[reportsLocalVars.tmpName] = reportsLocalVars.exchangeQuantity;
+    reportsLocalVars.salesReturn[reportsLocalVars.tmpName] = reportsLocalVars.returnQuantity;
+    reportsLocalVars.salesTotal[reportsLocalVars.tmpName] = reportsLocalVars.total;
+    reportsLocalVars.trigger = true;
   }
 }
 
@@ -361,8 +328,8 @@ this.renderMenuPage = function() {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + reportsLocalVars.choosePeriodLabel + "</span></div> \
         <div class='panel-body'> \
-          <div class='col-60'>" + reportsLocalVars.dateStart + "</div><div class='col-40'><input type='text' id='dateStart'></div> \
-          <div class='col-60'>" + reportsLocalVars.dateEndLabel + "</div><div class='col-40'><input type='text' id='dateEnd'></div> \
+          <div class='col-60'>" + reportsLocalVars.dateStartLabel + "</div><div class='col-40'><input type='date' id='dateStart'></div> \
+          <div class='col-60'>" + reportsLocalVars.dateEndLabel + "</div><div class='col-40'><input type='date' id='dateEnd'></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -374,36 +341,36 @@ this.renderMenuPage = function() {
     </div> \
     <script src='../js/reports.js' type='text/javascript' ></script> \
   ");
-  if (dateStart != "" && dateEnd != "") {
-     $('input#dateStart').val(dateStart);
-     $('input#dateEnd').val(dateEnd);
+  if (reportsLocalVars.dateStart != "" && reportsLocalVars.dateEnd != "") {
+     $('input#dateStart').val(reportsLocalVars.dateStart);
+     $('input#dateEnd').val(reportsLocalVars.dateEnd);
   }
   $(".loginContainer").html("");
   $(".loginContainer").hide();
 }
 
 this.renderReportTable = function(param)	{
-  if ($.trim(dateStart) != '' && $.trim(dateEnd) != '') {
+  if ($.trim(reportsLocalVars.dateStart) != '' && $.trim(reportsLocalVars.dateEnd) != '') {
     if (param == 0) {
-      reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;
-      reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
+      reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;
+      reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     } else {
-      reportSubjectHead = reportsLocalVars.reportSubjectHeadCEOLabel;
-      reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
+      reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadCEOLabel;
+      reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     }
   } else {
     if (param == 0) {
-      reportSubjectHead = "Краткий отчет за последние 5 дней";
+      reportsLocalVars.reportSubjectHead = "Краткий отчет за последние 5 дней";
     } else {
-      reportSubjectHead = "Подробный отчет за последние 5 дней";
+      reportsLocalVars.reportSubjectHead = "Подробный отчет за последние 5 дней";
     }
-    var reportSubjectDash = "";
+    reportsLocalVars.reportSubjectDash = "";
   }
   $(".reportContainer").show();
   $('div#connection-data').append(" \
     <div id='reportContainer' class='reportContainer'> \
       <a id='close' href='#' onclick='closeReportTable();'> \
-        <div class='reportSubject' style='float:left'>" + reportSubjectHead + ' ' + dateStart + ' ' + reportSubjectDash + ' ' + dateEnd + "</div> \
+        <div class='reportSubject' style='float:left'>" + reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
@@ -421,14 +388,14 @@ this.renderReportTable = function(param)	{
                       <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
                     </tr></tbody>';
   var triggerHeader = true;
-  for (var i = 0; i < Object.keys(salesQuantity).length; i++) {
+  for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
     var productLine = '<tbody><tr> \
                         <td>' + (i + 1) + '</td> \
-                        <td>' + salesExchange[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>'+ Object.keys(salesQuantity)[i] +'</td> \
-                        <td>' + salesQuantity[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>' + salesTotal[Object.keys(salesTotal)[i]].toFixed(2) + '</td> \
-                        <td>' + salesReturn[Object.keys(salesQuantity)[i]].toFixed(2) + '</td> \
+                        <td>' + reportsLocalVars.salesExchange[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                        <td>'+ Object.keys(reportsLocalVars.salesQuantity)[i] +'</td> \
+                        <td>' + reportsLocalVars.salesQuantity[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                        <td>' + reportsLocalVars.salesTotal[Object.keys(reportsLocalVars.salesTotal)[i]].toFixed(2) + '</td> \
+                        <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
                       </tr></tbody>';
     if (triggerHeader == true) {
       $("#tableData").append(tableHeaderRow);
@@ -448,48 +415,48 @@ this.renderReportTable = function(param)	{
   $("#tableSummaryData").append(" \
     <tr> \
       <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
-      <td>" + totalExchangeQuantity.toFixed(2) + "</td> \
-      <td>" + totalExchangeQuantitySum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
-      <td>" + totalExchangeWeight.toFixed(2) + "</td> \
-      <td>" + totalExchangeWeightSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
       <td></td> \
-      <td>" + totalExchangeSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
       <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
-      <td>" + totalReturnQuantity.toFixed(2) + "</td> \
-      <td>" + totalReturnQuantitySum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
-      <td>" + totalReturnWeight.toFixed(2) + "</td> \
-      <td>" + totalReturnWeightSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
       <td></td> \
-      <td>" + totalReturnSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
       <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
-      <td>" + totalSalesQuantity.toFixed(2) + "</td> \
-      <td>" + totalSalesQuantitySum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
-      <td>" + totalSalesWeight.toFixed(2) + "</td> \
-      <td>" + totalSalesWeightSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
       <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
       <td></td> \
-      <td>" + totalSalesSum.toFixed(2) + "</td> \
+      <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
     </tr> \
   ");
   $(".reportMenuContainer").html("");
