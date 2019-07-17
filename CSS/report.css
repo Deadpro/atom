@@ -77,7 +77,8 @@
 #connection-save,
 #connection-load,
 #report-ceo,
-#report-sales-manager {
+#report-sales-manager,
+#report-by-day {
   padding: 5px;
   margin: 5px;
   width: 90%;

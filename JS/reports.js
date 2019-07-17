@@ -23,6 +23,9 @@ var reportsLocalVars = {
   "totalSalesQuantityLabel" : "Всего продаж в пачках (шт)",
   "totalSalesSumLabel" : "Всего продаж",
   "choosePeriodLabel" : "Выберите период",
+  "chooseDayOfTheWeekLabel" : "Выберите день недели",
+  "chooseAreaLable" : "Выберите район",
+  "reportSubjectHeadPerDayLabel" : "Отчет по дням",
   "quantity" : 0,
   "exchangeQuantity" : 0,
   "returnQuantity" : 0,
@@ -58,8 +61,46 @@ var reportsLocalVars = {
   "totalSalesWeight" : 0,
   "totalSalesWeightSum" : 0,
   "totalSalesSum" : 0,
-  "dateControl" : document.querySelector('input[type="date"]')
+  "dateControl" : document.querySelector('input[type="date"]'),
+  "checkDayRadio" : ["checkDayOne", "checkDayTwo", "checkDayThree", "checkDayFour", "checkDayFive", "checkDaySix"],
+  "checkedAreaValue" : "",
+  "checkAreaRadio" : ["checkAreaOne", "checkAreaTwo", "checkAreaThree", "checkAreaFour", "checkAreaFive", "checkAreaSeven"],
+  "checkedAreaValue" : "",
+  "radioCheckedAreaTrigger" : false,
+  "radioCheckedDayTrigger" : false
 };
+
+function getDayOfTheWeek(date) {
+  var dt = new Date(date);
+  var days = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+  var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  // var hours = date.getHours();
+  // var minutes = date.getMinutes();
+  // var seconds = date.getSeconds();
+  var day = dt.getDate();
+  var month = dt.getMonth() + 1;
+  var year = dt.getFullYear();
+  var dayOfTheWeek = days[ dt.getDay() ];
+  var monthName = months[ dt.getMonth() ];
+  // hours = hours < 10 ? '0'+hours : hours;
+  // minutes = minutes < 10 ? '0'+minutes : minutes;
+  // seconds = seconds < 10 ? '0'+seconds : seconds;
+  day = day < 10 ? '0'+day : day;
+  month = month < 10 ? '0'+month : month;
+  // var strTime = hours + ':' + minutes + ':' + seconds;
+  // var strDateTime = year + "." + month + "." + day + "  " + strTime;
+  return dayOfTheWeek;
+}
+
+function formatDate(date) {
+  var dt = new Date(date);
+  var day = dt.getDate();
+  var month = dt.getMonth() + 1;
+  var year = dt.getFullYear();
+  day = day < 10 ? '0'+day : day;
+  month = month < 10 ? '0'+month : month;
+  var strDateTime = day + "-" + month + "-" + year;
+}
 
 $('#reports').on('click', function() {
   renderMenuPage();
@@ -156,6 +197,57 @@ $('#report-ceo').on('click', function() {
         for (var key in reportsLocalVars.salesQuantity) {
           // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
           if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+            createObject(0, 1, i, 1);
+          }
+        }
+        if (reportsLocalVars.trigger == false) {
+          createObject(0, 0, i, 1);
+        }
+      } else {
+        createObject(0, 0, i, 1);
+      }
+   }
+    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
+    // alert(Object.keys(salesQuantity).length);
+    // alert(salesQuantity["Щике"]);
+    // $('div#connection-data').text(text);
+    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
+    // $('div#connection-data').text(text);
+    renderReportTable(1);
+  });
+});
+
+$('#report-by-day').on('click', function() {
+  for (var i = 0; i < 6; i++) {
+    if (document.getElementById(reportsLocalVars.checkRadio[i]).checked == true) {
+      reportsLocalVars.checkedAreaValue = document.getElementById(reportsLocalVars.checkAreaRadio[i]).value;
+      reportsLocalVars.radioCheckedAreaTrigger = true;
+      reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[i]).value;
+      reportsLocalVars.radioCheckedDayTrigger = true;
+    }
+  }
+  if (reportsLocalVars.radioCheckedDayTrigger == false) {
+    document.getElementById(reportsLocalVars.checkDayRadio[0]).checked = true;
+    reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[0]).value;
+  }
+  if (reportsLocalVars.radioCheckedAreaTrigger == false) {
+    document.getElementById(reportsLocalVars.checkAreaRadio[0]).checked = true;
+    reportsLocalVars.checkedAreaValue = document.getElementById(reportsLocalVars.checkAreaRadio[0]).value;
+  }
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+                                          day: reportsLocalVars.checkedDayValue,
+                                          reportType: "byDayReport"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+        for (var key in reportsLocalVars.salesQuantity) {
+          // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
+          if (key == reportsLocalVars.tmp[i].Наименование + " " + formatDate(reportsLocalVars.tmp[i].DateTimeDocLocal)) {
             createObject(0, 1, i, 1);
           }
         }
@@ -333,9 +425,32 @@ this.renderMenuPage = function() {
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseDayOfTheWeekLabel + "</span></div> \
+        <div class='panel-body'> \
+          <div class='radioContainer'><input type='radio' id='checkDayOne' name='chooseone' value='1'><label for='понедельник' id='radioLabel'>понедельник</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayTwo' name='chooseone' value='2'><label for='вторник' id='radioLabel'>вторник</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayThree' name='chooseone' value='3'><label for='среда' id='radioLabel'>среда</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayFour' name='chooseone' value='4'><label for='четверг' id='radioLabel'>четверг</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayFive' name='chooseone' value='5'><label for='пятница' id='radioLabel'>пятница</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDaySix' name='chooseone' value='6'><label for='суббота' id='radioLabel'>суббота</label></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseAreaLable + "</span></div> \
+        <div class='panel-body'> \
+        <div class='radioContainer'><input type='radio' id='checkAreaOne' name='chooseone' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='chooseone' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaThree' name='chooseone' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFour' name='chooseone' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFive' name='chooseone' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaSeven' name='chooseone' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
         <div class='panel-body'> \
           <div class='col-50'><input type='submit' id='report-ceo' value='Подробный отчет'></div> \
           <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
+          <div class='col-50'><input type='submit' id='report-by-day' value='По дням'></div> \
         </div> \
       </div> \
     </div> \

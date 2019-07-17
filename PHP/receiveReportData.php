@@ -7,7 +7,9 @@
     $password = (trim($_POST['password']));
     // mysql_real_escape_string
     $accounting = trim($_POST['accounting']);
+    $byDayReport = trim($_POST['reportType']);
     $area = trim($_POST['area']);
+    $dayOfTheWeek = trim($_POST['day']);
     $index = (int)$area - 1;
     if ((int)$area == 7) {
       $index = (int)$area - 2;
@@ -64,7 +66,8 @@
           mysqli_close($dbconnect);
         }
       }
-    } else {
+    }
+    if ($accounting == '1') {
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
@@ -73,6 +76,25 @@
       INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
       WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";
+      if ($result = mysqli_query($dbconnect, $sql)){
+        while($row = $result->fetch_object()){
+          $tempArray = $row;
+          array_push($resultArray, $tempArray);
+        }
+      } else {
+        $json["failed"] = 'Login failed. Invalid login
+        and/or password';
+        echo json_encode($json, JSON_UNESCAPED_UNICODE);
+        mysqli_close($dbconnect);
+      }
+    }
+    if ($byDayReport == 'byDayReport') {
+      $areaArrayTmp = $areaArray[(int)$index];
+      $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+      ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+      InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
+      ON $areaArrayTmp.ItemID = номенклатура.Артикул
+      WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID";;
       if ($result = mysqli_query($dbconnect, $sql)){
         while($row = $result->fetch_object()){
           $tempArray = $row;
