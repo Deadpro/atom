@@ -11,6 +11,7 @@ var reportsLocalVars = {
   "dateEndLabel" : "Конец периода:",
   "reportSubjectHeadSalesManagerLabel" : "Краткий отчет за период:",
   "reportSubjectHeadCEOLabel" : "Подробный отчет за период:",
+  "reportSubjectHeadByDayLabel" : "Сквозной отчет за период:",
   "reportSubjectDashLabel" : "---",
   "reportSubjectDash" : "",
   "totalExchangeWeightLabel" : "Всего обменов весовой (кг)",
@@ -63,11 +64,14 @@ var reportsLocalVars = {
   "totalSalesSum" : 0,
   "dateControl" : document.querySelector('input[type="date"]'),
   "checkDayRadio" : ["checkDayOne", "checkDayTwo", "checkDayThree", "checkDayFour", "checkDayFive", "checkDaySix"],
-  "checkedAreaValue" : "",
+  "checkedDayValue" : "",
   "checkAreaRadio" : ["checkAreaOne", "checkAreaTwo", "checkAreaThree", "checkAreaFour", "checkAreaFive", "checkAreaSeven"],
   "checkedAreaValue" : "",
   "radioCheckedAreaTrigger" : false,
-  "radioCheckedDayTrigger" : false
+  "radioCheckedDayTrigger" : false,
+  "reportSubjectHeadCheckedDay" : "",
+  "reportSubjectHeadCheckedArea" : "",
+  "chooseSalesPartnerLable" : "Выберите магазин"
 };
 
 function getDayOfTheWeek(date) {
@@ -100,6 +104,7 @@ function formatDate(date) {
   day = day < 10 ? '0'+day : day;
   month = month < 10 ? '0'+month : month;
   var strDateTime = day + "-" + month + "-" + year;
+  return strDateTime;
 }
 
 $('#reports').on('click', function() {
@@ -110,7 +115,7 @@ $('#report-sales-manager').on('click', function() {
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart, dateEnd: reportsLocalVars.dateEnd}, function(data) {
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart, dateEnd: reportsLocalVars.dateEnd, reportType: "report"}, function(data) {
     reportsLocalVars.tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
@@ -189,7 +194,8 @@ $('#report-ceo').on('click', function() {
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart, dateEnd: reportsLocalVars.dateEnd}, function(data) {
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, reportType: "report"}, function(data) {
     reportsLocalVars.tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
@@ -219,11 +225,13 @@ $('#report-ceo').on('click', function() {
 
 $('#report-by-day').on('click', function() {
   for (var i = 0; i < 6; i++) {
-    if (document.getElementById(reportsLocalVars.checkRadio[i]).checked == true) {
-      reportsLocalVars.checkedAreaValue = document.getElementById(reportsLocalVars.checkAreaRadio[i]).value;
-      reportsLocalVars.radioCheckedAreaTrigger = true;
+    if (document.getElementById(reportsLocalVars.checkDayRadio[i]).checked == true) {
       reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[i]).value;
       reportsLocalVars.radioCheckedDayTrigger = true;
+    }
+    if (document.getElementById(reportsLocalVars.checkAreaRadio[i]).checked == true) {
+      reportsLocalVars.checkedAreaValue = document.getElementById(reportsLocalVars.checkAreaRadio[i]).value;
+      reportsLocalVars.radioCheckedAreaTrigger = true;
     }
   }
   if (reportsLocalVars.radioCheckedDayTrigger == false) {
@@ -244,27 +252,23 @@ $('#report-by-day').on('click', function() {
     reportsLocalVars.tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
-      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-        for (var key in reportsLocalVars.salesQuantity) {
-          // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-          if (key == reportsLocalVars.tmp[i].Наименование + " " + formatDate(reportsLocalVars.tmp[i].DateTimeDocLocal)) {
-            createObject(0, 1, i, 1);
+      // alert(reportsLocalVars.checkedDayValue);
+      if (getDayOfTheWeek(reportsLocalVars.tmp[i].DateTimeDocLocal) == reportsLocalVars.checkedDayValue) {
+        if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+          for (var key in reportsLocalVars.salesQuantity) {
+            if (key == reportsLocalVars.tmp[i].Наименование + " " + formatDate(reportsLocalVars.tmp[i].DateTimeDocLocal)) {
+              createObject(0, 1, i, 2);
+            }
           }
+          if (reportsLocalVars.trigger == false) {
+            createObject(0, 0, i, 2);
+          }
+        } else {
+          createObject(0, 0, i, 2);
         }
-        if (reportsLocalVars.trigger == false) {
-          createObject(0, 0, i, 1);
-        }
-      } else {
-        createObject(0, 0, i, 1);
       }
    }
-    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
-    // alert(Object.keys(salesQuantity).length);
-    // alert(salesQuantity["Щике"]);
-    // $('div#connection-data').text(text);
-    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
-    // $('div#connection-data').text(text);
-    renderReportTable(1);
+    renderReportTable(2);
   });
 });
 
@@ -340,6 +344,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     if (paramFour == 1) {
       reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + reportsLocalVars.tmpPrice;
     }
+    if (paramFour == 2) {
+      reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + formatDate(reportsLocalVars.tmp[paramThree].DateTimeDocLocal);
+    }
     reportsLocalVars.tmpTotal = reportsLocalVars.tmpQuantity * reportsLocalVars.tmpPrice;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
@@ -364,6 +371,10 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.tmpExchange, 10);
     reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.tmpReturn, 10);
     reportsLocalVars.total = parseFloat(reportsLocalVars.tmpTotal, 10);
+    reportsLocalVars.tmpName;
+    // if (paramFour == 2) {
+    //   name = reportsLocalVars.tmpName + " " + formatDate(reportsLocalVars.tmp[paramThree].DateTimeDocLocal);
+    // }
     Object.defineProperty(reportsLocalVars.salesQuantity, reportsLocalVars.tmpName, {
        value: reportsLocalVars.quantity,
        writable: true,
@@ -427,23 +438,35 @@ this.renderMenuPage = function() {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseDayOfTheWeekLabel + "</span></div> \
         <div class='panel-body'> \
-          <div class='radioContainer'><input type='radio' id='checkDayOne' name='chooseone' value='1'><label for='понедельник' id='radioLabel'>понедельник</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkDayTwo' name='chooseone' value='2'><label for='вторник' id='radioLabel'>вторник</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkDayThree' name='chooseone' value='3'><label for='среда' id='radioLabel'>среда</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkDayFour' name='chooseone' value='4'><label for='четверг' id='radioLabel'>четверг</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkDayFive' name='chooseone' value='5'><label for='пятница' id='radioLabel'>пятница</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkDaySix' name='chooseone' value='6'><label for='суббота' id='radioLabel'>суббота</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayOne' name='chooseday' value='Понедельник'><label for='понедельник' id='radioLabel'>понедельник</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayTwo' name='chooseday' value='Вторник'><label for='вторник' id='radioLabel'>вторник</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayThree' name='chooseday' value='Среда'><label for='среда' id='radioLabel'>среда</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayFour' name='chooseday' value='Четверг'><label for='четверг' id='radioLabel'>четверг</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDayFive' name='chooseday' value='Пятница'><label for='пятница' id='radioLabel'>пятница</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkDaySix' name='chooseday' value='Суббота'><label for='суббота' id='radioLabel'>суббота</label></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseAreaLable + "</span></div> \
         <div class='panel-body'> \
-        <div class='radioContainer'><input type='radio' id='checkAreaOne' name='chooseone' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='chooseone' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaThree' name='chooseone' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaFour' name='chooseone' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaFive' name='chooseone' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaSeven' name='chooseone' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaOne' name='choosearea' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='choosearea' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaThree' name='choosearea' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFour' name='choosearea' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFive' name='choosearea' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaSeven' name='choosearea' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseSalesPartnerLable + "</span></div> \
+        <div class='panel-body'> \
+        <select name='salesPartnersList' size='5'> \
+          <option>text1</option> \
+          <option>text2</option> \
+          <option>text3</option> \
+          <option>text4</option> \
+          <option>text5</option> \
+        </select> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -469,15 +492,26 @@ this.renderReportTable = function(param)	{
     if (param == 0) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
-    } else {
+    }
+    if (param == 1) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadCEOLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
+    }
+    if (param == 2) {
+      reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadByDayLabel;
+      reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
+      reportsLocalVars.reportSubjectHeadCheckedDay = ", " + reportsLocalVars.checkedDayValue;
+      reportsLocalVars.reportSubjectHeadCheckedArea = ", район: " + reportsLocalVars.checkedAreaValue;
     }
   } else {
     if (param == 0) {
       reportsLocalVars.reportSubjectHead = "Краткий отчет за последние 5 дней";
-    } else {
+    }
+    if (param == 1) {
       reportsLocalVars.reportSubjectHead = "Подробный отчет за последние 5 дней";
+    }
+    if (param == 2) {
+      reportsLocalVars.reportSubjectHead = "Сквозной отчет за " + reportsLocalVars.checkedDayValue + ", район: " + reportsLocalVars.checkedAreaValue + ", за последние 5 дней";
     }
     reportsLocalVars.reportSubjectDash = "";
   }
@@ -485,7 +519,7 @@ this.renderReportTable = function(param)	{
   $('div#connection-data').append(" \
     <div id='reportContainer' class='reportContainer'> \
       <a id='close' href='#' onclick='closeReportTable();'> \
-        <div class='reportSubject' style='float:left'>" + reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + "</div> \
+        <div class='reportSubject' style='float:left'>" + reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \

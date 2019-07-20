@@ -6,10 +6,22 @@
     $login = (trim($_POST['login']));
     $password = (trim($_POST['password']));
     // mysql_real_escape_string
-    $accounting = trim($_POST['accounting']);
-    $byDayReport = trim($_POST['reportType']);
-    $area = trim($_POST['area']);
-    $dayOfTheWeek = trim($_POST['day']);
+    if (isset($_POST['accounting']) === true && empty($_POST['accounting']) === false) {
+      $accounting = trim($_POST['accounting']);
+    }
+    if (isset($_POST['reportType']) === true && empty($_POST['reportType']) === false) {
+      $reportType = trim($_POST['reportType']);
+    }
+    if (isset($_POST['area']) === true && empty($_POST['area']) === false) {
+      $area = trim($_POST['area']);
+    } else {
+      $area = '0';
+    }
+    if (isset($_POST['day']) === true && empty($_POST['day']) === false) {
+      $dayOfTheWeek = trim($_POST['day']);
+    } else {
+      $dayOfTheWeek = '0';
+    }
     $index = (int)$area - 1;
     if ((int)$area == 7) {
       $index = (int)$area - 2;
@@ -46,7 +58,7 @@
 
     $resultArray = array();
     $tempArray = array();
-    if ($accounting != '1') {
+    if ($reportType == 'report') {
       for ($i = 0; $i < count($areaArray); $i++) {
         $areaArrayTmp = $areaArray[$i];
         $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
@@ -88,13 +100,13 @@
         mysqli_close($dbconnect);
       }
     }
-    if ($byDayReport == 'byDayReport') {
+    if ($reportType == 'byDayReport') {
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
       InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
       ON $areaArrayTmp.ItemID = номенклатура.Артикул
-      WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID";;
+      WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID, DateTimeDocLocal";;
       if ($result = mysqli_query($dbconnect, $sql)){
         while($row = $result->fetch_object()){
           $tempArray = $row;
