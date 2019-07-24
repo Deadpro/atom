@@ -101,22 +101,45 @@
       }
     }
     if ($reportType == 'byDayReport') {
-      $areaArrayTmp = $areaArray[(int)$index];
-      $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
-      ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-      InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-      ON $areaArrayTmp.ItemID = номенклатура.Артикул
-      WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID, DateTimeDocLocal";;
-      if ($result = mysqli_query($dbconnect, $sql)){
-        while($row = $result->fetch_object()){
-          $tempArray = $row;
-          array_push($resultArray, $tempArray);
+      if (isset($_POST['salesPartnersID']) === true && empty($_POST['salesPartnersID']) === false) {
+        $salesPartnerID = trim($_POST['salesPartnersID']);
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
+        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' AND SalesPartnerID LIKE '$salesPartnerID'
+        ORDER BY ItemID, DateTimeDocLocal";;
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
         }
-      } else {
-        $json["failed"] = 'Login failed. Invalid login
-        and/or password';
-        echo json_encode($json, JSON_UNESCAPED_UNICODE);
-        mysqli_close($dbconnect);
+      }
+      if (empty($_POST['salesPartnersID']) == true) {
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
+        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID, DateTimeDocLocal";;
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
+        }
       }
     }
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);

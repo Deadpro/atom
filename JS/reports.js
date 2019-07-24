@@ -36,6 +36,7 @@ var reportsLocalVars = {
   "salesReturn" : new Object(),
   "salesTotal" : new Object(),
   "tmp" : new Object(),
+  "salesPartnersList" : new Object(),
   "tmpName" : "",
   "tmpQuantity" : 0,
   "tmpExchange" : 0,
@@ -66,12 +67,17 @@ var reportsLocalVars = {
   "checkDayRadio" : ["checkDayOne", "checkDayTwo", "checkDayThree", "checkDayFour", "checkDayFive", "checkDaySix"],
   "checkedDayValue" : "",
   "checkAreaRadio" : ["checkAreaOne", "checkAreaTwo", "checkAreaThree", "checkAreaFour", "checkAreaFive", "checkAreaSeven"],
+  "checkRootRadio" : ["checkRootMonday", "checkRootTuesday", "checkRootWendsday", "checkRootAny", "checkRootNorth"],
   "checkedAreaValue" : "",
   "radioCheckedAreaTrigger" : false,
   "radioCheckedDayTrigger" : false,
   "reportSubjectHeadCheckedDay" : "",
   "reportSubjectHeadCheckedArea" : "",
-  "chooseSalesPartnerLable" : "Выберите магазин"
+  "chooseSalesPartnerLable" : "Выберите магазин",
+  "areaCurrentValue" : 0,
+  "rootCurrentValue" : 0,
+  "chooseRootLabel" : "Выберите маршрут",
+  "areaTrigger" : false
 };
 
 function getDayOfTheWeek(date) {
@@ -105,6 +111,49 @@ function formatDate(date) {
   month = month < 10 ? '0'+month : month;
   var strDateTime = day + "-" + month + "-" + year;
   return strDateTime;
+}
+
+function handleClickArea(myRadio) {
+  // for (var i = 0; i < 6; i++) {
+  //   if (document.getElementById(reportsLocalVars.checkRootRadio[i]).checked == true) {
+  //     reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[i]).value;
+  //     reportsLocalVars.radioCheckedDayTrigger = true;
+  //   }
+  // }
+  reportsLocalVars.areaCurrentValue = myRadio.value;
+  $("#optionGroup").html("");
+  $.post('../php/receiveSalesPartners.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'),
+                                          area: reportsLocalVars.areaCurrentValue}, function(data) {
+    reportsLocalVars.salesPartnersList = JSON.parse(data);
+    alert(Object.keys(reportsLocalVars.salesPartnersList).length);
+    for (var i = 0; i < Object.keys(reportsLocalVars.salesPartnersList).length; i++) {
+      var areaListLine = '<option value=' + reportsLocalVars.salesPartnersList[i].ID + '> \
+                         ' + reportsLocalVars.salesPartnersList[i].Наименование + ' \
+                         </option>';
+      $("#optionGroup").append(areaListLine);
+    }
+    reportsLocalVars.areaTrigger = true;
+  });
+}
+
+function handleClickRoot(myRadio) {
+  if (reportsLocalVars.areaTrigger == true) {
+    reportsLocalVars.rootCurrentValue = myRadio.value;
+    $("#optionGroup").html("");
+    $.post('../php/receiveSalesPartners.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                            dbPassword: localStorage.getItem('dbPassword'),
+                                            area: reportsLocalVars.areaCurrentValue, root: reportsLocalVars.rootCurrentValue}, function(data) {
+      reportsLocalVars.salesPartnersList = JSON.parse(data);
+      alert(Object.keys(reportsLocalVars.salesPartnersList).length);
+      for (var i = 0; i < Object.keys(reportsLocalVars.salesPartnersList).length; i++) {
+        var areaListLine = '<option value=' + reportsLocalVars.salesPartnersList[i].ID + '> \
+                           ' + reportsLocalVars.salesPartnersList[i].Наименование + ' \
+                           </option>';
+        $("#optionGroup").append(areaListLine);
+      }
+    });
+  }
 }
 
 $('#reports').on('click', function() {
@@ -224,6 +273,14 @@ $('#report-ceo').on('click', function() {
 });
 
 $('#report-by-day').on('click', function() {
+  var x = document.getElementById("optionGroup").selectedIndex;
+  var optionValue = "";
+  $('#optionGroup option').each(function() {
+    if (this.selected) {
+      optionValue = document.getElementsByTagName("option")[x].value;
+    }
+  });
+  alert(optionValue);
   for (var i = 0; i < 6; i++) {
     if (document.getElementById(reportsLocalVars.checkDayRadio[i]).checked == true) {
       reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[i]).value;
@@ -247,7 +304,7 @@ $('#report-by-day').on('click', function() {
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
                                           dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                          day: reportsLocalVars.checkedDayValue,
+                                          day: reportsLocalVars.checkedDayValue, salesPartnersID: optionValue,
                                           reportType: "byDayReport"}, function(data) {
     reportsLocalVars.tmp = JSON.parse(data);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
@@ -449,24 +506,31 @@ this.renderMenuPage = function() {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseAreaLable + "</span></div> \
         <div class='panel-body'> \
-        <div class='radioContainer'><input type='radio' id='checkAreaOne' name='choosearea' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='choosearea' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaThree' name='choosearea' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaFour' name='choosearea' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaFive' name='choosearea' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
-        <div class='radioContainer'><input type='radio' id='checkAreaSeven' name='choosearea' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaOne' name='choosearea' onclick='handleClickArea(this);' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='choosearea' onclick='handleClickArea(this);' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaThree' name='choosearea' onclick='handleClickArea(this);' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFour' name='choosearea' onclick='handleClickArea(this);' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaFive' name='choosearea' onclick='handleClickArea(this);' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+        <div class='radioContainer'><input type='radio' id='checkAreaSeven' name='choosearea' onclick='handleClickArea(this);' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseRootLabel + "</span></div> \
+        <div class='panel-body'> \
+          <div class='radioContainer'><input type='radio' id='checkRootMonday' name='chooseroot' onclick='handleClickRoot(this);' value='понедельник-четверг'><label for='понедельник-четверг' id='radioLabel'>понедельник-четверг</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkRootTuesday' name='chooseroot' onclick='handleClickRoot(this);' value='вторник-пятница'><label for='вторник-пятница' id='radioLabel'>вторник-пятница</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkRootWendsday' name='chooseroot' onclick='handleClickRoot(this);' value='среда'><label for='среда' id='radioLabel'>среда</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkRootAny' name='chooseroot' onclick='handleClickRoot(this);' value='любой'><label for='любой' id='radioLabel'>любой</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkRootNorth' name='chooseroot' onclick='handleClickRoot(this);' value='север'><label for='север' id='radioLabel'>север</label></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + reportsLocalVars.chooseSalesPartnerLable + "</span></div> \
         <div class='panel-body'> \
-        <select name='salesPartnersList' size='5'> \
-          <option>text1</option> \
-          <option>text2</option> \
-          <option>text3</option> \
-          <option>text4</option> \
-          <option>text5</option> \
-        </select> \
+          <div class='areaList'> \
+            <select name='salesPartnersList' id='optionGroup' size='5'> \
+            </select> \
+          </div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -541,7 +605,7 @@ this.renderReportTable = function(param)	{
     var productLine = '<tbody><tr> \
                         <td>' + (i + 1) + '</td> \
                         <td>' + reportsLocalVars.salesExchange[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>'+ Object.keys(reportsLocalVars.salesQuantity)[i] +'</td> \
+                        <td>' + Object.keys(reportsLocalVars.salesQuantity)[i] + '</td> \
                         <td>' + reportsLocalVars.salesQuantity[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
                         <td>' + reportsLocalVars.salesTotal[Object.keys(reportsLocalVars.salesTotal)[i]].toFixed(2) + '</td> \
                         <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
