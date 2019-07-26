@@ -375,7 +375,8 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
 
       reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
       reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-      reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+      // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+      reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
@@ -389,7 +390,8 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча весовая" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному весовая") {
@@ -403,7 +405,8 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
     }
   } else {
     reportsLocalVars.totalExchangeQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
@@ -416,7 +419,8 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
 
     reportsLocalVars.totalSalesQuantity += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     reportsLocalVars.totalSalesQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-    reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
   }
 
   if (paramOne == 0) {
