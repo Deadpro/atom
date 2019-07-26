@@ -167,7 +167,7 @@ function getSalesPartnerID() {
   return reportsLocalVars.optionValue;
 }
 
-function getDayOfTheWeek(type) {
+function getDay(type) {
   for (var i = 0; i < 6; i++) {
     if (document.getElementById(reportsLocalVars.checkDayRadio[i]).checked == true) {
       reportsLocalVars.checkedDayValue = document.getElementById(reportsLocalVars.checkDayRadio[i]).value;
@@ -201,16 +201,16 @@ $('#reports').on('click', function() {
 
 $('#report-sales-manager').on('click', function() {
   getSalesPartnerID();
-  getDayOfTheWeek("report");
   getArea("report");
-  alert(reportsLocalVars.checkedAreaValue); alert(reportsLocalVars.optionValue);
+  // alert("район: " + reportsLocalVars.checkedAreaValue); alert("магазин: " + reportsLocalVars.optionValue);
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
                                           dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
                                           salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
-    reportsLocalVars.tmp = JSON.parse(data);alert(Object.keys(reportsLocalVars.tmp).length);
+    reportsLocalVars.tmp = JSON.parse(data);
+    // alert(Object.keys(reportsLocalVars.tmp).length);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
       if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
@@ -286,7 +286,6 @@ $('#report-sales-manager').on('click', function() {
 
 $('#report-ceo').on('click', function() {
   getSalesPartnerID();
-  getDayOfTheWeek("report");
   getArea("report");
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
@@ -323,16 +322,19 @@ $('#report-ceo').on('click', function() {
 
 $('#report-by-day').on('click', function() {
   getSalesPartnerID();
-  getDayOfTheWeek("byDayReport");
+  getDay("byDayReport");
   getArea("byDayReport");
+  // alert("район: " + reportsLocalVars.checkedAreaValue);
+  // alert("магазин: " + reportsLocalVars.optionValue);
+  // alert(reportsLocalVars.checkedDayValue);
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
                                           dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                          day: reportsLocalVars.checkedDayValue, salesPartnersID: reportsLocalVars.optionValue,
+                                          salesPartnersID: reportsLocalVars.optionValue,
                                           reportType: "byDayReport"}, function(data) {
-    reportsLocalVars.tmp = JSON.parse(data);
+    reportsLocalVars.tmp = JSON.parse(data); alert(Object.keys(reportsLocalVars.tmp).length);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
       // alert(reportsLocalVars.checkedDayValue);
