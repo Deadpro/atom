@@ -1,11 +1,9 @@
-// var responseDataObject = new Object();
 var areaStatusSalesSum = new Object();
 var areaStatusInvoicesNumber = new Object();
 var areaStatusLastSyncDateTime = new Object();
 var areaCashStatus = new Object();
 var areaCashlessStatus = new Object();
 var areaDevelopmentStatus = new Object();
-// var trigger = false;
 var tmpAgentID;
 var endTriggerOne;
 var endTriggerTwo;
@@ -13,15 +11,26 @@ var endTriggerThree;
 var endTriggerFour;
 var localVars = {
   "area" : "Район: ",
+  "endTriggerOne" : "",
+  "endTriggerTwo" : "",
+  "endTriggerThree" : "",
+  "tmpAgentID" : "",
+  "endTriggerFour" : "",
   "space" : " ",
   "salesTotal" : "На сумму: ",
   "salesCash" : "Наличный: ",
   "salesCashless" : "Безналичный: ",
   "debtSale" : "Реализация: ",
   "salesInvoicesQuantity" : "Накладных: ",
-  "areaDevelopmentStatus" : "Развитие: ",
+  "areaDevelopmentStatusLabel" : "Развитие: ",
   "lastSyncDateTime" : "Завершение: ",
   "responseDataObject" : new Object(),
+  "areaStatusSalesSum" : new Object(),
+  "areaStatusInvoicesNumber" : new Object(),
+  "areaStatusLastSyncDateTime" : new Object(),
+  "areaCashStatus" : new Object(),
+  "areaCashlessStatus" : new Object(),
+  "areaDevelopmentStatus" : new Object(),
   "trigger" : false
 };
 
@@ -99,7 +108,7 @@ this.processResponse = function(response, obj, type) {
     }
   }
 
-  if (endTriggerOne == true && endTriggerTwo == true && endTriggerThree == true && endTriggerFour == true) {
+  if (endTriggerOne == true && endTriggerThree == true && endTriggerFour == true) {
     showAgentStatus();
   }
 }
@@ -119,9 +128,14 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
       }
     }
     if (paramThree == 1) {
-      cash = parseFloat(areaCashStatus[localVars.responseDataObject[paramTwo].AgentID], 10) + parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10);
-      areaCashStatus[localVars.responseDataObject[paramTwo].AgentID] = cash;
-      localVars.trigger = true;
+      if (localVars.responseDataObject[paramTwo].AccountingType == "провод") {
+        cash = parseFloat(areaCashStatus[localVars.responseDataObject[paramTwo].AgentID], 10) + parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10);
+        areaCashStatus[localVars.responseDataObject[paramTwo].AgentID] = cash;
+        localVars.trigger = true;
+      } else {
+        areaCashStatus[localVars.responseDataObject[paramTwo].AgentID] += 0;
+        localVars.trigger = true;
+      }
       if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerTwo = true;
       }
@@ -177,12 +191,21 @@ this.createObj = function(paramOne, paramTwo, paramThree) {
       }
     }
     if (paramThree == 1) {
-      Object.defineProperty(areaCashStatus, localVars.responseDataObject[paramTwo].AgentID, {
-         value: parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10),
-         writable: true,
-         enumerable: true,
-         configurable: true
-      });
+      if (localVars.responseDataObject[paramTwo].AccountingType == "непровод") {
+        Object.defineProperty(areaCashStatus, localVars.responseDataObject[paramTwo].AgentID, {
+           value: parseFloat(localVars.responseDataObject[paramTwo].InvoiceSum, 10),
+           writable: true,
+           enumerable: true,
+           configurable: true
+        });
+      } else {
+        Object.defineProperty(areaCashStatus, localVars.responseDataObject[paramTwo].AgentID, {
+           value: 0,
+           writable: true,
+           enumerable: true,
+           configurable: true
+        });
+      }
       if (paramTwo == Object.keys(localVars.responseDataObject).length - 1) {
         endTriggerTwo = true;
       }
@@ -264,7 +287,7 @@ this.showAgentStatus = function() {
                         <td>' + localVars.area + Object.keys(areaStatusSalesSum)[i] + '</td> \
                         <td>' + localVars.salesTotal + areaStatusSalesSum[Object.keys(areaStatusSalesSum)[i]].toFixed(2) + '</td> \
                         <td>' + localVars.salesCash + cashTmp + linebreak + localVars.salesCashless + cashlessTmp + linebreak + localVars.debtSale + debtSaleTmp + '</td> \
-                        <td>' + localVars.salesInvoicesQuantity + areaStatusInvoicesNumber[Object.keys(areaStatusInvoicesNumber)[i]] + linebreak + localVars.areaDevelopmentStatus + devStatus + '</td> \
+                        <td>' + localVars.salesInvoicesQuantity + areaStatusInvoicesNumber[Object.keys(areaStatusInvoicesNumber)[i]] + linebreak + localVars.areaDevelopmentStatusLabel + devStatus + '</td> \
                         <td>' + localVars.lastSyncDateTime + areaStatusLastSyncDateTime[Object.keys(areaStatusLastSyncDateTime)[i]] + '</td> \
                       </tr>';
     $("#agentStatusTableData").append(statusLine);
