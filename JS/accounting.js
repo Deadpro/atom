@@ -32,7 +32,8 @@ var accountingLocalVars = {
   "countChe" : 0,
   "countLee" : 0,
   "radioCheckedTrigger" : false,
-  "dateControl" : ""
+  "dateControl" : "",
+  "chooseFileLabel" : "Выберите файл (Столичные)"
 };
 
 function formatDate(date) {
@@ -131,13 +132,13 @@ this.createAccountantTables = function() {
       var dt = new Date(dTStrSource);
       var dTStrOut = formatDate(dt);
       var taxNumber = accountingLocalVars.tmp[i].ИНН;
-      var strTaxNumber = taxNumber.toString();
+      // var strTaxNumber = taxNumber.toString();
       tableRow = '<tbody><tr> \
                           <td>' + countLee + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + strTaxNumber + '</td> \
+                          <td>' + taxNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
                           <td>' + accountingLocalVars.tmp[i].item + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
@@ -160,13 +161,13 @@ this.createAccountantTables = function() {
       var dt = new Date(dTStrSource);
       var dTStrOut = formatDate(dt);
       var taxNumber = accountingLocalVars.tmp[i].ИНН;
-      var strTaxNumber = taxNumber.toString();
+      // var strTaxNumber = taxNumber.toString();
       tableRow = '<tbody><tr> \
                           <td>' + countChe + '</td> \
                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + strTaxNumber + '</td> \
+                          <td>' + taxNumber + '</td> \
                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
                           <td>' + accountingLocalVars.tmp[i].item + '</td> \
                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
@@ -259,6 +260,12 @@ this.renderAccountingOptions = function() {
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + accountingLocalVars.chooseFileLabel + "</span></div> \
+        <div class='panel-body'> \
+           <div class='fileInput'><input type='file' id='file-input'></div> \
+        </div> \
+      </div> \
+      <div class='panel panel-custom border'> \
         <div class='panel-body'><input type='submit' id='executeChoice' value='Загрузить данные'></div> \
       </div> \
     </div> \
@@ -272,26 +279,71 @@ this.renderAccountingOptions = function() {
   $(".loginContainer").hide();
 }
 
-// function readSingleFile(e) {
-//   var file = e.target.files[0];
-//   if (!file) {
-//     return;
-//   }
-//   var reader = new FileReader();
-//   reader.onload = function(e) {
-//     var contents = e.target.result;
-//     displayContents(contents);
-//   }
-//   reader.readAsText(file);
-// }
-//
 // function displayContents(contents) {
 //   var element = document.getElementById('file-content');
 //   element.textContent = contents;
 // }
-//
-// document.getElementById('file-input')
-//   .addEventListener('change', readSingleFile, false);
-// <input type="file" id="file-input" />
-// <h3>Contents of the file:</h3>
-// <pre id="file-content"></pre>
+
+if ($('.fileInput').length > 0)	{
+  document.getElementById('file-input').addEventListener('change', readFile, false);
+}
+
+
+function readFile(e) {
+  var files = e.target.files, f = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var data = new Uint8Array(e.target.result);
+    var workbook = XLSX.read(data, {type: 'array'});
+    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    var cellE = 'E' + 11;
+    var valueCell = sheet[cellE].v;
+    var strCell = valueCell.toString();
+    var resultArray = sheet2arr(sheet);
+    alert(resultArray);
+
+    var range = XLSX.utils.decode_range(sheet['!ref']);
+    for(rowNum = range.s.r; rowNum <= range.e.r; rowNum++){
+        for(colNum=range.s.c; colNum<=range.e.c; colNum++){
+           var nextCell = sheet[
+              XLSX.utils.encode_cell({r: rowNum, c: colNum})
+           ];
+           if( typeof nextCell === 'undefined' ){
+              row.push(void 0);
+           } else row.push(nextCell.w);
+        }
+        result.push(row);
+    }
+
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+function sheet2arr(sheet) {
+   var result = [];
+   var row;
+   var rowNum;
+   var colNum;
+   var range = XLSX.utils.decode_range(sheet['!ref']);
+   for(rowNum = range.s.r; rowNum <= range.e.r; rowNum++){
+      row = [];
+       for(colNum=range.s.c; colNum<=range.e.c; colNum++){
+          var nextCell = sheet[
+             XLSX.utils.encode_cell({r: rowNum, c: colNum})
+          ];
+          if( typeof nextCell === 'undefined' ){
+             row.push(void 0);
+          } else row.push(nextCell.w);
+       }
+       result.push(row);
+   }
+   return result;
+}
+
+function numToAlpha(num) {
+  var alpha = '';
+  for (; num >= 0; num = parseInt(num / 26, 10) - 1) {
+    alpha = String.fromCharCode(num % 26 + 0x41) + alpha;
+  }
+  return alpha;
+}
