@@ -296,23 +296,29 @@ function readFile(e) {
     var data = new Uint8Array(e.target.result);
     var workbook = XLSX.read(data, {type: 'array'});
     var sheet = workbook.Sheets[workbook.SheetNames[0]];
-    var cellE = 'E' + 11;
-    var valueCell = sheet[cellE].v;
-    var strCell = valueCell.toString();
-    var resultArray = sheet2arr(sheet);
-    alert(resultArray);
+    // var cellE = 'E' + 11;
+    // var valueCell = sheet[cellE].v;
+    // var strCell = valueCell.toString();
+    // var resultArray = sheet2arr(sheet);
+    // alert(resultArray);
 
     var range = XLSX.utils.decode_range(sheet['!ref']);
-    for(rowNum = range.s.r; rowNum <= range.e.r; rowNum++){
-        for(colNum=range.s.c; colNum<=range.e.c; colNum++){
+    for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+        for (colNum=range.s.c; colNum<=range.e.c; colNum++) {
            var nextCell = sheet[
               XLSX.utils.encode_cell({r: rowNum, c: colNum})
            ];
-           if( typeof nextCell === 'undefined' ){
-              row.push(void 0);
-           } else row.push(nextCell.w);
+           if (typeof nextCell === 'undefined') {
+              // row.push(void 0);
+           } else {
+             if (nextCell.w == "Код") {
+               // row.push(nextCell.w);
+               var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
+               alert(tmpCell.v);
+             }
+           }
         }
-        result.push(row);
+        // result.push(row);
     }
 
   };
