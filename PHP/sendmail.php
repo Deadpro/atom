@@ -42,6 +42,6 @@ $headers .= "Reply-To: ". $from . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-$success = mail("bornmovie@mail.ru", $subject, $template, $headers);
+$success = mail("orders@caiman.ru.com", $subject, $template, $headers);
 echo ($success) ? 'true' : 'false';
 ?>
