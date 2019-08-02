@@ -33,7 +33,11 @@ var accountingLocalVars = {
   "countLee" : 0,
   "radioCheckedTrigger" : false,
   "dateControl" : "",
-  "chooseFileLabel" : "Выберите файл (Столичные)"
+  "chooseFileLabel" : "Выберите файл (Столичные)",
+  "spNameStolichniy" : ["Гастроном В-Лазер", "Столичный 41-ый км (ж/д 83Б)", "Столичный №16", "Столичный Дальнее", "Столичный Егорка (1-ый этаж)",
+  "Столичный Калинка (Продукты)", "Столичный Луговое (Продукты)", "Столичный Мегаполис (Продукты)", "Столичный Мозаика", "Столичный Москва",
+  "Столичный Невельск", "Столичный Родной", "Столичный Северный ветер", "Столичный Сити-Молл", "Столичный Славянский базар", "Столичный ТДЦ",
+  "Столичный Холмск 1", "Столичный Холмск 3", "Столичный Час Пик", "Фабрика Вкуса Пограничная", "Столичный Поронайск", "Фабрика Вкуса Макаров"]
 };
 
 function formatDate(date) {
@@ -301,7 +305,8 @@ function readFile(e) {
     // var strCell = valueCell.toString();
     // var resultArray = sheet2arr(sheet);
     // alert(resultArray);
-
+    var itemIDColNum;
+    var itemIDRowNum;
     var range = XLSX.utils.decode_range(sheet['!ref']);
     for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
         for (colNum=range.s.c; colNum<=range.e.c; colNum++) {
@@ -312,6 +317,8 @@ function readFile(e) {
               // row.push(void 0);
            } else {
              if (nextCell.w == "Код") {
+               itemIDColNum = colNum;
+               itemIDRowNumStart = rowNum + 1;
                // row.push(nextCell.w);
                var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
                alert(tmpCell.v);
