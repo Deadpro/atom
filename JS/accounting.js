@@ -61,6 +61,13 @@ function formatDate(date) {
   return  year + "." + month + "." + day + "  " + strTime;
 }
 
+function receiveStolichniySPNames() {
+  $.post('../php/receiveStolichniyData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword')}, function(data) {
+    accountingLocalVars.tmp = JSON.parse(data);
+  });
+}
+
 $('#accounting').on('click', function() {
   renderAccountingOptions();
 });
@@ -299,6 +306,7 @@ if ($('.fileInput').length > 0)	{
 
 
 function readFile(e) {
+  receiveStolichniySPNames();
   var files = e.target.files, f = files[0];
   var reader = new FileReader();
   reader.onload = function(e) {
@@ -327,6 +335,11 @@ function readFile(e) {
                // row.push(nextCell.w);
                var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
                alert(tmpCell.v);
+             }
+             for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+               if (accountingLocalVars.tmp[i].Адрес == nextCell.v) {
+
+               }
              }
            }
         }
