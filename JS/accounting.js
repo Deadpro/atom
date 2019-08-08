@@ -45,6 +45,10 @@ var accountingLocalVars = {
   "Столичный Холмск 1", "Столичный Холмск 3", "Столичный Час Пик", "Фабрика Вкуса Пограничная", "Столичный Поронайск", "Фабрика Вкуса Макаров"]
 };
 
+if ($('.fileInput').length > 0)	{
+  document.getElementById('file-input').addEventListener('change', readFile, false);
+}
+
 function formatDate(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
@@ -67,6 +71,89 @@ function receiveStolichniySPNames() {
     accountingLocalVars.tmp = JSON.parse(data);
   });
 }
+
+function readFile(e) {
+  receiveStolichniySPNames();
+  var files = e.target.files, f = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var data = new Uint8Array(e.target.result);
+    var workbook = XLSX.read(data, {type: 'array'});
+    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    // var cellE = 'E' + 11;
+    // var valueCell = sheet[cellE].v;
+    // var strCell = valueCell.toString();
+    // var resultArray = sheet2arr(sheet);
+    // alert(resultArray);
+    var itemIDColNum;
+    var itemIDRowNum;
+    var range = XLSX.utils.decode_range(sheet['!ref']);
+    for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+        for (colNum=range.s.c; colNum<=range.e.c; colNum++) {
+           var nextCell = sheet[
+              XLSX.utils.encode_cell({r: rowNum, c: colNum})
+           ];
+           if (typeof nextCell === 'undefined') {
+              // row.push(void 0);
+           } else {
+             if (nextCell.w == "Код") {
+               itemIDColNum = colNum;
+               itemIDRowNumStart = rowNum + 1;
+               // row.push(nextCell.w);
+               var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
+               alert(tmpCell.v);
+             }
+             for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+               if (accountingLocalVars.tmp[i].Адрес == nextCell.v) {
+
+               }
+             }
+           }
+        }
+        // result.push(row);
+    }
+
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+function sheet2arr(sheet) {
+   var result = [];
+   var row;
+   var rowNum;
+   var colNum;
+   var range = XLSX.utils.decode_range(sheet['!ref']);
+   for(rowNum = range.s.r; rowNum <= range.e.r; rowNum++){
+      row = [];
+       for(colNum=range.s.c; colNum<=range.e.c; colNum++){
+          var nextCell = sheet[
+             XLSX.utils.encode_cell({r: rowNum, c: colNum})
+          ];
+          if( typeof nextCell === 'undefined' ){
+             row.push(void 0);
+          } else row.push(nextCell.w);
+       }
+       result.push(row);
+   }
+   return result;
+}
+
+function numToAlpha(num) {
+  var alpha = '';
+  for (; num >= 0; num = parseInt(num / 26, 10) - 1) {
+    alpha = String.fromCharCode(num % 26 + 0x41) + alpha;
+  }
+  return alpha;
+}
+
+function createObject() {
+
+}
+
+// function displayContents(contents) {
+//   var element = document.getElementById('file-content');
+//   element.textContent = contents;
+// }
 
 $('#accounting').on('click', function() {
   renderAccountingOptions();
@@ -105,7 +192,7 @@ $('#executeChoice').on('click', function() {
   });
 });
 
-this.createAccountantTables = function() {
+function createAccountantTables() {
   alert("Всего строк: " + Object.keys(accountingLocalVars.tmp).length);
   $('div#connection-data').html("");
   $(".accountantContainer").show();
@@ -241,8 +328,6 @@ this.createAccountantTables = function() {
                                 <script type='text/javascript' src='../js/createexcel.js'></script> \
                                 ");
   }
-  // $("#tableDataChe").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
-  // $("#tableDataLee").append("<script type='text/javascript' src='../js/createexcel.js'></script>");
 }
 
 this.closeAccountantTable = function() {
@@ -293,88 +378,4 @@ this.renderAccountingOptions = function() {
   }
   $(".loginContainer").html("");
   $(".loginContainer").hide();
-}
-
-// function displayContents(contents) {
-//   var element = document.getElementById('file-content');
-//   element.textContent = contents;
-// }
-
-if ($('.fileInput').length > 0)	{
-  document.getElementById('file-input').addEventListener('change', readFile, false);
-}
-
-
-function readFile(e) {
-  receiveStolichniySPNames();
-  var files = e.target.files, f = files[0];
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var data = new Uint8Array(e.target.result);
-    var workbook = XLSX.read(data, {type: 'array'});
-    var sheet = workbook.Sheets[workbook.SheetNames[0]];
-    // var cellE = 'E' + 11;
-    // var valueCell = sheet[cellE].v;
-    // var strCell = valueCell.toString();
-    // var resultArray = sheet2arr(sheet);
-    // alert(resultArray);
-    var itemIDColNum;
-    var itemIDRowNum;
-    var range = XLSX.utils.decode_range(sheet['!ref']);
-    for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
-        for (colNum=range.s.c; colNum<=range.e.c; colNum++) {
-           var nextCell = sheet[
-              XLSX.utils.encode_cell({r: rowNum, c: colNum})
-           ];
-           if (typeof nextCell === 'undefined') {
-              // row.push(void 0);
-           } else {
-             if (nextCell.w == "Код") {
-               itemIDColNum = colNum;
-               itemIDRowNumStart = rowNum + 1;
-               // row.push(nextCell.w);
-               var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
-               alert(tmpCell.v);
-             }
-             for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
-               if (accountingLocalVars.tmp[i].Адрес == nextCell.v) {
-
-               }
-             }
-           }
-        }
-        // result.push(row);
-    }
-
-  };
-  reader.readAsArrayBuffer(f);
-}
-
-function sheet2arr(sheet) {
-   var result = [];
-   var row;
-   var rowNum;
-   var colNum;
-   var range = XLSX.utils.decode_range(sheet['!ref']);
-   for(rowNum = range.s.r; rowNum <= range.e.r; rowNum++){
-      row = [];
-       for(colNum=range.s.c; colNum<=range.e.c; colNum++){
-          var nextCell = sheet[
-             XLSX.utils.encode_cell({r: rowNum, c: colNum})
-          ];
-          if( typeof nextCell === 'undefined' ){
-             row.push(void 0);
-          } else row.push(nextCell.w);
-       }
-       result.push(row);
-   }
-   return result;
-}
-
-function numToAlpha(num) {
-  var alpha = '';
-  for (; num >= 0; num = parseInt(num / 26, 10) - 1) {
-    alpha = String.fromCharCode(num % 26 + 0x41) + alpha;
-  }
-  return alpha;
 }
