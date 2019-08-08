@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="../CSS/accounting.css">
   <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
-  <script type="text/javascript" src="../js/createexcel.js"></script>
+
+  <script type="text/javascript" src="../js/globalVariables.js"></script>
 </head>
 <body  onload="starter();">
   <div class="navigationContainer">
@@ -46,6 +47,8 @@
   <script type="text/javascript" src="../js/settings.js"></script>
   <script type="text/javascript" src="../js/analytics.js"></script>
   <script type="text/javascript" src="../js/accounting.js"></script>
+  <script type="text/javascript" src="../js/createexcel.js"></script>
+  <script type="text/javascript" src="../js/globalVariables.js"></script>
   <!-- <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script> -->

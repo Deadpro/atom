@@ -42,11 +42,29 @@ var accountingLocalVars = {
   "spNameStolichniy" : ["Гастроном В-Лазер", "Столичный 41-ый км (ж/д 83Б)", "Столичный №16", "Столичный Дальнее", "Столичный Егорка (1-ый этаж)",
   "Столичный Калинка (Продукты)", "Столичный Луговое (Продукты)", "Столичный Мегаполис (Продукты)", "Столичный Мозаика", "Столичный Москва",
   "Столичный Невельск", "Столичный Родной", "Столичный Северный ветер", "Столичный Сити-Молл", "Столичный Славянский базар", "Столичный ТДЦ",
-  "Столичный Холмск 1", "Столичный Холмск 3", "Столичный Час Пик", "Фабрика Вкуса Пограничная", "Столичный Поронайск", "Фабрика Вкуса Макаров"]
+  "Столичный Холмск 1", "Столичный Холмск 3", "Столичный Час Пик", "Фабрика Вкуса Пограничная", "Столичный Поронайск", "Фабрика Вкуса Макаров"],
+  "tableHeaderRow" : ""
 };
 
 if ($('.fileInput').length > 0)	{
   document.getElementById('file-input').addEventListener('change', readFile, false);
+}
+
+function tableHeaderRowFunc() {
+   accountingLocalVars.tableHeaderRow  = tableConstructor.tbodyOpen + tableConstructor.trOpen +
+                                         tableConstructor.tdOpen + accountingLocalVars.ID + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.invoiceID + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.areaID + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.salesPartnerName + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.taxPayerID + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.itemName + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.itemID + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.itenmPrice + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.quantity + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.total + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.invoiceSum + tableConstructor.tdClose +
+                                         tableConstructor.tdOpen + accountingLocalVars.date + tableConstructor.tdClose +
+                                         tableConstructor.trClose + tableConstructor.tbodyClose;
 }
 
 function formatDate(date) {
@@ -192,7 +210,8 @@ $('#executeChoice').on('click', function() {
   });
 });
 
-function createAccountantTables() {
+this.createAccountantTables = function() {
+  tableHeaderRowFunc();
   alert("Всего строк: " + Object.keys(accountingLocalVars.tmp).length);
   $('div#connection-data').html("");
   $(".accountantContainer").show();
@@ -208,20 +227,7 @@ function createAccountantTables() {
       </div> \
     </div> \
   ");
-  var tableHeaderRow = '<tbody><tr> \
-                      <td>' + accountingLocalVars.ID + '</td> \
-                      <td>' + accountingLocalVars.invoiceID + '</td> \
-                      <td>' + accountingLocalVars.areaID + '</td> \
-                      <td>' + accountingLocalVars.salesPartnerName + '</td> \
-                      <td>' + accountingLocalVars.taxPayerID + '</td> \
-                      <td>' + accountingLocalVars.itemName + '</td> \
-                      <td>' + accountingLocalVars.itemID + '</td> \
-                      <td>' + accountingLocalVars.itenmPrice + '</td> \
-                      <td>' + accountingLocalVars.quantity + '</td> \
-                      <td>' + accountingLocalVars.total + '</td> \
-                      <td>' + accountingLocalVars.invoiceSum + '</td> \
-                      <td>' + accountingLocalVars.date + '</td> \
-                    </tr></tbody>';
+  var tableHeaderRow = accountingLocalVars.tableHeaderRow;
   var countLee = 0;
   var countChe = 0;
   var triggerLee = true;
