@@ -195,6 +195,24 @@ function getArea(type) {
   return reportsLocalVars.checkedAreaValue;
 }
 
+function checkSumErrors() {
+  var tmpSumTotal = 0;
+  var trigger = false;
+  for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length - 1; i++) {
+    if (reportsLocalVars.tmp[i].InvoiceNumber == reportsLocalVars.tmp[i + 1].InvoiceNumber) {
+      tmpSumTotal += parseFloat(reportsLocalVars.tmp[i].Total, 10);
+    } else {
+      tmpSumTotal += parseFloat(reportsLocalVars.tmp[i].Total, 10);
+      trigger = true;
+      if (trigger == true && parseFloat(reportsLocalVars.tmp[i].InvoiceSum, 10).toFixed(2) != tmpSumTotal.toFixed(2)) {
+        alert("# " + reportsLocalVars.tmp[i].InvoiceNumber + " сумма: " + tmpSumTotal);
+      }
+      trigger = false;
+      tmpSumTotal = 0;
+    }
+  }
+}
+
 $('#reports').on('click', function() {
   renderMenuPage();
 });
@@ -358,7 +376,7 @@ $('#report-by-day').on('click', function() {
 });
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
-  // alert('start: ' + paramOne + "; " + paramTwo + "; " + trigger + "; " + Object.keys(salesQuantity).length);
+  // checkSumErrors();
   if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
@@ -421,8 +439,14 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
 
     reportsLocalVars.totalSalesQuantity += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     reportsLocalVars.totalSalesQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-    // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    // if (reportsLocalVars.tmp[paramThree].Total < 0) {
+    //   alert("итого до: " + reportsLocalVars.totalSalesSum);
+    //   alert("возврат: " + parseFloat(reportsLocalVars.tmp[paramThree].Total));
+    // }
     reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+    // if (reportsLocalVars.tmp[paramThree].Total < 0) {
+    //   alert("итого после: " + reportsLocalVars.totalSalesSum);
+    // }
   }
 
   if (paramOne == 0) {
@@ -436,13 +460,15 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     if (paramFour == 2) {
       reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + formatDate(reportsLocalVars.tmp[paramThree].DateTimeDocLocal);
     }
-    reportsLocalVars.tmpTotal = reportsLocalVars.tmpQuantity * reportsLocalVars.tmpPrice;
+    // reportsLocalVars.tmpTotal = reportsLocalVars.tmpQuantity * reportsLocalVars.tmpPrice;
+    reportsLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
   }
   if (paramOne == 1) {
     // alert(1);
     reportsLocalVars.tmpName = "Редька по-восточному весовая";
+    reportsLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
     reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.5;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5;
@@ -450,6 +476,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   if (paramOne == 2) {
     // alert(2);
     reportsLocalVars.tmpName = "Ким-ча весовая";
+    reportsLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
     reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.7;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7;

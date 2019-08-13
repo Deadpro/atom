@@ -93,7 +93,7 @@
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
         InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
         ON $areaArrayTmp.ItemID = номенклатура.Артикул
-        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY ItemID";
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
         if ($result = mysqli_query($dbconnect, $sql)){
           while($row = $result->fetch_object()){
             $tempArray = $row;
