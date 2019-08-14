@@ -78,7 +78,8 @@ var reportsLocalVars = {
   "rootCurrentValue" : 0,
   "chooseRootLabel" : "Выберите маршрут",
   "areaTrigger" : false,
-  "optionValue" : ""
+  "optionValue" : "",
+  "checkSumErrorsTrigger" : true
 };
 
 function getDayOfTheWeek(date) {
@@ -211,6 +212,7 @@ function checkSumErrors() {
       tmpSumTotal = 0;
     }
   }
+  reportsLocalVars.checkSumErrorsTrigger = false;
 }
 
 $('#reports').on('click', function() {
@@ -376,7 +378,9 @@ $('#report-by-day').on('click', function() {
 });
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
-  // checkSumErrors();
+  if (reportsLocalVars.checkSumErrorsTrigger == true) {
+    // checkSumErrors();
+  }
   if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
