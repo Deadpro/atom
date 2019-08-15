@@ -87,6 +87,21 @@ function receiveStolichniySPNames() {
   $.post('../php/receiveStolichniyData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword')}, function(data) {
     accountingLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+      accountingLocalVars.trigger = false;
+      if (Object.keys(accountingLocalVars.salesQuantity).length > 0) {
+        for (var key in accountingLocalVars.salesQuantity) {
+          if (key == accountingLocalVars.tmp[i].Наименование) {
+            createObject(0, 1, i, 1);
+          }
+        }
+        if (accountingLocalVars.trigger == false) {
+          createObject(0, 0, i, 1);
+        }
+      } else {
+        createObject(0, 0, i, 1);
+      }
+    }
   });
 }
 
