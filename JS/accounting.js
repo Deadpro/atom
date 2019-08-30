@@ -180,7 +180,24 @@ function numToAlpha(num) {
 }
 
 function createObject() {
+  "spNamesStolichiySales" : new Object(),
+  "stolichniySalesData" : [],
+  "stolichniyItems" : new Object(),
+  "stolichniyQuantity" : new Object(),
+  "stolichniyExchange" : new Object(),
 
+  accountingLocalVars.tmpName = ;
+  accountingLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
+  accountingLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity;
+  accountingLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
+  accountingLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
+
+  Object.defineProperty(accountingLocalVars.salesQuantity, reportsLocalVars.tmpName, {
+     value: reportsLocalVars.quantity,
+     writable: true,
+     enumerable: true,
+     configurable: true
+  });
 }
 
 // function displayContents(contents) {
