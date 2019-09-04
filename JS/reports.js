@@ -79,7 +79,8 @@ var reportsLocalVars = {
   "chooseRootLabel" : "Выберите маршрут",
   "areaTrigger" : false,
   "optionValue" : "",
-  "checkSumErrorsTrigger" : true
+  "checkSumErrorsTrigger" : true,
+  "header" : ""
 };
 
 function getDayOfTheWeek(date) {
@@ -642,11 +643,12 @@ this.renderReportTable = function(param)	{
     }
     reportsLocalVars.reportSubjectDash = "";
   }
+  reportsLocalVars.header = reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea;
   $(".reportContainer").show();
   $('div#connection-data').append(" \
     <div id='reportContainer' class='reportContainer'> \
       <a id='close' href='#' onclick='closeReportTable();'> \
-        <div class='reportSubject' style='float:left'>" + reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea + "</div> \
+        <div class='reportSubject' style='float:left'>" + reportsLocalVars.header + "</div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \

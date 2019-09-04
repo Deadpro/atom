@@ -49,8 +49,9 @@ function add_cell_to_sheet(worksheet, address, value) {
 }
 
 $("#button-a").click(function(){
-	prepairDataToSave("reports");
-   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
+	// prepairDataToSave("reports");
+  //  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
+  convert();
 });
 
 $("#saveAccountantChe").click(function(){
@@ -64,8 +65,9 @@ $("#saveAccountantLee").click(function(){
 });
 
 $("#printReport").click(function(){
-	prepairDataToSave("reports");
-   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
+	// prepairDataToSave("reports");
+  //  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
+  convert();
 });
 
 function prepairDataToSave(param) {
@@ -200,4 +202,31 @@ function formatDate(date) {
   var year = date.getFullYear();
 
   return day + '-' + monthNames[monthIndex] + '-' + year;
+}
+
+function convert(){
+   let tbl1 = document.getElementById("tableData");
+   let tbl2 = document.getElementById("tableSummaryData");
+
+   let worksheet_tmp1 = XLSX.utils.table_to_sheet(tbl1);
+   let worksheet_tmp2 = XLSX.utils.table_to_sheet(tbl2);
+
+   let a = XLSX.utils.sheet_to_json(worksheet_tmp1, { header: 1 })
+   let b = XLSX.utils.sheet_to_json(worksheet_tmp2, { header: 1 })
+
+   for (var i = 24; i < 34; i++) {
+     var cellE = 'C' + i;
+     var cellM = 'C' + i;
+     var valueCell = worksheet[cellE].v;
+     var strCell = valueCell.toString();
+     add_cell_to_sheet(worksheet, cellM, strCell);
+   }
+
+   a = a.concat(['']).concat(b)
+
+   let worksheet = XLSX.utils.json_to_sheet(a, { skipHeader: true })
+
+   const new_workbook = XLSX.utils.book_new()
+   XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
+   XLSX.writeFile(new_workbook, 'tmp_file.xls')
 }
