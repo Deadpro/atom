@@ -80,7 +80,8 @@ var reportsLocalVars = {
   "areaTrigger" : false,
   "optionValue" : "",
   "checkSumErrorsTrigger" : true,
-  "header" : ""
+  "header" : "",
+  "dummy" : ">"
 };
 
 function getDayOfTheWeek(date) {
@@ -643,12 +644,13 @@ this.renderReportTable = function(param)	{
     }
     reportsLocalVars.reportSubjectDash = "";
   }
+  // <div class='reportSubject' style='float:left'>" + reportsLocalVars.header + "</div>
   reportsLocalVars.header = reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea;
   $(".reportContainer").show();
   $('div#connection-data').append(" \
     <div id='reportContainer' class='reportContainer'> \
       <a id='close' href='#' onclick='closeReportTable();'> \
-        <div class='reportSubject' style='float:left'>" + reportsLocalVars.header + "</div> \
+        <div id='reportSubject'><table class='tableReportSubject' id='tableReportSubjectData'></table></div> \
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </a> \
       <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
@@ -657,6 +659,12 @@ this.renderReportTable = function(param)	{
       <button id='button-a'>Сохранить файл</button> \
     </div> \
   ");
+  var tableReportSubjectRow = '<tbody><tr> \
+                      <td>' + reportsLocalVars.dummy + '</td> \
+                      <td>' + reportsLocalVars.dummy + '</td> \
+                      <td>' + reportsLocalVars.header + '</td> \
+                    </tr></tbody>';
+  $("#tableReportSubjectData").append(tableReportSubjectRow);
   var tableHeaderRow = '<tbody><tr> \
                       <td>' + reportsLocalVars.IDLabel + '</td> \
                       <td>' + reportsLocalVars.exchangeQuantityLabel + '</td> \
@@ -685,7 +693,9 @@ this.renderReportTable = function(param)	{
   $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
   $("#tableSummaryHeaderData").append(" \
     <tr> \
-      <td></td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.salesQuantityLabel + "</td> \
       <td>" + reportsLocalVars.sumLabel + "</td> \
     </tr><tr class='tableSeparator'></tr>\
