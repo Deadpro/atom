@@ -66,8 +66,8 @@ $("#saveAccountantLee").click(function(){
 
 $("#printReport").click(function(){
 	// prepairDataToSave("reports");
-  //  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет.xlsx');
   convert();
+  saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
 
 function prepairDataToSave(param) {
@@ -223,21 +223,21 @@ function convert(){
    var iStart = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 8);
    var iEnd = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 19);
 
-   for (var i = iStart; i < iEnd; i++) {
-     var cellA = 'A' + i;
-     var cellB = 'B' + i;
-     var cellC = 'D' + i;
-     var cellD = 'E' + i;
-     var cellE = 'F' + i;
-     var valueCell = worksheet[cellE].v;
-     var strCell = valueCell.toString();
-     add_cell_to_sheet(worksheet, cellM, strCell);
-   }
+   // for (var i = iStart; i < iEnd; i++) {
+   //   var cellA = 'A' + i;
+   //   var cellB = 'B' + i;
+   //   var cellC = 'D' + i;
+   //   var cellD = 'E' + i;
+   //   var cellE = 'F' + i;
+   //   var valueCell = worksheet[cellE].v;
+   //   var strCell = valueCell.toString();
+   //   add_cell_to_sheet(worksheet, cellM, strCell);
+   // }
 
    var cellA = 'A' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
    var cellB = 'B' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
    var cellC = 'C' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
-   alert(cellC);
+   // alert(cellC);
    a = a.concat(['']).concat(b);
    a = a.concat(['']).concat(c);
    a = a.concat(['']).concat(d);
@@ -248,6 +248,11 @@ function convert(){
    // XLSX.utils.book_append_sheet(new_workbook, worksheet, "worksheet")
    // XLSX.writeFile(new_workbook, 'tmp_file.xls')
 
+   // By the way, I have solved this issues by doing {raw=true}, which keep all cell format as like html table.
+   // !!!
+   // var tbl = XLSX.utils.table_to_book(document.getElementById('tableforexcel'), {raw:true});
+   // XLSX.writeFile(tbl, file_name, {cellStyles:true});
+
    localCreateExcel.wb = XLSX.utils.book_new();
    localCreateExcel.ws = XLSX.utils.json_to_sheet(a, { skipHeader: true });
    localCreateExcel.ws_name = "Отчет";
@@ -257,7 +262,7 @@ function convert(){
      {wch: 40},
      {wch: 8},
      {wch: 9},
-     {wch: 5}
+     {wch: 7}
    ];
    localCreateExcel.ws['!cols'] = localCreateExcel.sheetcols;
    localCreateExcel.wb.SheetNames.push(localCreateExcel.ws_name);
@@ -267,6 +272,12 @@ function convert(){
    delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
    delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
    delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellC];
+   for (var i = iStart; i < iEnd; i++) {
+     var cellA = 'A' + i;
+     var cellB = 'B' + i;
+     delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
+     delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
+   }
    localCreateExcel.wbout = XLSX.write(localCreateExcel.wb, {bookType:'xlsx', bookSST:true, type:'binary'});
 }
 

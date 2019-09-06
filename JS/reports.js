@@ -702,46 +702,64 @@ this.renderReportTable = function(param)	{
   ");
   $("#tableSummaryData").append(" \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
       <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
       <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
       <td></td> \
       <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
       <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
       <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
       <td></td> \
       <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
     </tr> <tr class='tableSeparator'></tr>\
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
       <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
       <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
       <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
     </tr> \
     <tr> \
+      <td>" + reportsLocalVars.dummy + "</td> \
+      <td>" + reportsLocalVars.dummy + "</td> \
       <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
       <td></td> \
       <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
