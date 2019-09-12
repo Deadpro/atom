@@ -22,7 +22,7 @@ var accountingLocalVars = {
   "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive", "checkSeven"],
   "checkedValue" : "",
   "tmp" : new Object(),
-  "spNamesStolichiySales" : new Object(),
+  "spNamesStolichniySales" : new Object(),
   "stolichniySalesData" : [],
   "stolichniyItems" : new Object(),
   "stolichniyQuantity" : new Object(),
@@ -43,7 +43,10 @@ var accountingLocalVars = {
   "Столичный Калинка (Продукты)", "Столичный Луговое (Продукты)", "Столичный Мегаполис (Продукты)", "Столичный Мозаика", "Столичный Москва",
   "Столичный Невельск", "Столичный Родной", "Столичный Северный ветер", "Столичный Сити-Молл", "Столичный Славянский базар", "Столичный ТДЦ",
   "Столичный Холмск 1", "Столичный Холмск 3", "Столичный Час Пик", "Фабрика Вкуса Пограничная", "Столичный Поронайск", "Фабрика Вкуса Макаров"],
-  "tableHeaderRow" : ""
+  "tableHeaderRow" : "",
+  "tmpSPName" : "",
+  "tmpSalesQuantity" : "",
+  "sheet" : ""
 };
 
 if ($('.fileInput').length > 0)	{
@@ -87,21 +90,21 @@ function receiveStolichniySPNames() {
   $.post('../php/receiveStolichniyData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword')}, function(data) {
     accountingLocalVars.tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
-      accountingLocalVars.trigger = false;
-      if (Object.keys(accountingLocalVars.salesQuantity).length > 0) {
-        for (var key in accountingLocalVars.salesQuantity) {
-          if (key == accountingLocalVars.tmp[i].Наименование) {
-            createObject(0, 1, i, 1);
-          }
-        }
-        if (accountingLocalVars.trigger == false) {
-          createObject(0, 0, i, 1);
-        }
-      } else {
-        createObject(0, 0, i, 1);
-      }
-    }
+    // for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+    //   accountingLocalVars.trigger = false;
+    //   if (Object.keys(accountingLocalVars.salesQuantity).length > 0) {
+    //     for (var key in accountingLocalVars.salesQuantity) {
+    //       if (key == accountingLocalVars.tmp[i].Наименование) {
+    //         createObject(0, 1, i, 1);
+    //       }
+    //     }
+    //     if (accountingLocalVars.trigger == false) {
+    //       createObject(0, 0, i, 1);
+    //     }
+    //   } else {
+    //     createObject(0, 0, i, 1);
+    //   }
+    // }
   });
 }
 
@@ -109,10 +112,12 @@ function readFile(e) {
   receiveStolichniySPNames();
   var files = e.target.files, f = files[0];
   var reader = new FileReader();
+  var spNameTrigger = false;
   reader.onload = function(e) {
     var data = new Uint8Array(e.target.result);
     var workbook = XLSX.read(data, {type: 'array'});
-    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+    accountingLocalVars.sheet = workbook.Sheets[workbook.SheetNames[0
+    var sheet = accountingLocalVars.sheet;
     // var cellE = 'E' + 11;
     // var valueCell = sheet[cellE].v;
     // var strCell = valueCell.toString();
@@ -120,6 +125,8 @@ function readFile(e) {
     // alert(resultArray);
     var itemIDColNum;
     var itemIDRowNum;
+    // var spNameFirtsInRawColNum;
+    // var spNameFirtsInRawRowNum;
     var range = XLSX.utils.decode_range(sheet['!ref']);
     for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
         for (colNum=range.s.c; colNum<=range.e.c; colNum++) {
@@ -136,11 +143,19 @@ function readFile(e) {
                var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
                alert(tmpCell.v);
              }
-             for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
-               if (accountingLocalVars.tmp[i].Адрес == nextCell.v) {
-
+             // if (spNameTrigger == false) {
+             // "spNamesStolichiySales" : new Object(),
+             // "stolichniySalesData" : [],
+             // "stolichniyItems" : new Object(),
+             // "stolichniyQuantity" : new Object(),
+             // "stolichniyExchange" : new Object(),
+               for (var i = 0; i < accountingLocalVars.spNameStolichniy.length; i++) {
+                 if (accountingLocalVars.spNameStolichniy[i] == nextCell.v) {
+                   createObject(i, itemIDColNum, itemIDRowNumStart, rowNum + 1, colNum);
+                   // spNameTrigger = true;
+                 }
                }
-             }
+             // }
            }
         }
         // result.push(row);
@@ -179,21 +194,19 @@ function numToAlpha(num) {
   return alpha;
 }
 
-function createObject() {
-  "spNamesStolichiySales" : new Object(),
+function createObject(paramOne, paramTwo, paramThree, paramFour, paramFive) {
+  "spNamesStolichniySales" : new Object(),
   "stolichniySalesData" : [],
   "stolichniyItems" : new Object(),
   "stolichniyQuantity" : new Object(),
   "stolichniyExchange" : new Object(),
 
-  accountingLocalVars.tmpName = ;
-  accountingLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
-  accountingLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity;
-  accountingLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
-  accountingLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
+  accountingLocalVars.tmpSPName = accountingLocalVars.spNameStolichniy[paramOne];
+  accountingLocalVars.tmpSalesQuantity = accountingLocalVars.sheet[XLSX.utils.encode_cell({r: paramFour, c: paramFive})];
+  // accountingLocalVars.tmpExchange = accountingLocalVars;
 
-  Object.defineProperty(accountingLocalVars.salesQuantity, reportsLocalVars.tmpName, {
-     value: reportsLocalVars.quantity,
+  Object.defineProperty(accountingLocalVars.spNamesStolichniySales, accountingLocalVars.tmpSPName, {
+     value: accountingLocalVars.stolichniySalesData,
      writable: true,
      enumerable: true,
      configurable: true
