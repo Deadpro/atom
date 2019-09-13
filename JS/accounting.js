@@ -23,7 +23,7 @@ var accountingLocalVars = {
   "checkedValue" : "",
   "tmp" : new Object(),
   "spNamesStolichniySales" : new Object(),
-  "stolichniySalesData" : [],
+  "stolichniySalesData" : new Object(),
   "stolichniyItems" : new Object(),
   "stolichniyQuantity" : new Object(),
   "stolichniyExchange" : new Object(),
@@ -195,13 +195,16 @@ function numToAlpha(num) {
 }
 
 function createObject(paramOne, paramTwo, paramThree, paramFour, paramFive) {
-  "spNamesStolichniySales" : new Object(),
-  "stolichniySalesData" : [],
-  "stolichniyItems" : new Object(),
-  "stolichniyQuantity" : new Object(),
-  "stolichniyExchange" : new Object(),
+  // "spNamesStolichniySales" : new Object(),
+  // "stolichniySalesData" : new Object(),
+  // "stolichniyItems" : new Object(),
+  // "stolichniyQuantity" : new Object(),
+  // "stolichniyExchange" : new Object(),
 
   accountingLocalVars.tmpSPName = accountingLocalVars.spNameStolichniy[paramOne];
+  for (var i = 0; i < 7; i++) {
+    
+  }
   accountingLocalVars.tmpSalesQuantity = accountingLocalVars.sheet[XLSX.utils.encode_cell({r: paramFour, c: paramFive})];
   // accountingLocalVars.tmpExchange = accountingLocalVars;
 
