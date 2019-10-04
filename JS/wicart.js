@@ -166,12 +166,13 @@ function WICard(obj, plugins)	{
   			<a id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'> \
         <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a> \
         <div id='bsum'></div> \
-        <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button> \
+        <button class='bbutton' onclick=\"cart.goodByePage()\">" + local.order + "</button> \
   			<table id='bcaption'><tr><td>ID</td><td>" + local.name + "</td><td>" + local.price + "</td><td>" + local.num + "</td><td>" + local.all + "</td><td></td></tr></table> \
   			<div id='overflw'><table class='btable' id='btable'></table></div> \
   			<div id='bfooter'> <span id='bsum'>...</span></div> \
   			</div></div> \
   		");
+      // <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button>
 		}	else {
 			$("#btable").html("");
 		}
@@ -347,12 +348,14 @@ function WICard(obj, plugins)	{
 	}
 
   this.goodByePage = function() {
+    let sendText = local.send;
+    let tmpText = "Настоящий сайт находится в разработке и на стадии подготовки к соотвествию новому федеральному закону, поэтому сбор данных не производится, форма заказа не работает. Для связи просьба писать на указанные адреса почты. Спасибо за понимание. Для выхода обновите страницу."
     $(".container-form").hide();
     $("#blindLayer").hide();
     $("#placeHolder").append(" \
       <div id='goodByeParent' class='goodByeParent'> \
         <div id='goodByeInfo' class='goodByeInfo'> \
-          <button onclick=\"cart.goHome()\"> " + local.send + " </button> \
+          <button onclick=\"cart.goHome()\"> " + tmpText + " </button> \
         </div> \
       </div> \
     ");
