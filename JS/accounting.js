@@ -136,7 +136,7 @@ function readFile(e) {
            if (typeof nextCell === 'undefined') {
               // row.push(void 0);
            } else {
-             if (nextCell.w == "Код") {
+             if (nextCell.w === "Код") {
                itemIDColNum = colNum;
                itemIDRowNumStart = rowNum + 1;
                // row.push(nextCell.w);
@@ -150,7 +150,7 @@ function readFile(e) {
              // "stolichniyQuantity" : new Object(),
              // "stolichniyExchange" : new Object(),
                for (var i = 0; i < accountingLocalVars.spNameStolichniy.length; i++) {
-                 if (accountingLocalVars.spNameStolichniy[i] == nextCell.v) {
+                 if (accountingLocalVars.spNameStolichniy[i] === nextCell.v) {
                    createObject(i, itemIDColNum, itemIDRowNumStart, rowNum + 1, colNum);
                    // spNameTrigger = true;
                  }
@@ -205,7 +205,7 @@ function createObject(paramOne, paramTwo, paramThree, paramFour, paramFive) {
   for (var i = 0; i < 7; i++) {
     var nextCell = sheet[XLSX.utils.encode_cell({r: rowNum, c: colNum})];
     if (typeof nextCell != 'undefined') {
-      
+
     }
   }
   accountingLocalVars.tmpSalesQuantity = accountingLocalVars.sheet[XLSX.utils.encode_cell({r: paramFour, c: paramFive})];
