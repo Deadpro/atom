@@ -203,10 +203,12 @@ function createObject(paramOne, paramTwo, paramThree, paramFour) {
   // "stolichniyItems" : new Object(),
   // "stolichniyQuantity" : new Object(),
   // "stolichniyExchange" : new Object(),
-
+  let raw = paramThree;
+  let column = paramFour;
   accountingLocalVars.tmpSPName = accountingLocalVars.spNameStolichniy[paramOne];
-  for (var i = 0; i < 7; i++) {
-    var spNameCell = sheet[XLSX.utils.encode_cell({r: paramThree, c: paramFour})];
+  let spNameCell = sheet[XLSX.utils.encode_cell({r: paramThree, c: paramFour})];
+  for (let i = 0; i < 7; i++) {
+
     if (typeof nextCell != 'undefined') {
 
     }
