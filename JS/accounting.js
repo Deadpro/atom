@@ -125,6 +125,7 @@ function readFile(e) {
     // alert(resultArray);
     var itemIDColNum;
     var itemIDRowNum;
+    var spNameTrigger = false;
     // var spNameFirtsInRawColNum;
     // var spNameFirtsInRawRowNum;
     var range = XLSX.utils.decode_range(sheet['!ref']);
@@ -140,7 +141,7 @@ function readFile(e) {
                itemIDColNum = colNum;
                itemIDRowNumStart = rowNum + 1;
                // row.push(nextCell.w);
-               var tmpCell = sheet[XLSX.utils.encode_cell({r: rowNum + 1, c: colNum})];
+               var tmpCell = sheet[XLSX.utils.encode_cell({r: itemIDRowNumStart, c: itemIDColNum})];
                alert(tmpCell.v);
              }
              // if (spNameTrigger == false) {
@@ -149,12 +150,14 @@ function readFile(e) {
              // "stolichniyItems" : new Object(),
              // "stolichniyQuantity" : new Object(),
              // "stolichniyExchange" : new Object(),
+             if (spNameTrigger === false) {
                for (var i = 0; i < accountingLocalVars.spNameStolichniy.length; i++) {
                  if (accountingLocalVars.spNameStolichniy[i] === nextCell.v) {
-                   createObject(i, itemIDColNum, itemIDRowNumStart, rowNum + 1, colNum);
-                   // spNameTrigger = true;
+                   createObject(itemIDColNum, itemIDRowNumStart, colNum);
+                   spNameTrigger = true;
                  }
                }
+             }
              // }
            }
         }
@@ -194,7 +197,7 @@ function numToAlpha(num) {
   return alpha;
 }
 
-function createObject(paramOne, paramTwo, paramThree, paramFour, paramFive) {
+function createObject(paramOne, paramTwo, paramThree) {
   // "spNamesStolichniySales" : new Object(),
   // "stolichniySalesData" : new Object(),
   // "stolichniyItems" : new Object(),
