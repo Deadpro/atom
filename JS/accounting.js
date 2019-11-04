@@ -153,7 +153,7 @@ function readFile(e) {
              if (spNameTrigger === false) {
                for (var i = 0; i < accountingLocalVars.spNameStolichniy.length; i++) {
                  if (accountingLocalVars.spNameStolichniy[i] === nextCell.v) {
-                   createObject(itemIDColNum, itemIDRowNumStart, colNum);
+                   createObject(i, itemIDColNum, itemIDRowNumStart, colNum);
                    spNameTrigger = true;
                  }
                }
@@ -197,7 +197,7 @@ function numToAlpha(num) {
   return alpha;
 }
 
-function createObject(paramOne, paramTwo, paramThree) {
+function createObject(paramOne, paramTwo, paramThree, paramFour) {
   // "spNamesStolichniySales" : new Object(),
   // "stolichniySalesData" : new Object(),
   // "stolichniyItems" : new Object(),
@@ -206,7 +206,7 @@ function createObject(paramOne, paramTwo, paramThree) {
 
   accountingLocalVars.tmpSPName = accountingLocalVars.spNameStolichniy[paramOne];
   for (var i = 0; i < 7; i++) {
-    var nextCell = sheet[XLSX.utils.encode_cell({r: rowNum, c: colNum})];
+    var spNameCell = sheet[XLSX.utils.encode_cell({r: paramThree, c: paramFour})];
     if (typeof nextCell != 'undefined') {
 
     }
