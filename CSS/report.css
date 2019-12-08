@@ -81,7 +81,8 @@
 #connection-load,
 #report-ceo,
 #report-sales-manager,
-#report-by-day {
+#report-by-day,
+#report-by-netcost {
   padding: 5px;
   margin: 5px;
   width: 90%;
