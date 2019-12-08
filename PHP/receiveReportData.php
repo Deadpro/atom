@@ -188,6 +188,68 @@
         }
       }
     }
+    if ($reportType == 'byNetCostReport') {
+      if ($salesPartnerTrigger == false && $areaTrigger == false) {
+        for ($i = 0; $i < count($areaArray); $i++) {
+          $areaArrayTmp = $areaArray[$i];
+          $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+          ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+          InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
+          ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY ItemID";
+          if ($result = mysqli_query($dbconnect, $sql)){
+            while($row = $result->fetch_object()){
+              $tempArray = $row;
+              array_push($resultArray, $tempArray);
+            }
+          } else {
+            $json["failed"] = 'Login failed. Invalid login
+            and/or password';
+            echo json_encode($json, JSON_UNESCAPED_UNICODE);
+            mysqli_close($dbconnect);
+          }
+        }
+      }
+      if ($salesPartnerTrigger == false && $areaTrigger == true) {
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
+        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
+        }
+      }
+      if ($salesPartnerTrigger == true && $areaTrigger == true) {
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
+        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
+        ORDER BY ItemID";
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
+        }
+      }
+    }
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     mysqli_close($dbconnect);
   }

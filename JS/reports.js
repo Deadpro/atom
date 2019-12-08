@@ -10,6 +10,7 @@ var reportsLocalVars = {
   "dateStartLabel" : "Начало периода:",
   "dateEndLabel" : "Конец периода:",
   "reportSubjectHeadSalesManagerLabel" : "Краткий отчет за период:",
+  "reportSubjectHeadByNetCostLabel" : "Отчет относительно себестоимости:",
   "reportSubjectHeadCEOLabel" : "Подробный отчет за период:",
   "reportSubjectHeadByDayLabel" : "Сквозной отчет за период:",
   "reportSubjectDashLabel" : "---",
@@ -31,10 +32,12 @@ var reportsLocalVars = {
   "exchangeQuantity" : 0,
   "returnQuantity" : 0,
   "total" : 0,
+  "totalNetCost" : 0,
   "salesQuantity" : new Object(),
   "salesExchange" : new Object(),
   "salesReturn" : new Object(),
   "salesTotal" : new Object(),
+  "salesTotalNetCost" : new Object(),
   "tmp" : new Object(),
   "salesPartnersList" : new Object(),
   "tmpName" : "",
@@ -51,18 +54,27 @@ var reportsLocalVars = {
   "totalExchangeQuantity" : 0,
   "totalReturnQuantity" : 0,
   "totalExchangeQuantitySum" : 0,
+  "totalExchangeQuantitySumNetCost" : 0,
   "totalReturnQuantitySum" : 0,
+  "totalReturnQuantitySumNetCost" : 0,
   "totalExchangeWeight" : 0,
   "totalReturnWeight" : 0,
   "totalExchangeWeightSum" : 0,
+  "totalExchangeWeightSumNetCost" : 0,
   "totalReturnWeightSum" : 0,
+  "totalReturnWeightSumNetCost" : 0,
   "totalExchangeSum" : 0,
   "totalReturnSum" : 0,
+  "totalExchangeSumNetCost" : 0,
+  "totalReturnSumNetCost" : 0,
   "totalSalesQuantity" : 0,
   "totalSalesQuantitySum" : 0,
+  "totalSalesQuantitySumNetCost" : 0,
   "totalSalesWeight" : 0,
   "totalSalesWeightSum" : 0,
   "totalSalesSum" : 0,
+  "totalSalesWeightSumNetCost" : 0,
+  "totalSalesSumNetCost" : 0,
   "dateControl" : document.querySelector('input[type="date"]'),
   "checkDayRadio" : ["checkDayOne", "checkDayTwo", "checkDayThree", "checkDayFour", "checkDayFive", "checkDaySix"],
   "checkedDayValue" : "",
@@ -302,7 +314,7 @@ $('#report-sales-manager').on('click', function() {
     // $('div#connection-data').text(text);
     // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
     // $('div#connection-data').text(text);
-    renderReportTable(0);
+    renderReportTable(0, 0);
   });
 });
 
@@ -338,7 +350,7 @@ $('#report-ceo').on('click', function() {
     // $('div#connection-data').text(text);
     // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
     // $('div#connection-data').text(text);
-    renderReportTable(1);
+    renderReportTable(1, 0);
   });
 });
 
@@ -375,7 +387,7 @@ $('#report-by-day').on('click', function() {
         }
       }
    }
-    renderReportTable(2);
+    renderReportTable(2, 0);
   });
 });
 
@@ -388,7 +400,7 @@ $('#report-by-netcost').on('click', function() {
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
                                           dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "byNetCostReport"}, function(data) {
     reportsLocalVars.tmp = JSON.parse(data);
     // alert(Object.keys(reportsLocalVars.tmp).length);
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
@@ -454,13 +466,7 @@ $('#report-by-netcost').on('click', function() {
          }
       }
    }
-    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
-    // alert(Object.keys(salesQuantity).length);
-    // alert(salesQuantity["Щике"]);
-    // $('div#connection-data').text(text);
-    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
-    // $('div#connection-data').text(text);
-    renderReportTable(0);
+    renderReportTable(3, 1);
   });
 });
 
@@ -478,63 +484,87 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
         reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
       reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7);
       reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+      reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
       reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+      reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
       reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7);
       reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
       reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+      reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+      reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
       reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
       reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
       // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
       reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+      reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+      reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
           reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5);
           reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
           reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
           reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5);
           reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+          reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча весовая" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному весовая") {
           reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
           reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
           reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
           reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-          // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
     }
   } else {
     reportsLocalVars.totalExchangeQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
     reportsLocalVars.totalExchangeQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
     reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+    reportsLocalVars.totalExchangeQuantitySumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+    reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
     reportsLocalVars.totalReturnQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
     reportsLocalVars.totalReturnQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
     reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+    reportsLocalVars.totalReturnQuantitySumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+    reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
     reportsLocalVars.totalSalesQuantity += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     reportsLocalVars.totalSalesQuantitySum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+    reportsLocalVars.totalSalesQuantitySumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     // if (reportsLocalVars.tmp[paramThree].Total < 0) {
     //   alert("итого до: " + reportsLocalVars.totalSalesSum);
     //   alert("возврат: " + parseFloat(reportsLocalVars.tmp[paramThree].Total));
     // }
     reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+    reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     // if (reportsLocalVars.tmp[paramThree].Total < 0) {
     //   alert("итого после: " + reportsLocalVars.totalSalesSum);
     // }
@@ -555,6 +585,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
+    reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
   }
   if (paramOne == 1) {
     // alert(1);
@@ -563,6 +594,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.5;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5;
+    reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
   }
   if (paramOne == 2) {
     // alert(2);
@@ -571,6 +603,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpQuantity = reportsLocalVars.tmp[paramThree].Quantity * 0.7;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7;
+    reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
   }
   if (paramTwo == 0) {
     // alert(00);
@@ -578,10 +611,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.tmpExchange, 10);
     reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.tmpReturn, 10);
     reportsLocalVars.total = parseFloat(reportsLocalVars.tmpTotal, 10);
+    reportsLocalVars.totalNetCost = parseFloat(reportsLocalVars.tmpTotalNetCost, 10);
     reportsLocalVars.tmpName;
-    // if (paramFour == 2) {
-    //   name = reportsLocalVars.tmpName + " " + formatDate(reportsLocalVars.tmp[paramThree].DateTimeDocLocal);
-    // }
+
     Object.defineProperty(reportsLocalVars.salesQuantity, reportsLocalVars.tmpName, {
        value: reportsLocalVars.quantity,
        writable: true,
@@ -606,6 +638,12 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
        enumerable: true,
        configurable: true
     });
+    Object.defineProperty(reportsLocalVars.salesTotalNetCost, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.totalNetCost,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
   }
   if (paramTwo == 1) {
     // alert(01);
@@ -613,11 +651,13 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.salesExchange[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpExchange, 10);
     reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.salesReturn[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpReturn, 10);
     reportsLocalVars.total = parseFloat(reportsLocalVars.salesTotal[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpTotal, 10);
-    // text += tmpName + ": " + quantity + " = " + parseFloat(salesQuantity[tmpName], 10) + " + " + parseFloat(tmpQuantity, 10) + "\r\n";
+    reportsLocalVars.totalNetCost = parseFloat(reportsLocalVars.salesTotalNetCost[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpTotalNetCost, 10);
+
     reportsLocalVars.salesQuantity[reportsLocalVars.tmpName] = reportsLocalVars.quantity;
     reportsLocalVars.salesExchange[reportsLocalVars.tmpName] = reportsLocalVars.exchangeQuantity;
     reportsLocalVars.salesReturn[reportsLocalVars.tmpName] = reportsLocalVars.returnQuantity;
     reportsLocalVars.salesTotal[reportsLocalVars.tmpName] = reportsLocalVars.total;
+    reportsLocalVars.salesTotalNetCost[reportsLocalVars.tmpName] = reportsLocalVars.totalNetCost;
     reportsLocalVars.trigger = true;
   }
 }
@@ -702,155 +742,288 @@ this.renderMenuPage = function() {
   $(".loginContainer").hide();
 }
 
-this.renderReportTable = function(param)	{
+this.renderReportTable = function(paramOne, paramTwo)	{
   if ($.trim(reportsLocalVars.dateStart) != '' && $.trim(reportsLocalVars.dateEnd) != '') {
-    if (param == 0) {
+    if (paramOne == 0) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     }
-    if (param == 1) {
+    if (paramOne == 1) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadCEOLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
     }
-    if (param == 2) {
+    if (paramOne == 2) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadByDayLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
       reportsLocalVars.reportSubjectHeadCheckedDay = ", " + reportsLocalVars.checkedDayValue;
       reportsLocalVars.reportSubjectHeadCheckedArea = ", район: " + reportsLocalVars.checkedAreaValue;
     }
+    if (paramOne == 3) {
+      reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadByNetCostLabel;
+      reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
+    }
   } else {
-    if (param == 0) {
+    if (paramOne == 0) {
       reportsLocalVars.reportSubjectHead = "Краткий отчет за последние 5 дней";
     }
-    if (param == 1) {
+    if (paramOne == 1) {
       reportsLocalVars.reportSubjectHead = "Подробный отчет за последние 5 дней";
     }
-    if (param == 2) {
+    if (paramOne == 2) {
       reportsLocalVars.reportSubjectHead = "Сквозной отчет за " + reportsLocalVars.checkedDayValue + ", район: " + reportsLocalVars.checkedAreaValue + ", за последние 5 дней";
+    }
+    if (paramOne == 3) {
+      reportsLocalVars.reportSubjectHead = "Отчет относительно себестоимости за последние 5 дней";
     }
     reportsLocalVars.reportSubjectDash = "";
   }
-  // <div class='reportSubject' style='float:left'>" + reportsLocalVars.header + "</div>
-  reportsLocalVars.header = reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea;
-  $(".reportContainer").show();
-  $('div#connection-data').append(" \
-    <div id='reportContainer' class='reportContainer'> \
-      <a id='close' href='#' onclick='closeReportTable();'> \
-        <div id='reportSubject'><table class='tableReportSubject' id='tableReportSubjectData'></table></div> \
-        <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
-      </a> \
-      <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
-      <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
-      <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
-      <button id='button-a'>Сохранить файл</button> \
-    </div> \
-  ");
-  var tableReportSubjectRow = '<tbody><tr> \
-                      <td>' + reportsLocalVars.dummy + '</td> \
-                      <td>' + reportsLocalVars.dummy + '</td> \
-                      <td>' + reportsLocalVars.header + '</td> \
-                    </tr></tbody>';
-  $("#tableReportSubjectData").append(tableReportSubjectRow);
-  var tableHeaderRow = '<tbody><tr> \
-                      <td>' + reportsLocalVars.IDLabel + '</td> \
-                      <td>' + reportsLocalVars.exchangeQuantityLabel + '</td> \
-                      <td>' + reportsLocalVars.itemNameLabel + '</td> \
-                      <td>' + reportsLocalVars.salesQuantityLabel + '</td> \
-                      <td>' + reportsLocalVars.totalLabel + '</td> \
-                      <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
-                    </tr></tbody>';
-  var triggerHeader = true;
-  for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
-    var productLine = '<tbody><tr> \
-                        <td>' + (i + 1) + '</td> \
-                        <td>' + reportsLocalVars.salesExchange[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>' + Object.keys(reportsLocalVars.salesQuantity)[i] + '</td> \
-                        <td>' + reportsLocalVars.salesQuantity[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
-                        <td>' + reportsLocalVars.salesTotal[Object.keys(reportsLocalVars.salesTotal)[i]].toFixed(2) + '</td> \
-                        <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
-                      </tr></tbody>';
-    if (triggerHeader == true) {
-      $("#tableData").append(tableHeaderRow);
-      triggerHeader = false;
+
+  if (paramTwo == 0) {
+     // <div class='reportSubject' style='float:left'>" + reportsLocalVars.header + "</div>
+     reportsLocalVars.header = reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea;
+     $(".reportContainer").show();
+     $('div#connection-data').append(" \
+       <div id='reportContainer' class='reportContainer'> \
+         <a id='close' href='#' onclick='closeReportTable();'> \
+           <div id='reportSubject'><table class='tableReportSubject' id='tableReportSubjectData'></table></div> \
+           <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
+         </a> \
+         <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
+         <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
+         <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
+         <button id='button-a'>Сохранить файл</button> \
+       </div> \
+     ");
+     var tableReportSubjectRow = '<tbody><tr> \
+                         <td>' + reportsLocalVars.dummy + '</td> \
+                         <td>' + reportsLocalVars.dummy + '</td> \
+                         <td>' + reportsLocalVars.header + '</td> \
+                       </tr></tbody>';
+     $("#tableReportSubjectData").append(tableReportSubjectRow);
+     var tableHeaderRow = '<tbody><tr> \
+                         <td>' + reportsLocalVars.IDLabel + '</td> \
+                         <td>' + reportsLocalVars.exchangeQuantityLabel + '</td> \
+                         <td>' + reportsLocalVars.itemNameLabel + '</td> \
+                         <td>' + reportsLocalVars.salesQuantityLabel + '</td> \
+                         <td>' + reportsLocalVars.totalLabel + '</td> \
+                         <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
+                       </tr></tbody>';
+     var triggerHeader = true;
+     for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
+       var productLine = '<tbody><tr> \
+                           <td>' + (i + 1) + '</td> \
+                           <td>' + reportsLocalVars.salesExchange[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                           <td>' + Object.keys(reportsLocalVars.salesQuantity)[i] + '</td> \
+                           <td>' + reportsLocalVars.salesQuantity[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                           <td>' + reportsLocalVars.salesTotal[Object.keys(reportsLocalVars.salesTotal)[i]].toFixed(2) + '</td> \
+                           <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                         </tr></tbody>';
+       if (triggerHeader == true) {
+         $("#tableData").append(tableHeaderRow);
+         triggerHeader = false;
+       }
+       $("#tableData").append(productLine);
+       // alert(Object.keys(salesQuantity)[0]);
+     }
+     $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
+     $("#tableSummaryHeaderData").append(" \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.salesQuantityLabel + "</td> \
+         <td>" + reportsLocalVars.sumLabel + "</td> \
+       </tr><tr class='tableSeparator'></tr>\
+     ");
+     $("#tableSummaryData").append(" \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
+         <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
+         <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
+       </tr> <tr class='tableSeparator'></tr>\
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
+         <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
+         <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
+       </tr> <tr class='tableSeparator'></tr>\
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
+         <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
+         <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
+       </tr> \
+     ");
+   }
+
+   if (paramTwo == 1) {
+      reportsLocalVars.header = reportsLocalVars.reportSubjectHead + ' ' + reportsLocalVars.dateStart + ' ' + reportsLocalVars.reportSubjectDash + ' ' + reportsLocalVars.dateEnd + reportsLocalVars.reportSubjectHeadCheckedDay + reportsLocalVars.reportSubjectHeadCheckedArea;
+      $(".reportContainer").show();
+      $('div#connection-data').append(" \
+        <div id='reportContainer' class='reportContainer'> \
+          <a id='close' href='#' onclick='closeReportTable();'> \
+            <div id='reportSubject'><table class='tableReportSubject' id='tableReportSubjectData'></table></div> \
+            <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
+          </a> \
+          <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
+          <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
+          <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
+          <button id='button-a'>Сохранить файл</button> \
+        </div> \
+      ");
+      var tableReportSubjectRow = '<tbody><tr> \
+                          <td>' + reportsLocalVars.dummy + '</td> \
+                          <td>' + reportsLocalVars.dummy + '</td> \
+                          <td>' + reportsLocalVars.header + '</td> \
+                        </tr></tbody>';
+      $("#tableReportSubjectData").append(tableReportSubjectRow);
+      var tableHeaderRow = '<tbody><tr> \
+                          <td>' + reportsLocalVars.IDLabel + '</td> \
+                          <td>' + reportsLocalVars.exchangeQuantityLabel + '</td> \
+                          <td>' + reportsLocalVars.itemNameLabel + '</td> \
+                          <td>' + reportsLocalVars.salesQuantityLabel + '</td> \
+                          <td>' + reportsLocalVars.totalLabel + '</td> \
+                          <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
+                        </tr></tbody>';
+      var triggerHeader = true;
+      for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
+        var productLine = '<tbody><tr> \
+                            <td>' + (i + 1) + '</td> \
+                            <td>' + reportsLocalVars.salesExchange[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                            <td>' + Object.keys(reportsLocalVars.salesQuantity)[i] + '</td> \
+                            <td>' + reportsLocalVars.salesQuantity[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                            <td>' + reportsLocalVars.salesTotalNetCost[Object.keys(reportsLocalVars.salesTotalNetCost)[i]].toFixed(2) + '</td> \
+                            <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
+                          </tr></tbody>';
+        if (triggerHeader == true) {
+          $("#tableData").append(tableHeaderRow);
+          triggerHeader = false;
+        }
+        $("#tableData").append(productLine);
+        // alert(Object.keys(salesQuantity)[0]);
+      }
+      $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
+      $("#tableSummaryHeaderData").append(" \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.salesQuantityLabel + "</td> \
+          <td>" + reportsLocalVars.sumLabel + "</td> \
+        </tr><tr class='tableSeparator'></tr>\
+      ");
+      $("#tableSummaryData").append(" \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
+          <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalExchangeQuantitySumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
+          <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalExchangeWeightSumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
+          <td></td> \
+          <td>" + reportsLocalVars.totalExchangeSumNetCost.toFixed(2) + "</td> \
+        </tr> <tr class='tableSeparator'></tr>\
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
+          <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalReturnQuantitySumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
+          <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalReturnWeightSumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
+          <td></td> \
+          <td>" + reportsLocalVars.totalReturnSumNetCost.toFixed(2) + "</td> \
+        </tr> <tr class='tableSeparator'></tr>\
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
+          <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalSalesQuantitySumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
+          <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalSalesWeightSumNetCost.toFixed(2) + "</td> \
+        </tr> \
+        <tr> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.dummy + "</td> \
+          <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
+          <td></td> \
+          <td>" + reportsLocalVars.totalSalesSumNetCost.toFixed(2) + "</td> \
+        </tr> \
+      ");
     }
-    $("#tableData").append(productLine);
-    // alert(Object.keys(salesQuantity)[0]);
-  }
-  $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
-  $("#tableSummaryHeaderData").append(" \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.salesQuantityLabel + "</td> \
-      <td>" + reportsLocalVars.sumLabel + "</td> \
-    </tr><tr class='tableSeparator'></tr>\
-  ");
-  $("#tableSummaryData").append(" \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
-      <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
-      <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
-      <td></td> \
-      <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
-    </tr> <tr class='tableSeparator'></tr>\
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
-      <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
-      <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
-      <td></td> \
-      <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
-    </tr> <tr class='tableSeparator'></tr>\
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
-      <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
-      <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
-      <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
-    </tr> \
-    <tr> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.dummy + "</td> \
-      <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
-      <td></td> \
-      <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
-    </tr> \
-  ");
   $(".reportMenuContainer").html("");
   $(".reportMenuContainer").hide();
 }
