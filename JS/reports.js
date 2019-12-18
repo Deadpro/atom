@@ -54,18 +54,27 @@ var reportsLocalVars = {
   "totalExchangeQuantity" : 0,
   "totalReturnQuantity" : 0,
   "totalExchangeQuantitySum" : 0,
+  "totalExchangeQuantitySumNetCost" : 0,
   "totalReturnQuantitySum" : 0,
+  "totalReturnQuantitySumNetCost" : 0,
   "totalExchangeWeight" : 0,
   "totalReturnWeight" : 0,
   "totalExchangeWeightSum" : 0,
+  "totalExchangeWeightSumNetCost" : 0,
   "totalReturnWeightSum" : 0,
+  "totalReturnWeightSumNetCost" : 0,
   "totalExchangeSum" : 0,
   "totalReturnSum" : 0,
+  "totalExchangeSumNetCost" : 0,
+  "totalReturnSumNetCost" : 0,
   "totalSalesQuantity" : 0,
   "totalSalesQuantitySum" : 0,
+  "totalSalesQuantitySumNetCost" : 0,
   "totalSalesWeight" : 0,
   "totalSalesWeightSum" : 0,
   "totalSalesSum" : 0,
+  "totalSalesWeightSumNetCost" : 0,
+  "totalSalesSumNetCost" : 0,
   "dateControl" : document.querySelector('input[type="date"]'),
   "checkDayRadio" : ["checkDayOne", "checkDayTwo", "checkDayThree", "checkDayFour", "checkDayFive", "checkDaySix"],
   "checkedDayValue" : "",
@@ -461,6 +470,42 @@ $('#report-by-netcost').on('click', function() {
   });
 });
 
+$('#report-ceo-netcost').on('click', function() {
+  getSalesPartnerID();
+  getArea("report");
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "byNetCostReport"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+        for (var key in reportsLocalVars.salesQuantity) {
+          // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
+          if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+            createObject(0, 1, i, 1);
+          }
+        }
+        if (reportsLocalVars.trigger == false) {
+          createObject(0, 0, i, 1);
+        }
+      } else {
+        createObject(0, 0, i, 1);
+      }
+   }
+    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
+    // alert(Object.keys(salesQuantity).length);
+    // alert(salesQuantity["Щике"]);
+    // $('div#connection-data').text(text);
+    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
+    // $('div#connection-data').text(text);
+    renderReportTable(3, 1);
+  });
+});
+
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   if (reportsLocalVars.checkSumErrorsTrigger == true) {
     // checkSumErrors();
@@ -475,33 +520,44 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
         reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
       reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7);
       reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
-      reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+      reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7);
       reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+      reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7);
 
       reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7);
       reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
       reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+      reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7);
+      reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7);
 
       reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
       reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
       // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
       reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+      reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
+      reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.7);
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
           reportsLocalVars.totalExchangeWeight += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5);
           reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
-          reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5);
           reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5);
 
           reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5);
           reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5);
+          reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5);
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
+          reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
+          reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity * 0.5);
+
     }
     if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча весовая" ||
         reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному весовая") {
@@ -509,16 +565,19 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
           reportsLocalVars.totalExchangeWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
           reportsLocalVars.totalExchangeWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
           reportsLocalVars.totalExchangeSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
+          reportsLocalVars.totalExchangeSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
 
           reportsLocalVars.totalReturnWeight += parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
           reportsLocalVars.totalReturnSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
+          reportsLocalVars.totalReturnSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].ReturnQuantity);
 
           reportsLocalVars.totalSalesWeight += parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesWeightSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
-          // reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Price) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesWeightSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
+          reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
           reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
-          reportsLocalVars.totalSalesSumNetCost;
     }
   } else {
     reportsLocalVars.totalExchangeQuantity += parseFloat(reportsLocalVars.tmp[paramThree].ExchangeQuantity);
@@ -541,7 +600,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     //   alert("возврат: " + parseFloat(reportsLocalVars.tmp[paramThree].Total));
     // }
     reportsLocalVars.totalSalesSum += parseFloat(reportsLocalVars.tmp[paramThree].Total);
-    reportsLocalVars.totalSalesSumNetCost;
+    reportsLocalVars.totalSalesSumNetCost += parseFloat(reportsLocalVars.tmp[paramThree].netCost) * parseFloat(reportsLocalVars.tmp[paramThree].Quantity);
     // if (reportsLocalVars.tmp[paramThree].Total < 0) {
     //   alert("итого после: " + reportsLocalVars.totalSalesSum);
     // }
@@ -563,6 +622,16 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity;
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
+    if (paramFour === 1) {
+      if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
+          reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
+        reportsLocalVars.tmpTotalNetCost = parseFloat(reportsLocalVars.tmpQuantity * 0.7) * reportsLocalVars.tmp[paramThree].netCost;
+      }
+      if (reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+          reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 2") {
+        reportsLocalVars.tmpTotalNetCost = parseFloat(reportsLocalVars.tmpQuantity * 0.5) * reportsLocalVars.tmp[paramThree].netCost;
+      }
+    }
   }
   if (paramOne == 1) {
     // alert(1);
@@ -706,6 +775,7 @@ this.renderMenuPage = function() {
           <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
           <div class='col-50'><input type='submit' id='report-by-day' value='По дням'></div> \
           <div class='col-50'><input type='submit' id='report-by-netcost' value='По себестоимости'></div> \
+          <div class='col-50'><input type='submit' id='report-ceo-netcost' value='Подробный по себестоимости'></div> \
         </div> \
       </div> \
     </div> \
@@ -941,63 +1011,63 @@ this.renderReportTable = function(paramOne, paramTwo)	{
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
           <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalExchangeQuantitySumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
           <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalExchangeWeightSumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
           <td></td> \
-          <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalExchangeSumNetCost.toFixed(2) + "</td> \
         </tr> <tr class='tableSeparator'></tr>\
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
           <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalReturnQuantitySumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
           <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalReturnWeightSumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
           <td></td> \
-          <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalReturnSumNetCost.toFixed(2) + "</td> \
         </tr> <tr class='tableSeparator'></tr>\
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
           <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalSalesQuantitySumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
           <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
-          <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalSalesWeightSumNetCost.toFixed(2) + "</td> \
         </tr> \
         <tr> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.dummy + "</td> \
           <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
           <td></td> \
-          <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
+          <td>" + reportsLocalVars.totalSalesSumNetCost.toFixed(2) + "</td> \
         </tr> \
       ");
     }
