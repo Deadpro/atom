@@ -415,18 +415,18 @@ $('#report-by-netcost').on('click', function() {
             if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
               if (key == "Ким-ча весовая") {
-                createObject(2, 1, i, 0);
+                createObject(2, 1, i, 3);
               }
             }
             if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
               if (key == "Редька по-восточному весовая") {
-                createObject(1, 1, i, 0);
+                createObject(1, 1, i, 3);
               }
             }
           } else {
             if (key == reportsLocalVars.tmp[i].Наименование) {
-              createObject(0, 1, i, 0);
+              createObject(0, 1, i, 3);
             }
           }
         }
@@ -438,14 +438,14 @@ $('#report-by-netcost').on('click', function() {
               reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
             if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-              createObject(2, 0, i, 0);
+              createObject(2, 0, i, 3);
             }
             if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-              createObject(1, 0, i, 0);
+              createObject(1, 0, i, 3);
             }
           } else {
-            createObject(0, 0, i, 0);
+            createObject(0, 0, i, 3);
           }
         }
       } else {
@@ -455,14 +455,14 @@ $('#report-by-netcost').on('click', function() {
             reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
             if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-               createObject(2, 0, i, 0);
+               createObject(2, 0, i, 3);
             }
             if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-               createObject(1, 0, i, 0);
+               createObject(1, 0, i, 3);
             }
          } else {
-           createObject(0, 0, i, 0);
+           createObject(0, 0, i, 3);
          }
       }
    }
@@ -485,15 +485,15 @@ $('#report-ceo-netcost').on('click', function() {
       if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
         for (var key in reportsLocalVars.salesQuantity) {
           // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-          if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
-            createObject(0, 1, i, 1);
+          if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].netCost) {
+            createObject(0, 1, i, 3);
           }
         }
         if (reportsLocalVars.trigger == false) {
-          createObject(0, 0, i, 1);
+          createObject(0, 0, i, 3);
         }
       } else {
-        createObject(0, 0, i, 1);
+        createObject(0, 0, i, 3);
       }
    }
     // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
@@ -617,6 +617,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     if (paramFour == 2) {
       reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + formatDate(reportsLocalVars.tmp[paramThree].DateTimeDocLocal);
     }
+    if (paramFour == 3) {
+      reportsLocalVars.tmpName = reportsLocalVars.tmp[paramThree].Наименование  + " " + reportsLocalVars.tmp[paramThree].netCost;
+    }
     // reportsLocalVars.tmpTotal = reportsLocalVars.tmpQuantity * reportsLocalVars.tmpPrice;
     reportsLocalVars.tmpTotal = reportsLocalVars.tmp[paramThree].Total;
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity;
@@ -641,6 +644,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5;
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
+    // if (paramFour == 3) {
+    //   reportsLocalVars.tmpName = "Редька по-восточному весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
+    // }
   }
   if (paramOne == 2) {
     // alert(2);
@@ -650,6 +656,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7;
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
+    // if (paramFour == 3) {
+    //   reportsLocalVars.tmpName = "Ким-ча весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
+    // }
   }
   if (paramTwo == 0) {
     // alert(00);
