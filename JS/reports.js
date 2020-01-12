@@ -414,18 +414,18 @@ $('#report-by-netcost').on('click', function() {
               reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
             if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-              if (key == "Ким-ча весовая") {
+              if (key == "Ким-ча весовая" + " " + reportsLocalVars.tmp[i].netCost) {
                 createObject(2, 1, i, 3);
               }
             }
             if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
                 reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-              if (key == "Редька по-восточному весовая") {
+              if (key == "Редька по-восточному весовая" + " " + reportsLocalVars.tmp[i].netCost) {
                 createObject(1, 1, i, 3);
               }
             }
           } else {
-            if (key == reportsLocalVars.tmp[i].Наименование) {
+            if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].netCost) {
               createObject(0, 1, i, 3);
             }
           }
@@ -470,41 +470,41 @@ $('#report-by-netcost').on('click', function() {
   });
 });
 
-$('#report-ceo-netcost').on('click', function() {
-  getSalesPartnerID();
-  getArea("report");
-  reportsLocalVars.dateStart = $('input#dateStart').val();
-  reportsLocalVars.dateEnd = $('input#dateEnd').val();
-  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
-                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "byNetCostReport"}, function(data) {
-    reportsLocalVars.tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
-      reportsLocalVars.trigger = false;
-      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-        for (var key in reportsLocalVars.salesQuantity) {
-          // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-          if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].netCost) {
-            createObject(0, 1, i, 3);
-          }
-        }
-        if (reportsLocalVars.trigger == false) {
-          createObject(0, 0, i, 3);
-        }
-      } else {
-        createObject(0, 0, i, 3);
-      }
-   }
-    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
-    // alert(Object.keys(salesQuantity).length);
-    // alert(salesQuantity["Щике"]);
-    // $('div#connection-data').text(text);
-    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
-    // $('div#connection-data').text(text);
-    renderReportTable(3, 1);
-  });
-});
+// $('#report-ceo-netcost').on('click', function() {
+//   getSalesPartnerID();
+//   getArea("report");
+//   reportsLocalVars.dateStart = $('input#dateStart').val();
+//   reportsLocalVars.dateEnd = $('input#dateEnd').val();
+//   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+//                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+//                                           dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+//                                           salesPartnersID: reportsLocalVars.optionValue, reportType: "byNetCostReport"}, function(data) {
+//     reportsLocalVars.tmp = JSON.parse(data);
+//     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+//       reportsLocalVars.trigger = false;
+//       if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+//         for (var key in reportsLocalVars.salesQuantity) {
+//           // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
+//           if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].netCost) {
+//             createObject(0, 1, i, 3);
+//           }
+//         }
+//         if (reportsLocalVars.trigger == false) {
+//           createObject(0, 0, i, 3);
+//         }
+//       } else {
+//         createObject(0, 0, i, 3);
+//       }
+//    }
+//     // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
+//     // alert(Object.keys(salesQuantity).length);
+//     // alert(salesQuantity["Щике"]);
+//     // $('div#connection-data').text(text);
+//     // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
+//     // $('div#connection-data').text(text);
+//     renderReportTable(3, 1);
+//   });
+// });
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   if (reportsLocalVars.checkSumErrorsTrigger == true) {
@@ -644,9 +644,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.5;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.5;
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
-    // if (paramFour == 3) {
-    //   reportsLocalVars.tmpName = "Редька по-восточному весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
-    // }
+    if (paramFour == 3) {
+      reportsLocalVars.tmpName = "Редька по-восточному весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
+    }
   }
   if (paramOne == 2) {
     // alert(2);
@@ -656,9 +656,9 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpExchange = reportsLocalVars.tmp[paramThree].ExchangeQuantity * 0.7;
     reportsLocalVars.tmpReturn = reportsLocalVars.tmp[paramThree].ReturnQuantity * 0.7;
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
-    // if (paramFour == 3) {
-    //   reportsLocalVars.tmpName = "Ким-ча весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
-    // }
+    if (paramFour == 3) {
+      reportsLocalVars.tmpName = "Ким-ча весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
+    }
   }
   if (paramTwo == 0) {
     // alert(00);
@@ -784,7 +784,6 @@ this.renderMenuPage = function() {
           <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
           <div class='col-50'><input type='submit' id='report-by-day' value='По дням'></div> \
           <div class='col-50'><input type='submit' id='report-by-netcost' value='По себестоимости'></div> \
-          <div class='col-50'><input type='submit' id='report-ceo-netcost' value='Подробный по себестоимости'></div> \
         </div> \
       </div> \
     </div> \
