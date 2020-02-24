@@ -318,6 +318,91 @@ $('#report-sales-manager').on('click', function() {
   });
 });
 
+$('#report-by-sp').on('click', function() {
+  getSalesPartnerID();
+  getArea("report");
+  alert("район: " + reportsLocalVars.checkedAreaValue); alert("магазин: " + reportsLocalVars.optionValue);
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd,
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    // alert(Object.keys(reportsLocalVars.tmp).length);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+        for (var key in reportsLocalVars.salesQuantity) {
+          // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
+          if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+              if (key == "Ким-ча весовая") {
+                createObject(2, 1, i, 0);
+              }
+            }
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+              if (key == "Редька по-восточному весовая") {
+                createObject(1, 1, i, 0);
+              }
+            }
+          } else {
+            if (key == reportsLocalVars.tmp[i].Наименование) {
+              createObject(0, 1, i, 0);
+            }
+          }
+        }
+        if (reportsLocalVars.trigger == false) {
+        // if (!(tmp[i].Наименование in salesQuantity)) {
+          if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+              createObject(2, 0, i, 0);
+            }
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+              createObject(1, 0, i, 0);
+            }
+          } else {
+            createObject(0, 0, i, 0);
+          }
+        }
+      } else {
+         if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+            reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+            reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+            reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+               reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+               createObject(2, 0, i, 0);
+            }
+            if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+               reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+               createObject(1, 0, i, 0);
+            }
+         } else {
+           createObject(0, 0, i, 0);
+         }
+      }
+   }
+    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
+    // alert(Object.keys(salesQuantity).length);
+    // alert(salesQuantity["Щике"]);
+    // $('div#connection-data').text(text);
+    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
+    // $('div#connection-data').text(text);
+    renderReportTable(0, 0);
+  });
+});
+
 $('#report-ceo').on('click', function() {
   getSalesPartnerID();
   getArea("report");
@@ -784,6 +869,7 @@ this.renderMenuPage = function() {
           <div class='col-50'><input type='submit' id='report-sales-manager' value='Краткий отчет'></div> \
           <div class='col-50'><input type='submit' id='report-by-day' value='По дням'></div> \
           <div class='col-50'><input type='submit' id='report-by-netcost' value='По себестоимости'></div> \
+          <div class='col-50'><input type='submit' id='report-by-sp' value='По магазинам'></div> \
         </div> \
       </div> \
     </div> \
