@@ -10,10 +10,12 @@
   <link rel="stylesheet" href="../CSS/report.css">
   <link rel="stylesheet" href="../CSS/adminMenu.css">
   <link rel="stylesheet" href="../CSS/accounting.css">
+  <link rel="stylesheet" href="../CSS/map.css">
   <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
-
   <script type="text/javascript" src="../js/globalVariables.js"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=a707736f-d679-4409-8f92-30a0132ceb93" type="text/javascript"></script>
+  <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
 </head>
 <body  onload="starter();">
   <div class="navigationContainer">
@@ -32,6 +34,7 @@
         <li><input type="submit" id="analytics" value="АНАЛИТИКА"></li>
         <li><input type="submit" id="printReport" value="ПЕЧАТЬ"></li>
         <li><input type="submit" id="adminSettings" value="НАСТРОЙКИ"></li>
+        <li><input type="submit" id="mapTest" value="ТЕСТ"></li>
       </ul>
     </div>
   </div>
@@ -49,6 +52,7 @@
   <script type="text/javascript" src="../js/accounting.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script>
   <script type="text/javascript" src="../js/globalVariables.js"></script>
+  <script src="../js/request_map.js" type="text/javascript"></script>
   <!-- <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script> -->
