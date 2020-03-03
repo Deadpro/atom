@@ -12,9 +12,7 @@ this.renderMap = function() {
       <div class='panel panel-custom border'> \
         <div class='panel-body'> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
-          <p> \
-            <div id='map'></div> \
-          </p> \
+          <div id='map'></div> \
         </div> \
       </div> \
     </div> \
