@@ -1,3 +1,7 @@
+var mapLocalVars = {
+  "showMapTest" : "Показать Карту Тест"
+};
+
 // Как только будет загружен API и готов DOM, выполняем инициализацию
 ymaps.ready(init);
 
@@ -10,9 +14,10 @@ this.renderMap = function() {
   $('div#connection-data').append(" \
     <div id='mapMenuContainer' class='mapMenuContainer'> \
       <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + mapLocalVars.showMapTest + "</span></div> \
         <div class='panel-body'> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
-          <div id='map'></div> \
+          <div id='mapHolder'></div> \
         </div> \
       </div> \
     </div> \
@@ -27,6 +32,7 @@ function init () {
     $('#toggle').bind({
         click: function () {
             if (!myMap) {
+                $('div#mapHolder').append("<div id='map'></div>");
                 myMap = new ymaps.Map('map', {
                     center: [55.010251, 86.958437], // Новосибирск
                     zoom: 9
@@ -36,6 +42,7 @@ function init () {
                 $("#toggle").attr('value', 'Скрыть карту');
             }
             else {
+                $('div#mapHolder').html("");
                 myMap.destroy();// Деструктор карты
                 myMap = null;
                 $("#toggle").attr('value', 'Показать карту снова');

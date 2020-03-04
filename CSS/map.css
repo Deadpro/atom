@@ -1,5 +1,5 @@
 .mapMenuContainer {
-  top: 100vh;
+  top: 10vh;
   position: relative;
   max-width: 700px;
   width: 100vw;
@@ -13,20 +13,42 @@
    background-color: rgb(246, 248, 245);
 }
 
-#map {
+#mapHolder{
   top: 10vh;
+  margin-bottom: 40px;
+}
+
+#map {
+  top: 7vh;
   position: relative;
-  max-width: 700px;
-  width: 100vw;
+  max-width: 650px;
+  width: 90vw;
   margin: 0 auto;
-  height: 100vh;
-  padding: 10px;
-  z-index: 1001;
+  height: 60vh;
+  padding-right: 10px;
+  margin-left: -10px;
+  z-index: 1003;
   /* width: 450px; height: 320px; */
+}
+
+#toggle {
+  padding: 5px;
+  margin: 5px;
+  width: 90%;
+  z-index: 2000;
+  /* background-color: yellow; */
 }
 
 }
 .col-50 {
   float: right;
   width: 50%;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+  .col-25, .col-75, input[type=text] {
+    width: 100%;
+    margin-top: 0;
+  }
 }
