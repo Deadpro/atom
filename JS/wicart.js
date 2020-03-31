@@ -166,13 +166,14 @@ function WICard(obj, plugins)	{
   			<a id='bclose' href='#' onclick='" + this.objNAME + ".closeWindow(\"bcontainer\", 1);'> \
         <img width='30px' style='float:right' src='images/icons/black-close-icon-3.png' /></a> \
         <div id='bsum'></div> \
-        <button class='bbutton' onclick=\"cart.goodByePage()\">" + local.order + "</button> \
+        <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button> \
   			<table id='bcaption'><tr><td>ID</td><td>" + local.name + "</td><td>" + local.price + "</td><td>" + local.num + "</td><td>" + local.all + "</td><td></td></tr></table> \
   			<div id='overflw'><table class='btable' id='btable'></table></div> \
   			<div id='bfooter'> <span id='bsum'>...</span></div> \
   			</div></div> \
   		");
-      // <button class='bbutton' onclick=\"cart.showWinow('order', 1)\">" + local.order + "</button>
+      //
+      // <button class='bbutton' onclick=\"cart.goodByePage()\">" + local.order + "</button> \
 		}	else {
 			$("#btable").html("");
 		}

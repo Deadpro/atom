@@ -1,6 +1,13 @@
 <?
 $mail = $_POST["order"];
-$subject = htmlentities($_GET["subj"]) . "/ Заказ (".date("d.m.Y h:i").")";
+
+date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
+$time = time(); // Вот это значение отправляем в базу
+$offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
+$time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
+$dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
+// date("d.m.Y h:i")
+$subject = htmlentities($_GET["subj"]) . "/ Заказ (".$dateTimeDoc.")";
 
 $mail = strip_tags($mail, "<b><div><table><tbody><tr><td><html><body><style><h1><th><br>");
 $mail = str_replace("<td></td>", "",$mail);
@@ -42,6 +49,6 @@ $headers .= "Reply-To: ". $from . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-$success = mail("orders@caiman.ru.com", $subject, $template, $headers);
+$success = mail("bornmovie@mail.ru", $subject, $template, $headers);
 echo ($success) ? 'true' : 'false';
 ?>

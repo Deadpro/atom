@@ -225,9 +225,6 @@ this.popup = function(i, params)	{
                                   " + popupImages[i] + " \
                                 </div> \
                                 <div class='additional'> \
-                                  <div onclick='changePicture(\"imageSource-00\");' class='thumbnail col-30'>" + additionalImgZero + "</div> \
-                                  <div onclick='changePicture(\"imageSource-01\");' class='thumbnail col-30'>" + additionalImgOne + "</div> \
-                                  <div onclick='changePicture(\"imageSource-02\");' class='thumbnail col-30'>" + additionalImgTwo + "</div> \
                                 </div> \
                                 <div class='description'> \
                                   <div class='col-sm-12'> \
@@ -261,3 +258,9 @@ this.popup = function(i, params)	{
   $(".aboutContainer").hide();
   $(".contactsContainer").hide();
 }
+
+// <div class='additional'> \
+//   <div onclick='changePicture(\"imageSource-00\");' class='thumbnail col-30'>" + additionalImgZero + "</div> \
+//   <div onclick='changePicture(\"imageSource-01\");' class='thumbnail col-30'>" + additionalImgOne + "</div> \
+//   <div onclick='changePicture(\"imageSource-02\");' class='thumbnail col-30'>" + additionalImgTwo + "</div> \
+// </div> \
