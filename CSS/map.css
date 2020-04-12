@@ -39,7 +39,15 @@
   /* background-color: yellow; */
 }
 
+#img2 {
+  width: 10px;
+  height: 10px;
 }
+
+.ydisk-onclick {
+  background-color: red;
+}
+
 .col-50 {
   float: right;
   width: 50%;

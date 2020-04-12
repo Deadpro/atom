@@ -16,6 +16,7 @@
   <script type="text/javascript" src="../js/globalVariables.js"></script>
   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=a707736f-d679-4409-8f92-30a0132ceb93" type="text/javascript"></script>
   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 </head>
 <body  onload="starter();">
   <div class="navigationContainer">
@@ -53,6 +54,9 @@
   <script type="text/javascript" src="../js/createexcel.js"></script>
   <script type="text/javascript" src="../js/globalVariables.js"></script>
   <script src="../js/request_map.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+  <!-- Yandex Disk REST API jQuery Plugin -->
+  <script type="text/javascript" src="../js/jquery.ydisk.js"></script>
   <!-- <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script> -->
