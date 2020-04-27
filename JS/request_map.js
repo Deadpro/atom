@@ -71,6 +71,7 @@ this.renderMap = function() {
           <div class='panel panel-custom border'> \
             <div class='panel-heading col-100'><span>" + request_mapLocalVars.chooseAreaLable + "</span></div> \
             <div class='panel-body'> \
+            <div class='radioContainer'><input type='radio' id='checkArea99' name='choosearea' onclick='chooseArea(this);' value='99'><label for='Вне сети' id='radioLabel'>Вне сети</label></div> \
               <div class='radioContainer'><input type='radio' id='checkAreaOne' name='choosearea' onclick='chooseArea(this);' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
               <div class='radioContainer'><input type='radio' id='checkAreaTwo' name='choosearea' onclick='chooseArea(this);' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
               <div class='radioContainer'><input type='radio' id='checkAreaThree' name='choosearea' onclick='chooseArea(this);' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
