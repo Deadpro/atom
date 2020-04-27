@@ -6,7 +6,8 @@
   if ($areaInt == 0) {
     if($_SERVER["REQUEST_METHOD"]=="POST") {
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты, CurrState, Latitude, Longitude
-      FROM salespartners WHERE (Longitude NOT LIKE '' OR Longitude NOT LIKE Null)";
+      FROM salespartners WHERE (Longitude NOT LIKE '' OR NOT Null)
+      AND (Latitude NOT LIKE '' OR NOT Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();
@@ -30,10 +31,11 @@
     include("dbconnect.php");
     // $login = (trim($_POST['login']));
     // $password = (trim($_POST['password']));
-    if (isset($_POST['area']) === true && empty($_POST['area']) === false) && trim($_POST['area']) > 0) {
+    if (isset($_POST['area']) === true && empty($_POST['area']) === false && trim(($_POST['area']) > 0)) {
       $area = trim($_POST['area']);
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты, CurrState, Latitude, Longitude
-      FROM salespartners WHERE Район LIKE '$area' AND (Longitude NOT LIKE '' OR Longitude NOT Null)";
+      FROM salespartners WHERE Район LIKE '$area' AND
+      (Longitude NOT LIKE '' OR NOT Null) AND (Latitude NOT LIKE '' OR NOT Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();
