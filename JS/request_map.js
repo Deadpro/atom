@@ -162,7 +162,9 @@ function init () {
 
                 function onObjectEvent (e) {
                     var objectId = e.get('objectId');
-                    if (e.get('type') == 'click') { alert(objectId);
+                    var objectСoord = e.get('coords');
+                    var objectName = e.get('name');
+                    if (e.get('type') == 'click') { alert(objectName);
                         // Метод setObjectOptions позволяет задавать опции объекта "на лету".
                         objectManager.objects.setObjectOptions(objectId, {
                             preset: 'islands#yellowIcon'
