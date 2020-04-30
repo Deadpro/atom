@@ -6,7 +6,9 @@ var request_mapLocalVars = {
   "salesPartnersList" : new Object(),
   "spInfo" : new Object(),
   "areaColor" : ["#ff0000", "#ffff00", "#15ff00", "#00f7ff", "#0400ff", "#ff00ee", "#ff00ee"],
-  "areaTrigger" : true
+  "areaTrigger" : true,
+  "myPoints" : new Array(),
+  "myPlacemark" : ""
 };
 
 // dataJson.features.push({type: "Feature"}); alert(dataJson.features[0].type)
@@ -53,6 +55,8 @@ this.chooseArea = function(myRadio) {
       clusterCaption: "Много магазинов",
       hintContent: request_mapLocalVars.salesPartnersList[i].Наименование, iconCaption: request_mapLocalVars.salesPartnersList[i].Наименование},
       options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
+
+      request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
     }
 
     dataObject = JSON.stringify(dataJson);
@@ -119,6 +123,58 @@ function init () {
 
                 myMap.geoObjects.add(objectManager);
                 objectManager.add(dataObject);
+
+                myCollection = new ymaps.GeoObjectCollection();
+                // Создаем экземпляр класса ymaps.control.SearchControl
+                var mySearchControl = new ymaps.control.SearchControl({
+                  options: {
+                    // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
+                    provider: new CustomSearchProvider(request_mapLocalVars.myPoints),
+                    // Не будем показывать еще одну метку при выборе результата поиска,
+                    // т.к. метки коллекции myCollection уже добавлены на карту.
+                    noPlacemark: true,
+                    resultsPerPage: 5
+                  }});
+
+                // Добавляем контрол в верхний правый угол,
+                myMap.controls
+                    .add(mySearchControl, { float: 'right' });
+
+                // Слушаем клик на карте.
+                myMap.events.add('click', function (e) {
+                    var coords = e.get('coords');
+                    // alert(coords);
+                    // Если метка уже создана – просто передвигаем ее.
+                    if (request_mapLocalVars.myPlacemark) {
+                        request_mapLocalVars.myPlacemark.geometry.setCoordinates(coords);
+                    }
+                    // Если нет – создаем.
+                    else {
+                        request_mapLocalVars.myPlacemark = createPlacemark(coords);
+                        myMap.geoObjects.add(request_mapLocalVars.myPlacemark);
+                        // Слушаем событие окончания перетаскивания на метке.
+                        request_mapLocalVars.myPlacemark.events.add('dragend', function () {
+                            getAddress(request_mapLocalVars.myPlacemark.geometry.getCoordinates());
+                        });
+                    }
+                    getAddress(coords);
+                });
+
+                function onObjectEvent (e) {
+                    var objectId = e.get('objectId');
+                    if (e.get('type') == 'click') { alert(objectId);
+                        // Метод setObjectOptions позволяет задавать опции объекта "на лету".
+                        objectManager.objects.setObjectOptions(objectId, {
+                            preset: 'islands#yellowIcon'
+                        });
+                    } else {
+                        objectManager.objects.setObjectOptions(objectId, {
+                            preset: 'islands#blueIcon'
+                        });
+                    }
+                }
+
+                objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
             }
             else {
                 $('div#mapHolder').html("");
@@ -130,7 +186,98 @@ function init () {
     });
 }
 
+// Создание метки.
+    function createPlacemark(coords) {
+        return new ymaps.Placemark(coords, {
+            iconCaption: 'поиск...'
+        }, {
+            preset: 'islands#violetDotIconWithCaption',
+            draggable: true
+        });
+    }
 
+    // Определяем адрес по координатам (обратное геокодирование).
+    function getAddress(coords) {
+        request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
+        ymaps.geocode(coords).then(function (res) {
+            var firstGeoObject = res.geoObjects.get(0);
+
+            request_mapLocalVars.myPlacemark.properties
+                .set({
+                    // Формируем строку с данными об объекте.
+                    iconCaption: [
+                        // Название населенного пункта или вышестоящее административно-территориальное образование.
+                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                    ].filter(Boolean).join(', '),
+                    // В качестве контента балуна задаем строку с адресом объекта.
+                    balloonContent: firstGeoObject.getAddressLine()
+                });
+        });
+    }
+
+// Провайдер данных для элемента управления ymaps.control.SearchControl.
+// Осуществляет поиск геообъектов в по массиву points.
+// Реализует интерфейс IGeocodeProvider.
+function CustomSearchProvider(points) {
+    this.points = points;
+}
+
+// Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
+CustomSearchProvider.prototype.geocode = function (request, options) {
+    var deferred = new ymaps.vow.defer(),
+        geoObjects = new ymaps.GeoObjectCollection(),
+    // Сколько результатов нужно пропустить.
+        offset = options.skip || 0,
+    // Количество возвращаемых результатов.
+        limit = options.results || 20;
+
+    var points = [];
+    // Ищем в свойстве text каждого элемента массива.
+    for (var i = 0, l = this.points.length; i < l; i++) {
+        var point = this.points[i];
+        if (point.text.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+            points.push(point);
+        }
+    }
+    // При формировании ответа можно учитывать offset и limit.
+    points = points.splice(offset, limit);
+    // Добавляем точки в результирующую коллекцию.
+    for (var i = 0, l = points.length; i < l; i++) {
+        var point = points[i],
+            coords = point.coords,
+                    text = point.text;
+
+        geoObjects.add(new ymaps.Placemark(coords, {
+            name: text + ' name',
+            description: text + ' description',
+            balloonContentBody: '<p>' + text + '</p>',
+            boundedBy: [coords, coords]
+        }));
+    }
+
+    deferred.resolve({
+        // Геообъекты поисковой выдачи.
+        geoObjects: geoObjects,
+        // Метаинформация ответа.
+        metaData: {
+            geocoder: {
+                // Строка обработанного запроса.
+                request: request,
+                // Количество найденных результатов.
+                found: geoObjects.getLength(),
+                // Количество возвращенных результатов.
+                results: limit,
+                // Количество пропущенных результатов.
+                skip: offset
+            }
+        }
+    });
+
+    // Возвращаем объект-обещание.
+    return deferred.promise();
+};
 
 // alert(typeof json); // мы получили строку!
 //
