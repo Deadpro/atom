@@ -8,7 +8,8 @@ var request_mapLocalVars = {
   "areaColor" : ["#ff0000", "#ffff00", "#15ff00", "#00f7ff", "#0400ff", "#ff00ee", "#ff00ee"],
   "areaTrigger" : true,
   "myPoints" : new Array(),
-  "myPlacemark" : ""
+  "myPlacemark" : "",
+  "tempObj" : new Object()
 };
 
 // dataJson.features.push({type: "Feature"}); alert(dataJson.features[0].type)
@@ -57,6 +58,7 @@ this.chooseArea = function(myRadio) {
       options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
 
       request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
+      request_mapLocalVars.tempObj[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
     }
 
     dataObject = JSON.stringify(dataJson);
@@ -163,16 +165,16 @@ function init () {
                 function onObjectEvent (e) {
                     var objectId = e.get('objectId');
                     var objectСoord = e.get('coords');
-                    var objectName = e.get('name');
-                    if (e.get('type') == 'click') { alert(objectName);
+                    if (e.get('type') == 'click') {
+                      alert(request_mapLocalVars.tempObj[objectId]);
                         // Метод setObjectOptions позволяет задавать опции объекта "на лету".
-                        objectManager.objects.setObjectOptions(objectId, {
-                            preset: 'islands#yellowIcon'
-                        });
+                        // objectManager.objects.setObjectOptions(objectId, {
+                        //     preset: 'islands#yellowIcon'
+                        // });
                     } else {
-                        objectManager.objects.setObjectOptions(objectId, {
-                            preset: 'islands#blueIcon'
-                        });
+                        // objectManager.objects.setObjectOptions(objectId, {
+                        //     preset: 'islands#blueIcon'
+                        // });
                     }
                 }
 
@@ -188,7 +190,17 @@ function init () {
     });
 }
 
-// Создание метки.
+    // Обновление координат в базе данных.
+    function updateCoord(coords, spName) {
+      $.post('../php/updateSPCoord.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                              dbPassword: localStorage.getItem('dbPassword'),
+                                              area: request_mapLocalVars.areaCurrentValue, spName: , latitude: , longitude:}, function(data) {
+
+      })
+    }
+
+
+    // Создание метки.
     function createPlacemark(coords) {
         return new ymaps.Placemark(coords, {
             iconCaption: 'поиск...'
