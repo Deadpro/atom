@@ -13,6 +13,8 @@ var request_mapLocalVars = {
   "objectName" : "",
   "objectLatitude" : "",
   "objectLongitude" : "",
+  "objectNewLatitude" : "",
+  "objectNewLongitude" : "",
   "objGetLatitude" : new Object(),
   "objGetLongitude" : new Object(),
   "updateSPCoordsLabel" : "Включить режим правки координат",
@@ -161,11 +163,21 @@ function init () {
               // Слушаем клик на карте.
               myMap.events.add('click', function (e) {
                   var coords = e.get('coords');
+                  var position;
                   if (request_mapLocalVars.checkUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
                     request_mapLocalVars.onObjectEventTrigger = false;
-                    request_mapLocalVars.objectLatitude = ;
-                    request_mapLocalVars.objectLongitude = ;
-                    updateSPCoords();
+                    position = coords.indexOf(',');
+                    // alert(coords + "   " + coords.slice(position));
+                    request_mapLocalVars.objectNewLatitude = JSON.stringify(coords.slice(0, position));
+                    request_mapLocalVars.objectNewLongitude = JSON.stringify(coords.slice(position));
+                    position = request_mapLocalVars.objectNewLatitude.indexOf(']');
+                    request_mapLocalVars.objectNewLatitude = request_mapLocalVars.objectNewLatitude.slice(1, position);
+                    position = request_mapLocalVars.objectNewLongitude.indexOf(']');
+                    request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
+                    let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
+                    if (isConfirmed) {
+                      updateSPCoords();
+                    }
                   }
                   // alert(coords);
                   // Если метка уже создана – просто передвигаем ее.
@@ -188,7 +200,7 @@ function init () {
                   var objectId = e.get('objectId');
                   var objectCoords = e.get('coords');
                   if (e.get('type') == 'click') {
-                    alert(request_mapLocalVars.objGetName[objectId]);
+                    alert("Вы выбрали магазин:  " + request_mapLocalVars.objGetName[objectId]);
                     request_mapLocalVars.objectName = request_mapLocalVars.objGetName[objectId];
                     request_mapLocalVars.objectLatitude = request_mapLocalVars.objGetLatitude[objectId];
                     request_mapLocalVars.objectLongitude = request_mapLocalVars.objGetLongitude[objectId];
@@ -219,7 +231,7 @@ function init () {
 
 function getCheckUpdateStatus() {
   request_mapLocalVars.checkUpdateTrigger = document.getElementById("checkUpdate").checked;
-  alert(request_mapLocalVars.checkUpdateTrigger);
+  // alert(request_mapLocalVars.checkUpdateTrigger);
 }
 
 function updateSPCoords() {
@@ -228,11 +240,18 @@ function updateSPCoords() {
                                           area: request_mapLocalVars.areaCurrentValue, spName: request_mapLocalVars.objectName,
                                           latitude: request_mapLocalVars.objectLatitude,
                                           longitude: request_mapLocalVars.objectLongitude,
-                                          newLatitude: ,
-                                          newLongitude: }, function(data) {
-    alert(data);
+                                          newLatitude: request_mapLocalVars.objectNewLatitude,
+                                          newLongitude: request_mapLocalVars.objectNewLongitude}, function(data) {
+    let isConfirmed;
+    if (data == "success") {
+      isConfirmed = confirm("Координаты обновлены, перезагрузить страницу?");
+    } else {
+      alert("Что-то пошло не так");
+    }
+    if (isConfirmed) {
+      location.reload();
+    }
   })
-  alert("Район: " + request_mapLocalVars.areaCurrentValue + "Название: " + request_mapLocalVars.objectName + "Широта: " + request_mapLocalVars.objectLatitude + "Долгота: " + request_mapLocalVars.objectLongitude);
 }
 
 // Создание метки.
