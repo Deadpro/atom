@@ -62,8 +62,10 @@ this.chooseArea = function(myRadio) {
         request_mapLocalVars.salesPartnersList[i].Адрес + "<br/>Учет: " +
       request_mapLocalVars.salesPartnersList[i].Учет + "<br/>Контакты: " + request_mapLocalVars.salesPartnersList[i].Контакты
       + "<br/>Юридическое Наименование: " + request_mapLocalVars.salesPartnersList[i].Юр_Наименование
-      + "<br/>Маршрут: " + request_mapLocalVars.salesPartnersList[i].DayOfTheWeek,
-      clusterCaption: "Много магазинов",
+      + "<br/>Маршрут: " + request_mapLocalVars.salesPartnersList[i].DayOfTheWeek
+      + "<br/>Динамика за месяц: " + "<br/>Динамика за все время: " + "<br/>Средний чек: " + "<br/>Поледний чек: "
+      + "<br/>Последнее посещение: ",
+      clusterCaption: request_mapLocalVars.salesPartnersList[i].Наименование,
       hintContent: request_mapLocalVars.salesPartnersList[i].Наименование, iconCaption: request_mapLocalVars.salesPartnersList[i].Наименование},
       options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
 
