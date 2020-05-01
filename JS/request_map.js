@@ -9,7 +9,15 @@ var request_mapLocalVars = {
   "areaTrigger" : true,
   "myPoints" : new Array(),
   "myPlacemark" : "",
-  "tempObj" : new Object()
+  "objGetName" : new Object(),
+  "objectName" : "",
+  "objectLatitude" : "",
+  "objectLongitude" : "",
+  "objGetLatitude" : new Object(),
+  "objGetLongitude" : new Object(),
+  "updateSPCoordsLabel" : "Включить режим правки координат",
+  "checkUpdateTrigger" : false,
+  "onObjectEventTrigger" : false
 };
 
 // dataJson.features.push({type: "Feature"}); alert(dataJson.features[0].type)
@@ -58,7 +66,9 @@ this.chooseArea = function(myRadio) {
       options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
 
       request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
-      request_mapLocalVars.tempObj[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
+      request_mapLocalVars.objGetName[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
+      request_mapLocalVars.objGetLatitude[i] = request_mapLocalVars.salesPartnersList[i].Latitude;
+      request_mapLocalVars.objGetLongitude[i] = request_mapLocalVars.salesPartnersList[i].Longitude;
     }
 
     dataObject = JSON.stringify(dataJson);
@@ -86,6 +96,12 @@ this.renderMap = function() {
               <div class='radioContainer'><input type='radio' id='checkAllAreas' name='choosearea' onclick='chooseArea(this);' value='0'><label for='Все районы' id='radioLabel'>Все районы</label></div> \
             </div> \
           </div> \
+          <div class='panel panel-custom border'> \
+            <div class='panel-heading col-100'><span>" + request_mapLocalVars.updateSPCoordsLabel + "</span></div> \
+            <div class='panel-body'> \
+              <div class='radioContainer'><input type='radio' id='checkUpdate' name='checkUpdate'><label for='Исправить' id='radioLabel'>Исправить</label></div> \
+            </div> \
+          </div> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
           <div id='mapHolder'></div> \
         </div> \
@@ -101,135 +117,154 @@ this.renderMap = function() {
 // <br/>
 // <a class='ydisk-onclick' href='https://yadi.sk/i/Jw1fIYxbwKW2aw' id='img3'  data-width='31' data-height='41'> asdfkhjasf </a> \
 
-// Инициализация и уничтожение карты при нажатии на кнопку.
+  // Инициализация и уничтожение карты при нажатии на кнопку.
 function init () {
-    var myMap;
-    $('#toggle').bind({
-        click: function () {
-            if (!myMap) {
-                $('div#mapHolder').append("<div id='map'></div>");
-                myMap = new ymaps.Map('map', {
-                    center: [46.9541, 142.736], // Южно-Сахалинск
-                    zoom: 6,
-                    // controls: []
-                }, {
-                    searchControlProvider: 'yandex#search'
-                });
-                $("#toggle").attr('value', 'Скрыть карту');
-                objectManager = new ymaps.ObjectManager({
-                    // Чтобы метки начали кластеризоваться, выставляем опцию.
-                    clusterize: true,
-                    geoObjectOpenBalloonOnClick: true,
-                    clusterOpenBalloonOnClick: true
-                });
+  var myMap;
+  $('#toggle').bind({
+      click: function () {
+          if (!myMap) {
+              $('div#mapHolder').append("<div id='map'></div>");
+              myMap = new ymaps.Map('map', {
+                  center: [46.9541, 142.736], // Южно-Сахалинск
+                  zoom: 6,
+                  // controls: []
+              }, {
+                  searchControlProvider: 'yandex#search'
+              });
+              $("#toggle").attr('value', 'Скрыть карту');
+              objectManager = new ymaps.ObjectManager({
+                  // Чтобы метки начали кластеризоваться, выставляем опцию.
+                  clusterize: true,
+                  geoObjectOpenBalloonOnClick: true,
+                  clusterOpenBalloonOnClick: true
+              });
 
-                myMap.geoObjects.add(objectManager);
-                objectManager.add(dataObject);
+              myMap.geoObjects.add(objectManager);
+              objectManager.add(dataObject);
 
-                myCollection = new ymaps.GeoObjectCollection();
-                // Создаем экземпляр класса ymaps.control.SearchControl
-                var mySearchControl = new ymaps.control.SearchControl({
-                  options: {
-                    // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
-                    provider: new CustomSearchProvider(request_mapLocalVars.myPoints),
-                    // Не будем показывать еще одну метку при выборе результата поиска,
-                    // т.к. метки коллекции myCollection уже добавлены на карту.
-                    noPlacemark: true,
-                    resultsPerPage: 5
-                  }});
+              myCollection = new ymaps.GeoObjectCollection();
+              // Создаем экземпляр класса ymaps.control.SearchControl
+              var mySearchControl = new ymaps.control.SearchControl({
+                options: {
+                  // Заменяем стандартный провайдер данных (геокодер) нашим собственным.
+                  provider: new CustomSearchProvider(request_mapLocalVars.myPoints),
+                  // Не будем показывать еще одну метку при выборе результата поиска,
+                  // т.к. метки коллекции myCollection уже добавлены на карту.
+                  noPlacemark: true,
+                  resultsPerPage: 5
+                }});
 
-                // Добавляем контрол в верхний правый угол,
-                myMap.controls
-                    .add(mySearchControl, { float: 'right' });
+              // Добавляем контрол в верхний правый угол,
+              myMap.controls
+                  .add(mySearchControl, { float: 'right' });
 
-                // Слушаем клик на карте.
-                myMap.events.add('click', function (e) {
-                    var coords = e.get('coords');
-                    // alert(coords);
-                    // Если метка уже создана – просто передвигаем ее.
-                    if (request_mapLocalVars.myPlacemark) {
-                        request_mapLocalVars.myPlacemark.geometry.setCoordinates(coords);
-                    }
-                    // Если нет – создаем.
-                    else {
-                        request_mapLocalVars.myPlacemark = createPlacemark(coords);
-                        myMap.geoObjects.add(request_mapLocalVars.myPlacemark);
-                        // Слушаем событие окончания перетаскивания на метке.
-                        request_mapLocalVars.myPlacemark.events.add('dragend', function () {
-                            getAddress(request_mapLocalVars.myPlacemark.geometry.getCoordinates());
-                        });
-                    }
-                    getAddress(coords);
-                });
+              // Слушаем клик на карте.
+              myMap.events.add('click', function (e) {
+                  var coords = e.get('coords');
+                  if (request_mapLocalVars.checkUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
+                    request_mapLocalVars.onObjectEventTrigger = false;
+                    request_mapLocalVars.objectLatitude = ;
+                    request_mapLocalVars.objectLongitude = ;
+                    updateSPCoords();
+                  }
+                  // alert(coords);
+                  // Если метка уже создана – просто передвигаем ее.
+                  if (request_mapLocalVars.myPlacemark) {
+                      request_mapLocalVars.myPlacemark.geometry.setCoordinates(coords);
+                  }
+                  // Если нет – создаем.
+                  else {
+                      request_mapLocalVars.myPlacemark = createPlacemark(coords);
+                      myMap.geoObjects.add(request_mapLocalVars.myPlacemark);
+                      // Слушаем событие окончания перетаскивания на метке.
+                      request_mapLocalVars.myPlacemark.events.add('dragend', function () {
+                          getAddress(request_mapLocalVars.myPlacemark.geometry.getCoordinates());
+                      });
+                  }
+                  getAddress(coords);
+              });
 
-                function onObjectEvent (e) {
-                    var objectId = e.get('objectId');
-                    var objectСoord = e.get('coords');
-                    if (e.get('type') == 'click') {
-                      alert(request_mapLocalVars.tempObj[objectId]);
-                        // Метод setObjectOptions позволяет задавать опции объекта "на лету".
-                        // objectManager.objects.setObjectOptions(objectId, {
-                        //     preset: 'islands#yellowIcon'
-                        // });
-                    } else {
-                        // objectManager.objects.setObjectOptions(objectId, {
-                        //     preset: 'islands#blueIcon'
-                        // });
-                    }
-                }
+              function onObjectEvent (e) {
+                  var objectId = e.get('objectId');
+                  var objectCoords = e.get('coords');
+                  if (e.get('type') == 'click') {
+                    alert(request_mapLocalVars.objGetName[objectId]);
+                    request_mapLocalVars.objectName = request_mapLocalVars.objGetName[objectId];
+                    request_mapLocalVars.objectLatitude = request_mapLocalVars.objGetLatitude[objectId];
+                    request_mapLocalVars.objectLongitude = request_mapLocalVars.objGetLongitude[objectId];
+                    request_mapLocalVars.onObjectEventTrigger = true;
+                    getCheckUpdateStatus();
+                      // Метод setObjectOptions позволяет задавать опции объекта "на лету".
+                      // objectManager.objects.setObjectOptions(objectId, {
+                      //     preset: 'islands#yellowIcon'
+                      // });
+                  } else {
+                      // objectManager.objects.setObjectOptions(objectId, {
+                      //     preset: 'islands#blueIcon'
+                      // });
+                  }
+              }
 
-                objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
-            }
-            else {
-                $('div#mapHolder').html("");
-                myMap.destroy();// Деструктор карты
-                myMap = null;
-                $("#toggle").attr('value', 'Показать карту снова');
-            }
-        }
+              objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
+          }
+          else {
+              $('div#mapHolder').html("");
+              myMap.destroy();// Деструктор карты
+              myMap = null;
+              $("#toggle").attr('value', 'Показать карту снова');
+          }
+      }
+  });
+}
+
+function getCheckUpdateStatus() {
+  request_mapLocalVars.checkUpdateTrigger = document.getElementById("checkUpdate").checked;
+  alert(request_mapLocalVars.checkUpdateTrigger);
+}
+
+function updateSPCoords() {
+  $.post('../php/updateSPCoords.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'),
+                                          area: request_mapLocalVars.areaCurrentValue, spName: request_mapLocalVars.objectName,
+                                          latitude: request_mapLocalVars.objectLatitude,
+                                          longitude: request_mapLocalVars.objectLongitude,
+                                          newLatitude: ,
+                                          newLongitude: }, function(data) {
+    alert(data);
+  })
+  alert("Район: " + request_mapLocalVars.areaCurrentValue + "Название: " + request_mapLocalVars.objectName + "Широта: " + request_mapLocalVars.objectLatitude + "Долгота: " + request_mapLocalVars.objectLongitude);
+}
+
+// Создание метки.
+function createPlacemark(coords) {
+    return new ymaps.Placemark(coords, {
+        iconCaption: 'поиск...'
+    }, {
+        preset: 'islands#violetDotIconWithCaption',
+        draggable: true
     });
 }
 
-    // Обновление координат в базе данных.
-    function updateCoord(coords, spName) {
-      $.post('../php/updateSPCoord.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                              dbPassword: localStorage.getItem('dbPassword'),
-                                              area: request_mapLocalVars.areaCurrentValue, spName: , latitude: , longitude:}, function(data) {
+// Определяем адрес по координатам (обратное геокодирование).
+function getAddress(coords) {
+    request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
+    ymaps.geocode(coords).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0);
 
-      })
-    }
-
-
-    // Создание метки.
-    function createPlacemark(coords) {
-        return new ymaps.Placemark(coords, {
-            iconCaption: 'поиск...'
-        }, {
-            preset: 'islands#violetDotIconWithCaption',
-            draggable: true
-        });
-    }
-
-    // Определяем адрес по координатам (обратное геокодирование).
-    function getAddress(coords) {
-        request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
-        ymaps.geocode(coords).then(function (res) {
-            var firstGeoObject = res.geoObjects.get(0);
-
-            request_mapLocalVars.myPlacemark.properties
-                .set({
-                    // Формируем строку с данными об объекте.
-                    iconCaption: [
-                        // Название населенного пункта или вышестоящее административно-территориальное образование.
-                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
-                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-                    ].filter(Boolean).join(', '),
-                    // В качестве контента балуна задаем строку с адресом объекта.
-                    balloonContent: firstGeoObject.getAddressLine()
-                });
-        });
-    }
+        request_mapLocalVars.myPlacemark.properties
+            .set({
+                // Формируем строку с данными об объекте.
+                iconCaption: [
+                    // Название населенного пункта или вышестоящее административно-территориальное образование.
+                    firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                    // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                    firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                ].filter(Boolean).join(', '),
+                // В качестве контента балуна задаем строку с адресом объекта.
+                balloonContent: firstGeoObject.getAddressLine()
+            });
+    });
+}
 
 // Провайдер данных для элемента управления ymaps.control.SearchControl.
 // Осуществляет поиск геообъектов в по массиву points.
