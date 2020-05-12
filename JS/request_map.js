@@ -10,6 +10,8 @@ var request_mapLocalVars = {
   "myPoints" : new Array(),
   "myPlacemark" : "",
   "objGetName" : new Object(),
+  "objGetSPArea" : new Object(),
+  "spID" : "",
   "objectName" : "",
   "objectLatitude" : "",
   "objectLongitude" : "",
@@ -71,6 +73,7 @@ this.chooseArea = function(myRadio) {
 
       request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
       request_mapLocalVars.objGetName[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
+      request_mapLocalVars.objGetSPArea[i] = request_mapLocalVars.salesPartnersList[i].Район;
       request_mapLocalVars.objGetLatitude[i] = request_mapLocalVars.salesPartnersList[i].Latitude;
       request_mapLocalVars.objGetLongitude[i] = request_mapLocalVars.salesPartnersList[i].Longitude;
     }
@@ -178,7 +181,7 @@ function init () {
                     request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
                     let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
                     if (isConfirmed) {
-                      updateSPCoords();
+                      updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
                     }
                   }
                   // alert(coords);
@@ -204,6 +207,7 @@ function init () {
                   if (e.get('type') == 'click') {
                     alert("Вы выбрали магазин:  " + request_mapLocalVars.objGetName[objectId]);
                     request_mapLocalVars.objectName = request_mapLocalVars.objGetName[objectId];
+                    request_mapLocalVars.spArea = request_mapLocalVars.objGetSPArea[objectId];
                     request_mapLocalVars.objectLatitude = request_mapLocalVars.objGetLatitude[objectId];
                     request_mapLocalVars.objectLongitude = request_mapLocalVars.objGetLongitude[objectId];
                     request_mapLocalVars.onObjectEventTrigger = true;
@@ -236,14 +240,14 @@ function getCheckUpdateStatus() {
   // alert(request_mapLocalVars.checkUpdateTrigger);
 }
 
-function updateSPCoords() {
+function updateSPCoords(area, latitude, longitude) {
   $.post('../php/updateSPCoords.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'),
-                                          area: request_mapLocalVars.areaCurrentValue, spName: request_mapLocalVars.objectName,
+                                          area: area, spName: request_mapLocalVars.objectName,
                                           latitude: request_mapLocalVars.objectLatitude,
                                           longitude: request_mapLocalVars.objectLongitude,
-                                          newLatitude: request_mapLocalVars.objectNewLatitude,
-                                          newLongitude: request_mapLocalVars.objectNewLongitude}, function(data) {
+                                          newLatitude: latitude,
+                                          newLongitude: longitude}, function(data) {
     let isConfirmed;
     if (data == "success") {
       isConfirmed = confirm("Координаты обновлены, перезагрузить страницу?");
