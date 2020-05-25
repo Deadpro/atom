@@ -268,7 +268,7 @@ $('#executeChoice').on('click', function() {
 
 this.createAccountantTables = function() {
   tableHeaderRowFunc();
-  alert("Всего строк: " + Object.keys(accountingLocalVars.tmp).length);
+  // alert("Всего строк: " + Object.keys(accountingLocalVars.tmp).length);
   $('div#connection-data').html("");
   $(".accountantContainer").show();
   $('div#connection-data').append(" \
