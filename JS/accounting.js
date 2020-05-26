@@ -116,7 +116,7 @@ function readFile(e) {
   reader.onload = function(e) {
     var data = new Uint8Array(e.target.result);
     var workbook = XLSX.read(data, {type: 'array'});
-    accountingLocalVars.sheet = workbook.Sheets[workbook.SheetNames[0
+    accountingLocalVars.sheet = workbook.Sheets[workbook.SheetNames[0]]
     var sheet = accountingLocalVars.sheet;
     // var cellE = 'E' + 11;
     // var valueCell = sheet[cellE].v;
@@ -298,20 +298,42 @@ this.createAccountantTables = function() {
       var dTStrOut = formatDate(dt);
       var taxNumber = accountingLocalVars.tmp[i].ИНН;
       // var strTaxNumber = taxNumber.toString();
-      tableRow = '<tbody><tr> \
-                          <td>' + countLee + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + taxNumber + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].item + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                          <td>' + dTStrOut + '</td> \
-                        </tr></tbody>';
+
+      if (accountingLocalVars.tmp[i].AgentID != 7) {
+        if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          tableRow = '<tbody><tr> \
+                              <td>' + countLee + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                              <td>' + taxNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                              <td>' + dTStrOut + '</td> \
+                            </tr></tbody>';
+        }
+      }
+      if (accountingLocalVars.tmp[i].AgentID == 7) {
+        tableRow = '<tbody><tr> \
+                            <td>' + countLee + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                            <td>' + taxNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                            <td>' + dTStrOut + '</td> \
+                          </tr></tbody>';
+      }
+
       if (triggerLee == true) {
          $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
          $("#tableDataLee").append(tableHeaderRow);
@@ -327,20 +349,42 @@ this.createAccountantTables = function() {
       var dTStrOut = formatDate(dt);
       var taxNumber = accountingLocalVars.tmp[i].ИНН;
       // var strTaxNumber = taxNumber.toString();
-      tableRow = '<tbody><tr> \
-                          <td>' + countChe + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                          <td>' + taxNumber + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].item + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-                          <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                          <td>' + dTStrOut + '</td> \
-                        </tr></tbody>';
+
+      if (accountingLocalVars.tmp[i].AgentID != 7) {
+        if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          tableRow = '<tbody><tr> \
+                              <td>' + countChe + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                              <td>' + taxNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                              <td>' + dTStrOut + '</td> \
+                            </tr></tbody>';
+        }
+      }
+      if (accountingLocalVars.tmp[i].AgentID == 7) {
+        tableRow = '<tbody><tr> \
+                            <td>' + countChe + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                            <td>' + taxNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                            <td>' + dTStrOut + '</td> \
+                          </tr></tbody>';
+      }
+
       if (triggerChe == true) {
          $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
          $("#tableDataChe").append(tableHeaderRow);
