@@ -72,10 +72,11 @@
       if ($salesPartnerTrigger == false && $areaTrigger == false) {
         for ($i = 0; $i < count($areaArray); $i++) {
           $areaArrayTmp = $areaArray[$i];
-          $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
           ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-          InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-          ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+          INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
           WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY ItemID";
           if ($result = mysqli_query($dbconnect, $sql)){
             while($row = $result->fetch_object()){
@@ -92,10 +93,11 @@
       }
       if ($salesPartnerTrigger == false && $areaTrigger == true) {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
         if ($result = mysqli_query($dbconnect, $sql)){
           while($row = $result->fetch_object()){
@@ -111,10 +113,11 @@
       }
       if ($salesPartnerTrigger == true && $areaTrigger == true) {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
         ORDER BY ItemID";
         if ($result = mysqli_query($dbconnect, $sql)){
@@ -133,11 +136,11 @@
       if ($salesPartnerTrigger === true && $areaTrigger === false) {
         for ($i = 1; $i < 6; $i++) {
           $areaArrayTmp = $areaArray[$i];
-          $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
           ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-          InvoiceSum, номенклатура.Наименование FROM
-          $areaArrayTmp INNER JOIN номенклатура
-          ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+          INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
           WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
           ORDER BY ItemID";
           if ($result = mysqli_query($dbconnect, $sql)){
@@ -178,10 +181,11 @@
     if ($reportType == 'byDayReport') {
       if ($salesPartnerTrigger == true) {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' AND SalesPartnerID LIKE '$salesPartnerID'
         ORDER BY ItemID, DateTimeDocLocal";;
         if ($result = mysqli_query($dbconnect, $sql)){
@@ -197,10 +201,11 @@
         }
       } else {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd' ORDER BY ItemID, DateTimeDocLocal";
         if ($result = mysqli_query($dbconnect, $sql)){
           while($row = $result->fetch_object()){
@@ -219,10 +224,11 @@
       if ($salesPartnerTrigger == false && $areaTrigger == false) {
         for ($i = 0; $i < count($areaArray); $i++) {
           $areaArrayTmp = $areaArray[$i];
-          $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
           ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-          InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
-          ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          InvoiceSum, номенклатура.Наименование, номенклатура.netCost, salespartners.Юр_Наименование FROM $areaArrayTmp
+          INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
           WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY ItemID";
           if ($result = mysqli_query($dbconnect, $sql)){
             while($row = $result->fetch_object()){
@@ -239,10 +245,11 @@
       }
       if ($salesPartnerTrigger == false && $areaTrigger == true) {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, номенклатура.netCost, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
         if ($result = mysqli_query($dbconnect, $sql)){
           while($row = $result->fetch_object()){
@@ -258,10 +265,11 @@
       }
       if ($salesPartnerTrigger == true && $areaTrigger == true) {
         $areaArrayTmp = $areaArray[(int)$index];
-        $sql = "SELECT ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, номенклатура.Наименование, номенклатура.netCost FROM $areaArrayTmp INNER JOIN номенклатура
-        ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        InvoiceSum, номенклатура.Наименование, номенклатура.netCost, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
         WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
         ORDER BY ItemID";
         if ($result = mysqli_query($dbconnect, $sql)){
