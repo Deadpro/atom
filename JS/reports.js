@@ -248,7 +248,7 @@ $('#report-sales-manager').on('click', function() {
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
       if (reportsLocalVars.tmp[i].AgentID == 7) {
-        if (reportsLocalVars.tmp[i].Юр_Наименование != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование != "ООО Спецторг") {
+        if (reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
           if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
             for (var key in reportsLocalVars.salesQuantity) {
               // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
@@ -482,7 +482,7 @@ $('#report-ceo').on('click', function() {
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
       reportsLocalVars.trigger = false;
       if (reportsLocalVars.tmp[i].AgentID == 7) {
-        if (reportsLocalVars.tmp[i].Юр_Наименование != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование != "ООО Спецторг") {
+        if (reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
           if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
             for (var key in reportsLocalVars.salesQuantity) {
               // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
