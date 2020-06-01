@@ -224,6 +224,44 @@ function init () {
               }
 
               objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
+
+              var currentObject = objectManager.clusters.state.get('activeObject');
+              objectManager.clusters.events.add('balloonopen', function (e) {
+                debugger;
+                var clusterId = e.get('objectId');
+                currentObject = objectManager.clusters.state.get('activeObject');
+
+                <!-- Нам нужен id объекта, чтобы получить данные балуна -->
+                objectId = currentObject.id;
+                // alert(objectId);
+                // if (!hasBalloonData(objectId)) {
+                //   getBalloonData(objectId).done(function (data) {
+                //     var obj = objectManager.objects.getById(objectId);
+                //     obj.properties.balloonContent = data;
+                //     objectManager.clusters.balloon.open(clusterId);
+                //   });
+                // }
+              });
+
+              <!-- пытаемся формировать содержимое балуна кластера -->
+              objectManager.clusters.state.events.add('change', function () {
+                 var newCurrentObject = objectManager.clusters.state.get('activeObject');
+                 if (newCurrentObject && (!currentObject || (newCurrentObject.id != currentObject.id))) {
+                   currentObject = newCurrentObject;
+                   <!-- Нам нужен id объекта, чтобы получить данные балуна -->
+                   objectId = currentObject.id;
+                   // alert(objectId);
+                   <!-- Нам нужен id кластера, чтобы знать чей балун менять -->
+                   // clusterId = objectManager.getObjectState(currentObject.id).cluster.id;
+                   // if (!hasBalloonData(objectId)) {
+                   //   getBalloonData(objectId).done(function (data) {
+                   //     var obj = objectManager.objects.getById(objectId);
+                   //     obj.properties.balloonContent = data;
+                   //     objectManager.clusters.balloon.open(clusterId);
+                   //   });
+                   // }
+                 }
+              });
           }
           else {
               $('div#mapHolder').html("");
@@ -291,6 +329,16 @@ function getAddress(coords) {
     });
 }
 
+// Определяем координаты по адресу
+function getCoords(address) {
+    request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
+    ymaps.geocode(address).then(function (res) {
+        var firstGeoObject = res.geoObjects.get(0),
+        // Координаты геообъекта.
+        coords = firstGeoObject.geometry.getCoordinates();
+        alert(coords);
+    });
+}
 // Провайдер данных для элемента управления ymaps.control.SearchControl.
 // Осуществляет поиск геообъектов в по массиву points.
 // Реализует интерфейс IGeocodeProvider.
