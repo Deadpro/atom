@@ -20,7 +20,8 @@ var request_mapLocalVars = {
   "objGetLatitude" : new Object(),
   "objGetLongitude" : new Object(),
   "updateSPCoordsLabel" : "Включить режим правки координат",
-  "checkUpdateTrigger" : false,
+  "checkCoordsUpdateTrigger" : false,
+  "checkAddressUpdateTrigger" : false,
   "onObjectEventTrigger" : false
 };
 
@@ -106,7 +107,8 @@ this.renderMap = function() {
           <div class='panel panel-custom border'> \
             <div class='panel-heading col-100'><span>" + request_mapLocalVars.updateSPCoordsLabel + "</span></div> \
             <div class='panel-body'> \
-              <div class='radioContainer'><input type='radio' id='checkUpdate' name='checkUpdate'><label for='Исправить' id='radioLabel'>Исправить</label></div> \
+              <div class='radioContainer'><input type='radio' id='checkCoordsUpdate' name='checkUpdate'><label for='По координатам' id='radioLabel'>По координатам</label></div> \
+              <div class='radioContainer'><input type='radio' id='checkAddressUpdate' name='checkUpdate'><label for='По адресу' id='radioLabel'>По адресу</label></div> \
             </div> \
           </div> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
@@ -169,7 +171,7 @@ function init () {
               myMap.events.add('click', function (e) {
                   var coords = e.get('coords');
                   var position;
-                  if (request_mapLocalVars.checkUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
+                  if (request_mapLocalVars.checkCoordsUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
                     request_mapLocalVars.onObjectEventTrigger = false;
                     position = coords.indexOf(',');
                     // alert(coords + "   " + coords.slice(position));
@@ -183,6 +185,20 @@ function init () {
                     if (isConfirmed) {
                       updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
                     }
+                  }
+                  if (request_mapLocalVars.checkAddressUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
+                    // request_mapLocalVars.onObjectEventTrigger = false;
+                    // position = coords.indexOf(',');
+                    // request_mapLocalVars.objectNewLatitude = JSON.stringify(coords.slice(0, position));
+                    // request_mapLocalVars.objectNewLongitude = JSON.stringify(coords.slice(position));
+                    // position = request_mapLocalVars.objectNewLatitude.indexOf(']');
+                    // request_mapLocalVars.objectNewLatitude = request_mapLocalVars.objectNewLatitude.slice(1, position);
+                    // position = request_mapLocalVars.objectNewLongitude.indexOf(']');
+                    // request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
+                    // let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
+                    // if (isConfirmed) {
+                    //   updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
+                    // }
                   }
                   // alert(coords);
                   // Если метка уже создана – просто передвигаем ее.
@@ -211,7 +227,7 @@ function init () {
                     request_mapLocalVars.objectLatitude = request_mapLocalVars.objGetLatitude[objectId];
                     request_mapLocalVars.objectLongitude = request_mapLocalVars.objGetLongitude[objectId];
                     request_mapLocalVars.onObjectEventTrigger = true;
-                    getCheckUpdateStatus();
+                    getСheckUpdateStatus();
                       // Метод setObjectOptions позволяет задавать опции объекта "на лету".
                       // objectManager.objects.setObjectOptions(objectId, {
                       //     preset: 'islands#yellowIcon'
@@ -273,9 +289,10 @@ function init () {
   });
 }
 
-function getCheckUpdateStatus() {
-  request_mapLocalVars.checkUpdateTrigger = document.getElementById("checkUpdate").checked;
-  // alert(request_mapLocalVars.checkUpdateTrigger);
+function getСheckUpdateStatus() {
+  request_mapLocalVars.checkCoordsUpdateTrigger = document.getElementById("checkCoordsUpdate").checked;
+  request_mapLocalVars.checkAddressUpdateTrigger = document.getElementById("checkAddressUpdate").checked;
+  // alert(request_mapLocalVars.checkCoordsUpdateTrigger);
 }
 
 function updateSPCoords(area, latitude, longitude) {
