@@ -11,6 +11,7 @@ var request_mapLocalVars = {
   "myPlacemark" : "",
   "objGetName" : new Object(),
   "objGetSPArea" : new Object(),
+  "objGetSPID" : new Object(),
   "spID" : "",
   "objectName" : "",
   "objectLatitude" : "",
@@ -74,6 +75,7 @@ this.chooseArea = function(myRadio) {
 
       request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
       request_mapLocalVars.objGetName[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
+      request_mapLocalVars.objGetSPID[i] = request_mapLocalVars.salesPartnersList[i].ID;
       request_mapLocalVars.objGetSPArea[i] = request_mapLocalVars.salesPartnersList[i].Район;
       request_mapLocalVars.objGetLatitude[i] = request_mapLocalVars.salesPartnersList[i].Latitude;
       request_mapLocalVars.objGetLongitude[i] = request_mapLocalVars.salesPartnersList[i].Longitude;
@@ -223,6 +225,7 @@ function init () {
                   if (e.get('type') == 'click') {
                     alert("Вы выбрали магазин:  " + request_mapLocalVars.objGetName[objectId]);
                     request_mapLocalVars.objectName = request_mapLocalVars.objGetName[objectId];
+                    request_mapLocalVars.spID = request_mapLocalVars.objGetSPID[objectId];
                     request_mapLocalVars.spArea = request_mapLocalVars.objGetSPArea[objectId];
                     request_mapLocalVars.objectLatitude = request_mapLocalVars.objGetLatitude[objectId];
                     request_mapLocalVars.objectLongitude = request_mapLocalVars.objGetLongitude[objectId];
@@ -242,14 +245,14 @@ function init () {
               objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
 
               var currentObject = objectManager.clusters.state.get('activeObject');
-              objectManager.clusters.events.add('balloonopen', function (e) {
+              objectManager.clusters.events.add('balloonopen', function () {
                 debugger;
-                var clusterId = e.get('objectId');
+                // var clusterId = e.get('objectId');
                 currentObject = objectManager.clusters.state.get('activeObject');
 
                 <!-- Нам нужен id объекта, чтобы получить данные балуна -->
                 objectId = currentObject.id;
-                // alert(objectId);
+                // alert(request_mapLocalVars.objGetSPID[objectId]);
                 // if (!hasBalloonData(objectId)) {
                 //   getBalloonData(objectId).done(function (data) {
                 //     var obj = objectManager.objects.getById(objectId);
@@ -266,7 +269,7 @@ function init () {
                    currentObject = newCurrentObject;
                    <!-- Нам нужен id объекта, чтобы получить данные балуна -->
                    objectId = currentObject.id;
-                   // alert(objectId);
+                   // alert(request_mapLocalVars.objGetSPID[objectId]);
                    <!-- Нам нужен id кластера, чтобы знать чей балун менять -->
                    // clusterId = objectManager.getObjectState(currentObject.id).cluster.id;
                    // if (!hasBalloonData(objectId)) {
