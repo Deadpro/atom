@@ -12,6 +12,7 @@ var request_mapLocalVars = {
   "objGetName" : new Object(),
   "objGetSPArea" : new Object(),
   "objGetSPID" : new Object(),
+  "objGetSPAddress" : new Object(),
   "spID" : "",
   "objectName" : "",
   "objectLatitude" : "",
@@ -23,7 +24,8 @@ var request_mapLocalVars = {
   "updateSPCoordsLabel" : "Включить режим правки координат",
   "checkCoordsUpdateTrigger" : false,
   "checkAddressUpdateTrigger" : false,
-  "onObjectEventTrigger" : false
+  "onObjectEventTrigger" : false,
+  "onClusterEventTrigger" : false
 };
 
 // dataJson.features.push({type: "Feature"}); alert(dataJson.features[0].type)
@@ -77,6 +79,7 @@ this.chooseArea = function(myRadio) {
       request_mapLocalVars.objGetName[i] = request_mapLocalVars.salesPartnersList[i].Наименование;
       request_mapLocalVars.objGetSPID[i] = request_mapLocalVars.salesPartnersList[i].ID;
       request_mapLocalVars.objGetSPArea[i] = request_mapLocalVars.salesPartnersList[i].Район;
+      request_mapLocalVars.objGetSPAddress[i] = request_mapLocalVars.salesPartnersList[i].Адрес;
       request_mapLocalVars.objGetLatitude[i] = request_mapLocalVars.salesPartnersList[i].Latitude;
       request_mapLocalVars.objGetLongitude[i] = request_mapLocalVars.salesPartnersList[i].Longitude;
     }
@@ -171,6 +174,7 @@ function init () {
 
               // Слушаем клик на карте.
               myMap.events.add('click', function (e) {
+                  request_mapLocalVars.onClusterEventTrigger = false;
                   var coords = e.get('coords');
                   var position;
                   if (request_mapLocalVars.checkCoordsUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
@@ -185,24 +189,10 @@ function init () {
                     request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
                     let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
                     if (isConfirmed) {
-                      updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
+                      updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude, request_mapLocalVars.spID);
                     }
                   }
-                  if (request_mapLocalVars.checkAddressUpdateTrigger == true && request_mapLocalVars.onObjectEventTrigger == true) {
-                    // request_mapLocalVars.onObjectEventTrigger = false;
-                    // position = coords.indexOf(',');
-                    // request_mapLocalVars.objectNewLatitude = JSON.stringify(coords.slice(0, position));
-                    // request_mapLocalVars.objectNewLongitude = JSON.stringify(coords.slice(position));
-                    // position = request_mapLocalVars.objectNewLatitude.indexOf(']');
-                    // request_mapLocalVars.objectNewLatitude = request_mapLocalVars.objectNewLatitude.slice(1, position);
-                    // position = request_mapLocalVars.objectNewLongitude.indexOf(']');
-                    // request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
-                    // let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
-                    // if (isConfirmed) {
-                    //   updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
-                    // }
-                  }
-                  // alert(coords);
+
                   // Если метка уже создана – просто передвигаем ее.
                   if (request_mapLocalVars.myPlacemark) {
                       request_mapLocalVars.myPlacemark.geometry.setCoordinates(coords);
@@ -220,6 +210,7 @@ function init () {
               });
 
               function onObjectEvent (e) {
+                  request_mapLocalVars.onClusterEventTrigger = false;
                   var objectId = e.get('objectId');
                   var objectCoords = e.get('coords');
                   if (e.get('type') == 'click') {
@@ -242,9 +233,10 @@ function init () {
                   }
               }
 
-              objectManager.objects.events.add(['click', 'mouseleave'], onObjectEvent);
+              objectManager.objects.events.add(['click'], onObjectEvent);
 
               var currentObject = objectManager.clusters.state.get('activeObject');
+
               objectManager.clusters.events.add('balloonopen', function () {
                 debugger;
                 // var clusterId = e.get('objectId');
@@ -252,7 +244,7 @@ function init () {
 
                 <!-- Нам нужен id объекта, чтобы получить данные балуна -->
                 objectId = currentObject.id;
-                // alert(request_mapLocalVars.objGetSPID[objectId]);
+
                 // if (!hasBalloonData(objectId)) {
                 //   getBalloonData(objectId).done(function (data) {
                 //     var obj = objectManager.objects.getById(objectId);
@@ -269,7 +261,7 @@ function init () {
                    currentObject = newCurrentObject;
                    <!-- Нам нужен id объекта, чтобы получить данные балуна -->
                    objectId = currentObject.id;
-                   // alert(request_mapLocalVars.objGetSPID[objectId]);
+
                    <!-- Нам нужен id кластера, чтобы знать чей балун менять -->
                    // clusterId = objectManager.getObjectState(currentObject.id).cluster.id;
                    // if (!hasBalloonData(objectId)) {
@@ -279,6 +271,21 @@ function init () {
                    //     objectManager.clusters.balloon.open(clusterId);
                    //   });
                    // }
+                   if (request_mapLocalVars.checkAddressUpdateTrigger == true && request_mapLocalVars.onClusterEventTrigger == true) {
+                     alert(request_mapLocalVars.objGetSPID[objectId]);
+                     // request_mapLocalVars.onObjectEventTrigger = false;
+                     // position = coords.indexOf(',');
+                     // request_mapLocalVars.objectNewLatitude = JSON.stringify(coords.slice(0, position));
+                     // request_mapLocalVars.objectNewLongitude = JSON.stringify(coords.slice(position));
+                     // position = request_mapLocalVars.objectNewLatitude.indexOf(']');
+                     // request_mapLocalVars.objectNewLatitude = request_mapLocalVars.objectNewLatitude.slice(1, position);
+                     // position = request_mapLocalVars.objectNewLongitude.indexOf(']');
+                     // request_mapLocalVars.objectNewLongitude = request_mapLocalVars.objectNewLongitude.slice(1, position);
+                     // let isConfirmed = confirm("Изменить координаты для магазина:  " + request_mapLocalVars.objectName);
+                     // if (isConfirmed) {
+                     //   updateSPCoords(request_mapLocalVars.spArea, request_mapLocalVars.objectNewLatitude, request_mapLocalVars.objectNewLongitude);
+                     // }
+                   }
                  }
               });
           }
@@ -298,10 +305,10 @@ function getСheckUpdateStatus() {
   // alert(request_mapLocalVars.checkCoordsUpdateTrigger);
 }
 
-function updateSPCoords(area, latitude, longitude) {
+function updateSPCoords(area, latitude, longitude, spID) {
   $.post('../php/updateSPCoords.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'),
-                                          area: area, spName: request_mapLocalVars.objectName,
+                                          area: area, spID: spID, spName: request_mapLocalVars.objectName,
                                           latitude: request_mapLocalVars.objectLatitude,
                                           longitude: request_mapLocalVars.objectLongitude,
                                           newLatitude: latitude,

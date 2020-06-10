@@ -3,6 +3,7 @@
   include("dbconnect.php");
   $areaStr = trim($_POST['area']);
   $areaInt = (int)$areaStr;
+  $spID = trim($_POST['spID']);
   $spName = trim($_POST['spName']);
   $spLatitude = trim($_POST['latitude']);
   $spLongitude = trim($_POST['longitude']);
@@ -13,7 +14,7 @@
         isset($_POST['dbUser']) === true && empty($_POST['dbUser']) === false &&
         isset($_POST['dbPassword']) === true && empty($_POST['dbPassword']) === false) {
       $sql = "UPDATE salespartners SET Latitude = '$spNewLatitude', Longitude = '$spNewLongitude'
-      WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' ";
+      WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
       if (mysqli_query($dbconnect, $sql)) {
          echo "success";
       } else {
