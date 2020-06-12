@@ -244,6 +244,7 @@ function init () {
 
                 <!-- Нам нужен id объекта, чтобы получить данные балуна -->
                 objectId = currentObject.id;
+                getСheckUpdateStatus();
 
                 // if (!hasBalloonData(objectId)) {
                 //   getBalloonData(objectId).done(function (data) {
@@ -271,7 +272,9 @@ function init () {
                    //     objectManager.clusters.balloon.open(clusterId);
                    //   });
                    // }
-                   if (request_mapLocalVars.checkAddressUpdateTrigger == true && request_mapLocalVars.onClusterEventTrigger == true) {
+
+                    // && request_mapLocalVars.onClusterEventTrigger == true
+                   if (request_mapLocalVars.checkAddressUpdateTrigger == true) {
                      alert(request_mapLocalVars.objGetSPID[objectId]);
                      // request_mapLocalVars.onObjectEventTrigger = false;
                      // position = coords.indexOf(',');
