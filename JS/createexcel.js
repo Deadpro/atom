@@ -139,7 +139,7 @@ function prepairDataToSave(param) {
 			{wch: 10},
 			{wch: 40},
 			{wch: 25},
-			{wch: 5},
+			{wch: 25},
 			{wch: 3},
 			{wch: 7},
 			{wch: 10},
