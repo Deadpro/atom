@@ -278,8 +278,8 @@ this.createAccountantTables = function() {
         <img width='30px' style='float:right' src='../images/icons/black-close-icon-3.png' /> \
       </div> \
       <div id='tableContainer'> \
-        <table class='tableDataLee' id='tableDataLee'></table> \
         <table class='tableDataChe' id='tableDataChe'></table> \
+        <table class='tableDataLee' id='tableDataLee'></table> \
       </div> \
     </div> \
   ");
