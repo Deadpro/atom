@@ -24,32 +24,21 @@ function add_cell_to_sheet(worksheet, address, value) {
 	/* cell object */
 	var cell = {t:'?', v:value};
   cell.t = 's';
-	/* assign type */
-	// if(typeof value == "string") cell.t = 's'; // string
-	// else if(typeof value == "number") cell.t = 'n'; // number
-	// else if(value === true || value === false) cell.t = 'b'; // boolean
-	// else if(value instanceof Date) cell.t = 'd';
-	// else throw new Error("cannot store value");
-
 	/* add to worksheet, overwriting a cell if it exists */
 	worksheet[address] = cell;
-
 	/* find the cell range */
 	var range = XLSX.utils.decode_range(worksheet['!ref']);
 	var addr = XLSX.utils.decode_cell(address);
-
 	/* extend the range to include the new cell */
 	if(range.s.c > addr.c) range.s.c = addr.c;
 	if(range.s.r > addr.r) range.s.r = addr.r;
 	if(range.e.c < addr.c) range.e.c = addr.c;
 	if(range.e.r < addr.r) range.e.r = addr.r;
-
 	/* update range */
 	worksheet['!ref'] = XLSX.utils.encode_range(range);
 }
 
 $("#button-a").click(function(){
-	// prepairDataToSave("reports");
    convert();
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
@@ -65,7 +54,6 @@ $("#saveAccountantLee").click(function(){
 });
 
 $("#printReport").click(function(){
-	// prepairDataToSave("reports");
   convert();
   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
