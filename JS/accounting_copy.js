@@ -47,9 +47,7 @@ var accountingLocalVars = {
   "tmpSPName" : "",
   "tmpSalesQuantity" : "",
   "sheet" : "",
-  "chooseAccountantSubjectLabel" : "С каким ИП работать?",
-  "checkAccSubjectRadio" : ["checkChe", "checkLee"],
-  "accSubjectCheckedValue" : "",
+  "chooseAccountantSubject" : "С каким ИП работать?",
   "chooseAccChe" : "ИП Че Владимир Енгунович",
   "chooseAccLee" : "ИП ЛИ Ген Сун"
 };
@@ -229,22 +227,22 @@ function createObject(paramOne, paramTwo, paramThree, paramFour) {
   });
 }
 
+// function displayContents(contents) {
+//   var element = document.getElementById('file-content');
+//   element.textContent = contents;
+// }
+
 $('#accounting').on('click', function() {
   renderAccountingOptions();
 });
 
 $('#executeChoice').on('click', function() {
   accountingLocalVars.dateControl = document.querySelector('input[type="date"]');
+  // alert(document.getElementById(accountingLocalVars.checkRadio[0]).value);
   for (var i = 0; i < 6; i++) {
     if (document.getElementById(accountingLocalVars.checkRadio[i]).checked == true) {
       accountingLocalVars.checkedValue = document.getElementById(accountingLocalVars.checkRadio[i]).value;
       accountingLocalVars.radioCheckedTrigger = true;
-    }
-  }
-  for (var i = 0; i < 2; i++) {
-    if (document.getElementById(accountingLocalVars.checkAccSubjectRadio[i]).checked == true) {
-      accountingLocalVars.accSubjectCheckedValue = document.getElementById(accountingLocalVars.checkAccSubjectRadio[i]).value;
-      // alert(accountingLocalVars.accSubjectCheckedValue);
     }
   }
   if (accountingLocalVars.radioCheckedTrigger == false) {
@@ -255,11 +253,19 @@ $('#executeChoice').on('click', function() {
   accountingLocalVars.dateEnd = $('input#dateEnd').val();
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: accountingLocalVars.dateStart,
-                                          dateEnd: accountingLocalVars.dateEnd, area: accountingLocalVars.checkedValue,
-                                          accounting: accountingLocalVars.accounting,
-                                          accSubject: accountingLocalVars.accSubjectCheckedValue}, function(data) {
+                                          dateEnd: accountingLocalVars.dateEnd, area: accountingLocalVars.checkedValue, accounting: accountingLocalVars.accounting}, function(data) {
     accountingLocalVars.tmp = JSON.parse(data);
     createAccountantTables();
+    // for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
+    //   for (var j = 0; j < Object.keys(accountingLocalVars.tmp[i]).length; j++) {
+    //     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+    //
+    //     } else {
+    //
+    //     }
+    //   }
+    //   // alert(Object.keys(accountingLocalVars.tmp[i]).length);
+    // }
   });
 });
 
@@ -281,92 +287,25 @@ this.createAccountantTables = function() {
     </div> \
   ");
   var tableHeaderRow = accountingLocalVars.tableHeaderRow;
-  var count = 0;
+  var countLee = 0;
+  var countChe = 0;
   var triggerLee = true;
   var triggerChe = true;
   var tableRow;
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
-    if (accountingLocalVars.tmp[i].Quantity > 0) {
-      if (accountingLocalVars.tmp[i].type === "На Ли Ген Сун") {
-        // accountingLocalVars.countLee += 1;
-        count += 1;
-        var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
-        var dt = new Date(dTStrSource);
-        var dTStrOut = formatDate(dt);
-        var taxNumber = accountingLocalVars.tmp[i].ИНН;
+    if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+      countLee += 1;
+      accountingLocalVars.countLee += 1;
+      var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      var taxNumber = accountingLocalVars.tmp[i].ИНН;
+      // var strTaxNumber = taxNumber.toString();
 
-        // if (accountingLocalVars.tmp[i].AgentID != 7) {
-        //   if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
-            tableRow = '<tbody><tr> \
-                                <td>' + count + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                                <td>' + taxNumber + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].item + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                                <td>' + dTStrOut + '</td> \
-                              </tr></tbody>';
-        //   }
-        // }
-        // if (accountingLocalVars.tmp[i].AgentID == 7) {
-        //   tableRow = '<tbody><tr> \
-        //                       <td>' + count + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-        //                       <td>' + taxNumber + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].item + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-        //                       <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-        //                       <td>' + dTStrOut + '</td> \
-        //                     </tr></tbody>';
-        // }
-
-        if (triggerLee == true) {
-           $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
-           $("#tableDataLee").append(tableHeaderRow);
-           triggerLee = false;
-        }
-        $("#tableDataLee").append(tableRow);
-      } else {
-      // accountingLocalVars.countChe += 1;
-
-        var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
-        var dt = new Date(dTStrSource);
-        var dTStrOut = formatDate(dt);
-        var taxNumber = accountingLocalVars.tmp[i].ИНН;
-
-        if (accountingLocalVars.tmp[i].AgentID != 7) {
-          if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
-            count += 1;
-            tableRow = '<tbody><tr> \
-                                <td>' + count + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-                                <td>' + taxNumber + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].item + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-                                <td>' + dTStrOut + '</td> \
-                              </tr></tbody>';
-          }
-        }
-        if (accountingLocalVars.tmp[i].AgentID == 7) {
-          count += 1;
+      if (accountingLocalVars.tmp[i].AgentID != 7) {
+        if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
           tableRow = '<tbody><tr> \
-                              <td>' + count + '</td> \
+                              <td>' + countLee + '</td> \
                               <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
                               <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
                               <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
@@ -380,66 +319,82 @@ this.createAccountantTables = function() {
                               <td>' + dTStrOut + '</td> \
                             </tr></tbody>';
         }
-
-        if (triggerChe == true) {
-           $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
-           $("#tableDataChe").append(tableHeaderRow);
-           triggerChe = false;
-        }
-        $("#tableDataChe").append(tableRow);
       }
+      if (accountingLocalVars.tmp[i].AgentID == 7) {
+        tableRow = '<tbody><tr> \
+                            <td>' + countLee + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                            <td>' + taxNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                            <td>' + dTStrOut + '</td> \
+                          </tr></tbody>';
+      }
+
+      if (triggerLee == true) {
+         $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
+         $("#tableDataLee").append(tableHeaderRow);
+         triggerLee = false;
+      }
+      $("#tableDataLee").append(tableRow);
     }
-    // if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
-    //   countChe += 1;
-    //   accountingLocalVars.countChe += 1;
-    //   var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
-    //   var dt = new Date(dTStrSource);
-    //   var dTStrOut = formatDate(dt);
-    //   var taxNumber = accountingLocalVars.tmp[i].ИНН;
-    //   // var strTaxNumber = taxNumber.toString();
-    //
-    //   if (accountingLocalVars.tmp[i].AgentID != 7) {
-    //     if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
-    //       tableRow = '<tbody><tr> \
-    //                           <td>' + countChe + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-    //                           <td>' + taxNumber + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].item + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-    //                           <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-    //                           <td>' + dTStrOut + '</td> \
-    //                         </tr></tbody>';
-    //     }
-    //   }
-    //   if (accountingLocalVars.tmp[i].AgentID == 7) {
-    //     tableRow = '<tbody><tr> \
-    //                         <td>' + countChe + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
-    //                         <td>' + taxNumber + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].item + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].Price + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].Total + '</td> \
-    //                         <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
-    //                         <td>' + dTStrOut + '</td> \
-    //                       </tr></tbody>';
-    //   }
-    //
-    //   if (triggerChe == true) {
-    //      $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
-    //      $("#tableDataChe").append(tableHeaderRow);
-    //      triggerChe = false;
-    //   }
-    //   $("#tableDataChe").append(tableRow);
-    // }
+    if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
+      countChe += 1;
+      accountingLocalVars.countChe += 1;
+      var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      var taxNumber = accountingLocalVars.tmp[i].ИНН;
+      // var strTaxNumber = taxNumber.toString();
+
+      if (accountingLocalVars.tmp[i].AgentID != 7) {
+        if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          tableRow = '<tbody><tr> \
+                              <td>' + countChe + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                              <td>' + taxNumber + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                              <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                              <td>' + dTStrOut + '</td> \
+                            </tr></tbody>';
+        }
+      }
+      if (accountingLocalVars.tmp[i].AgentID == 7) {
+        tableRow = '<tbody><tr> \
+                            <td>' + countChe + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                            <td>' + taxNumber + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                            <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                            <td>' + dTStrOut + '</td> \
+                          </tr></tbody>';
+      }
+
+      if (triggerChe == true) {
+         $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
+         $("#tableDataChe").append(tableHeaderRow);
+         triggerChe = false;
+      }
+      $("#tableDataChe").append(tableRow);
+    }
   }
   var saveTriggerLee = false;
   var saveTriggerChe = false;
@@ -521,10 +476,9 @@ this.renderAccountingOptions = function() {
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
-        <div class='panel-heading col-100'><span>" + accountingLocalVars.chooseAccountantSubjectLabel + "</span></div> \
+        <div class='panel-heading col-100'><span>" + accountingLocalVars.chooseAccountantSubject + "</span></div> \
         <div class='panel-body'> \
-          <div class='radioContainer'><input type='radio' id='checkChe' name='chooseAccSubject' value='1'><label for='ИП Че Владимир Енгунович' id='radioLabel'>ИП Че Владимир Енгунович</label></div> \
-          <div class='radioContainer'><input type='radio' id='checkLee' name='chooseAccSubject' value='2'><label for='ИП Ли Ген Сун' id='radioLabel'>ИП Ли Ген Сун</label></div> \
+        \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \

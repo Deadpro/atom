@@ -36,6 +36,16 @@
     if ((int)$area == 7) {
       $index = (int)$area - 2;
     }
+    // if (isset($_POST['accSubject']) === true && empty($_POST['accSubject']) === false) {
+      $accSubjectPost = trim($_POST['accSubject']);
+    // } else {
+    //   $accSubject = 1;
+    // }
+    if ($accSubjectPost == 2) {
+      $accSubject = "На Ли Ген Сун";
+    } else {
+      $accSubject = "";
+    }
     date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу
     $time = time(); // Вот это значение отправляем в базу
     $time += 11 * 3600; // Добавляем 11 часов к времени по Гринвичу
@@ -161,11 +171,11 @@
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
-      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.Контакты as type, salespartners.Юр_Наименование,
+      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.accSubject as type, salespartners.Юр_Наименование,
       номенклатура.Наименование as itemName, номенклатура.Артикул_1С as item FROM $areaArrayTmp
       INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
-      WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";
+      WHERE salespartners.accSubject LIKE '$accSubject' AND (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";
       if ($result = mysqli_query($dbconnect, $sql)){
         while($row = $result->fetch_object()){
           $tempArray = $row;
