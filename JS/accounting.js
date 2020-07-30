@@ -360,6 +360,7 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                               </tr></tbody>';
+            $("#tableDataChe").append(tableRow);
           }
         }
         if (accountingLocalVars.tmp[i].AgentID == 7) {
@@ -379,6 +380,7 @@ this.createAccountantTables = function() {
                               <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                               <td>' + dTStrOut + '</td> \
                             </tr></tbody>';
+          $("#tableDataChe").append(tableRow);
         }
 
         if (triggerChe == true) {
@@ -386,7 +388,6 @@ this.createAccountantTables = function() {
            $("#tableDataChe").append(tableHeaderRow);
            triggerChe = false;
         }
-        $("#tableDataChe").append(tableRow);
       }
     }
     // if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0) {
