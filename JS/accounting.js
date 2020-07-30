@@ -288,7 +288,7 @@ this.createAccountantTables = function() {
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].Quantity > 0) {
       if (accountingLocalVars.tmp[i].type === "На Ли Ген Сун") {
-        // accountingLocalVars.countLee += 1;
+        accountingLocalVars.countLee += 1;
         count += 1;
         var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
@@ -337,8 +337,6 @@ this.createAccountantTables = function() {
         }
         $("#tableDataLee").append(tableRow);
       } else {
-      // accountingLocalVars.countChe += 1;
-
         var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
         var dTStrOut = formatDate(dt);
@@ -347,6 +345,7 @@ this.createAccountantTables = function() {
         if (accountingLocalVars.tmp[i].AgentID != 7) {
           if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
             count += 1;
+            accountingLocalVars.countChe += 1;
             tableRow = '<tbody><tr> \
                                 <td>' + count + '</td> \
                                 <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
@@ -365,6 +364,7 @@ this.createAccountantTables = function() {
         }
         if (accountingLocalVars.tmp[i].AgentID == 7) {
           count += 1;
+          accountingLocalVars.countChe += 1;
           tableRow = '<tbody><tr> \
                               <td>' + count + '</td> \
                               <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
