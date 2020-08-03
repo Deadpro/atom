@@ -360,6 +360,11 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                               </tr></tbody>';
+            if (triggerChe == true) {
+               $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
+               $("#tableDataChe").append(tableHeaderRow);
+               triggerChe = false;
+            }
             $("#tableDataChe").append(tableRow);
           }
         }
@@ -380,13 +385,12 @@ this.createAccountantTables = function() {
                               <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                               <td>' + dTStrOut + '</td> \
                             </tr></tbody>';
+          if (triggerChe == true) {
+             $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
+             $("#tableDataChe").append(tableHeaderRow);
+             triggerChe = false;
+          }
           $("#tableDataChe").append(tableRow);
-        }
-
-        if (triggerChe == true) {
-           $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
-           $("#tableDataChe").append(tableHeaderRow);
-           triggerChe = false;
         }
       }
     }
