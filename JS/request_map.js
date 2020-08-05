@@ -432,7 +432,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
 };
 
 // alert(typeof json); // мы получили строку!
-//
+// 
 // alert(json);
 //
 // $(document).ready(function() {
