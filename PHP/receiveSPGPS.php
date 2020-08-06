@@ -5,7 +5,8 @@
   $areaInt = (int)$areaStr;
   if ($areaInt == 0) {
     if($_SERVER["REQUEST_METHOD"]=="POST") {
-      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты, CurrState, Latitude, Longitude
+      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
+      Контакты, CurrState, Latitude, Longitude
       FROM salespartners WHERE (Longitude NOT LIKE '' OR NOT Null)
       AND (Latitude NOT LIKE '' OR NOT Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {

@@ -1,5 +1,5 @@
 var request_mapLocalVars = {
-  "showMapTest" : "Показать Карту Тест",
+  "showMap" : "Показать Карту",
   "areaCurrentValue" : 0,
   "chooseAreaLable" : "Выберите район",
   "areaTrigger" : false,
@@ -95,7 +95,7 @@ this.renderMap = function() {
   $('div#connection-data').append(" \
     <div id='mapMenuContainer' class='mapMenuContainer'> \
       <div class='panel panel-custom border'> \
-        <div class='panel-heading col-100'><span>" + request_mapLocalVars.showMapTest + "</span></div> \
+        <div class='panel-heading col-100'><span>" + request_mapLocalVars.showMap + "</span></div> \
         <div class='panel-body'> \
           <div class='panel panel-custom border'> \
             <div class='panel-heading col-100'><span>" + request_mapLocalVars.chooseAreaLable + "</span></div> \
@@ -432,7 +432,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
 };
 
 // alert(typeof json); // мы получили строку!
-// 
+//
 // alert(json);
 //
 // $(document).ready(function() {
