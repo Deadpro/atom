@@ -35,7 +35,7 @@
         <li><input type="submit" id="analytics" value="АНАЛИТИКА"></li>
         <li><input type="submit" id="printReport" value="ПЕЧАТЬ"></li>
         <li><input type="submit" id="adminSettings" value="НАСТРОЙКИ"></li>
-        <li><input type="submit" id="mapCaimam" value="КАРТА"></li>
+        <li><input type="submit" id="mapCaiman" value="КАРТА"></li>
       </ul>
     </div>
   </div>
