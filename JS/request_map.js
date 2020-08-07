@@ -1,5 +1,5 @@
 var request_mapLocalVars = {
-  "showMap" : "Показать Карту",
+  "showMap" : "Карта сети Кайман",
   "areaCurrentValue" : 0,
   "chooseAreaLable" : "Выберите район",
   "areaTrigger" : false,
@@ -22,6 +22,7 @@ var request_mapLocalVars = {
   "objGetLatitude" : new Object(),
   "objGetLongitude" : new Object(),
   "updateSPCoordsLabel" : "Включить режим правки координат",
+  "loadTypeSPPlacementLabel" : "Выберите вариант загрузки",
   "checkCoordsUpdateTrigger" : false,
   "checkAddressUpdateTrigger" : false,
   "onObjectEventTrigger" : false,
@@ -36,7 +37,7 @@ var dataObject;
 // ymaps.ready(init);
 // window.onload=getExif;
 
-$('#mapTest').on('click', function() {
+$('#mapCaiman').on('click', function() {
   renderMap();
 });
 // $('#jpgmetadata').on('click', function() {
@@ -114,6 +115,13 @@ this.renderMap = function() {
             <div class='panel-body'> \
               <div class='radioContainer'><input type='radio' id='checkCoordsUpdate' name='checkUpdate'><label for='По координатам' id='radioLabel'>По координатам</label></div> \
               <div class='radioContainer'><input type='radio' id='checkAddressUpdate' name='checkUpdate'><label for='По адресу' id='radioLabel'>По адресу</label></div> \
+            </div> \
+          </div> \
+          <div class='panel panel-custom border'> \
+            <div class='panel-heading col-100'><span>" + request_mapLocalVars.loadTypeSPPlacementLabel + "</span></div> \
+            <div class='panel-body'> \
+              <div class='radioContainer'><input type='radio' id='checkByCoordsLoad' name='checkLoadType'><label for='Местоположение по координатам' id='radioLabel'>Местоположение по координатам</label></div> \
+              <div class='radioContainer'><input type='radio' id='checkByAddressLoad' name='checkLoadType'><label for='Местоположение по адресу' id='radioLabel'>Местоположение по адресу</label></div> \
             </div> \
           </div> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
