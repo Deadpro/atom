@@ -3,6 +3,7 @@
   include("dbconnect.php");
   $areaStr = trim($_POST['area']);
   $areaInt = (int)$areaStr;
+  $loadType = trim($_POST['loadType']);
   if ($areaInt == 0) {
     if($_SERVER["REQUEST_METHOD"]=="POST") {
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
