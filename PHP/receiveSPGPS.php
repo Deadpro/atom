@@ -7,7 +7,7 @@
   if ($areaInt == 0) {
     if($_SERVER["REQUEST_METHOD"]=="POST") {
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
-      Контакты, CurrState, Latitude, Longitude
+      Контакты, CurrState, Latitude, Longitude, addressLoadByPass
       FROM salespartners WHERE (Longitude NOT LIKE '' OR NOT Null)
       AND (Latitude NOT LIKE '' OR NOT Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {
@@ -29,7 +29,8 @@
 
   if (trim($_POST['area']) == 6) {
     if($_SERVER["REQUEST_METHOD"]=="POST") {
-      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты, CurrState, Latitude, Longitude
+      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты,
+      CurrState, Latitude, Longitude, addressLoadByPass
       FROM salespartners WHERE Район=0 AND (Longitude NOT LIKE '' OR Longitude NOT LIKE Null)
       AND (Latitude NOT LIKE '' OR Latitude NOT LIKE Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {
@@ -57,7 +58,8 @@
     // $password = (trim($_POST['password']));
     if (isset($_POST['area']) === true && empty($_POST['area']) === false && trim($_POST['area']) > 0 && trim($_POST['area']) < 6) {
       $area = trim($_POST['area']);
-      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес, Контакты, CurrState, Latitude, Longitude
+      $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
+      Контакты, CurrState, Latitude, Longitude, addressLoadByPass
       FROM salespartners WHERE Район LIKE '$area' AND
       (Longitude NOT LIKE '' OR NOT Null) AND (Latitude NOT LIKE '' OR NOT Null)";
       if ($result = mysqli_query($dbconnect, $sql)) {
