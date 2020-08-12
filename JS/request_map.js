@@ -31,16 +31,14 @@ var request_mapLocalVars = {
   "checkAddressUpdateTrigger" : false,
   "onObjectEventTrigger" : false,
   "onClusterEventTrigger" : false,
-  "dataJson" : new Object()
+  "dataJson" : new Object(),
+  "dataObject" : new Object(),
+  "myMap" : "",
+  "addressTrigger" : false,
+  "firstRunTrigger" : false
 };
-
-var dataObject;
-var myMap;
-var addressTrigger;
-var firstRunTrigger;
 // Как только будет загружен API и готов DOM, выполняем инициализацию
-ymaps.ready(init);
-
+// ymaps.ready(init);
 $('#mapCaiman').on('click', function() {
   renderMap();
   // $('div#map').hide();
@@ -54,7 +52,7 @@ this.chooseArea = function(myRadio) {
   //   }
   // }
   request_mapLocalVars.areaCurrentValue = myRadio.value;
-  addressTrigger = false;
+  // request_mapLocalVars.addressTrigger = false;
   $.post('../php/receiveSPGPS.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'),
                                           loadType: request_mapLocalVars.checkedLoadTypeValue,
@@ -62,7 +60,11 @@ this.chooseArea = function(myRadio) {
     request_mapLocalVars.salesPartnersList = JSON.parse(data);
     createPoints();
   })
-  firstRunTrigger = false;
+  // request_mapLocalVars.firstRunTrigger = false;
+  if (request_mapLocalVars.firstRunTrigger == false) {
+    init();
+    request_mapLocalVars.firstRunTrigger = true;
+  }
 }
 
 this.renderMap = function() {
@@ -109,7 +111,7 @@ this.renderMap = function() {
 
 this.chooseLoadType = function(myRadio) {
   // var firstChooseLoadType;
-  // if (firstRunTrigger == true) {
+  // if (request_mapLocalVars.firstRunTrigger == true) {
     createPoints();
   // }
 }
@@ -123,14 +125,14 @@ function scrollTop() {
 // Открытие и уничтожение карты при нажатии на кнопку.
 function init() {
   // setTimeout(() => scrollTop(), 6000);
-  firstRunTrigger = false;
+  // request_mapLocalVars.firstRunTrigger = false;
   $('#toggle').bind({
       click: function () {
-          if (!myMap) {
-              // if (firstRunTrigger == false) {
+          if (!request_mapLocalVars.myMap) {
+              // if (request_mapLocalVars.firstRunTrigger == false) {
                 $('div#connection-data').append("<div class='sleepHoverParent'><div class='sleepHoverContent'><p>ИДЕТ ЗАГРУЗКА ДАННЫХ</p></div></div>");
                 setTimeout(() => $('div.sleepHoverParent').remove(), 6000);
-                firstRunTrigger = true;
+                request_mapLocalVars.firstRunTrigger = true;
                 setTimeout(() => onClickNoMyMapInit(), 6000);
               // } else {
               //   onClickNoMyMapInit();
@@ -140,8 +142,8 @@ function init() {
               // for (var smth in request_mapLocalVars.dataJson) delete request_mapLocalVars.dataJson[smth];
               // $('div#mapHolder').html("");
               $('div#map').remove();
-              myMap.destroy();// Деструктор карты
-              myMap = null;
+              request_mapLocalVars.myMap.destroy();// Деструктор карты
+              request_mapLocalVars.myMap = null;
               $("#toggle").attr('value', 'Показать карту снова');
           }
       }
@@ -151,7 +153,7 @@ function init() {
 function createPoints() {
   if (Object.keys(request_mapLocalVars.salesPartnersList).length > 0){
     // alert(request_mapLocalVars.salesPartnersList[0].Наименование);
-    // dataObject = JSON.parse(dataJson);
+    // request_mapLocalVars.dataObject = JSON.parse(dataJson);
     // request_mapLocalVars.dataJson = new Object();
     request_mapLocalVars.dataJson = {"type": 'FeatureCollection', "features": []};
     for (var i = 0; i < Object.keys(request_mapLocalVars.salesPartnersList).length; i++) {
@@ -193,7 +195,7 @@ function createPoints() {
           //   // alert(2 + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование);
           // }
         // }
-        // addressTrigger = true;
+        // request_mapLocalVars.addressTrigger = true;
       }
       if (document.getElementById(request_mapLocalVars.checkLoadTypeRadio[1]).checked == false) {
         request_mapLocalVars.dataJson.features.push({type: "Feature", id: i, geometry: {type: "Point", coordinates:
@@ -218,7 +220,7 @@ function createPoints() {
       request_mapLocalVars.objGetLatitude[i] = request_mapLocalVars.salesPartnersList[i].Latitude;
       request_mapLocalVars.objGetLongitude[i] = request_mapLocalVars.salesPartnersList[i].Longitude;
     }
-    // dataObject = JSON.stringify(request_mapLocalVars.dataJson);
+    // request_mapLocalVars.dataObject = JSON.stringify(request_mapLocalVars.dataJson);
     // var x = JSON.stringify(request_mapLocalVars.salesPartnersList);
     // alert(x);
   } else {
@@ -229,7 +231,7 @@ function createPoints() {
 function onClickNoMyMapInit() {
   $('div#mapHolder').append("<div id='map'></div>");
   $("#toggle").attr('value', 'Перезагрузить карту');
-  myMap = new ymaps.Map('map', {
+  request_mapLocalVars.myMap = new ymaps.Map('map', {
       center: [46.9541, 142.736], // Южно-Сахалинск
       zoom: 6,
       // controls: []
@@ -243,7 +245,7 @@ function onClickNoMyMapInit() {
       clusterOpenBalloonOnClick: true
   });
 
-  // if (document.getElementById(request_mapLocalVars.checkLoadTypeRadio[1]).checked == true && addressTrigger == false) {
+  // if (document.getElementById(request_mapLocalVars.checkLoadTypeRadio[1]).checked == true && request_mapLocalVars.addressTrigger == false) {
   //   // request_mapLocalVars.dataJson = {"type": 'FeatureCollection', "features": []};
   //   for (var i = 0; i < Object.keys(request_mapLocalVars.salesPartnersList).length; i++) {
   //     // if (request_mapLocalVars.salesPartnersList[i].Адрес != "") {
@@ -266,14 +268,14 @@ function onClickNoMyMapInit() {
   //     //   // // alert(2 + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование);
   //     // }
   //   }
-  //   addressTrigger = true;
+  //   request_mapLocalVars.addressTrigger = true;
   // }
-  dataObject = JSON.stringify(request_mapLocalVars.dataJson);
-  // alert(dataObject);
+  request_mapLocalVars.dataObject = JSON.stringify(request_mapLocalVars.dataJson);
+  // alert(request_mapLocalVars.dataObject);
 
   // function lateStart()
-  myMap.geoObjects.add(objectManager);
-  objectManager.add(dataObject);
+  request_mapLocalVars.myMap.geoObjects.add(objectManager);
+  objectManager.add(request_mapLocalVars.dataObject);
 
   myCollection = new ymaps.GeoObjectCollection();
   // Создаем экземпляр класса ymaps.control.SearchControl
@@ -288,11 +290,11 @@ function onClickNoMyMapInit() {
     }});
 
   // Добавляем контрол в верхний правый угол,
-  myMap.controls
+  request_mapLocalVars.myMap.controls
       .add(mySearchControl, { float: 'right' });
 
   // Слушаем клик на карте.
-  myMap.events.add('click', function (e) {
+  request_mapLocalVars.myMap.events.add('click', function (e) {
       request_mapLocalVars.onClusterEventTrigger = false;
       var coords = e.get('coords');
       var position;
@@ -319,7 +321,7 @@ function onClickNoMyMapInit() {
       // Если нет – создаем.
       else {
           request_mapLocalVars.myPlacemark = createPlacemark(coords);
-          myMap.geoObjects.add(request_mapLocalVars.myPlacemark);
+          request_mapLocalVars.myMap.geoObjects.add(request_mapLocalVars.myPlacemark);
           // Слушаем событие окончания перетаскивания на метке.
           request_mapLocalVars.myPlacemark.events.add('dragend', function () {
               getAddress(request_mapLocalVars.myPlacemark.geometry.getCoordinates());
@@ -610,7 +612,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
 // }
 
 // function init () {
-//     var myMap = new ymaps.Map('map', {
+//     var request_mapLocalVars.myMap = new ymaps.Map('map', {
 //             center: [55.76, 37.64],
 //             zoom: 10
 //         }, {
@@ -623,7 +625,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
 //             clusterOpenBalloonOnClick: false
 //         });
 //
-//     myMap.geoObjects.add(objectManager);
+//     request_mapLocalVars.myMap.geoObjects.add(objectManager);
 //
 //     $.ajax({
 //         url: "data.json"
