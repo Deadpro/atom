@@ -173,14 +173,14 @@ function init() {
   $('#toggle').bind({
       click: function () {
           if (!myMap) {
-              if (firstRunTrigger == false) {
+              // if (firstRunTrigger == false) {
                 $('div#connection-data').append("<div class='sleepHoverParent'><div class='sleepHoverContent'><p>ИДЕТ ЗАГРУЗКА ДАННЫХ</p></div></div>");
                 setTimeout(() => $('div.sleepHoverParent').remove(), 6000);
                 firstRunTrigger = true;
                 setTimeout(() => onClickNoMyMapInit(), 6000);
-              } else {
-                onClickNoMyMapInit();
-              }
+              // } else {
+              //   onClickNoMyMapInit();
+              // }
           }
           else {
               // for (var smth in request_mapLocalVars.dataJson) delete request_mapLocalVars.dataJson[smth];
@@ -523,7 +523,7 @@ function getAddress(coords) {
 }
 // Определяем координаты по адресу
 function getCoords(address, i) {
-  if (address != "") {
+  if (address != "" && request_mapLocalVars.salesPartnersList[i].addressLoadByPass != 1) {
     // request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
     ymaps.geocode(address).then(function (res) {
         var firstGeoObject = res.geoObjects.get(0);
@@ -547,7 +547,7 @@ function getCoords(address, i) {
         options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
         // alert(coords + " " + request_mapLocalVars.objectByAddressLatitude + " " + request_mapLocalVars.objectByAddressLongitude + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование);
     });
-  } else {
+  } if (address == "" || request_mapLocalVars.salesPartnersList[i].addressLoadByPass == 1) {
     request_mapLocalVars.dataJson.features.push({type: "Feature", id: i, geometry: {type: "Point", coordinates:
     [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude]},
     properties: {balloonContent: "Название: " + request_mapLocalVars.salesPartnersList[i].Наименование + "<br/>Адрес: " +

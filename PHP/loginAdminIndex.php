@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../CSS/adminMenu.css">
   <link rel="stylesheet" href="../CSS/accounting.css">
   <link rel="stylesheet" href="../CSS/map.css">
+  <link rel="stylesheet" href="../CSS/settings.css">
   <script type="text/javascript" src="../sheetjs/dist/xlsx.full.min.js"></script>
   <script type="text/javascript" src="../filesaver/dist/FileSaver.min.js"></script>
   <script type="text/javascript" src="../js/globalVariables.js"></script>

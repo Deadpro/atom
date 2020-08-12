@@ -76,9 +76,6 @@
 .reportSubject {
   font: normal 12px Arial;
 }
-#connection-submit,
-#connection-save,
-#connection-load,
 #report-ceo,
 #report-ceo-netcost,
 #report-sales-manager,
@@ -91,21 +88,9 @@
   z-index: 2000;
   /* background-color: yellow; */
 }
-#dbName, #dbUser, #dbPassword, #login, #password, #dateStart, #dateEnd {
+#dateStart, #dateEnd {
   width: 100%;
   /* background-color: green; */
-}
-.loginContainer {
-  top: 30vh;
-  position: relative;
-  max-width: 700px;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  padding: 10px;
-  /* background-color: red; */
-  /* border: 1px solid red; */
-  z-index: 1001;
 }
 .reportContainer {
   top: 10vh;
