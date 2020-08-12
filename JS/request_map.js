@@ -33,23 +33,19 @@ var request_mapLocalVars = {
   "onClusterEventTrigger" : false,
   "dataJson" : new Object()
 };
-// dataJson.features.push({type: "Feature"}); alert(dataJson.features[0].type)
-// dataJson = JSON.stringify(dataJson);
-// {type: 'Feature', id: 0, geometry: {type: 'Point', coordinates: [55.831903, 37.411961]}, properties: {balloonContent: 'Содержимое', clusterCaption: 'Метка', hintContent: 'Текст подсказки'}}
+
 var dataObject;
 var myMap;
 var addressTrigger;
 var firstRunTrigger;
 // Как только будет загружен API и готов DOM, выполняем инициализацию
 ymaps.ready(init);
-// window.onload=getExif;
+
 $('#mapCaiman').on('click', function() {
   renderMap();
   // $('div#map').hide();
 });
-// $('#jpgmetadata').on('click', function() {
-//   getExif();
-// });
+
 this.chooseArea = function(myRadio) {
   // for (var i = 0; i < 2; i++) {
   //   if (document.getElementById(request_mapLocalVars.checkLoadTypeRadio[i]).checked == true) {
@@ -118,63 +114,15 @@ this.chooseLoadType = function(myRadio) {
   // }
 }
 
-// function prepare() {
-//   $('div#mapHolder').append("<div id='map'></div>");
-//   myMap = new ymaps.Map('map', {
-//       center: [46.9541, 142.736], // Южно-Сахалинск
-//       zoom: 6,
-//       // controls: []
-//   }, {
-//       searchControlProvider: 'yandex#search'
-//   }),
-//   objectManager = new ymaps.ObjectManager({
-//       // Чтобы метки начали кластеризоваться, выставляем опцию.
-//       clusterize: true,
-//       geoObjectOpenBalloonOnClick: true,
-//       clusterOpenBalloonOnClick: true
-//   });
-// }
-// Инициализация карты
-// function preInit () {
-//   if (document.getElementById(request_mapLocalVars.checkLoadTypeRadio[1]).checked == true && addressTrigger == false) {
-//     // request_mapLocalVars.dataJson = {"type": 'FeatureCollection', "features": []};
-//     for (var i = 0; i < Object.keys(request_mapLocalVars.salesPartnersList).length; i++) {
-//       if (request_mapLocalVars.salesPartnersList[i].Адрес != "") {
-//         getCoords(request_mapLocalVars.salesPartnersList[i].Адрес, i);
-//         // alert(1 + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование + " " + request_mapLocalVars.salesPartnersList[i].Адрес + " " + request_mapLocalVars.objectByAddressLatitude + " " + request_mapLocalVars.objectByAddressLongitude);
-//       } else {
-//         // request_mapLocalVars.dataJson.features.push({type: "Feature", id: i, geometry: {type: "Point", coordinates:
-//         // [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude]},
-//         // properties: {balloonContent: "Название: " + request_mapLocalVars.salesPartnersList[i].Наименование + "<br/>Адрес: " +
-//         //   request_mapLocalVars.salesPartnersList[i].Адрес + "<br/>Учет: " +
-//         // request_mapLocalVars.salesPartnersList[i].Учет + "<br/>Контакты: " + request_mapLocalVars.salesPartnersList[i].Контакты
-//         // + "<br/>Юридическое Наименование: " + request_mapLocalVars.salesPartnersList[i].Юр_Наименование
-//         // + "<br/>Маршрут: " + request_mapLocalVars.salesPartnersList[i].DayOfTheWeek
-//         // + "<br/>Динамика за месяц: " + "<br/>Динамика за все время: " + "<br/>Средний чек: " + "<br/>Поледний чек: "
-//         // + "<br/>Последнее посещение: ",
-//         // clusterCaption: request_mapLocalVars.salesPartnersList[i].Наименование,
-//         // hintContent: request_mapLocalVars.salesPartnersList[i].Наименование, iconCaption: request_mapLocalVars.salesPartnersList[i].Наименование},
-//         // options: {iconColor: request_mapLocalVars.areaColor[parseInt(request_mapLocalVars.salesPartnersList[i].Район) - 1]}});
-//         // request_mapLocalVars.myPoints.push({ coords: [request_mapLocalVars.salesPartnersList[i].Latitude, request_mapLocalVars.salesPartnersList[i].Longitude], text: request_mapLocalVars.salesPartnersList[i].Наименование });
-//         // // alert(2 + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование);
-//       }
-//     }
-//     addressTrigger = true;
-//   }
-//   // $('div#map').remove();
-//   // myMap.destroy();// Деструктор карты
-//   // myMap = null;
-//
-// }
-
 function scrollTop() {
-  var objDiv = document.getElementById("connection-data");
-  objDiv.scrollTop = objDiv.scrollHeight;
+  document.getElementById("connection-data").scrollTop = 9999;
+  // alert(222);
+  // var objDiv = document.getElementById("connection-data");
+  // objDiv.scrollTop = objDiv.scrollHeight;
 }
-
 // Открытие и уничтожение карты при нажатии на кнопку.
 function init() {
-  setTimeout(() => scrollTop(), 2000);
+  // setTimeout(() => scrollTop(), 6000);
   firstRunTrigger = false;
   $('#toggle').bind({
       click: function () {
@@ -631,6 +579,12 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     return deferred.promise();
 };
 
+// window.onload=getExif;
+
+// $('#jpgmetadata').on('click', function() {
+//   getExif();
+// });
+
 // $(document).ready(function() {
 //     $("a.ydisk-onclick").attr('target', '_blank').ydisk(); // с параметрами по умолчанию
 // });
@@ -654,7 +608,7 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
 //         allMetaDataSpan.innerHTML = JSON.stringify(allMetaData, null, "\t") + " " + `${latitude}` + " " + `${longitude}` ;
 //     });
 // }
-//
+
 // function init () {
 //     var myMap = new ymaps.Map('map', {
 //             center: [55.76, 37.64],
