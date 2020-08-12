@@ -167,8 +167,14 @@ this.chooseLoadType = function(myRadio) {
 //
 // }
 
+function scrollTop() {
+  var objDiv = document.getElementById("connection-data");
+  objDiv.scrollTop = objDiv.scrollHeight;
+}
+
 // Открытие и уничтожение карты при нажатии на кнопку.
 function init() {
+  setTimeout(() => scrollTop(), 2000);
   firstRunTrigger = false;
   $('#toggle').bind({
       click: function () {
