@@ -56,6 +56,7 @@
   <script type="text/javascript" src="../js/createexcel.js"></script>
   <script type="text/javascript" src="../js/globalVariables.js"></script>
   <script src="../js/request_map.js" type="text/javascript"></script>
+  <script src="../js/changeDataBaseTables.js" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
   <!-- Yandex Disk REST API jQuery Plugin -->
   <script type="text/javascript" src="../js/jquery.ydisk.js"></script>

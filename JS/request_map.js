@@ -102,6 +102,7 @@ this.renderMap = function() {
           </div> \
           <div class='col-50'><input type='button' id='toggle' value='Карта'></div> \
           <div id='mapHolder'></div> \
+          <div><a href='#navigateHere'></a></div> \
         </div> \
       </div> \
     </div> \
@@ -117,10 +118,22 @@ this.chooseLoadType = function(myRadio) {
 }
 
 function scrollTop() {
-  document.getElementById("connection-data").scrollTop = 9999;
+  // document.getElementById("connection-data").scrollTop = 9999;
   // alert(222);
   // var objDiv = document.getElementById("connection-data");
   // objDiv.scrollTop = objDiv.scrollHeight;
+  // document.getElementById("toggle").onclick = function () {
+  //   alert(333);
+  // };
+  // window.location.href = "#navigateHere";
+  // var top = document.getElementById("connection-data").offsetTop; //Getting Y of target element
+  // alert(top);
+  // window.scrollTo(10000);
+  var element = document.getElementById("map");
+  element.scrollIntoView();
+  element.scrollIntoView(false);
+  element.scrollIntoView({block: "end"});
+  element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 }
 // Открытие и уничтожение карты при нажатии на кнопку.
 function init() {
@@ -134,6 +147,7 @@ function init() {
                 setTimeout(() => $('div.sleepHoverParent').remove(), 6000);
                 request_mapLocalVars.firstRunTrigger = true;
                 setTimeout(() => onClickNoMyMapInit(), 6000);
+                setTimeout(() => scrollTop(), 6000);
               // } else {
               //   onClickNoMyMapInit();
               // }
