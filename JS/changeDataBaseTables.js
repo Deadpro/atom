@@ -7,7 +7,10 @@ var changeDBTablesLocalVars = {
   "chooseReceiveTableToChangeLabel" : "Выберите район загрузки",
   "chooseItemsTableToChangeLabel" : "Выберите вариант изменения номенклатуры",
   "chooseItemsBasicTableToChangeLabel" : "Изменить общую номенклатуру",
-  "chooseItemsDiscountTableToChangeLabel" : "Изменить индивидуальные скидки"
+  "chooseItemsDiscountTableToChangeLabel" : "Изменить индивидуальные скидки",
+  "areaCurrentValue" : "",
+  "salesPartnersList" : new Object(),
+  "chooseSalesPartnerLable" : "Выберите контрагента из списка"
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -54,7 +57,19 @@ function chooseSubMenuChangeDBTables(radio) {
           <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaZero' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaZero'><label for='Вне сети' id='radioLabel'>Вне сети</label></div> \
         </div> \
       </div> \
+      <div class='panel panel-custom border'> \
+        <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesPartnerLable + "</span></div> \
+        <div class='panel-body'> \
+          <div class='areaList'> \
+          <label for='sp-list'>Контрагенты:</label> \
+          <input list='list-of-sps' id='sp-list' name='sp-list' /> \
+          <datalist id='list-of-sps'> \
+          </datalist> \
+          </div> \
+        </div> \
+      </div> \
     </div> \
+    <script src='../js/changeDataBaseTables.js' type='text/javascript' ></script> \
     ");
   }
   if (radio.value == "Items"){
@@ -102,9 +117,41 @@ function chooseSubMenuChangeDBTables(radio) {
     ");
   }
 }
-
+// <select name='salesPartnersList' id='optionGroup' size='5'>
+// </select>
 function chooseAreaToChangeSP(radio) {
+  changeDBTablesLocalVars.areaCurrentValue = radio.value;
+  $.post('../php/receiveDataToChange.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'),
+                                          loadType: "areaToChange",
+                                          area: changeDBTablesLocalVars.areaCurrentValue}, function(data) {
+    changeDBTablesLocalVars.salesPartnersList = JSON.parse(data);
+    populateOptionList();
+  })
+}
 
+this.getSalesPartnerID = function(){
+  var x = document.getElementById("optionGroup").selectedIndex;
+  $('#optionGroup option').each(function() {
+    if (this.selected) {
+      reportsLocalVars.optionValue = document.getElementsByTagName("option")[x].value;
+    }
+  });
+  alert(reportsLocalVars.optionValue);
+  return reportsLocalVars.optionValue;
+}
+
+function populateOptionList() {
+  var areaListFinal = "";
+  alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
+  for (var i = 0; i < Object.keys(changeDBTablesLocalVars.salesPartnersList).length; i++) {
+    areaListLine = '<option value=' + changeDBTablesLocalVars.salesPartnersList[i].ID + '> \
+                       ' + changeDBTablesLocalVars.salesPartnersList[i].Наименование + ' \
+                       </option>';
+    // $("#list-of-sps").append(areaListLine);
+    areaListFinal = areaListFinal + areaListLine;
+  }
+  $("#list-of-sps").append(areaListFinal);
 }
 
 function chooseItemMenuOptionToChange(radio) {
@@ -116,5 +163,5 @@ function chooseAreaToChangeSales(radio) {
 }
 
 function chooseAreaToChangeReceives(radio) {
-  
+
 }
