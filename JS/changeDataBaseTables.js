@@ -79,13 +79,14 @@ function chooseSubMenuChangeDBTables(radio) {
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesPartnerLable + "</span></div> \
         <div class='panel-body'> \
           <div class='areaList'> \
-          <label for='sp-list'>Контрагенты:</label> \
-          <input class='col-100' list='list-of-sps' id='sp-list' name='sp-list'/> \
-          <datalist id='list-of-sps'> \
-          </datalist> \
-          <div class='col-40'><input type='submit' id='showSPInfo' value='подробно'></div> \
+            <label for='sp-list'>Контрагенты:</label> \
+            <input class='col-100' list='list-of-sps' id='sp-list' name='sp-list'/> \
+            <datalist id='list-of-sps'> \
+            </datalist> \
+            <div class='col-40'><input type='submit' id='showSPInfo' value='подробно'></div> \
           </div> \
         </div> \
+        <div id='moreInfoParent'></div> \
       </div> \
     </div> \
     <script src='../js/changeDataBaseTables.js' type='text/javascript' ></script> \
@@ -162,17 +163,29 @@ function chooseAreaToChangeSP(radio) {
 // }
 
 function populateOptionList() {
-  var areaListFinal = "";
-  var tmp;
+  var tmpName;
+  var tmpID;
   alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
   for (var i = 0; i < Object.keys(changeDBTablesLocalVars.salesPartnersList).length; i++) {
-    tmp = changeDBTablesLocalVars.salesPartnersList[i].Наименование.toString();
-    areaListLine = "<option id='" + changeDBTablesLocalVars.salesPartnersList[i].ID + "' value='" + changeDBTablesLocalVars.salesPartnersList[i].Наименование + "' \
-                    text='" + tmp + "'></option>";
+    tmpName = changeDBTablesLocalVars.salesPartnersList[i].Наименование.toString();
+    tmpID = changeDBTablesLocalVars.salesPartnersList[i].ID;
+    areaListLine = "<option id='" + tmpID + "' value='" + tmpName + "' \
+                    text='" + tmpName + "'></option>";
     $("#list-of-sps").append(areaListLine);
-    // areaListFinal = areaListFinal + areaListLine;
+    changeDBTablesLocalVars.spGetName[tmpID] = tmpName;
+    changeDBTablesLocalVars.spGetLegalName[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Юр_Наименование;
+    changeDBTablesLocalVars.spGetArea[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Район;
+    changeDBTablesLocalVars.spGetDayOfTheWeek[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].DayOfTheWeek;
+    changeDBTablesLocalVars.spGetTaxNumber[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].ИНН;
+    changeDBTablesLocalVars.spGetAccType[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Учет;
+    changeDBTablesLocalVars.spGetAddress[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Адрес;
+    changeDBTablesLocalVars.spGetContacts[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Контакты;
+    changeDBTablesLocalVars.spGetCurrState[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].CurrState;
+    changeDBTablesLocalVars.spGetLattitude[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Latitude;
+    changeDBTablesLocalVars.spGetLongitude[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Longitude;
+    changeDBTablesLocalVars.spGetByPass[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].addressLoadByPass;
+    changeDBTablesLocalVars.spGetAccSubject[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].accSubject;
   }
-  // $("#list-of-sps").append(areaListFinal);
 }
 
 function getSelectedSPID(){
@@ -189,22 +202,17 @@ function getSelectedSPID(){
 }
 
 this.showSPInfoToChange = function() {
-  // alert(changeDBTablesLocalVars.selectedSPID);
-  // "spGetName" : new Object(),
-  // "spGetLegalName" : new Object(),
-  // "spGetArea" : new Object(),
-  // "spGetDayOfTheWeek" : new Object(),
-  // "spGetTaxNumber" : new Object(),
-  // "spGetAccType" : new Object(),
-  // "spGetAddress" : new Object(),
-  // "spGetContacts" : new Object(),
-  // "spGetCurrState" : new Object(),
-  // "spGetLattitude" : new Object(),
-  // "spGetLongitude" : new Object(),
-  // "spGetByPass" : new Object(),
-  // "spGetAccSubject" : new Object()
-  
-};
+  $('div#moreInfoParent').append("<div id='moreInfoChild'> \
+    <div class='panel panel-custom border'> \
+      <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesPartnerLable + "</span></div> \
+      <div class='panel-body'> \
+        <label for='sp'>Тест:</label> \
+        <input class='col-100' id='sp' name='sp' type='text'/> \
+      </div> \
+    </div> \
+  </div> \
+  ");
+}
 
 function chooseItemMenuOptionToChange(radio) {
 

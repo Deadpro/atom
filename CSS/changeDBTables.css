@@ -22,7 +22,7 @@
 #sp-list #list-of-sps{
   width: 200px;
 }
-#subMenuPopUpHolder #subMenu {
+#subMenuPopUpHolder #subMenu #moreInfoParent #moreInfoChild {
   top: 7vh;
   position: relative;
   max-width: 650px;
