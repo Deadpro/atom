@@ -7,8 +7,8 @@
   if($_SERVER["REQUEST_METHOD"]=="POST") {
     if ($loadType == "areaToChange") {
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
-      Контакты, CurrState, Latitude, Longitude, addressLoadByPass
-      FROM salespartners WHERE Район LIKE '$areaInt' ";
+      Контакты, CurrState, Latitude, Longitude, addressLoadByPass, accSubject
+      FROM salespartners WHERE Район LIKE '$areaInt' AND CurrState=1 ";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();

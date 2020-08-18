@@ -12,12 +12,16 @@
 .changeDBTablesMenuContainer .panel {
    background-color: rgb(246, 248, 245);
 }
-
+.areaList {
+  /* border: 2px solid green; */
+}
 #subMenuPopUpHolder{
   top: 10vh;
   margin-bottom: 40px;
 }
-
+#sp-list #list-of-sps{
+  width: 200px;
+}
 #subMenuPopUpHolder #subMenu {
   top: 7vh;
   position: relative;

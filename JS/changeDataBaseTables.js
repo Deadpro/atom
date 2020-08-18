@@ -10,12 +10,29 @@ var changeDBTablesLocalVars = {
   "chooseItemsDiscountTableToChangeLabel" : "Изменить индивидуальные скидки",
   "areaCurrentValue" : "",
   "salesPartnersList" : new Object(),
-  "chooseSalesPartnerLable" : "Выберите контрагента из списка"
+  "chooseSalesPartnerLable" : "Выберите контрагента из списка",
+  "selectedSPID" : "",
+  "spGetName" : new Object(),
+  "spGetLegalName" : new Object(),
+  "spGetArea" : new Object(),
+  "spGetDayOfTheWeek" : new Object(),
+  "spGetTaxNumber" : new Object(),
+  "spGetAccType" : new Object(),
+  "spGetAddress" : new Object(),
+  "spGetContacts" : new Object(),
+  "spGetCurrState" : new Object(),
+  "spGetLattitude" : new Object(),
+  "spGetLongitude" : new Object(),
+  "spGetByPass" : new Object(),
+  "spGetAccSubject" : new Object()
 };
 
 $('#changeDataBaseTables').on('click', function() {
   renderOptions();
+});
 
+$('#showSPInfo').on('click', function() {
+  getSelectedSPID();
 });
 
 function renderOptions() {
@@ -49,12 +66,13 @@ function chooseSubMenuChangeDBTables(radio) {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSPTableToChangeLabel + "</span></div> \
         <div class='panel-body'> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaOne' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaOne'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaTwo' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaTwo'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaThree' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaThree'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaFour' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaFour'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaFive' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaFive'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
-          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaZero' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='areaZero'><label for='Вне сети' id='radioLabel'>Вне сети</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaOne' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaTwo' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='2'><label for='Район 2' id='radioLabel'>Район 2</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaThree' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='3'><label for='Район 3' id='radioLabel'>Район 3</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaFour' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='4'><label for='Район 4' id='radioLabel'>Район 4</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaFive' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='5'><label for='Район 5' id='radioLabel'>Район 5</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaSeven' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='7'><label for='Район 7' id='radioLabel'>Район 7</label></div> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaZero' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='0'><label for='Вне сети' id='radioLabel'>Вне сети</label></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
@@ -62,9 +80,10 @@ function chooseSubMenuChangeDBTables(radio) {
         <div class='panel-body'> \
           <div class='areaList'> \
           <label for='sp-list'>Контрагенты:</label> \
-          <input list='list-of-sps' id='sp-list' name='sp-list' /> \
+          <input class='col-100' list='list-of-sps' id='sp-list' name='sp-list'/> \
           <datalist id='list-of-sps'> \
           </datalist> \
+          <div class='col-40'><input type='submit' id='showSPInfo' value='подробно'></div> \
           </div> \
         </div> \
       </div> \
@@ -121,6 +140,7 @@ function chooseSubMenuChangeDBTables(radio) {
 // </select>
 function chooseAreaToChangeSP(radio) {
   changeDBTablesLocalVars.areaCurrentValue = radio.value;
+  // alert(changeDBTablesLocalVars.areaCurrentValue);
   $.post('../php/receiveDataToChange.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'),
                                           loadType: "areaToChange",
@@ -130,29 +150,61 @@ function chooseAreaToChangeSP(radio) {
   })
 }
 
-this.getSalesPartnerID = function(){
-  var x = document.getElementById("optionGroup").selectedIndex;
-  $('#optionGroup option').each(function() {
-    if (this.selected) {
-      reportsLocalVars.optionValue = document.getElementsByTagName("option")[x].value;
-    }
-  });
-  alert(reportsLocalVars.optionValue);
-  return reportsLocalVars.optionValue;
-}
+// this.getSalesPartnerID = function(){
+//   var x = document.getElementById("optionGroup").selectedIndex;
+//   $('#optionGroup option').each(function() {
+//     if (this.selected) {
+//       reportsLocalVars.optionValue = document.getElementsByTagName("option")[x].value;
+//     }
+//   });
+//   alert(reportsLocalVars.optionValue);
+//   return reportsLocalVars.optionValue;
+// }
 
 function populateOptionList() {
   var areaListFinal = "";
+  var tmp;
   alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
   for (var i = 0; i < Object.keys(changeDBTablesLocalVars.salesPartnersList).length; i++) {
-    areaListLine = '<option value=' + changeDBTablesLocalVars.salesPartnersList[i].ID + '> \
-                       ' + changeDBTablesLocalVars.salesPartnersList[i].Наименование + ' \
-                       </option>';
-    // $("#list-of-sps").append(areaListLine);
-    areaListFinal = areaListFinal + areaListLine;
+    tmp = changeDBTablesLocalVars.salesPartnersList[i].Наименование.toString();
+    areaListLine = "<option id='" + changeDBTablesLocalVars.salesPartnersList[i].ID + "' value='" + changeDBTablesLocalVars.salesPartnersList[i].Наименование + "' \
+                    text='" + tmp + "'></option>";
+    $("#list-of-sps").append(areaListLine);
+    // areaListFinal = areaListFinal + areaListLine;
   }
-  $("#list-of-sps").append(areaListFinal);
+  // $("#list-of-sps").append(areaListFinal);
 }
+
+function getSelectedSPID(){
+  const Value = document.querySelector('#sp-list').value;
+  if(!Value) return;
+  Text = document.querySelector('option[value="' + Value + '"]').id;
+  changeDBTablesLocalVars.selectedSPID = Text;
+  // const option=document.createElement("option");
+  // option.value=Value;
+  // option.text=Text;
+  //
+  // document.getElementById('Colors').appendChild(option);
+  this.showSPInfoToChange();
+}
+
+this.showSPInfoToChange = function() {
+  // alert(changeDBTablesLocalVars.selectedSPID);
+  // "spGetName" : new Object(),
+  // "spGetLegalName" : new Object(),
+  // "spGetArea" : new Object(),
+  // "spGetDayOfTheWeek" : new Object(),
+  // "spGetTaxNumber" : new Object(),
+  // "spGetAccType" : new Object(),
+  // "spGetAddress" : new Object(),
+  // "spGetContacts" : new Object(),
+  // "spGetCurrState" : new Object(),
+  // "spGetLattitude" : new Object(),
+  // "spGetLongitude" : new Object(),
+  // "spGetByPass" : new Object(),
+  // "spGetAccSubject" : new Object()
+  
+};
 
 function chooseItemMenuOptionToChange(radio) {
 
