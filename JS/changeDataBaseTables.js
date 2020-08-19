@@ -24,7 +24,10 @@ var changeDBTablesLocalVars = {
   "spGetLattitude" : new Object(),
   "spGetLongitude" : new Object(),
   "spGetByPass" : new Object(),
-  "spGetAccSubject" : new Object()
+  "spGetAccSubject" : new Object(),
+  "tmpName" : "",
+  "tmpID" : "",
+  "spInfoLable" : "Подробные сведения об контрагенте"
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -167,7 +170,7 @@ function populateOptionList() {
   var tmpID;
   alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
   for (var i = 0; i < Object.keys(changeDBTablesLocalVars.salesPartnersList).length; i++) {
-    tmpName = changeDBTablesLocalVars.salesPartnersList[i].Наименование.toString();
+    tmpName = changeDBTablesLocalVars.salesPartnersList[i].Наименование;
     tmpID = changeDBTablesLocalVars.salesPartnersList[i].ID;
     areaListLine = "<option id='" + tmpID + "' value='" + tmpName + "' \
                     text='" + tmpName + "'></option>";
@@ -196,22 +199,21 @@ function getSelectedSPID(){
   // const option=document.createElement("option");
   // option.value=Value;
   // option.text=Text;
-  //
   // document.getElementById('Colors').appendChild(option);
-  this.showSPInfoToChange();
+  this.showSPInfoToChange(Text);
 }
 
-this.showSPInfoToChange = function() {
-  $('div#moreInfoParent').append("<div id='moreInfoChild'> \
-    <div class='panel panel-custom border'> \
-      <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesPartnerLable + "</span></div> \
-      <div class='panel-body'> \
-        <label for='sp'>Тест:</label> \
-        <input class='col-100' id='sp' name='sp' type='text'/> \
+this.showSPInfoToChange = function(spIDToChange) {
+  $('div#moreInfoParent').append('<div id="moreInfoChild"> \
+    <div class="panel panel-custom border"> \
+      <div class="panel-heading col-100"><span>' + changeDBTablesLocalVars.spInfoLable + '</span></div> \
+      <div class="panel-body"> \
+        <label for="sp">Наименование:</label> \
+        <input class="col-100" id="sp" type="text" value="' + changeDBTablesLocalVars.spGetName[spIDToChange] + '"/> \
       </div> \
     </div> \
   </div> \
-  ");
+  ');
 }
 
 function chooseItemMenuOptionToChange(radio) {
