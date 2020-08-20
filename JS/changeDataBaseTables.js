@@ -42,7 +42,7 @@ function renderOptions() {
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
     <div id='changeDBTablesMenuContainer' class='changeDBTablesMenuContainer'> \
-      <div class='panel panel-custom border'> \
+      <div class='panel panel-custom border' id='dbCL'> \
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.dbChangeLabel + "</span></div> \
         <div class='panel-body'> \
           <div class='panel panel-custom border'> \
@@ -65,8 +65,8 @@ function renderOptions() {
 function chooseSubMenuChangeDBTables(radio) {
   if (radio.value == "SalesPartners"){
     $('div#subMenuPopUpHolder').html("");
-    $('div#subMenuPopUpHolder').append("<div id='subMenu'> \
-      <div class='panel panel-custom border'> \
+    $('div#subMenuPopUpHolder').append(
+      "<div class='panel panel-custom border' id='chooseSPT'> \
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSPTableToChangeLabel + "</span></div> \
         <div class='panel-body'> \
           <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaOne' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='1'><label for='Район 1' id='radioLabel'>Район 1</label></div> \
@@ -78,7 +78,7 @@ function chooseSubMenuChangeDBTables(radio) {
           <div class='radioContainer'><input type='radio' id='chooseChangeSPAreaZero' name='chooseareatochange' onclick='chooseAreaToChangeSP(this);' value='0'><label for='Вне сети' id='radioLabel'>Вне сети</label></div> \
         </div> \
       </div> \
-      <div class='panel panel-custom border'> \
+      <div class='panel panel-custom border' id='chooseSPL'> \
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesPartnerLable + "</span></div> \
         <div class='panel-body'> \
           <div class='areaList'> \
@@ -89,9 +89,8 @@ function chooseSubMenuChangeDBTables(radio) {
             <div class='col-40'><input type='submit' id='showSPInfo' value='подробно'></div> \
           </div> \
         </div> \
-        <div id='moreInfoParent'></div> \
       </div> \
-    </div> \
+      <div id='moreInfoParent'></div> \
     <script src='../js/changeDataBaseTables.js' type='text/javascript' ></script> \
     ");
   }
@@ -204,16 +203,109 @@ function getSelectedSPID(){
 }
 
 this.showSPInfoToChange = function(spIDToChange) {
-  $('div#moreInfoParent').append('<div id="moreInfoChild"> \
-    <div class="panel panel-custom border"> \
+  $('div#moreInfoParent').html("");
+  $('div#moreInfoParent').append(
+    '<div class="panel panel-custom border"> \
       <div class="panel-heading col-100"><span>' + changeDBTablesLocalVars.spInfoLable + '</span></div> \
       <div class="panel-body"> \
-        <label for="sp">Наименование:</label> \
-        <input class="col-100" id="sp" type="text" value="' + changeDBTablesLocalVars.spGetName[spIDToChange] + '"/> \
+        <label for="spName">Наименование:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetName[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPName();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Юр.Наименование:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLegalName[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLegalName();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Район:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetArea[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPArea();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Маршрут:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetDayOfTheWeek[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPRoot();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">ИНН:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetTaxNumber[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPTaxNumber();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Тип Учета:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAccType[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccType();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Адрес:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAddress[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAddress();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Контакты:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetContacts[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPContacts();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Состояние:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetCurrState[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPCurrState();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Широта:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLattitude[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLattitude();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Долгота:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLongitude[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLongitude();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Исключение:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetByPass[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPByPass();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Категория отчетности:</label> \
+        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAccSubject[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccSubject();"></div> \
       </div> \
     </div> \
-  </div> \
   ');
+}
+
+this.saveChangesToSPName = function() {
+  processChangesToSp(1);
+}
+this.saveChangesToSPLegalName = function() {
+  processChangesToSp(2);
+}
+this.saveChangesToSPArea = function() {
+  processChangesToSp(3);
+}
+this.saveChangesToSPRoot = function() {
+  processChangesToSp(4);
+}
+this.saveChangesToSPTaxNumber = function() {
+  processChangesToSp(5);
+}
+this.saveChangesToSPAccType = function() {
+  processChangesToSp(6);
+}
+this.saveChangesToSPAddress = function() {
+  processChangesToSp(7);
+}
+this.saveChangesToSPContacts = function() {
+  processChangesToSp(8);
+}
+this.saveChangesToSPCurrState = function() {
+  processChangesToSp(9);
+}
+this.saveChangesToSPLattitude = function() {
+  processChangesToSp(10);
+}
+this.saveChangesToSPLongitude = function() {
+  processChangesToSp(11);
+}
+this.saveChangesToSPByPass = function() {
+  processChangesToSp(12);
+}
+this.saveChangesToSPAccSubject = function() {
+  processChangesToSp(13);
+}
+
+this.processChangesToSp = function(trigger) {
+  alert(trigger);
 }
 
 function chooseItemMenuOptionToChange(radio) {
