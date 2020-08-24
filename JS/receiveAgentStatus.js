@@ -31,7 +31,8 @@ var localVars = {
   "areaCashStatus" : new Object(),
   "areaCashlessStatus" : new Object(),
   "areaDevelopmentStatus" : new Object(),
-  "trigger" : false
+  "trigger" : false,
+  "loginSecurityData" : new Object()
 };
 
 $('#home').on('click', function() {
@@ -54,7 +55,9 @@ this.silentLogin = function(dbName, dbUser, dbPassword, login, password) {
                                      dbPassword: dbPassword, login: login,
                                      password: password}, function(data) {
      // $('div#connection-data').text(data);
-     if (data == 'Успешный вход') {
+     localVars.loginSecurityData = JSON.parse(data);
+     // alert($.trim(localVars.loginSecurityData[0].attribute));
+     if ($.trim(localVars.loginSecurityData[0].attribute) == 'ceo') {
        getAgentStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
              localStorage.getItem('login'), localStorage.getItem('password'));
        getCashStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),

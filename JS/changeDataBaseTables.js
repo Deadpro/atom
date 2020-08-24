@@ -27,7 +27,8 @@ var changeDBTablesLocalVars = {
   "spGetAccSubject" : new Object(),
   "tmpName" : "",
   "tmpID" : "",
-  "spInfoLable" : "Подробные сведения об контрагенте"
+  "spInfoLable" : "Подробные сведения об контрагенте",
+  "statusUpdateData" : new Object()
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -213,51 +214,51 @@ this.showSPInfoToChange = function(spIDToChange) {
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPName();"></div> \
         <div class="separator"></div>\
         <label for="spName">Юр.Наименование:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLegalName[spIDToChange] + '"/> \
+        <input class="col-100" id="spLegalName" type="text" value="' + changeDBTablesLocalVars.spGetLegalName[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLegalName();"></div> \
         <div class="separator"></div>\
         <label for="spName">Район:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetArea[spIDToChange] + '"/> \
+        <input class="col-100" id="spArea" type="text" value="' + changeDBTablesLocalVars.spGetArea[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPArea();"></div> \
         <div class="separator"></div>\
         <label for="spName">Маршрут:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetDayOfTheWeek[spIDToChange] + '"/> \
+        <input class="col-100" id="spRoot" type="text" value="' + changeDBTablesLocalVars.spGetDayOfTheWeek[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPRoot();"></div> \
         <div class="separator"></div>\
         <label for="spName">ИНН:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetTaxNumber[spIDToChange] + '"/> \
+        <input class="col-100" id="spTaxNumber" type="text" value="' + changeDBTablesLocalVars.spGetTaxNumber[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPTaxNumber();"></div> \
         <div class="separator"></div>\
         <label for="spName">Тип Учета:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAccType[spIDToChange] + '"/> \
+        <input class="col-100" id="spAccType" type="text" value="' + changeDBTablesLocalVars.spGetAccType[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccType();"></div> \
         <div class="separator"></div>\
         <label for="spName">Адрес:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAddress[spIDToChange] + '"/> \
+        <input class="col-100" id="spAddress" type="text" value="' + changeDBTablesLocalVars.spGetAddress[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAddress();"></div> \
         <div class="separator"></div>\
         <label for="spName">Контакты:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetContacts[spIDToChange] + '"/> \
+        <input class="col-100" id="spContacts" type="text" value="' + changeDBTablesLocalVars.spGetContacts[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPContacts();"></div> \
         <div class="separator"></div>\
         <label for="spName">Состояние:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetCurrState[spIDToChange] + '"/> \
+        <input class="col-100" id="spCurrState" type="text" value="' + changeDBTablesLocalVars.spGetCurrState[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPCurrState();"></div> \
         <div class="separator"></div>\
         <label for="spName">Широта:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLattitude[spIDToChange] + '"/> \
+        <input class="col-100" id="spLattitude" type="text" value="' + changeDBTablesLocalVars.spGetLattitude[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLattitude();"></div> \
         <div class="separator"></div>\
         <label for="spName">Долгота:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetLongitude[spIDToChange] + '"/> \
+        <input class="col-100" id="spLongitude" type="text" value="' + changeDBTablesLocalVars.spGetLongitude[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLongitude();"></div> \
         <div class="separator"></div>\
         <label for="spName">Исключение:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetByPass[spIDToChange] + '"/> \
+        <input class="col-100" id="spByPass" type="text" value="' + changeDBTablesLocalVars.spGetByPass[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPByPass();"></div> \
         <div class="separator"></div>\
         <label for="spName">Категория отчетности:</label> \
-        <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetAccSubject[spIDToChange] + '"/> \
+        <input class="col-100" id="spAccSubject" type="text" value="' + changeDBTablesLocalVars.spGetAccSubject[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccSubject();"></div> \
       </div> \
     </div> \
@@ -265,47 +266,58 @@ this.showSPInfoToChange = function(spIDToChange) {
 }
 
 this.saveChangesToSPName = function() {
-  processChangesToSp(1);
+  processChangesToSp("spName", changeDBTablesLocalVars.spGetName);
 }
 this.saveChangesToSPLegalName = function() {
-  processChangesToSp(2);
+  processChangesToSp("spLegalName", changeDBTablesLocalVars.spGetLegalName);
 }
 this.saveChangesToSPArea = function() {
-  processChangesToSp(3);
+  processChangesToSp("spArea", changeDBTablesLocalVars.spGetArea);
 }
 this.saveChangesToSPRoot = function() {
-  processChangesToSp(4);
+  processChangesToSp("spRoot", changeDBTablesLocalVars.spGetDayOfTheWeek);
 }
 this.saveChangesToSPTaxNumber = function() {
-  processChangesToSp(5);
+  processChangesToSp("spTaxNumber", changeDBTablesLocalVars.spGetTaxNumber);
 }
 this.saveChangesToSPAccType = function() {
-  processChangesToSp(6);
+  processChangesToSp("spAccType", changeDBTablesLocalVars.spGetAccType);
 }
 this.saveChangesToSPAddress = function() {
-  processChangesToSp(7);
+  processChangesToSp("spAddress", changeDBTablesLocalVars.spGetAddress);
 }
 this.saveChangesToSPContacts = function() {
-  processChangesToSp(8);
+  processChangesToSp("spContacts", changeDBTablesLocalVars.spGetContacts);
 }
 this.saveChangesToSPCurrState = function() {
-  processChangesToSp(9);
+  processChangesToSp("spCurrState", changeDBTablesLocalVars.spGetCurrState);
 }
 this.saveChangesToSPLattitude = function() {
-  processChangesToSp(10);
+  processChangesToSp("spLattitude", changeDBTablesLocalVars.spGetLattitude);
 }
 this.saveChangesToSPLongitude = function() {
-  processChangesToSp(11);
+  processChangesToSp("spLongitude", changeDBTablesLocalVars.spGetLongitude);
 }
 this.saveChangesToSPByPass = function() {
-  processChangesToSp(12);
+  processChangesToSp("spByPass", changeDBTablesLocalVars.spGetByPass);
 }
 this.saveChangesToSPAccSubject = function() {
-  processChangesToSp(13);
+  processChangesToSp("spAccSubject", changeDBTablesLocalVars.spGetAccSubject);
 }
 
-this.processChangesToSp = function(trigger) {
-  alert(trigger);
+this.processChangesToSp = function(trigger, table) {
+  let idTmp = changeDBTablesLocalVars.selectedSPID;
+  let nameTmp = changeDBTablesLocalVars.spGetName[idTmp];
+  let areaTmp = changeDBTablesLocalVars.spGetArea[idTmp];
+  const Value = document.querySelector('#' + trigger).value;
+  if (Value != table[idTmp]) {
+  $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'),
+                                          updateType: trigger, spName: nameTmp, spArea: areaTmp, spID: idTmp,
+                                          updateValue: Value}, function(data) {
+    changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
+  })
+} else {alert("Вы не внесли изменения");}
 }
 
 function chooseItemMenuOptionToChange(radio) {

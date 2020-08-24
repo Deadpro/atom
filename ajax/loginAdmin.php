@@ -7,16 +7,30 @@
     $password = (trim($_POST['password']));
     // mysql_real_escape_string
     // echo($login);
-    $sql = "SELECT firstname FROM security WHERE login LIKE '$login' AND password LIKE '$password' ";
-    $query = mysqli_query($dbconnect, $sql);
-    if (mysqli_num_rows($query) !== 0) {
-      // mysql_result($query, 0, 'firstname');
-      while($row = mysqli_fetch_array($query)) {
-        // echo $row['firstname'];
-        echo 'Успешный вход';
-      }
+    $sql = "SELECT firstname, secondname, middlename, attribute FROM security WHERE login LIKE '$login' AND password LIKE '$password' ";
+    // $query = mysqli_query($dbconnect, $sql);
+    // if (mysqli_num_rows($query) !== 0) {
+    //   // mysql_result($query, 0, 'firstname');
+    //   while($row = mysqli_fetch_array($query)) {
+    //     // echo $row['firstname'];
+    //     echo 'Успешный вход';
+    //   }
+    // } else {
+    //   echo 'Нет такого пользователя или неверный пароль';
+    // }
+    if ($result = mysqli_query($dbconnect, $sql)) {
+       $resultArray = array();
+       $tempArray = array();
+       while($row = $result->fetch_object()) {
+          $tempArray = $row;
+          array_push($resultArray, $tempArray);
+       }
+       echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
+       mysqli_close($dbconnect);
     } else {
-      echo 'Name not found';
+       $json['error'] = 'Нет такого пользователя или неверный пароль';
+       echo json_encode($json, JSON_UNESCAPED_UNICODE);
+       mysqli_close($dbconnect);
     }
   }
   mysqli_close($dbconnect);

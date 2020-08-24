@@ -1,3 +1,7 @@
+let loginAdminLovalVars = {
+  "loginSecurityData" : new Object()
+};
+
 $('#connection-submit').on('click', function() {
   if ($.trim(localStorage.getItem('dbName')) != '' && $.trim(localStorage.getItem('dbUser')) != '' &&
       $.trim(localStorage.getItem('dbPassword')) != '' && $.trim(localStorage.getItem('login')) != '' &&
@@ -29,12 +33,25 @@ this.login = function(dbName, dbUser, dbPassword, login, password) {
    $.post('../ajax/loginAdmin.php', {dbName: dbName, dbUser: dbUser,
                                      dbPassword: dbPassword, login: login,
                                      password: password}, function(data) {
-     // $('div#connection-data').text(data);
-     if (data == 'Успешный вход') {
-       // renderMenuPage();
-       alert('Успешный вход');
-     }
+     // // $('div#connection-data').text(data);
+     // if (data == 'Успешный вход') {
+     //   // renderMenuPage();
+     //   alert('Успешный вход');
+     // }
+     loginAdminLovalVars.loginSecurityData = JSON.parse(data);
+     checkReceivedLoginSecurityData();
    });
+}
+
+this.checkReceivedLoginSecurityData = function() {
+  alert(Object.keys(loginAdminLovalVars.loginSecurityData).length);
+  for (var i = 0; i < Object.keys(loginAdminLovalVars.loginSecurityData).length; i++) {
+    loginAdminLovalVars.firstname = loginAdminLovalVars.loginSecurityData[i].firstname;
+    loginAdminLovalVars.middlename = loginAdminLovalVars.loginSecurityData[i].middlename;
+    loginAdminLovalVars.secondname = loginAdminLovalVars.loginSecurityData[i].secondname;
+    loginAdminLovalVars.attribute = loginAdminLovalVars.loginSecurityData[i].attribute;
+    alert('Успешный вход');
+  }
 }
 
 this.loadLoginData = function() {
