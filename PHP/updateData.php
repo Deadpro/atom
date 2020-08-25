@@ -4,7 +4,8 @@
   $updateType = trim($_POST['updateType']);
   $updateValue = trim($_POST['updateValue']);
   $spName = trim($_POST['spName']);
-  $areaStr = (int)trim($_POST['spArea']);
+  $area = trim($_POST['spArea']);
+  $areaStr = (int)$area;
   $spID = trim($_POST['spID']);
   if($_SERVER["REQUEST_METHOD"]=="POST") {
     if (isset($_POST['dbName']) === true && empty($_POST['dbName']) === false &&
@@ -19,42 +20,42 @@
            echo "failed";
         }
       }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
-      if () {
-
-      }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
+      // if () {
+      //
+      // }
     }
   }
   mysqli_close($dbconnect);

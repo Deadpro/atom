@@ -311,13 +311,27 @@ this.processChangesToSp = function(trigger, table) {
   let areaTmp = changeDBTablesLocalVars.spGetArea[idTmp];
   const Value = document.querySelector('#' + trigger).value;
   if (Value != table[idTmp]) {
-  $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'),
-                                          updateType: trigger, spName: nameTmp, spArea: areaTmp, spID: idTmp,
-                                          updateValue: Value}, function(data) {
-    changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
-  })
-} else {alert("Вы не внесли изменения");}
+    // alert(Value + " " + areaTmp + " " + nameTmp + " " + idTmp + " " + trigger);
+    let toChange;
+    toChange = confirm("Изменить данные?");
+    if (toChange) {
+      $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                              dbPassword: localStorage.getItem('dbPassword'),
+                                              updateType: trigger, spName: nameTmp, spArea: areaTmp, spID: idTmp,
+                                              updateValue: Value}, function(data) {
+        // changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
+        let isConfirmed;
+        if (data == "success") {
+          isConfirmed = confirm("Данные обновлены, перезагрузить страницу?");
+        } else {
+          alert("Что-то пошло не так");
+        }
+        if (isConfirmed) {
+          location.reload();
+        }
+      })
+    }
+  } else {alert("Вы не внесли изменения");}
 }
 
 function chooseItemMenuOptionToChange(radio) {
