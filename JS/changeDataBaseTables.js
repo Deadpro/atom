@@ -28,7 +28,8 @@ var changeDBTablesLocalVars = {
   "tmpName" : "",
   "tmpID" : "",
   "spInfoLable" : "Подробные сведения об контрагенте",
-  "statusUpdateData" : new Object()
+  "statusUpdateData" : new Object(),
+  "reloadTrigger" : false
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -143,7 +144,12 @@ function chooseSubMenuChangeDBTables(radio) {
 // <select name='salesPartnersList' id='optionGroup' size='5'>
 // </select>
 function chooseAreaToChangeSP(radio) {
-  changeDBTablesLocalVars.areaCurrentValue = radio.value;
+  changeDBTablesLocalVars.salesPartnersList = new Object();
+  if (changeDBTablesLocalVars.reloadTrigger == true) {
+    changeDBTablesLocalVars.areaCurrentValue = radio;
+  } else {
+    changeDBTablesLocalVars.areaCurrentValue = radio.value;
+  }
   // alert(changeDBTablesLocalVars.areaCurrentValue);
   $.post('../php/receiveDataToChange.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'),
@@ -166,9 +172,27 @@ function chooseAreaToChangeSP(radio) {
 // }
 
 function populateOptionList() {
+  changeDBTablesLocalVars.reloadTrigger = false;
+  changeDBTablesLocalVars.spGetName = new Object();
+  changeDBTablesLocalVars.spGetLegalName = new Object();
+  changeDBTablesLocalVars.spGetArea = new Object();
+  changeDBTablesLocalVars.spGetDayOfTheWeek = new Object();
+  changeDBTablesLocalVars.spGetTaxNumber = new Object();
+  changeDBTablesLocalVars.spGetAccType = new Object();
+  changeDBTablesLocalVars.spGetAddress = new Object();
+  changeDBTablesLocalVars.spGetContacts = new Object();
+  changeDBTablesLocalVars.spGetCurrState = new Object();
+  changeDBTablesLocalVars.spGetLattitude = new Object();
+  changeDBTablesLocalVars.spGetLongitude = new Object();
+  changeDBTablesLocalVars.spGetByPass = new Object();
+  changeDBTablesLocalVars.spGetAccSubject = new Object();
+  $("#list-of-sps").html("");
+  $("#sp-list").html("");
+  document.querySelector('#sp-list').value = "";
   var tmpName;
   var tmpID;
-  alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
+  var areaListLine = new String();
+  // alert(Object.keys(changeDBTablesLocalVars.salesPartnersList).length);
   for (var i = 0; i < Object.keys(changeDBTablesLocalVars.salesPartnersList).length; i++) {
     tmpName = changeDBTablesLocalVars.salesPartnersList[i].Наименование;
     tmpID = changeDBTablesLocalVars.salesPartnersList[i].ID;
@@ -311,9 +335,9 @@ this.processChangesToSp = function(trigger, table) {
   let areaTmp = changeDBTablesLocalVars.spGetArea[idTmp];
   const Value = document.querySelector('#' + trigger).value;
   if (Value != table[idTmp]) {
-    // alert(Value + " " + areaTmp + " " + nameTmp + " " + idTmp + " " + trigger);
+    // alert(Value + " " + areaTmp + " " + nameTmp + " " + idTmp + " " + trigger + " " + table[idTmp]);
     let toChange;
-    toChange = confirm("Изменить данные?");
+    toChange = confirm("Заменить " + nameTmp + " -- на -- " + Value + "  -- ?");
     if (toChange) {
       $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                               dbPassword: localStorage.getItem('dbPassword'),
@@ -327,11 +351,18 @@ this.processChangesToSp = function(trigger, table) {
           alert("Что-то пошло не так");
         }
         if (isConfirmed) {
-          location.reload();
+          // location.reload();
+          reloadData();
         }
       })
     }
   } else {alert("Вы не внесли изменения");}
+}
+
+this.reloadData = function() {
+  changeDBTablesLocalVars.reloadTrigger = true;
+  chooseAreaToChangeSP(changeDBTablesLocalVars.areaCurrentValue);
+  setTimeout(() => this.showSPInfoToChange(changeDBTablesLocalVars.selectedSPID), 2000);
 }
 
 function chooseItemMenuOptionToChange(radio) {
