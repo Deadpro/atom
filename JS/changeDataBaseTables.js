@@ -213,6 +213,9 @@ function populateOptionList() {
     changeDBTablesLocalVars.spGetByPass[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].addressLoadByPass;
     changeDBTablesLocalVars.spGetAccSubject[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].accSubject;
   }
+  // $("#sp-list").blur();
+  // $("#list-of-sps").blur();
+  // $("#chooseSPL").focus();
 }
 
 function getSelectedSPID(){
@@ -337,12 +340,12 @@ this.processChangesToSp = function(trigger, table) {
   if (Value != table[idTmp]) {
     // alert(Value + " " + areaTmp + " " + nameTmp + " " + idTmp + " " + trigger + " " + table[idTmp]);
     let toChange;
-    toChange = confirm("Заменить " + nameTmp + " -- на -- " + Value + "  -- ?");
+    toChange = confirm("Заменить " + table[idTmp] + " -- на -- " + Value + "  -- ?");
     if (toChange) {
       $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                               dbPassword: localStorage.getItem('dbPassword'),
                                               updateType: trigger, spName: nameTmp, spArea: areaTmp, spID: idTmp,
-                                              updateValue: Value}, function(data) {
+                                              beforeValue: table[idTmp], updateValue: Value}, function(data) {
         // changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
         let isConfirmed;
         if (data == "success") {

@@ -7,7 +7,8 @@
     $password = (trim($_POST['password']));
     // mysql_real_escape_string
     // echo($login);
-    $sql = "SELECT firstname, secondname, middlename, attribute FROM security WHERE login LIKE '$login' AND password LIKE '$password' ";
+    $sql = "SELECT firstname, secondname, middlename, attribute FROM security
+    WHERE login LIKE '$login' AND password LIKE '$password' ";
     // $query = mysqli_query($dbconnect, $sql);
     // if (mysqli_num_rows($query) !== 0) {
     //   // mysql_result($query, 0, 'firstname');
@@ -26,11 +27,9 @@
           array_push($resultArray, $tempArray);
        }
        echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-       mysqli_close($dbconnect);
     } else {
        $json['error'] = 'Нет такого пользователя или неверный пароль';
        echo json_encode($json, JSON_UNESCAPED_UNICODE);
-       mysqli_close($dbconnect);
     }
   }
   mysqli_close($dbconnect);

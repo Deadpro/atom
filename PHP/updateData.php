@@ -8,6 +8,7 @@
   $dateTimeDoc = date("Y-m-d H:i:s", $time);
 
   $updateType = trim($_POST['updateType']);
+  $beforeValue = trim($_POST['beforeValue']);
   $updateValue = trim($_POST['updateValue']);
   $spName = trim($_POST['spName']);
   $area = trim($_POST['spArea']);
@@ -23,7 +24,7 @@
         if (mysqli_query($dbconnect, $sql)) {
           $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
              afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
-             VALUES ('salespartners', 'Наименование', $spID, '$spName', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+             VALUES ('salespartners', 'Наименование', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
           if (mysqli_query($dbconnect, $sql)) {
              $logSuccess = "success";
           } else {
@@ -36,42 +37,234 @@
            echo "failed";
         }
       }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
-      // if () {
-      //
-      // }
+      if ($updateType == "spLegalName") {
+        $sql = "UPDATE salespartners SET Юр_Наименование = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Юр_Наименование', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if ($updateType == "spArea") {
+        $sql = "UPDATE salespartners SET Район = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Район', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spRoot") {
+        $sql = "UPDATE salespartners SET DayOfTheWeek = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'DayOfTheWeek', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spTaxNumber") {
+        $sql = "UPDATE salespartners SET ИНН = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'ИНН', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spAccType") {
+        $sql = "UPDATE salespartners SET Учет = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Учет', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spAddress") {
+        $sql = "UPDATE salespartners SET Адрес = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Адрес', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spContacts") {
+        $sql = "UPDATE salespartners SET Контакты = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Контакты', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spCurrState") {
+        $sql = "UPDATE salespartners SET CurrState = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'CurrState', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spLattitude") {
+        $sql = "UPDATE salespartners SET Latitude = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Latitude', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spLongitude") {
+        $sql = "UPDATE salespartners SET Longitude = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Longitude', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spByPass") {
+        $sql = "UPDATE salespartners SET addressLoadByPass = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'addressLoadByPass', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
+      if (($updateType == "spAccSubject") {
+        $sql = "UPDATE salespartners SET accSubject = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'accSubject', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
     }
   }
   mysqli_close($dbconnect);

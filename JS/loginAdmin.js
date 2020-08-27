@@ -1,5 +1,9 @@
-let loginAdminLovalVars = {
-  "loginSecurityData" : new Object()
+var loginAdminLocalVars = {
+  "loginSecurityData" : new Object(),
+  "firstname" : "",
+  "secondname" : "",
+  "middlename" : "",
+  "attribute" : ""
 };
 
 $('#connection-submit').on('click', function() {
@@ -38,18 +42,18 @@ this.login = function(dbName, dbUser, dbPassword, login, password) {
      //   // renderMenuPage();
      //   alert('Успешный вход');
      // }
-     loginAdminLovalVars.loginSecurityData = JSON.parse(data);
+     loginAdminLocalVars.loginSecurityData = JSON.parse(data);
      checkReceivedLoginSecurityData();
    });
 }
 
 this.checkReceivedLoginSecurityData = function() {
-  alert(Object.keys(loginAdminLovalVars.loginSecurityData).length);
-  for (var i = 0; i < Object.keys(loginAdminLovalVars.loginSecurityData).length; i++) {
-    loginAdminLovalVars.firstname = loginAdminLovalVars.loginSecurityData[i].firstname;
-    loginAdminLovalVars.middlename = loginAdminLovalVars.loginSecurityData[i].middlename;
-    loginAdminLovalVars.secondname = loginAdminLovalVars.loginSecurityData[i].secondname;
-    loginAdminLovalVars.attribute = loginAdminLovalVars.loginSecurityData[i].attribute;
+  // alert(Object.keys(loginAdminLocalVars.loginSecurityData).length);
+  for (var i = 0; i < Object.keys(loginAdminLocalVars.loginSecurityData).length; i++) {
+    loginAdminLocalVars.firstname = loginAdminLocalVars.loginSecurityData[i].firstname;
+    loginAdminLocalVars.middlename = loginAdminLocalVars.loginSecurityData[i].middlename;
+    loginAdminLocalVars.secondname = loginAdminLocalVars.loginSecurityData[i].secondname;
+    loginAdminLocalVars.attribute = loginAdminLocalVars.loginSecurityData[i].attribute;
     alert('Успешный вход');
   }
 }
