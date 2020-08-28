@@ -75,7 +75,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spRoot") {
+      if ($updateType == "spRoot") {
         $sql = "UPDATE salespartners SET DayOfTheWeek = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -94,7 +94,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spTaxNumber") {
+      if ($updateType == "spTaxNumber") {
         $sql = "UPDATE salespartners SET ИНН = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -113,7 +113,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spAccType") {
+      if ($updateType == "spAccType") {
         $sql = "UPDATE salespartners SET Учет = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -132,7 +132,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spAddress") {
+      if ($updateType == "spAddress") {
         $sql = "UPDATE salespartners SET Адрес = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -151,7 +151,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spContacts") {
+      if ($updateType == "spContacts") {
         $sql = "UPDATE salespartners SET Контакты = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -170,7 +170,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spCurrState") {
+      if ($updateType == "spCurrState") {
         $sql = "UPDATE salespartners SET CurrState = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -189,7 +189,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spLattitude") {
+      if ($updateType == "spLattitude") {
         $sql = "UPDATE salespartners SET Latitude = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -208,7 +208,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spLongitude") {
+      if ($updateType == "spLongitude") {
         $sql = "UPDATE salespartners SET Longitude = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -227,7 +227,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spByPass") {
+      if ($updateType == "spByPass") {
         $sql = "UPDATE salespartners SET addressLoadByPass = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {
@@ -246,7 +246,7 @@
            echo "failed";
         }
       }
-      if (($updateType == "spAccSubject") {
+      if ($updateType == "spAccSubject") {
         $sql = "UPDATE salespartners SET accSubject = '$updateValue'
         WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
         if (mysqli_query($dbconnect, $sql)) {

@@ -29,7 +29,9 @@ var changeDBTablesLocalVars = {
   "tmpID" : "",
   "spInfoLable" : "Подробные сведения об контрагенте",
   "statusUpdateData" : new Object(),
-  "reloadTrigger" : false
+  "reloadTrigger" : false,
+  "backButton" : new Object(),
+  "backButtonTriggers" : ["spName", "spLegalName", "spArea", "spRoot", "spTaxNumber", "spAccType", "spAddress", "spContacts", "spCurrState", "spLattitude", "spLongitude", "spByPass", "spAccSubject"]
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -144,9 +146,13 @@ function chooseSubMenuChangeDBTables(radio) {
 // <select name='salesPartnersList' id='optionGroup' size='5'>
 // </select>
 function chooseAreaToChangeSP(radio) {
+  // for (var i=0; i<13; i++) {
+  //   changeDBTablesLocalVars.backButton[changeDBTablesLocalVars.backButtonTriggers[i]] = "";
+  // }
   changeDBTablesLocalVars.salesPartnersList = new Object();
   if (changeDBTablesLocalVars.reloadTrigger == true) {
     changeDBTablesLocalVars.areaCurrentValue = radio;
+    changeDBTablesLocalVars.reloadTrigger = false;
   } else {
     changeDBTablesLocalVars.areaCurrentValue = radio.value;
   }
@@ -172,7 +178,7 @@ function chooseAreaToChangeSP(radio) {
 // }
 
 function populateOptionList() {
-  changeDBTablesLocalVars.reloadTrigger = false;
+  // changeDBTablesLocalVars.reloadTrigger = false;
   changeDBTablesLocalVars.spGetName = new Object();
   changeDBTablesLocalVars.spGetLegalName = new Object();
   changeDBTablesLocalVars.spGetArea = new Object();
@@ -227,10 +233,15 @@ function getSelectedSPID(){
   // option.value=Value;
   // option.text=Text;
   // document.getElementById('Colors').appendChild(option);
-  this.showSPInfoToChange(Text);
+  this.showSPInfoToChange(Text, 0);
 }
 
-this.showSPInfoToChange = function(spIDToChange) {
+this.showSPInfoToChange = function(spIDToChange, autoTrigger) {
+  if (autoTrigger == 0) {
+    for (var i=0; i<13; i++) {
+      changeDBTablesLocalVars.backButton[changeDBTablesLocalVars.backButtonTriggers[i]] = "";
+    }
+  }
   $('div#moreInfoParent').html("");
   $('div#moreInfoParent').append(
     '<div class="panel panel-custom border"> \
@@ -239,10 +250,12 @@ this.showSPInfoToChange = function(spIDToChange) {
         <label for="spName">Наименование:</label> \
         <input class="col-100" id="spName" type="text" value="' + changeDBTablesLocalVars.spGetName[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPName();"></div> \
+        ' + changeDBTablesLocalVars.backButton["spName"] + ' \
         <div class="separator"></div>\
         <label for="spName">Юр.Наименование:</label> \
         <input class="col-100" id="spLegalName" type="text" value="' + changeDBTablesLocalVars.spGetLegalName[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPLegalName();"></div> \
+        ' + changeDBTablesLocalVars.backButton["spLegalName"] + ' \
         <div class="separator"></div>\
         <label for="spName">Район:</label> \
         <input class="col-100" id="spArea" type="text" value="' + changeDBTablesLocalVars.spGetArea[spIDToChange] + '"/> \
@@ -355,18 +368,45 @@ this.processChangesToSp = function(trigger, table) {
         }
         if (isConfirmed) {
           // location.reload();
-          reloadData();
+          reloadData(trigger);
         }
       })
     }
   } else {alert("Вы не внесли изменения");}
 }
 
-this.reloadData = function() {
+this.reloadData = function(trigger) {
+  changeDBTablesLocalVars.backButton = new Object();
   changeDBTablesLocalVars.reloadTrigger = true;
   chooseAreaToChangeSP(changeDBTablesLocalVars.areaCurrentValue);
-  setTimeout(() => this.showSPInfoToChange(changeDBTablesLocalVars.selectedSPID), 2000);
+  for (var i=0; i<13; i++) {
+    if (changeDBTablesLocalVars.backButtonTriggers[i] == trigger) {
+      changeDBTablesLocalVars.backButton[trigger] = '<div class="col-100"><input type="button" value="Отменить" id="' + trigger + '" onclick="stepBack(this);"></div>';
+    } else {
+      changeDBTablesLocalVars.backButton[changeDBTablesLocalVars.backButtonTriggers[i]] = "";
+    }
+  }
+  setTimeout(() => this.showSPInfoToChange(changeDBTablesLocalVars.selectedSPID, 1), 2000);
 }
+
+// this.stepBack = function(trigger) {
+//   // alert(trigger.id);
+//   $.post('../php/checkLogFile.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+//                                       dbPassword: localStorage.getItem('dbPassword'),
+//                                       }, function(data) {
+//     // changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
+//     let isConfirmed;
+//     if (data == "success") {
+//       isConfirmed = confirm("Данные обновлены, перезагрузить страницу?");
+//     } else {
+//       alert("Что-то пошло не так");
+//     }
+//     if (isConfirmed) {
+//       // location.reload();
+//       reloadData(trigger);
+//     }
+//   })
+// }
 
 function chooseItemMenuOptionToChange(radio) {
 
