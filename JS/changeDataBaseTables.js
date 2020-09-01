@@ -31,7 +31,8 @@ var changeDBTablesLocalVars = {
   "statusUpdateData" : new Object(),
   "reloadTrigger" : false,
   "backButton" : new Object(),
-  "backButtonTriggers" : ["spName", "spLegalName", "spArea", "spRoot", "spTaxNumber", "spAccType", "spAddress", "spContacts", "spCurrState", "spLattitude", "spLongitude", "spByPass", "spAccSubject"]
+  "backButtonTriggers" : ["spName", "spLegalName", "spArea", "spRoot", "spTaxNumber", "spAccType", "spAddress", "spContacts", "spCurrState", "spLattitude", "spLongitude", "spByPass", "spAccSubject"],
+  "logFileData" : ""
 };
 
 $('#changeDataBaseTables').on('click', function() {
@@ -389,24 +390,24 @@ this.reloadData = function(trigger) {
   setTimeout(() => this.showSPInfoToChange(changeDBTablesLocalVars.selectedSPID, 1), 2000);
 }
 
-// this.stepBack = function(trigger) {
-//   // alert(trigger.id);
-//   $.post('../php/checkLogFile.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-//                                       dbPassword: localStorage.getItem('dbPassword'),
-//                                       }, function(data) {
-//     // changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
-//     let isConfirmed;
-//     if (data == "success") {
-//       isConfirmed = confirm("Данные обновлены, перезагрузить страницу?");
-//     } else {
-//       alert("Что-то пошло не так");
-//     }
-//     if (isConfirmed) {
-//       // location.reload();
-//       reloadData(trigger);
-//     }
-//   })
-// }
+this.stepBack = function(trigger) {
+  alert(trigger.id);
+  // $.post('../php/checkLogFile.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+  //                                     dbPassword: localStorage.getItem('dbPassword'),
+  //                                     updateType: trigger}, function(data) {
+  //   changeDBTablesLocalVars.logFileData = JSON.parse(data);
+  //   let isConfirmed;
+  //   if (data == "success") {
+  //     isConfirmed = confirm("Заменить " + table[idTmp] + " -- на -- " + Value + "  -- ?");
+  //   } else {
+  //     alert("Что-то пошло не так");
+  //   }
+  //   if (isConfirmed) {
+  //     // location.reload();
+  //     reloadData(trigger);
+  //   }
+  // })
+}
 
 function chooseItemMenuOptionToChange(radio) {
 
