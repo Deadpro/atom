@@ -392,21 +392,21 @@ this.reloadData = function(trigger) {
 
 this.stepBack = function(trigger) {
   alert(trigger.id);
-  // $.post('../php/checkLogFile.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-  //                                     dbPassword: localStorage.getItem('dbPassword'),
-  //                                     updateType: trigger}, function(data) {
-  //   changeDBTablesLocalVars.logFileData = JSON.parse(data);
-  //   let isConfirmed;
-  //   if (data == "success") {
-  //     isConfirmed = confirm("Заменить " + table[idTmp] + " -- на -- " + Value + "  -- ?");
-  //   } else {
-  //     alert("Что-то пошло не так");
-  //   }
-  //   if (isConfirmed) {
-  //     // location.reload();
-  //     reloadData(trigger);
-  //   }
-  // })
+  $.post('../php/checkLogFile.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                      dbPassword: localStorage.getItem('dbPassword'),
+                                      updateType: trigger}, function(data) {
+    changeDBTablesLocalVars.logFileData = JSON.parse(data);
+    let isConfirmed;
+    if (data == "success") {
+      isConfirmed = confirm("Заменить " + table[idTmp] + " -- на -- " + Value + "  -- ?");
+    } else {
+      alert("Что-то пошло не так");
+    }
+    if (isConfirmed) {
+      // location.reload();
+      reloadData(trigger);
+    }
+  })
 }
 
 function chooseItemMenuOptionToChange(radio) {
