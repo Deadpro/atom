@@ -265,6 +265,33 @@
            echo "failed";
         }
       }
+      if ($updateType == "tmpFixInvoiceNumbers") {
+        // $tmp = 11082;
+        // $row_cnt = 0;
+        // $row = 0;
+        // $sql = "SELECT DISTINCT(InvoiceNumber), DateTimeDocLocal FROM invoice_five
+        // WHERE DateTimeDoc>'2020-10-13 19:38:49' AND InvoiceNumber>11082 AND InvoiceNumber<11123";
+        // if ($result = mysqli_query($dbconnect, $sql)) {
+        //    // $row_cnt = mysqli_num_rows($result);
+        //    while ($row = mysqli_fetch_row($result)) {
+        //      $currInvoiceNumber = $row[0];
+        //      $dateTimeDocLocal = $row[1];
+        //      $tmpUpdateFix = $currInvoiceNumber + 1;
+        //      // for ($i=0; $i < $row_cnt; $i++) {
+        //        $sql = "UPDATE invoice_five SET InvoiceNumber = '$tmpUpdateFix'
+        //        WHERE DateTimeDoc>'2020-10-13 19:38:49' AND InvoiceNumber = '$currInvoiceNumber'
+        //        AND DateTimeDocLocal='$dateTimeDocLocal' ";
+        //        if (mysqli_query($dbconnect, $sql)) {
+        //          echo "success";
+        //        } else {
+        //           echo "failed";
+        //        }
+        //      // }
+        //   }
+        // } else {
+        //    echo "failed";
+        // }
+      }
     }
   }
   mysqli_close($dbconnect);
