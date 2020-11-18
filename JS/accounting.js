@@ -295,8 +295,8 @@ this.createAccountantTables = function() {
         var dTStrOut = formatDate(dt);
         var taxNumber = accountingLocalVars.tmp[i].ИНН;
 
-        // if (accountingLocalVars.tmp[i].AgentID != 7) {
-        //   if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+        if (accountingLocalVars.tmp[i].AgentID != 7) {
+          if (taxNumber.trim().toString() != "2543122686" && taxNumber.trim().toString() != "2543115022") {
             tableRow = '<tbody><tr> \
                                 <td>' + count + '</td> \
                                 <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
@@ -311,8 +311,8 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                               </tr></tbody>';
-        //   }
-        // }
+          }
+        }
         // if (accountingLocalVars.tmp[i].AgentID == 7) {
         //   tableRow = '<tbody><tr> \
         //                       <td>' + count + '</td> \
