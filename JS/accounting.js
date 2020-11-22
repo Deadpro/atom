@@ -288,8 +288,8 @@ this.createAccountantTables = function() {
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].Quantity > 0) {
       if (accountingLocalVars.tmp[i].type === "На Ли Ген Сун") {
-        accountingLocalVars.countLee += 1;
-        count += 1;
+        // accountingLocalVars.countLee += 1;
+        // count += 1;
         var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
         var dTStrOut = formatDate(dt);
@@ -297,6 +297,8 @@ this.createAccountantTables = function() {
 
         if (accountingLocalVars.tmp[i].AgentID != 7) {
           if (taxNumber.trim().toString() != "2543122686" && taxNumber.trim().toString() != "2543115022") {
+            accountingLocalVars.countLee += 1;
+            count += 1;
             tableRow = '<tbody><tr> \
                                 <td>' + count + '</td> \
                                 <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
@@ -311,6 +313,12 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                               </tr></tbody>';
+            if (triggerLee == true) {
+               $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
+               $("#tableDataLee").append(tableHeaderRow);
+               triggerLee = false;
+            }
+            $("#tableDataLee").append(tableRow);
           }
         }
         // if (accountingLocalVars.tmp[i].AgentID == 7) {
@@ -330,12 +338,12 @@ this.createAccountantTables = function() {
         //                     </tr></tbody>';
         // }
 
-        if (triggerLee == true) {
-           $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
-           $("#tableDataLee").append(tableHeaderRow);
-           triggerLee = false;
-        }
-        $("#tableDataLee").append(tableRow);
+        // if (triggerLee == true) {
+        //    $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
+        //    $("#tableDataLee").append(tableHeaderRow);
+        //    triggerLee = false;
+        // }
+        // $("#tableDataLee").append(tableRow);
       } else {
         var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
