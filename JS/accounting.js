@@ -351,7 +351,7 @@ this.createAccountantTables = function() {
         var taxNumber = accountingLocalVars.tmp[i].ИНН;
 
         if (accountingLocalVars.tmp[i].AgentID != 7) {
-          if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          if (accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && accountingLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг" && taxNumber.trim().toString() != "6501158938") {
             count += 1;
             accountingLocalVars.countChe += 1;
             tableRow = '<tbody><tr> \
