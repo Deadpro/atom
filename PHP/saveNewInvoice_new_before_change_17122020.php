@@ -23,10 +23,6 @@
   $offset = 3; // Допустим, у пользователя смещение относительно Гринвича составляет +3 часа
   $time += 11 * 3600; // Добавляем 3 часа к времени по Гринвичу
   $dateTimeDoc = date("Y-m-d H:i:s", $time); // Выводим время пользователя, согласно его часовому поясу
-  $date = date("Y-m-d H:i:s");
-  $date = strtotime($dateTimeDoc);
-  $date = strtotime("-14 day", $date);
-  $dateTime = date('Y-m-d H:i:s', $date);
   $resultArray = array();
   $tempArray = array();
   $tmpInfo;
@@ -87,10 +83,9 @@
      VALUES ($invoiceNumber, $agentID, $salesPartnerID,
      '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
-    mysqli_query($dbconnect, $sql);
+   mysqli_query($dbconnect, $sql);
 
-    $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID,
-    AND DateTimeDoc >= '$dateTime' ";
+    $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID";
     // AgentID LIKE $agentID AND SalesPartnerID LIKE $salesPartnerID AND AccountingType LIKE '$accountingTypeDoc' AND
     //  AND Quantity LIKE $quantity AND Price LIKE $price AND Total LIKE $totalCost AND
     // ExchangeQuantity LIKE $exchange AND ReturnQuantity LIKE $returns AND InvoiceSum LIKE $invoiceSum AND
