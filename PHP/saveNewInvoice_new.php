@@ -83,7 +83,7 @@
      VALUES ($invoiceNumber, $agentID, $salesPartnerID,
      '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
-   mysqli_query($dbconnect, $sql);
+    mysqli_query($dbconnect, $sql);
 
     $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID";
     // AgentID LIKE $agentID AND SalesPartnerID LIKE $salesPartnerID AND AccountingType LIKE '$accountingTypeDoc' AND
