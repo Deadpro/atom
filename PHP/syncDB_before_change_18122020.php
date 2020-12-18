@@ -8,7 +8,7 @@
 
   $date = date("Y-m-d H:i:s");
   $date = strtotime($dateTimeDoc);
-  $date = strtotime("-6 day", $date);
+  $date = strtotime("-14 day", $date);
   $dateTime = date('Y-m-d H:i:s', $date);
 
   if($_SERVER["REQUEST_METHOD"]=="POST"){
