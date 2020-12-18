@@ -89,8 +89,8 @@
      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
     mysqli_query($dbconnect, $sql);
 
-    $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID,
-    AND DateTimeDoc >= '$dateTime' ";
+    $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID
+    ORDER BY ID LIMIT 1000";
     // AgentID LIKE $agentID AND SalesPartnerID LIKE $salesPartnerID AND AccountingType LIKE '$accountingTypeDoc' AND
     //  AND Quantity LIKE $quantity AND Price LIKE $price AND Total LIKE $totalCost AND
     // ExchangeQuantity LIKE $exchange AND ReturnQuantity LIKE $returns AND InvoiceSum LIKE $invoiceSum AND
