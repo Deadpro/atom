@@ -158,7 +158,7 @@
         }
       }
 
-      $sql = "SELECT itemID, dateTimeDoc, quantity, agentID FROM $tableName ";
+      $sql = "SELECT itemID, dateTimeDoc, quantity, agentID FROM $tableName ORDER BY ID DESC LIMIT 1000";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();
