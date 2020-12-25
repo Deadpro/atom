@@ -16,7 +16,8 @@
     $agentID = $_POST["agentID"];
 
     if($tableName == "salesPartners"){
-      $sql = "SELECT ID, Наименование, ИНН, Район, Учет, DayOfTheWeek, Автор FROM salespartners ";
+      $sql = "SELECT ID, Наименование, ИНН, Район, Учет, DayOfTheWeek, Автор FROM salespartners
+      WHERE CurrState=1 ";
 
       if ($result = mysqli_query($dbconnect, $sql)){
         $resultArray = array();
