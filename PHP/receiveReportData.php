@@ -43,7 +43,11 @@
     // }
     if ($accSubjectPost == 2) {
       $accSubject = "На Ли Ген Сун";
-    } else {
+    }
+    if ($accSubjectPost == 3) {
+      $accSubject = "На Че Роман Енгунович";
+    }
+    if ($accSubjectPost == 1) {
       $accSubject = "";
     }
     date_default_timezone_set("UTC"); // Устанавливаем часовой пояс по Гринвичу

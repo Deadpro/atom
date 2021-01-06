@@ -63,17 +63,23 @@
 .accountantContainer .tableDataLee td {
   font: normal 12px Arial;
   color: black;
-  padding: 5px;
+  padding: 2px;
   border: 1px solid #999;
 }
 .accountantContainer #tableDataChe td {
   font: normal 12px Arial;
   color: black;
-  padding: 5px;
+  padding: 2px;
   border: 1px solid #999;
 }
-.accountantContainer #tableDataLee td:nth-child(1) { width: 15px; text-align: right;}
-.accountantContainer #tableDataLee td:nth-child(2) { width: 65px; text-align: center;}
+.accountantContainer #tableDataCheRoma td {
+  font: normal 12px Arial;
+  color: black;
+  padding: 2px;
+  border: 1px solid #999;
+}
+.accountantContainer #tableDataLee td:nth-child(1) { width: 10px; text-align: left;}
+.accountantContainer #tableDataLee td:nth-child(2) { width: 35px; text-align: center;}
 .accountantContainer #tableDataLee td:nth-child(3) { width: 15px; text-align: left;}
 .accountantContainer #tableDataLee td:nth-child(4) { width: 150px; text-align: left;}
 .accountantContainer #tableDataLee td:nth-child(5) { width: 100px; text-align: left;}
@@ -85,8 +91,8 @@
 .accountantContainer #tableDataLee td:nth-child(11) { width: 75px; text-align: left;}
 .accountantContainer #tableDataLee td:nth-child(12) { width: 75px; text-align: center;}
 
-.accountantContainer #tableDataChe td:nth-child(1) { width: 15px; text-align: right;}
-.accountantContainer #tableDataChe td:nth-child(2) { width: 65px; text-align: center;}
+.accountantContainer #tableDataChe td:nth-child(1) { width: 10px; text-align: left;}
+.accountantContainer #tableDataChe td:nth-child(2) { width: 35px; text-align: center;}
 .accountantContainer #tableDataChe td:nth-child(3) { width: 15px; text-align: left;}
 .accountantContainer #tableDataChe td:nth-child(4) { width: 150px; text-align: left;}
 .accountantContainer #tableDataChe td:nth-child(5) { width: 100px; text-align: left;}
@@ -98,6 +104,19 @@
 .accountantContainer #tableDataChe td:nth-child(11) { width: 75px; text-align: left;}
 .accountantContainer #tableDataChe td:nth-child(12) { width: 75px; text-align: center;}
 
+.accountantContainer #tableDataCheRoma td:nth-child(1) { width: 10px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(2) { width: 35px; text-align: center;}
+.accountantContainer #tableDataCheRoma td:nth-child(3) { width: 15px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(4) { width: 150px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(5) { width: 100px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(6) { width: 75px; text-align: center;}
+.accountantContainer #tableDataCheRoma td:nth-child(7) { width: 50px; text-align: right;}
+.accountantContainer #tableDataCheRoma td:nth-child(8) { width: 75px; text-align: center;}
+.accountantContainer #tableDataCheRoma td:nth-child(9) { width: 75px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(10) { width: 75px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(11) { width: 75px; text-align: left;}
+.accountantContainer #tableDataCheRoma td:nth-child(12) { width: 75px; text-align: center;}
+
 .accountantContainer #tableContainer {
   /* position: fixed; */
   width: 95vw;
@@ -106,14 +125,14 @@
   overflow: auto;
   /* border: 1px solid green; */
 }
-#tableContainer .tableDataChe {
-   margin-top: 30px;
-}
-#tableContainer .tableDataLee {
+#tableContainer .tableDataChe .tableDataLee .tableDataCheRoma{
    margin-top: 10px;
 }
+/* #tableContainer .tableDataLee {
+   margin-top: 10px;
+} */
 #saveAccountant {
-  border: 1px solid green;
+  border: 2px solid green;
   margin-top: 30px;
   margin-bottom: 10px;
   margin-left: 3px;

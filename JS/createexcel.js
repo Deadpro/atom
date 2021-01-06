@@ -11,6 +11,7 @@ var localCreateExcel = {
 	"currDate" : formatDate(new Date()),
 	"countLee" : accountingLocalVars.countLee + 1,
 	"countChe" : accountingLocalVars.countChe + 1,
+  "countCheRoma" : accountingLocalVars.countCheRoma + 1,
 	"salesDate" : ""
 };
 
@@ -57,6 +58,11 @@ $("#button-a").click(function(){
 $("#saveAccountantChe").click(function(){
 	prepairDataToSave("accountantChe");
   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Че_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countChe +'.xlsx');
+});
+
+$("#saveAccountantCheRoma").click(function(){
+	prepairDataToSave("accountantCheRoma");
+  saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Рома_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countCheRoma +'.xlsx');
 });
 
 $("#saveAccountantLee").click(function(){
@@ -107,18 +113,19 @@ function prepairDataToSave(param) {
     // sheet.A2.z = '0';
 
 		localCreateExcel.sheetcols = [
-			{wch: 3},
-			{wch: 7},
-			{wch: 10},
-			{wch: 40},
-			{wch: 25},
-			{wch: 5},
-			{wch: 3},
-			{wch: 7},
-			{wch: 10},
-			{wch: 8},
+      {wch: 3},
 			{wch: 9},
-			{wch: 20}
+			{wch: 5},
+			{wch: 40},
+			{wch: 15},
+			{wch: 12},
+			{wch: 7},
+			{wch: 4},
+			{wch: 6},
+			{wch: 6},
+			{wch: 6},
+			{wch: 10},
+      {wch: 13}
 		];
 		worksheet['!cols'] = localCreateExcel.sheetcols;
 		workbook.SheetNames.push(wsname);
@@ -155,22 +162,57 @@ function prepairDataToSave(param) {
     var workbook = localCreateExcel.wbx;
     var worksheet = localCreateExcel.wsx;
     localCreateExcel.sheetcols = [
-			{wch: 3},
-			{wch: 7},
-			{wch: 10},
-			{wch: 40},
-			{wch: 25},
-			{wch: 5},
-			{wch: 3},
-			{wch: 7},
-			{wch: 10},
-			{wch: 8},
+      {wch: 3},
 			{wch: 9},
-			{wch: 20}
+			{wch: 5},
+			{wch: 40},
+			{wch: 15},
+			{wch: 12},
+			{wch: 7},
+			{wch: 4},
+			{wch: 6},
+			{wch: 6},
+			{wch: 6},
+			{wch: 10},
+      {wch: 13}
 		];
 		worksheet['!cols'] = localCreateExcel.sheetcols;
 		workbook.SheetNames.push(wsname);
     for (var i = 2; i < localCreateExcel.countLee + 1; i++) {
+      var cellE = 'E' + i;
+      var cellM = 'M' + i;
+      var valueCell = worksheet[cellE].v;
+      var strCell = valueCell.toString();
+      add_cell_to_sheet(worksheet, cellM, strCell);
+    }
+		workbook.Sheets[wsname] = worksheet;
+		localCreateExcel.wbxout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
+	}
+  if (param == "accountantCheRoma") { alert("Бухгалтерия ИП Че Роман Енгунович");
+		localCreateExcel.wbx = XLSX.utils.book_new();
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataCheRoma'));
+		localCreateExcel.wsx_name = "Продажи Че Рома";
+    var wsname = localCreateExcel.wsx_name;
+    var workbook = localCreateExcel.wbx;
+    var worksheet = localCreateExcel.wsx;
+    localCreateExcel.sheetcols = [
+			{wch: 3},
+			{wch: 9},
+			{wch: 5},
+			{wch: 40},
+			{wch: 15},
+			{wch: 12},
+			{wch: 7},
+			{wch: 4},
+			{wch: 6},
+			{wch: 6},
+			{wch: 6},
+			{wch: 10},
+      {wch: 13}
+		];
+		worksheet['!cols'] = localCreateExcel.sheetcols;
+		workbook.SheetNames.push(wsname);
+    for (var i = 2; i < localCreateExcel.countCheRoma + 1; i++) {
       var cellE = 'E' + i;
       var cellM = 'M' + i;
       var valueCell = worksheet[cellE].v;

@@ -36,6 +36,7 @@ var accountingLocalVars = {
   "accountantSubjectDash" : " --- ",
   "countChe" : 0,
   "countLee" : 0,
+  "countCheRoma" : 0,
   "radioCheckedTrigger" : false,
   "dateControl" : "",
   "chooseFileLabel" : "Выберите файл (Столичные)",
@@ -48,10 +49,11 @@ var accountingLocalVars = {
   "tmpSalesQuantity" : "",
   "sheet" : "",
   "chooseAccountantSubjectLabel" : "С каким ИП работать?",
-  "checkAccSubjectRadio" : ["checkChe", "checkLee"],
+  "checkAccSubjectRadio" : ["checkChe", "checkLee", "checkCheRoma"],
   "accSubjectCheckedValue" : "",
   "chooseAccChe" : "ИП Че Владимир Енгунович",
-  "chooseAccLee" : "ИП ЛИ Ген Сун"
+  "chooseAccLee" : "ИП ЛИ Ген Сун",
+  "chooseAccCheRoma" : "ИП Че Роман Енгунович"
 };
 
 if ($('.fileInput').length > 0)	{
@@ -241,7 +243,7 @@ $('#executeChoice').on('click', function() {
       accountingLocalVars.radioCheckedTrigger = true;
     }
   }
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     if (document.getElementById(accountingLocalVars.checkAccSubjectRadio[i]).checked == true) {
       accountingLocalVars.accSubjectCheckedValue = document.getElementById(accountingLocalVars.checkAccSubjectRadio[i]).value;
       // alert(accountingLocalVars.accSubjectCheckedValue);
@@ -277,6 +279,7 @@ this.createAccountantTables = function() {
       <div id='tableContainer'> \
         <table class='tableDataChe' id='tableDataChe'></table> \
         <table class='tableDataLee' id='tableDataLee'></table> \
+        <table class='tableDataCheRoma' id='tableDataCheRoma'></table> \
       </div> \
     </div> \
   ");
@@ -284,6 +287,7 @@ this.createAccountantTables = function() {
   var count = 0;
   var triggerLee = true;
   var triggerChe = true;
+  var triggerCheRoma = true;
   var tableRow;
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].Quantity > 0) {
@@ -337,14 +341,48 @@ this.createAccountantTables = function() {
         //                       <td>' + dTStrOut + '</td> \
         //                     </tr></tbody>';
         // }
-
+        //
         // if (triggerLee == true) {
         //    $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
         //    $("#tableDataLee").append(tableHeaderRow);
         //    triggerLee = false;
         // }
         // $("#tableDataLee").append(tableRow);
-      } else {
+      }
+      if (accountingLocalVars.tmp[i].type === "На Че Роман Енгунович") {
+        var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
+        var dt = new Date(dTStrSource);
+        var dTStrOut = formatDate(dt);
+        var taxNumber = accountingLocalVars.tmp[i].ИНН;
+
+        if (accountingLocalVars.tmp[i].AgentID != 7) {
+          if (taxNumber.trim().toString() != "2543122686" && taxNumber.trim().toString() != "2543115022") {
+            accountingLocalVars.countCheRoma += 1;
+            count += 1;
+            tableRow = '<tbody><tr> \
+                                <td>' + count + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                                <td>' + taxNumber + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                                <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                                <td>' + dTStrOut + '</td> \
+                              </tr></tbody>';
+            if (triggerCheRoma == true) {
+               $("#tableDataCheRoma").html("Продажи на ИП Че Роман Енгунович");
+               $("#tableDataCheRoma").append(tableHeaderRow);
+               triggerCheRoma = false;
+            }
+            $("#tableDataCheRoma").append(tableRow);
+          }
+        }
+      }
+      if (accountingLocalVars.tmp[i].type === "") {
         var dTStrSource = accountingLocalVars.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
         var dTStrOut = formatDate(dt);
@@ -456,16 +494,30 @@ this.createAccountantTables = function() {
   }
   var saveTriggerLee = false;
   var saveTriggerChe = false;
+  var saveTriggerCheRoma = false;
   var saveTriggerBtn = false;
   for (var i = 0; i < Object.keys(accountingLocalVars.tmp).length; i++) {
     if (accountingLocalVars.tmp[i].type == "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0
         && saveTriggerLee == false) {
       saveTriggerLee = true;
     }
-    if (accountingLocalVars.tmp[i].type != "На Ли Ген Сун" && accountingLocalVars.tmp[i].Quantity > 0
+    if (accountingLocalVars.tmp[i].type == "" && accountingLocalVars.tmp[i].Quantity > 0
         && saveTriggerChe == false) {
       saveTriggerChe = true;
     }
+    if (accountingLocalVars.tmp[i].type == "На Че Роман Енгунович" && accountingLocalVars.tmp[i].Quantity > 0
+        && saveTriggerCheRoma == false) {
+      saveTriggerCheRoma = true;
+    }
+  }
+  if (saveTriggerCheRoma == true) {
+    saveTriggerBtn = true;
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAccountantCheRoma'>Сохранить ИП Рома</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
   }
   if ((saveTriggerLee == true && saveTriggerChe == true) && saveTriggerBtn == false) {
     saveTriggerBtn = true;
@@ -538,6 +590,7 @@ this.renderAccountingOptions = function() {
         <div class='panel-body'> \
           <div class='radioContainer'><input type='radio' id='checkChe' name='chooseAccSubject' value='1'><label for='ИП Че Владимир Енгунович' id='radioLabel'>ИП Че Владимир Енгунович</label></div> \
           <div class='radioContainer'><input type='radio' id='checkLee' name='chooseAccSubject' value='2'><label for='ИП Ли Ген Сун' id='radioLabel'>ИП Ли Ген Сун</label></div> \
+          <div class='radioContainer'><input type='radio' id='checkCheRoma' name='chooseAccSubject' value='3'><label for='ИП Че Роман Енгунович' id='radioLabel'>ИП Че Роман Енгунович</label></div> \
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
