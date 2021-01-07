@@ -37,6 +37,7 @@
         <li><input type="submit" id="analytics" value="АНАЛИТИКА"></li>
         <li><input type="submit" id="printReport" value="ПЕЧАТЬ"></li>
         <li><input type="submit" id="changeDataBaseTables" value="ИЗМЕНИТЬ"></li>
+        <li><input type="submit" id="changeDataBaseTables" value="СКЛАД"></li>
         <li><input type="submit" id="mapCaiman" value="КАРТА"></li>
         <li><input type="submit" id="adminSettings" value="НАСТРОЙКИ"></li>
       </ul>
@@ -48,16 +49,17 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="../js/receiveAgentStatus.js" type="text/javascript" ></script>
-  <script src="../js/loginAdmin.js" type="text/javascript" ></script>
-  <script src="../js/reports.js" type="text/javascript" ></script>
+  <script type="text/javascript" src="../js/receiveAgentStatus.js"></script>
+  <script type="text/javascript" src="../js/loginAdmin.js"></script>
+  <script type="text/javascript" src="../js/reports.js"></script>
   <script type="text/javascript" src="../js/settings.js"></script>
   <script type="text/javascript" src="../js/analytics.js"></script>
   <script type="text/javascript" src="../js/accounting.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script>
   <script type="text/javascript" src="../js/globalVariables.js"></script>
-  <script src="../js/request_map.js" type="text/javascript"></script>
-  <script src="../js/changeDataBaseTables.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../js/request_map.js"></script>
+  <script type="text/javascript" src="../js/changeDataBaseTables.js"></script>
+  <script type="text/javascript" src="../js/warehouse.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
   <!-- Yandex Disk REST API jQuery Plugin -->
   <script type="text/javascript" src="../js/jquery.ydisk.js"></script>
