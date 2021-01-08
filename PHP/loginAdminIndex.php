@@ -37,7 +37,7 @@
         <li><input type="submit" id="analytics" value="АНАЛИТИКА"></li>
         <li><input type="submit" id="printReport" value="ПЕЧАТЬ"></li>
         <li><input type="submit" id="changeDataBaseTables" value="ИЗМЕНИТЬ"></li>
-        <li><input type="submit" id="changeDataBaseTables" value="СКЛАД"></li>
+        <li><input type="submit" id="warehouse" value="СКЛАД"></li>
         <li><input type="submit" id="mapCaiman" value="КАРТА"></li>
         <li><input type="submit" id="adminSettings" value="НАСТРОЙКИ"></li>
       </ul>
