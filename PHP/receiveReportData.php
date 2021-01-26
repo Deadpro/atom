@@ -175,7 +175,7 @@
       $areaArrayTmp = $areaArray[(int)$index];
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
-      salespartners.Наименование, salespartners.ИНН, salespartners.ID, salespartners.accSubject as type, salespartners.Юр_Наименование,
+      salespartners.Наименование, salespartners.ИНН, salespartners.ID as ID, salespartners.accSubject as type, salespartners.Юр_Наименование,
       номенклатура.Наименование as itemName, номенклатура.Артикул_1С as item FROM $areaArrayTmp
       INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID

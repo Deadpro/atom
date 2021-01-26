@@ -298,9 +298,10 @@ this.createAccountantTables = function() {
         var dt = new Date(dTStrSource);
         var dTStrOut = formatDate(dt);
         var taxNumber = accountingLocalVars.tmp[i].ИНН;
+        var spID = accountingLocalVars.tmp[i].ID;
 
         if (accountingLocalVars.tmp[i].AgentID != 7) {
-          if (taxNumber.trim().toString() != "2543122686" && taxNumber.trim().toString() != "2543115022") {
+          if (taxNumber.trim().toString() != "2543122686") {
             accountingLocalVars.countLee += 1;
             count += 1;
             tableRow = '<tbody><tr> \
@@ -323,6 +324,32 @@ this.createAccountantTables = function() {
                triggerLee = false;
             }
             $("#tableDataLee").append(tableRow);
+          }
+          if (accountingLocalVars.tmp[i].AgentID == 5) {
+            if (spID.trim() == 1208) {
+              accountingLocalVars.countLee += 1;
+              count += 1;
+              tableRow = '<tbody><tr> \
+                                  <td>' + count + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].InvoiceNumber + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].AgentID + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].Наименование + '</td> \
+                                  <td>' + taxNumber + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].itemName + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].item + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].Price + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].Quantity + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].Total + '</td> \
+                                  <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
+                                  <td>' + dTStrOut + '</td> \
+                                </tr></tbody>';
+              if (triggerLee == true) {
+                 $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
+                 $("#tableDataLee").append(tableHeaderRow);
+                 triggerLee = false;
+              }
+              $("#tableDataLee").append(tableRow);
+            }
           }
         }
         // if (accountingLocalVars.tmp[i].AgentID == 7) {
