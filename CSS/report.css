@@ -82,7 +82,8 @@
 #report-sales-manager,
 #report-by-day,
 #report-by-sp,
-#report-by-netcost {
+#report-by-netcost,
+#salary-report {
   padding: 5px;
   margin: 5px;
   width: 90%;

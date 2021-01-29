@@ -4,10 +4,10 @@ var warehouseLocalVars = {
 
 $('#warehouse').on('click', function() {
   // alert(1234567890);
-  renderMenuPage();
+  // renderMenuPageWarehouse();
 });
 
-this.renderMenuPage = function() {
+this.renderMenuPageWarehouse = function() {
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
     <div id='reportMenuContainer' class='reportMenuContainer'> \
