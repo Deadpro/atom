@@ -8,21 +8,21 @@
     if (isset($_POST['area']) === true && empty($_POST['area']) === false) {
       $area = trim($_POST['area']);
       if ($area == "1") {
-        $area = "Район_1";
+        $area = 'Район_1';
       }
       if ($area == "2") {
-        $area = "Район_2";
+        $area = 'Район_2';
       }
       if ($area == "3") {
-        $area = "Район_3";
+        $area = 'Район_3';
       }
       if ($area == "4") {
-        $area = "Район_4";
+        $area = 'Район_4';
       }
       if ($area == "5") {
-        $area = "Район_5";
+        $area = 'Район_5';
       }
-      $sql = "SELECT Артикул, Наименование, '$area' as Area FROM agentsSalaryRates";
+      $sql = "SELECT Артикул, Наименование, $area as Area FROM agentsSalaryRates";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();

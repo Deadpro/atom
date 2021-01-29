@@ -16,6 +16,13 @@ var reportsLocalVars = {
   "reportSubjectHeadSalaryLabel" : "Расчетный лист за период: ",
   "reportSubjectDashLabel" : "---",
   "reportSubjectDash" : "",
+  "totalNetWeightLabel" : "Чистая продажа вес",
+  "totalNetQuantitySpecialLabel" : "Чистая продажа штучка (спец.категория)",
+  "totalNetQuantityCanLabel" : "Чистая продажа ким-ча банка",
+  "totalNetQuantityMustardLabel" : "Чистая продажа горчица",
+  "totalNetQuantityOrdinaryLabel" : "Чистая продажа штучка (остальное)",
+  "totalReturnLabel" : "Совокупный возврат",
+  "totalSalaryLabel" : "Совокупный расчёт",
   "rateLabel" : "Кэф",
   "netQuantityLabel" : "Чистое",
   "salaryLabel" : "Зарплата",
@@ -63,6 +70,8 @@ var reportsLocalVars = {
   "tmpTotal" : 0,
   "reportSubjectHead" : "",
   "reportSubjectDash" : "",
+  "totalSalary" : 0,
+  "totalNetQuantity" : 0,
   "totalExchangeQuantity" : 0,
   "totalReturnQuantity" : 0,
   "totalExchangeQuantitySum" : 0,
@@ -939,9 +948,9 @@ $('#salary-report').on('click', function() {
 // });
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
-  if (reportsLocalVars.checkSumErrorsTrigger == true) {
-    // checkSumErrors();
-  }
+  // if (reportsLocalVars.checkSumErrorsTrigger == true) {
+  //   // checkSumErrors();
+  // }
   if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2" ||
       reportsLocalVars.tmp[paramThree].Наименование == "Редька по-восточному 500гр особая цена 1" ||
@@ -1036,6 +1045,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     // if (reportsLocalVars.tmp[paramThree].Total < 0) {
     //   alert("итого после: " + reportsLocalVars.totalSalesSum);
     // }
+    // reportsLocalVars.totalNetQuantity += reportsLocalVars.totalSalesQuantity - reportsLocalVars.totalExchangeQuantity - reportsLocalVars.totalReturnQuantity;
   }
 
   if (paramOne == 0) {
@@ -1108,6 +1118,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.total = parseFloat(reportsLocalVars.tmpTotal, 10);
     reportsLocalVars.totalNetCost = parseFloat(reportsLocalVars.tmpTotalNetCost, 10);
     reportsLocalVars.tmpName;
+    // reportsLocalVars.totalSalary += reportsLocalVars.salary;
 
     Object.defineProperty(reportsLocalVars.salaryList, reportsLocalVars.tmpName, {
        value: reportsLocalVars.salary,
@@ -1170,6 +1181,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.netQuantityList[reportsLocalVars.tmpName] = reportsLocalVars.netQuantity;
     reportsLocalVars.salaryList[reportsLocalVars.tmpName] = reportsLocalVars.salary;
     reportsLocalVars.trigger = true;
+    // reportsLocalVars.totalSalary += reportsLocalVars.salary;
   }
 }
 
@@ -1278,7 +1290,7 @@ this.renderReportTable = function(paramOne, paramTwo)	{
     if (paramOne == 4) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadSalaryLabel;
       reportsLocalVars.reportSubjectDash = reportsLocalVars.reportSubjectDashLabel;
-      reportsLocalVars.reportSubjectHeadCheckedArea = ", район: " + reportsLocalVars.checkedAreaValue;
+      reportsLocalVars.reportSubjectHeadCheckedArea = "  " + reportsLocalVars.checkedAreaValue;
     }
   } else {
     if (paramOne == 0) {
@@ -1295,6 +1307,7 @@ this.renderReportTable = function(paramOne, paramTwo)	{
     }
     if (paramOne == 4) {
       reportsLocalVars.reportSubjectHead = "Расчетный лист за последние 5 дней";
+      reportsLocalVars.reportSubjectHeadCheckedArea = "  " + reportsLocalVars.checkedAreaValue;
     }
     reportsLocalVars.reportSubjectDash = "";
   }
@@ -1574,24 +1587,22 @@ this.renderReportTable = function(paramOne, paramTwo)	{
                          <td>' + reportsLocalVars.itemNameLabel + '</td> \
                          <td>' + reportsLocalVars.netQuantityLabel + '</td> \
                          <td>' + reportsLocalVars.salaryLabel + '</td> \
-                         <td>' + reportsLocalVars.returnQuantityLabel + '</td> \
                        </tr></tbody>';
      var triggerHeader = true;
      for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
+       reportsLocalVars.totalSalary += parseFloat(reportsLocalVars.salaryList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
        var productLine = '<tbody><tr> \
                            <td>' + (i + 1) + '</td> \
                            <td>' + reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]] + '</td> \
                            <td>' + Object.keys(reportsLocalVars.salesQuantity)[i] + '</td> \
                            <td>' + reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
                            <td>' + reportsLocalVars.salaryList[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
-                           <td>' + reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]].toFixed(2) + '</td> \
                          </tr></tbody>';
        if (triggerHeader == true) {
          $("#tableData").append(tableHeaderRow);
          triggerHeader = false;
        }
        $("#tableData").append(productLine);
-       // alert(Object.keys(salesQuantity)[0]);
      }
      $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
      $("#tableSummaryHeaderData").append(" \
@@ -1609,63 +1620,63 @@ this.renderReportTable = function(paramOne, paramTwo)	{
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalExchangeQuantitySum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalExchangeQuantityLostSalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
          <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalExchangeWeightSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalExchangeWeightLostSalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
-         <td></td> \
-         <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalReturnLabel + "</td> \
+         <td>" + reportsLocalVars.totalReturnQuantityWeight + "</td> \
+         <td>" + reportsLocalVars.totalReturnQuantityWeightLostSalary + "</td> \
        </tr> <tr class='tableSeparator'></tr>\
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalReturnQuantityLabel + "</td> \
-         <td>" + reportsLocalVars.totalReturnQuantity.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalReturnQuantitySum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantitySpecialLabel + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantitySpecial + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantitySpecialSalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalReturnWeightLabel + "</td> \
-         <td>" + reportsLocalVars.totalReturnWeight.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalReturnWeightSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityCanLabel + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityCan + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityCanSalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalReturnSumLabel + "</td> \
-         <td></td> \
-         <td>" + reportsLocalVars.totalReturnSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityMustardLabel + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityMustard + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityMustardSalary + "</td> \
        </tr> <tr class='tableSeparator'></tr>\
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalSalesQuantityLabel + "</td> \
-         <td>" + reportsLocalVars.totalSalesQuantity.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalSalesQuantitySum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityOrdinaryLabel + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityOrdinary + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityOrdinarySalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalSalesWeightLabel + "</td> \
-         <td>" + reportsLocalVars.totalSalesWeight.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalSalesWeightSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetWeightLabel + "</td> \
+         <td>" + reportsLocalVars.totalNetWeight + "</td> \
+         <td>" + reportsLocalVars.totalNetWeightSalary + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
-         <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
+         <td>" + reportsLocalVars.totalSalaryLabel + "</td> \
          <td></td> \
-         <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalSalary + "</td> \
        </tr> \
      ");
    }
