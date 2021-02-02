@@ -46,6 +46,8 @@ var reportsLocalVars = {
   "returnQuantity" : 0,
   "total" : 0,
   "totalNetCost" : 0,
+  "exchangeSalaryLoss" : 0,
+  "exchangeSalaryLossList" : new Object(),
   "netQuantityList" : new Object(),
   "salesQuantity" : new Object(),
   "salesExchange" : new Object(),
@@ -57,6 +59,7 @@ var reportsLocalVars = {
   "agentSalaryRatesList" : new Object(),
   "agentSalaryRatesTmp" : new Object(),
   "salaryList" : new Object(),
+  "tmpExchangeSalaryLoss" : 0,
   "tmpSalary" : 0,
   "tmpName" : "",
   "tmpNetQuantity" : 0,
@@ -1069,6 +1072,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
     reportsLocalVars.tmpNetQuantity = parseFloat(reportsLocalVars.tmpQuantity) - parseFloat(reportsLocalVars.tmpExchange) - parseFloat(reportsLocalVars.tmpReturn);
     reportsLocalVars.tmpSalary = reportsLocalVars.tmpNetQuantity * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
+    reportsLocalVars.tmpExchangeSalaryLoss = reportsLocalVars.tmpExchange * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
     if (paramFour === 1) {
       if (reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 1" ||
           reportsLocalVars.tmp[paramThree].Наименование == "Ким-ча 700 гр особая цена 2") {
@@ -1090,6 +1094,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
     reportsLocalVars.tmpNetQuantity = parseFloat(reportsLocalVars.tmpQuantity) - parseFloat(reportsLocalVars.tmpExchange) - parseFloat(reportsLocalVars.tmpReturn);
     reportsLocalVars.tmpSalary = reportsLocalVars.tmpNetQuantity * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
+    reportsLocalVars.tmpExchangeSalaryLoss = reportsLocalVars.tmpExchange * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
     if (paramFour == 3) {
       reportsLocalVars.tmpName = "Редька по-восточному весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
     }
@@ -1104,22 +1109,29 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.tmpTotalNetCost = reportsLocalVars.tmpQuantity * reportsLocalVars.tmp[paramThree].netCost;
     reportsLocalVars.tmpNetQuantity = parseFloat(reportsLocalVars.tmpQuantity) - parseFloat(reportsLocalVars.tmpExchange) - parseFloat(reportsLocalVars.tmpReturn);
     reportsLocalVars.tmpSalary = reportsLocalVars.tmpNetQuantity * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
+    reportsLocalVars.tmpExchangeSalaryLoss = reportsLocalVars.tmpExchange * parseFloat(reportsLocalVars.agentSalaryRatesList[reportsLocalVars.tmpName]);
     if (paramFour == 3) {
       reportsLocalVars.tmpName = "Ким-ча весовая" + " " + reportsLocalVars.tmp[paramThree].netCost;
     }
   }
   if (paramTwo == 0) {
 
-    reportsLocalVars.salary = parseFloat(reportsLocalVars.tmpSalary, 10);
+    reportsLocalVars.salary = parseFloat(reportsLocalVars.tmpSalary, 4);
     reportsLocalVars.netQuantity = parseFloat(reportsLocalVars.tmpNetQuantity, 10);
     reportsLocalVars.quantity = parseFloat(reportsLocalVars.tmpQuantity, 10);
     reportsLocalVars.exchangeQuantity = parseFloat(reportsLocalVars.tmpExchange, 10);
     reportsLocalVars.returnQuantity = parseFloat(reportsLocalVars.tmpReturn, 10);
     reportsLocalVars.total = parseFloat(reportsLocalVars.tmpTotal, 10);
     reportsLocalVars.totalNetCost = parseFloat(reportsLocalVars.tmpTotalNetCost, 10);
+    reportsLocalVars.exchangeSalaryLoss = parseFloat(reportsLocalVars.tmpExchangeSalaryLoss, 4);
     reportsLocalVars.tmpName;
-    // reportsLocalVars.totalSalary += reportsLocalVars.salary;
 
+    Object.defineProperty(reportsLocalVars.exchangeSalaryLossList, reportsLocalVars.tmpName, {
+       value: reportsLocalVars.exchangeSalaryLoss,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
     Object.defineProperty(reportsLocalVars.salaryList, reportsLocalVars.tmpName, {
        value: reportsLocalVars.salary,
        writable: true,
@@ -1171,7 +1183,8 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.total = parseFloat(reportsLocalVars.salesTotal[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpTotal, 10);
     reportsLocalVars.totalNetCost = parseFloat(reportsLocalVars.salesTotalNetCost[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpTotalNetCost, 10);
     reportsLocalVars.netQuantity = parseFloat(reportsLocalVars.netQuantityList[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpNetQuantity, 10);
-    reportsLocalVars.salary = parseFloat(reportsLocalVars.salaryList[reportsLocalVars.tmpName], 10) + parseFloat(reportsLocalVars.tmpSalary, 10);
+    reportsLocalVars.salary = parseFloat(reportsLocalVars.salaryList[reportsLocalVars.tmpName], 4) + parseFloat(reportsLocalVars.tmpSalary, 4);
+    reportsLocalVars.exchangeSalaryLoss = parseFloat(reportsLocalVars.exchangeSalaryLossList[reportsLocalVars.tmpName], 4) + parseFloat(reportsLocalVars.tmpExchangeSalaryLoss, 4);
 
     reportsLocalVars.salesQuantity[reportsLocalVars.tmpName] = reportsLocalVars.quantity;
     reportsLocalVars.salesExchange[reportsLocalVars.tmpName] = reportsLocalVars.exchangeQuantity;
@@ -1181,7 +1194,6 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.netQuantityList[reportsLocalVars.tmpName] = reportsLocalVars.netQuantity;
     reportsLocalVars.salaryList[reportsLocalVars.tmpName] = reportsLocalVars.salary;
     reportsLocalVars.trigger = true;
-    // reportsLocalVars.totalSalary += reportsLocalVars.salary;
   }
 }
 
