@@ -115,7 +115,7 @@
          // $tmpInfo = "New record created successfully";
          // $tempArray = array('requestMessage' => $tmpInfo);
          // array_push($resultArray, $tempArray);
-         $sqlClone = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
+         $sqlClone = "INSERT INTO $clone (InvoiceNumber, AgentID, SalesPartnerID,
            AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
            ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
            VALUES ($invoiceNumber, $agentID, $salesPartnerID,
