@@ -118,6 +118,7 @@ function chooseSubMenuChangeDBTables(radio) {
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseSalesTableToChangeLabel + "</span></div> \
         <div class='panel-body'> \
+          <div class='radioContainer'><input type='radio' id='chooseChangeSalesAreaOne' name='chooseareatochangesales' onclick='chooseAreaToChangeSales(this);' value='areaOne'><label for='Продажи район 1' id='radioLabel'>Продажи район 1</label></div> \
           <div class='radioContainer'><input type='radio' id='chooseChangeSalesAreaTwo' name='chooseareatochangesales' onclick='chooseAreaToChangeSales(this);' value='areaTwo'><label for='Продажи район 2' id='radioLabel'>Продажи район 2</label></div> \
           <div class='radioContainer'><input type='radio' id='chooseChangeSalesAreaThree' name='chooseareatochangesales' onclick='chooseAreaToChangeSales(this);' value='areaThree'><label for='Продажи район 3' id='radioLabel'>Продажи район 3</label></div> \
           <div class='radioContainer'><input type='radio' id='chooseChangeSalesAreaFour' name='chooseareatochangesales' onclick='chooseAreaToChangeSales(this);' value='areaFour'><label for='Продажи район 4' id='radioLabel'>Продажи район 4</label></div> \
@@ -134,6 +135,7 @@ function chooseSubMenuChangeDBTables(radio) {
     <div class='panel panel-custom border'> \
       <div class='panel-heading col-100'><span>" + changeDBTablesLocalVars.chooseReceiveTableToChangeLabel + "</span></div> \
       <div class='panel-body'> \
+        <div class='radioContainer'><input type='radio' id='chooseChangeReceivesAreaOne' name='chooseareatochangereceives' onclick='chooseAreaToChangeReceives(this);' value='areaOne'><label for='Загрузки район 1' id='radioLabel'>Загрузки район 1</label></div> \
         <div class='radioContainer'><input type='radio' id='chooseChangeReceivesAreaTwo' name='chooseareatochangereceives' onclick='chooseAreaToChangeReceives(this);' value='areaTwo'><label for='Загрузки район 2' id='radioLabel'>Загрузки район 2</label></div> \
         <div class='radioContainer'><input type='radio' id='chooseChangeReceivesAreaThree' name='chooseareatochangereceives' onclick='chooseAreaToChangeReceives(this);' value='areaThree'><label for='Загрузки район 3' id='radioLabel'>Загрузки район 3</label></div> \
         <div class='radioContainer'><input type='radio' id='chooseChangeReceivesAreaFour' name='chooseareatochangereceives' onclick='chooseAreaToChangeReceives(this);' value='areaFour'><label for='Загрузки район 4' id='radioLabel'>Загрузки район 4</label></div> \
