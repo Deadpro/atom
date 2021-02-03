@@ -73,7 +73,22 @@ var reportsLocalVars = {
   "tmpTotal" : 0,
   "reportSubjectHead" : "",
   "reportSubjectDash" : "",
+  "totalNetWeight" : 0,
+  "totalExchangeWeightLossSalary" : 0,
+  "totalExchangeQuantityLossSalary" : 0,
+  "totalReturnQuantityLossSalary" : 0,
+  "totalReturnQuantityWeightLossSalary" : 0,
+  "totalReturnWeightLossSalary" : 0,
+  "totalNetQuantitySpecialSalary" : 0,
+  "totalNetQuantityCanSalary" : 0,
+  "totalNetQuantityMustardSalary" : 0,
+  "totalNetQuantityOrdinarySalary" : 0,
+  "totalNetWeightSalary" : 0,
   "totalSalary" : 0,
+  "totalNetQuantitySpecial" : 0,
+  "totalNetQuantityCan" : 0,
+  "totalNetQuantityMustard" : 0,
+  "totalNetQuantityOrdinary" : 0,
   "totalNetQuantity" : 0,
   "totalExchangeQuantity" : 0,
   "totalReturnQuantity" : 0,
@@ -1193,6 +1208,7 @@ this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
     reportsLocalVars.salesTotalNetCost[reportsLocalVars.tmpName] = reportsLocalVars.totalNetCost;
     reportsLocalVars.netQuantityList[reportsLocalVars.tmpName] = reportsLocalVars.netQuantity;
     reportsLocalVars.salaryList[reportsLocalVars.tmpName] = reportsLocalVars.salary;
+    reportsLocalVars.exchangeSalaryLossList[reportsLocalVars.tmpName] = reportsLocalVars.exchangeSalaryLoss;
     reportsLocalVars.trigger = true;
   }
 }
@@ -1602,7 +1618,67 @@ this.renderReportTable = function(paramOne, paramTwo)	{
                        </tr></tbody>';
      var triggerHeader = true;
      for (var i = 0; i < Object.keys(reportsLocalVars.salesQuantity).length; i++) {
+
        reportsLocalVars.totalSalary += parseFloat(reportsLocalVars.salaryList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+
+       if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча весовая" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Редька по-восточному весовая" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча традиционная 500" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча традиционная 250" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча премиум 500" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча премиум 250" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча 450" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча 250" ||
+        Object.keys(reportsLocalVars.salesQuantity)[i] == "Горчица") {
+          if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча весовая") {
+            reportsLocalVars.totalExchangeWeightLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalReturnWeight += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]];
+            reportsLocalVars.totalReturnWeightLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalNetWeight += parseFloat(reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalNetWeightSalary += parseFloat(reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]]) * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+          }
+          if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Редька по-восточному весовая") {
+            reportsLocalVars.totalExchangeWeightLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalReturnWeight += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]];
+            reportsLocalVars.totalReturnWeightLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalNetWeight += parseFloat(reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalNetWeightSalary += parseFloat(reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]]) * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+          }
+          if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Горчица") {
+            reportsLocalVars.totalExchangeQuantityLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalReturnQuantity += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]];
+            reportsLocalVars.totalReturnQuantityLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+            reportsLocalVars.totalNetQuantityMustard += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]];
+            reportsLocalVars.totalNetQuantityMustardSalary += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+          }
+          if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча традиционная 500" ||
+             Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча традиционная 250" ||
+             Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча премиум 500" ||
+             Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча премиум 250") {
+               reportsLocalVars.totalExchangeQuantityLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+               reportsLocalVars.totalReturnQuantity += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]];
+               reportsLocalVars.totalReturnQuantityLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+               reportsLocalVars.totalNetQuantitySpecial += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]];
+               reportsLocalVars.totalNetQuantitySpecialSalary += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+          }
+          if (Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча 450" ||
+             Object.keys(reportsLocalVars.salesQuantity)[i] == "Ким-ча 250") {
+               reportsLocalVars.totalExchangeQuantityLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+               reportsLocalVars.totalReturnQuantity += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]];
+               reportsLocalVars.totalReturnQuantityLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+               reportsLocalVars.totalNetQuantityCan += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]];
+               reportsLocalVars.totalNetQuantityCanSalary += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+          }
+       } else {
+         reportsLocalVars.totalExchangeQuantityLossSalary += parseFloat(reportsLocalVars.exchangeSalaryLossList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+         reportsLocalVars.totalReturnQuantity += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+         reportsLocalVars.totalReturnQuantityLossSalary += reportsLocalVars.salesReturn[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+         reportsLocalVars.totalNetQuantityOrdinary += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]];
+         reportsLocalVars.totalNetQuantityOrdinarySalary += reportsLocalVars.netQuantityList[Object.keys(reportsLocalVars.salesQuantity)[i]] * parseFloat(reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]]);
+       }
+
+      reportsLocalVars.totalReturnQuantityWeightLossSalary = reportsLocalVars.totalReturnQuantityLossSalary + reportsLocalVars.totalReturnWeightLossSalary;
+
        var productLine = '<tbody><tr> \
                            <td>' + (i + 1) + '</td> \
                            <td>' + reportsLocalVars.agentSalaryRatesList[Object.keys(reportsLocalVars.salesQuantity)[i]] + '</td> \
@@ -1632,63 +1708,63 @@ this.renderReportTable = function(paramOne, paramTwo)	{
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalExchangeQuantityLostSalary + "</td> \
+         <td>" + reportsLocalVars.totalExchangeQuantityLossSalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalExchangeWeightLabel + "</td> \
          <td>" + reportsLocalVars.totalExchangeWeight.toFixed(2) + "</td> \
-         <td>" + reportsLocalVars.totalExchangeWeightLostSalary + "</td> \
+         <td>" + reportsLocalVars.totalExchangeWeightLossSalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalReturnLabel + "</td> \
-         <td>" + reportsLocalVars.totalReturnQuantityWeight + "</td> \
-         <td>" + reportsLocalVars.totalReturnQuantityWeightLostSalary + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalReturnQuantityWeightLossSalary.toFixed(2) + "</td> \
        </tr> <tr class='tableSeparator'></tr>\
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalNetQuantitySpecialLabel + "</td> \
          <td>" + reportsLocalVars.totalNetQuantitySpecial + "</td> \
-         <td>" + reportsLocalVars.totalNetQuantitySpecialSalary + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantitySpecialSalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityCanLabel + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityCan + "</td> \
-         <td>" + reportsLocalVars.totalNetQuantityCanSalary + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityCanSalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityMustardLabel + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityMustard + "</td> \
-         <td>" + reportsLocalVars.totalNetQuantityMustardSalary + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityMustardSalary.toFixed(2) + "</td> \
        </tr> <tr class='tableSeparator'></tr>\
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityOrdinaryLabel + "</td> \
          <td>" + reportsLocalVars.totalNetQuantityOrdinary + "</td> \
-         <td>" + reportsLocalVars.totalNetQuantityOrdinarySalary + "</td> \
+         <td>" + reportsLocalVars.totalNetQuantityOrdinarySalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalNetWeightLabel + "</td> \
-         <td>" + reportsLocalVars.totalNetWeight + "</td> \
-         <td>" + reportsLocalVars.totalNetWeightSalary + "</td> \
+         <td>" + reportsLocalVars.totalNetWeight.toFixed(2) + "</td> \
+         <td>" + reportsLocalVars.totalNetWeightSalary.toFixed(2) + "</td> \
        </tr> \
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalSalaryLabel + "</td> \
          <td></td> \
-         <td>" + reportsLocalVars.totalSalary + "</td> \
+         <td>" + reportsLocalVars.totalSalary.toFixed(2) + "</td> \
        </tr> \
      ");
    }
