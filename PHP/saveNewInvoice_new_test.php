@@ -51,29 +51,6 @@
     $invoiceSum = $new_array[$i]['invoiceSum'];
     $comment = $new_array[$i]['comment'];
 
-
-    // if ($i > 0){
-    //   if ($invoiceNumber != $tmp[count($tmp) - 1]){
-    //     $tmpI[$i] = $invoiceNumber;
-    //      $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
-    //      array_push($resultArray, $tempArray);
-    //   }
-    // } else {
-    //   $tmp[$i] = $invoiceNumber;
-    //   $tempArray = array('invoiceNumber' => $invoiceNumber, 'dateTimeDoc' => $dateTimeDoc);
-    //   array_push($resultArray, $tempArray);
-    // }
-    //
-    // $sql = "SELECT ID FROM salespartners WHERE salespartners.Наименование LIKE '$salesPartnerName'
-    // AND salespartners.Район LIKE '$areaSP' AND salespartners.Учет LIKE '$accountingTypeSP' ";
-    // if ($result = mysqli_query($dbconnect, $sql)) {
-    //   while($row = mysqli_fetch_array($result)) {
-    //     if (mysqli_num_rows($result) != 0) {
-    //       $salesPartnerID = $row['ID'];
-    //     }
-    //   }
-    // }
-
     $sql = "SELECT Артикул FROM номенклатура WHERE номенклатура.Наименование LIKE '$itemName' ";
     if ($result = mysqli_query($dbconnect, $sql)) {
       while($row = mysqli_fetch_array($result)) {
@@ -93,17 +70,11 @@
 
     $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID
       ORDER BY ID LIMIT 1000";
-    // AgentID LIKE $agentID AND SalesPartnerID LIKE $salesPartnerID AND AccountingType LIKE '$accountingTypeDoc' AND
-    //  AND Quantity LIKE $quantity AND Price LIKE $price AND Total LIKE $totalCost AND
-    // ExchangeQuantity LIKE $exchange AND ReturnQuantity LIKE $returns AND InvoiceSum LIKE $invoiceSum AND
-    // Comment LIKE '$comment' AND DateTimeDocLocal LIKE '$dateTimeDocLocal' LIMIT 1";
     if ($result = mysqli_query($dbconnect, $sql)) {
       $row = mysqli_fetch_row($result);
       $totalMatches = $row[0];
     }
     if ($totalMatches == 0) {
-    // $resultArray = array();
-    // $tempArray = array();
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
         AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
         ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
@@ -112,9 +83,6 @@
         $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
       if (mysqli_query($dbconnect, $sql)) {
-         // $tmpInfo = "New record created successfully";
-         // $tempArray = array('requestMessage' => $tmpInfo);
-         // array_push($resultArray, $tempArray);
          $sqlClone = "INSERT INTO $clone (InvoiceNumber, AgentID, SalesPartnerID,
            AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
            ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
@@ -129,8 +97,6 @@
       }
     }
   }
-  // $itemsSoldCount = 0;
-  // if ($tmpInfo == "New record created successfully") {
   $sql = "SELECT DISTINCT InvoiceNumber FROM $tableName WHERE DateTimeDoc LIKE '$dateTimeDoc' ";
   if ($result = mysqli_query($dbconnect, $sql)) {
      $resultArray = array();
@@ -144,21 +110,4 @@
      echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
      mysqli_close($dbconnect);
   }
-  //   $sql = "SELECT InvoiceNumber FROM $tableName WHERE DateTimeDoc LIKE '$dateTimeDoc' ";
-  //   if ($result = mysqli_query($dbconnect, $sql)) {
-  //      // $resultArray = array();
-  //      $tempArray = array();
-  //      while($row = $result->fetch_object()) {
-  //         $itemsSoldCount += 1;
-  //      }
-  //      $tempArray = array('itemsSoldCount' => $itemsSoldCount);
-  //      array_push($resultArray, $tempArray);
-  //      echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-  //      // mysqli_close($dbconnect);
-  //   }
-  //   $tempArray = array('requestMessage' => $tmpInfo);
-  //   array_push($resultArray, $tempArray);
-  //   echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
-  // }
-  //  echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
 ?>
