@@ -1706,6 +1706,20 @@ this.renderReportTable = function(paramOne, paramTwo)	{
        <tr> \
          <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalSalesSumLabel + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalSalesSum.toFixed(2) + "</td> \
+       </tr> \
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.totalExchangeSumLabel + "</td> \
+         <td></td> \
+         <td>" + reportsLocalVars.totalExchangeSum.toFixed(2) + "</td> \
+       </tr><tr class='tableSeparator'></tr>\
+       <tr> \
+         <td>" + reportsLocalVars.dummy + "</td> \
+         <td>" + reportsLocalVars.dummy + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantityLabel + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantity.toFixed(2) + "</td> \
          <td>" + reportsLocalVars.totalExchangeQuantityLossSalary.toFixed(2) + "</td> \
