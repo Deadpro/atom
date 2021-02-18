@@ -648,59 +648,14 @@ $('#report-by-sp').on('click', function() {
   });
 });
 
-$('#report-ceo').on('click', function() {
+$('#report-ceo').on('click', async function() {
   getSalesPartnerID();
   getArea("report");
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
-  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
-                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
-    reportsLocalVars.tmp = JSON.parse(data);
-    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
-      reportsLocalVars.trigger = false;
-      if (reportsLocalVars.tmp[i].AgentID == 7) {
-        if (reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
-          if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-            for (var key in reportsLocalVars.salesQuantity) {
-              // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-              if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
-                createObject(0, 1, i, 1);
-              }
-            }
-            if (reportsLocalVars.trigger == false) {
-              createObject(0, 0, i, 1);
-            }
-          } else {
-            createObject(0, 0, i, 1);
-          }
-        }
-      }
-      if (reportsLocalVars.tmp[i].AgentID != 7) {
-        if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-          for (var key in reportsLocalVars.salesQuantity) {
-            // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-            if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
-              createObject(0, 1, i, 1);
-            }
-          }
-          if (reportsLocalVars.trigger == false) {
-            createObject(0, 0, i, 1);
-          }
-        } else {
-          createObject(0, 0, i, 1);
-        }
-      }
-    }
-    // if (Object.keys(salesQuantity).includes(tmp[i].Наименование)) {
-    // alert(Object.keys(salesQuantity).length);
-    // alert(salesQuantity["Щике"]);
-    // $('div#connection-data').text(text);
-    // var text = Object.entries(salesQuantity) + "\r\n" + Object.entries(salesExchange) + "\r\n" + Object.entries(salesReturn);
-    // $('div#connection-data').text(text);
-    renderReportTable(1, 0);
-  });
+  await ceoFuncPost();
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  renderReportTable(1, 0);
 });
 
 $('#report-by-day').on('click', function() {
@@ -1027,6 +982,13 @@ $('#salary-report').on('click', function() {
   }
 });
 
+$('#ingredients-report').on('click', function() {
+
+  reportsLocalVars.dateStart = $('input#dateStart').val();
+  reportsLocalVars.dateEnd = $('input#dateEnd').val();
+  
+});
+
 // $('#report-ceo-netcost').on('click', function() {
 //   getSalesPartnerID();
 //   getArea("report");
@@ -1062,6 +1024,92 @@ $('#salary-report').on('click', function() {
 //     renderReportTable(3, 1);
 //   });
 // });
+
+this.ceoFuncPost = function() {
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (reportsLocalVars.tmp[i].AgentID == 7) {
+        if (reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+            for (var key in reportsLocalVars.salesQuantity) {
+              if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+                createObject(0, 1, i, 1);
+              }
+            }
+            if (reportsLocalVars.trigger == false) {
+              createObject(0, 0, i, 1);
+            }
+          } else {
+            createObject(0, 0, i, 1);
+          }
+        }
+      }
+      if (reportsLocalVars.tmp[i].AgentID != 7) {
+        if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+          for (var key in reportsLocalVars.salesQuantity) {
+            if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+              createObject(0, 1, i, 1);
+            }
+          }
+          if (reportsLocalVars.trigger == false) {
+            createObject(0, 0, i, 1);
+          }
+        } else {
+          createObject(0, 0, i, 1);
+        }
+      }
+    }
+    // renderReportTable(1, 0);
+  });
+}
+
+this.ingredientsPost = function() {
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (reportsLocalVars.tmp[i].AgentID == 7) {
+        if (reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО СКЦ" && reportsLocalVars.tmp[i].Юр_Наименование.trim() != "ООО Спецторг") {
+          if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+            for (var key in reportsLocalVars.salesQuantity) {
+              if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+                createObject(0, 1, i, 1);
+              }
+            }
+            if (reportsLocalVars.trigger == false) {
+              createObject(0, 0, i, 1);
+            }
+          } else {
+            createObject(0, 0, i, 1);
+          }
+        }
+      }
+      if (reportsLocalVars.tmp[i].AgentID != 7) {
+        if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+          for (var key in reportsLocalVars.salesQuantity) {
+            if (key == reportsLocalVars.tmp[i].Наименование + " " + reportsLocalVars.tmp[i].Price) {
+              createObject(0, 1, i, 1);
+            }
+          }
+          if (reportsLocalVars.trigger == false) {
+            createObject(0, 0, i, 1);
+          }
+        } else {
+          createObject(0, 0, i, 1);
+        }
+      }
+    }
+    // renderReportTable(1, 0);
+  });
+}
 
 this.createObject = function(paramOne, paramTwo, paramThree, paramFour) {
   // if (reportsLocalVars.checkSumErrorsTrigger == true) {
