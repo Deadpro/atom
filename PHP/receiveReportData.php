@@ -299,6 +299,95 @@
         }
       }
     }
+    if ($reportType == 'ingredientsReport') {
+      if ($salesPartnerTrigger == false && $areaTrigger == false) {
+        for ($i = 0; $i < count($areaArray); $i++) {
+          $areaArrayTmp = $areaArray[$i];
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, номенклатура.Наименование as itemName, Quantity, справочник.Наименование as ingredientsName,
+          состав.Количество as ingredientsQuantity, справочник.Цена as ingredientsPrice FROM $areaArrayTmp
+          INNER JOIN номенклатура ON $areaArrayTmp.ItemID=номенклатура.Артикул
+          INNER JOIN состав ON $areaArrayTmp.ItemID=состав.Номенклатура
+          INNER JOIN справочник ON состав.Справочник=справочник.Артикул
+          WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd') AND Quantity>0 ORDER BY $areaArrayTmp.ItemID";
+          if ($result = mysqli_query($dbconnect, $sql)){
+            while($row = $result->fetch_object()){
+              $tempArray = $row;
+              array_push($resultArray, $tempArray);
+            }
+          } else {
+            $json["failed"] = 'Login failed. Invalid login
+            and/or password';
+            echo json_encode($json, JSON_UNESCAPED_UNICODE);
+            mysqli_close($dbconnect);
+          }
+        }
+      }
+      if ($salesPartnerTrigger == false && $areaTrigger == true) {
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
+        }
+      }
+      if ($salesPartnerTrigger == true && $areaTrigger == true) {
+        $areaArrayTmp = $areaArray[(int)$index];
+        $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+        ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+        InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+        INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+        INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
+        WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
+        ORDER BY ItemID";
+        if ($result = mysqli_query($dbconnect, $sql)){
+          while($row = $result->fetch_object()){
+            $tempArray = $row;
+            array_push($resultArray, $tempArray);
+          }
+        } else {
+          $json["failed"] = 'Login failed. Invalid login
+          and/or password';
+          echo json_encode($json, JSON_UNESCAPED_UNICODE);
+          mysqli_close($dbconnect);
+        }
+      }
+
+      if ($salesPartnerTrigger === true && $areaTrigger === false) {
+        for ($i = 1; $i < 6; $i++) {
+          $areaArrayTmp = $areaArray[$i];
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
+          ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
+          InvoiceSum, номенклатура.Наименование, salespartners.Юр_Наименование FROM $areaArrayTmp
+          INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
+          INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
+          WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND SalesPartnerID LIKE '$salesPartnerID'
+          ORDER BY ItemID";
+          if ($result = mysqli_query($dbconnect, $sql)){
+            while($row = $result->fetch_object()){
+              $tempArray = $row;
+              array_push($resultArray, $tempArray);
+            }
+          } else {
+            $json["failed"] = 'Login failed. Invalid login
+            and/or password';
+            echo json_encode($json, JSON_UNESCAPED_UNICODE);
+            mysqli_close($dbconnect);
+          }
+        }
+      }
+    }
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     mysqli_close($dbconnect);
   }

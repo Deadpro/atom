@@ -87,7 +87,8 @@
 #report-by-day,
 #report-by-sp,
 #report-by-netcost,
-#salary-report {
+#salary-report,
+#ingredients-report {
   padding: 5px;
   margin: 5px;
   width: 90%;
