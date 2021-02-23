@@ -62,6 +62,7 @@ var reportsLocalVars = {
   "salesTotal" : new Object(),
   "salesTotalNetCost" : new Object(),
   "tmp" : new Object(),
+  "tmp2" : new Object(),
   "salesPartnersList" : new Object(),
   "agentSalaryRatesList" : new Object(),
   "agentSalaryRatesTmp" : new Object(),
@@ -998,6 +999,8 @@ $('#ingredients-report').on('click', async function() {
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
   await salesManagerReportPost("ingredientsReport");
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  await ingredientsParametersPost();
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
   await ingredientsCalc();
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
   renderReportTable(5, 3);
@@ -1392,6 +1395,14 @@ this.ingredientsCalc = function() {
       }
     }
   }
+}
+
+function ingredientsParametersPost() {
+  $.post('../php/receiveIngredientsParameters.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd}, function(data) {
+    reportsLocalVars.tmp2 = JSON.parse(data);
+  });
 }
 
 function salesManagerReportPost(reportType) {
