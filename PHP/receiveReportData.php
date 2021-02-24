@@ -303,10 +303,9 @@
       if ($salesPartnerTrigger == false && $areaTrigger == false) {
         for ($i = 0; $i < count($areaArray); $i++) {
           $areaArrayTmp = $areaArray[$i];
-          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, номенклатура.Наименование as itemName, Quantity,
+          $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, ItemID, номенклатура.Наименование as itemName, Quantity,
           Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-          InvoiceSum, AgentID, SalesPartnerID, AccountingType, номенклатура.Наименование,
-          salespartners.Юр_Наименование FROM $areaArrayTmp
+          InvoiceSum, AgentID, SalesPartnerID, AccountingType, salespartners.Юр_Наименование FROM $areaArrayTmp
           INNER JOIN номенклатура ON $areaArrayTmp.ItemID=номенклатура.Артикул
           INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
           WHERE (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd') AND Quantity>0 ORDER BY $areaArrayTmp.ItemID";
