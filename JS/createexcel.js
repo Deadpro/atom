@@ -51,7 +51,13 @@ function add_cell_to_sheet(worksheet, address, value) {
 
 $("#button-a").click(function(){
 	// prepairDataToSave("reports");
-   convert();
+   convert("a");
+   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
+});
+
+$("#button-b").click(function(){
+	prepairDataToSave("reports");
+   // convert("b");
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
 
@@ -246,7 +252,7 @@ function formatDate(date) {
   return day + '-' + monthNames[monthIndex] + '-' + year;
 }
 
-function convert(){
+function convert(type){
    let tbl1 = document.getElementById("tableReportSubjectData");
    let tbl2 = document.getElementById("tableData");
    let tbl3 = document.getElementById("tableSummaryHeaderData");
@@ -262,23 +268,33 @@ function convert(){
    let c = XLSX.utils.sheet_to_json(worksheet_tmp3, { header: 1 });
    let d = XLSX.utils.sheet_to_json(worksheet_tmp4, { header: 1 });
 
-   var iStart = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 8);
-   var iEnd = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 19);
+   if (type == "a") {
+     var iStart = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 8);
+     var iEnd = sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 19);
 
-   // for (var i = iStart; i < iEnd; i++) {
-   //   var cellA = 'A' + i;
-   //   var cellB = 'B' + i;
-   //   var cellC = 'D' + i;
-   //   var cellD = 'E' + i;
-   //   var cellE = 'F' + i;
-   //   var valueCell = worksheet[cellE].v;
-   //   var strCell = valueCell.toString();
-   //   add_cell_to_sheet(worksheet, cellM, strCell);
-   // }
+     // for (var i = iStart; i < iEnd; i++) {
+     //   var cellA = 'A' + i;
+     //   var cellB = 'B' + i;
+     //   var cellC = 'D' + i;
+     //   var cellD = 'E' + i;
+     //   var cellE = 'F' + i;
+     //   var valueCell = worksheet[cellE].v;
+     //   var strCell = valueCell.toString();
+     //   add_cell_to_sheet(worksheet, cellM, strCell);
+     // }
 
-   var cellA = 'A' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
-   var cellB = 'B' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
-   var cellC = 'C' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
+     var cellA = 'A' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
+     var cellB = 'B' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
+     var cellC = 'C' + sum(parseInt(Object.keys(reportsLocalVars.salesQuantity).length, 10), 5);
+   }
+   if (type == "b") {
+     var iStart = sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 8);
+     var iEnd = sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 19);
+     var cellA = 'A' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
+     var cellB = 'B' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
+     var cellC = 'C' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
+   }
+
    // alert(cellC);
    a = a.concat(['']).concat(b);
    a = a.concat(['']).concat(c);

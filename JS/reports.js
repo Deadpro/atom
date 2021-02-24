@@ -1,6 +1,8 @@
 var reportsLocalVars = {
   "ingredientsNameLabel" : "Ингредиент",
   "ingredientsQuantityLabel" : "Расход",
+  "ingredientsIDLabel" : "Артикул",
+  "ingredientsPriceLabel" : "Цена",
   "itemNameLabel" : "Номенклатура",
   "itemPriceLabel" : "Цена",
   "salesQuantityLabel" : "Кол-во",
@@ -1246,17 +1248,21 @@ this.salesManagerCalc = function() {
 this.ingredientsCalc = function() {
   for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
     reportsLocalVars.trigger = false;
-    if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-      for (var key in reportsLocalVars.salesQuantity) {
-        if (reportsLocalVars.tmp2[i].itemName == key) {
-          createIngredientsObject(4, 3, i, 1);
+    for (var itemName in reportsLocalVars.salesQuantity) {
+      if (reportsLocalVars.tmp2[i].itemName == itemName) {
+        if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
+          for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
+            if (reportsLocalVars.tmp2[i].ingredientsName == ingredientsName) {
+              createIngredientsObject(4, 3, i, 1);
+            }
+          }
+          if (reportsLocalVars.trigger == false) {
+            createIngredientsObject(4, 2, i, 1);
+          }
+        } else {
+          createIngredientsObject(4, 2, i, 1);
         }
       }
-      if (reportsLocalVars.trigger == false) {
-        createIngredientsObject(4, 2, i, 1);
-      }
-    } else {
-      createIngredientsObject(4, 2, i, 1);
     }
   }
 }
@@ -1279,10 +1285,10 @@ function salesManagerReportPost() {
 
 this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFour) {
   if (paramOne == 4) {
-    reportsLocalVars.tmpSalesQuantity = reportsLocalVars.salesQuantity[reportsLocalVars.tmp2[paramThree].itemName];
+    reportsLocalVars.tmpSalesQuantity = parseFloat(reportsLocalVars.salesQuantity[reportsLocalVars.tmp2[paramThree].itemName], 4);
     reportsLocalVars.tmpNameIngredients = reportsLocalVars.tmp2[paramThree].ingredientsName;
-    reportsLocalVars.tmpMultipliedQuantityIngredients = reportsLocalVars.tmp[paramThree].ingredientsQuantity * reportsLocalVars.tmpSalesQuantity;
-    reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * reportsLocalVars.tmp2[paramThree].ingredientsPrice;
+    reportsLocalVars.tmpMultipliedQuantityIngredients = parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsQuantity, 4) * reportsLocalVars.tmpSalesQuantity;
+    reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsPrice, 4);
   }
   if (paramTwo == 2) {
 
@@ -1310,6 +1316,8 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFou
     reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedQuantityIngredients;
     reportsLocalVars.salesIngredientsSum[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedSumIngredients;
     reportsLocalVars.trigger = true;
+    // alert(reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients]);
+    // alert(reportsLocalVars.multipliedQuantityIngredients);
   }
 }
 
@@ -2223,7 +2231,7 @@ this.renderReportTable = function(paramOne, paramTwo)	{
          <div id='tableContainer'><table class='tableData' id='tableData'></table></div> \
          <div id='tableSummaryHeader'><table id='tableSummaryHeaderData'></table></div> \
          <div id='tableSummaryContainer'><table id='tableSummaryData'></table></div><br /> \
-         <button id='button-a'>Сохранить файл</button> \
+         <button id='button-b'>Сохранить файл</button> \
        </div> \
      ");
      var tableReportSubjectRow = '<tbody><tr> \
@@ -2234,11 +2242,11 @@ this.renderReportTable = function(paramOne, paramTwo)	{
      $("#tableReportSubjectData").append(tableReportSubjectRow);
      var tableHeaderRow = '<tbody><tr> \
                          <td>' + reportsLocalVars.IDLabel + '</td> \
-                         <td>' + reportsLocalVars.dummy + '</td> \
+                         <td>' + reportsLocalVars.ingredientsIDLabel + '</td> \
                          <td>' + reportsLocalVars.ingredientsNameLabel + '</td> \
                          <td>' + reportsLocalVars.ingredientsQuantityLabel + '</td> \
+                         <td>' + reportsLocalVars.ingredientsPriceLabel + '</td> \
                          <td>' + reportsLocalVars.totalLabel + '</td> \
-                         <td>' + reportsLocalVars.dummy + '</td> \
                        </tr></tbody>';
      var triggerHeader = true;
      for (var i = 0; i < Object.keys(reportsLocalVars.salesIngredientsQuantity).length; i++) {
@@ -2247,8 +2255,8 @@ this.renderReportTable = function(paramOne, paramTwo)	{
                            <td>' + reportsLocalVars.dummy + '</td> \
                            <td>' + Object.keys(reportsLocalVars.salesIngredientsQuantity)[i] + '</td> \
                            <td>' + reportsLocalVars.salesIngredientsQuantity[Object.keys(reportsLocalVars.salesIngredientsQuantity)[i]].toFixed(4) + '</td> \
-                           <td>' + reportsLocalVars.salesIngredientsSum[Object.keys(reportsLocalVars.salesIngredientsQuantity)[i]].toFixed(4) + '</td> \
                            <td>' + reportsLocalVars.dummy + '</td> \
+                           <td>' + reportsLocalVars.salesIngredientsSum[Object.keys(reportsLocalVars.salesIngredientsQuantity)[i]].toFixed(4) + '</td> \
                          </tr></tbody>';
        if (triggerHeader == true) {
          $("#tableData").append(tableHeaderRow);

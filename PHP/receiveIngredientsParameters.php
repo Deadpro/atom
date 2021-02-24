@@ -5,8 +5,8 @@
   if (isset($_POST['dbName']) === true && empty($_POST['dbName']) === false &&
       isset($_POST['dbUser']) === true && empty($_POST['dbUser']) === false &&
       isset($_POST['dbPassword']) === true && empty($_POST['dbPassword']) === false) {
-    $sql = "SELECT номенклатура.Артикул as itemID, номенклатура.Наименование as itemName, справочник.Наименование as ingredientsName,
-    состав.Количество as ingredientsQuantity, справочник.Цена as ingredientsPrice FROM номенклатура
+    $sql = "SELECT номенклатура.Артикул as itemID, номенклатура.Наименование as itemName, справочник.Артикул as ingredientsID,
+    справочник.Наименование as ingredientsName, состав.Количество as ingredientsQuantity, справочник.Цена as ingredientsPrice FROM номенклатура
     INNER JOIN состав ON номенклатура.Артикул=состав.Номенклатура
     INNER JOIN справочник ON состав.Справочник=справочник.Артикул WHERE 1 ORDER BY номенклатура.Артикул";
     if ($result = mysqli_query($dbconnect, $sql)) {
