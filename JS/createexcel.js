@@ -55,9 +55,10 @@ $("#button-a").click(function(){
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
 
-$("#button-b").click(function(){
-	prepairDataToSave("reports");
-   // convert("b");
+$("#button-b").click(async function(){
+	// prepairDataToSave("reports");
+   await convert("b");
+   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
 });
 
@@ -85,9 +86,12 @@ $("#printReport").click(function(){
 function prepairDataToSave(param) {
 	// var wb = XLS.utils.table_to_book(document.getElementById('tableData'),{sheet:"Sheet JS"});
 	if (param == "reports") { alert("Отчеты");
-		localCreateExcel.wb = XLSX.utils.book_new();
-		localCreateExcel.ws = XLSX.utils.table_to_sheet(document.getElementById('tableData'));
-		localCreateExcel.ws_name = "Отчет";
+		localCreateExcel.wbx = XLSX.utils.book_new();
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableData'));
+		localCreateExcel.wsx_name = "Отчет";
+    var wsname = localCreateExcel.wsx_name;
+    var workbook = localCreateExcel.wbx;
+    var worksheet = localCreateExcel.wsx;
 		localCreateExcel.sheetcols = [
 			{wch: 3},
 			{wch: 7},
@@ -96,12 +100,10 @@ function prepairDataToSave(param) {
 			{wch: 9},
 			{wch: 5}
 		];
-		localCreateExcel.ws['!cols'] = localCreateExcel.sheetcols;
-		// ws['!rows'] = wsrows;
-		localCreateExcel.wb.SheetNames.push(localCreateExcel.ws_name);
-		localCreateExcel.wb.Sheets[localCreateExcel.ws_name] = localCreateExcel.ws;
-		// XLS.utils.book_append_sheet(wb, ws, ws_name);
-		localCreateExcel.wbout = XLSX.write(localCreateExcel.wb, {bookType:'xlsx', bookSST:true, type:'binary'});
+		worksheet['!cols'] = localCreateExcel.sheetcols;
+		workbook.SheetNames.push(wsname);
+		workbook.Sheets[wsname] = worksheet;
+		localCreateExcel.wbxout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
 	}
 	if (param == "accountantChe") { alert("Бухгалтерия ИП Че");
 		localCreateExcel.wb = XLSX.utils.book_new();
@@ -290,6 +292,7 @@ function convert(type){
    if (type == "b") {
      var iStart = sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 8);
      var iEnd = sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 19);
+     // var iEnd = parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10);
      var cellA = 'A' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
      var cellB = 'B' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
      var cellC = 'C' + sum(parseInt(Object.keys(reportsLocalVars.salesIngredientsQuantity).length, 10), 5);
@@ -317,7 +320,7 @@ function convert(type){
    localCreateExcel.sheetcols = [
      {wch: 3},
      {wch: 7},
-     {wch: 40},
+     {wch: 30},
      {wch: 8},
      {wch: 9},
      {wch: 7}
@@ -327,14 +330,16 @@ function convert(type){
    localCreateExcel.wb.Sheets[localCreateExcel.ws_name] = localCreateExcel.ws;
    delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name]['A1'];
    delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name]['B1'];
-   delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
-   delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
-   delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellC];
-   for (var i = iStart; i < iEnd; i++) {
+   // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name]['C1'];
+   // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
+   // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
+   // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellC];
+   for (var i = 1; i < iEnd; i++) {
      var cellA = 'A' + i;
      var cellB = 'B' + i;
-     delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
-     delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
+     var cellC = 'C' + i;
+     // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellA];
+     // delete localCreateExcel.wb.Sheets[localCreateExcel.ws_name][cellB];
    }
    localCreateExcel.wbout = XLSX.write(localCreateExcel.wb, {bookType:'xlsx', bookSST:true, type:'binary'});
 }

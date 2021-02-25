@@ -1316,8 +1316,6 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFou
     reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedQuantityIngredients;
     reportsLocalVars.salesIngredientsSum[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedSumIngredients;
     reportsLocalVars.trigger = true;
-    // alert(reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients]);
-    // alert(reportsLocalVars.multipliedQuantityIngredients);
   }
 }
 
@@ -2253,7 +2251,7 @@ this.renderReportTable = function(paramOne, paramTwo)	{
        var productLine = '<tbody><tr> \
                            <td>' + (i + 1) + '</td> \
                            <td>' + reportsLocalVars.dummy + '</td> \
-                           <td>' + Object.keys(reportsLocalVars.salesIngredientsQuantity)[i] + '</td> \
+                           <td>' + Object.keys(reportsLocalVars.salesIngredientsSum)[i] + '</td> \
                            <td>' + reportsLocalVars.salesIngredientsQuantity[Object.keys(reportsLocalVars.salesIngredientsQuantity)[i]].toFixed(4) + '</td> \
                            <td>' + reportsLocalVars.dummy + '</td> \
                            <td>' + reportsLocalVars.salesIngredientsSum[Object.keys(reportsLocalVars.salesIngredientsQuantity)[i]].toFixed(4) + '</td> \
