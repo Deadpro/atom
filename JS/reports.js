@@ -1276,10 +1276,12 @@ this.ingredientsCalc = function(type) {
       reportsLocalVars.trigger = false;
       for (var itemName in reportsLocalVars.salesQuantity) {
         if (reportsLocalVars.tmp2[i].itemName == itemName && reportsLocalVars.tmp2[i].ingredientsName == "Янним") {
-          if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
-            for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
-              if (reportsLocalVars.tmp2[i].ingredientsName == ingredientsName) {
-                createIngredientsObject(1, 3, i);
+          if (Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length > 0) {
+            for (var ingredientsName in reportsLocalVars.salesIngredientsQuantityYannim) {
+              for (var j = 0; j <0; j++) {
+                if (reportsLocalVars.tmp3[j].ingredientsName == ingredientsName) {
+                  createIngredientsObject(1, 3, i);
+                }
               }
             }
             if (reportsLocalVars.trigger == false) {
@@ -1323,7 +1325,10 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree) {
     reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsPrice, 4);
   }
   if (paramOne == 1) {
-
+    reportsLocalVars.tmpSalesQuantity = parseFloat(reportsLocalVars.salesQuantity[reportsLocalVars.tmp2[paramThree].itemName], 4);
+    reportsLocalVars.tmpNameIngredients = reportsLocalVars.tmp3[paramThree].ingredientsName;
+    reportsLocalVars.tmpMultipliedQuantityIngredientsYannim = parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsQuantity, 4) * reportsLocalVars.tmpSalesQuantity;
+    reportsLocalVars.tmpMultipliedSumIngredientsYannim = reportsLocalVars.tmpMultipliedQuantityIngredientsYannim * parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsPrice, 4);
   }
   if (paramTwo == 0) {
 
