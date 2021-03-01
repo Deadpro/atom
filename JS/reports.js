@@ -65,6 +65,7 @@ var reportsLocalVars = {
   "salesTotalNetCost" : new Object(),
   "tmp" : new Object(),
   "tmp2" : new Object(),
+  "tmp3" : new Object(),
   "salesPartnersList" : new Object(),
   "agentSalaryRatesList" : new Object(),
   "agentSalaryRatesTmp" : new Object(),
@@ -1003,10 +1004,13 @@ $('#ingredients-report').on('click', async function() {
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
   await salesManagerCalc();
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  await ingredientsParametersPost();
+  await ingredientsParametersPost("main");
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  await ingredientsCalc();
-  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  await ingredientsCalc("main");
+  // await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  // await ingredientsParametersPost("additional");
+  // await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  // await ingredientsCalc("additional");
   renderReportTable(5, 3);
 });
 
@@ -1245,32 +1249,60 @@ this.salesManagerCalc = function() {
   }
 }
 
-this.ingredientsCalc = function() {
-  for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
-    reportsLocalVars.trigger = false;
-    for (var itemName in reportsLocalVars.salesQuantity) {
-      if (reportsLocalVars.tmp2[i].itemName == itemName) {
-        if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
-          for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
-            if (reportsLocalVars.tmp2[i].ingredientsName == ingredientsName) {
-              createIngredientsObject(4, 3, i, 1);
+this.ingredientsCalc = function(type) {
+  if (type == "main") {
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
+      reportsLocalVars.trigger = false;
+      for (var itemName in reportsLocalVars.salesQuantity) {
+        if (reportsLocalVars.tmp2[i].itemName == itemName) {
+          if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
+            for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
+              if (reportsLocalVars.tmp2[i].ingredientsName == ingredientsName) {
+                createIngredientsObject(0, 1, i);
+              }
             }
+            if (reportsLocalVars.trigger == false) {
+              createIngredientsObject(0, 0, i);
+            }
+          } else {
+            createIngredientsObject(0, 0, i);
           }
-          if (reportsLocalVars.trigger == false) {
-            createIngredientsObject(4, 2, i, 1);
+        }
+      }
+    }
+  }
+  if (type == "additional") {
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
+      reportsLocalVars.trigger = false;
+      for (var itemName in reportsLocalVars.salesQuantity) {
+        if (reportsLocalVars.tmp2[i].itemName == itemName && reportsLocalVars.tmp2[i].ingredientsName == "Янним") {
+          if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
+            for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
+              if (reportsLocalVars.tmp2[i].ingredientsName == ingredientsName) {
+                createIngredientsObject(1, 3, i);
+              }
+            }
+            if (reportsLocalVars.trigger == false) {
+              createIngredientsObject(1, 2, i);
+            }
+          } else {
+            createIngredientsObject(1, 2, i);
           }
-        } else {
-          createIngredientsObject(4, 2, i, 1);
         }
       }
     }
   }
 }
 
-function ingredientsParametersPost() {
+function ingredientsParametersPost(type) {
   $.post('../php/receiveIngredientsParameters.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                          dbPassword: localStorage.getItem('dbPassword')}, function(data) {
-    reportsLocalVars.tmp2 = JSON.parse(data);
+                                          dbPassword: localStorage.getItem('dbPassword'), type: type}, function(data) {
+    if (type == "main") {
+      reportsLocalVars.tmp2 = JSON.parse(data);
+    }
+    if (type == "additional") {
+      reportsLocalVars.tmp3 = JSON.parse(data);
+    }
   });
 }
 
@@ -1283,14 +1315,17 @@ function salesManagerReportPost() {
   });
 }
 
-this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFour) {
-  if (paramOne == 4) {
+this.createIngredientsObject = function(paramOne, paramTwo, paramThree) {
+  if (paramOne == 0) {
     reportsLocalVars.tmpSalesQuantity = parseFloat(reportsLocalVars.salesQuantity[reportsLocalVars.tmp2[paramThree].itemName], 4);
     reportsLocalVars.tmpNameIngredients = reportsLocalVars.tmp2[paramThree].ingredientsName;
     reportsLocalVars.tmpMultipliedQuantityIngredients = parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsQuantity, 4) * reportsLocalVars.tmpSalesQuantity;
     reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsPrice, 4);
   }
-  if (paramTwo == 2) {
+  if (paramOne == 1) {
+
+  }
+  if (paramTwo == 0) {
 
     reportsLocalVars.multipliedQuantityIngredients = parseFloat(reportsLocalVars.tmpMultipliedQuantityIngredients, 4);
     reportsLocalVars.multipliedSumIngredients = parseFloat(reportsLocalVars.tmpMultipliedSumIngredients, 4);
@@ -1308,7 +1343,7 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFou
        configurable: true
     });
   }
-  if (paramTwo == 3) {
+  if (paramTwo == 1) {
 
     reportsLocalVars.multipliedQuantityIngredients = parseFloat(reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients], 4) + parseFloat(reportsLocalVars.tmpMultipliedQuantityIngredients, 4);
     reportsLocalVars.multipliedSumIngredients = parseFloat(reportsLocalVars.salesIngredientsSum[reportsLocalVars.tmpNameIngredients], 4) + parseFloat(reportsLocalVars.tmpMultipliedSumIngredients, 4);
@@ -1316,6 +1351,12 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree, paramFou
     reportsLocalVars.salesIngredientsQuantity[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedQuantityIngredients;
     reportsLocalVars.salesIngredientsSum[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedSumIngredients;
     reportsLocalVars.trigger = true;
+  }
+  if (paramTwo == 2) {
+
+  }
+  if (paramTwo == 3) {
+
   }
 }
 
@@ -2261,7 +2302,6 @@ this.renderReportTable = function(paramOne, paramTwo)	{
          triggerHeader = false;
        }
        $("#tableData").append(productLine);
-       // alert(Object.keys(salesQuantity)[0]);
      }
      $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
      // $("#tableSummaryHeaderData").append(" \
