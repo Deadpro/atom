@@ -56,6 +56,8 @@ var reportsLocalVars = {
   "exchangeSalaryLoss" : 0,
   "salesIngredientsQuantity" : new Object(),
   "salesIngredientsSum" : new Object(),
+  "salesIngredientsQuantityYannim" : new Object(),
+  "salesIngredientsSumYannim" : new Object(),
   "exchangeSalaryLossList" : new Object(),
   "netQuantityList" : new Object(),
   "salesQuantity" : new Object(),
@@ -1007,10 +1009,10 @@ $('#ingredients-report').on('click', async function() {
   await ingredientsParametersPost("main");
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
   await ingredientsCalc("main");
-  // await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  // await ingredientsParametersPost("additional");
-  // await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  // await ingredientsCalc("additional");
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  await ingredientsParametersPost("additional");
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  await ingredientsCalc("additional");
   renderReportTable(5, 3);
 });
 
@@ -1272,25 +1274,44 @@ this.ingredientsCalc = function(type) {
     }
   }
   if (type == "additional") {
-    for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
+    // for (var i = 0; i < Object.keys(reportsLocalVars.tmp2).length; i++) {
+    //   reportsLocalVars.trigger = false;
+    //   for (var itemName in reportsLocalVars.salesQuantity) {
+    //     if (reportsLocalVars.tmp2[i].itemName == itemName && reportsLocalVars.tmp2[i].ingredientsName == "Янним") {
+    //       if (Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length > 0) {
+    //         for (var ingredientsName in reportsLocalVars.salesIngredientsQuantityYannim) {
+    //           for (var j = 0; j <0; j++) {
+    //             if (reportsLocalVars.tmp3[j].ingredientsName == ingredientsName) {
+    //               createIngredientsObject(1, 3, i);
+    //             }
+    //           }
+    //         }
+    //         if (reportsLocalVars.trigger == false) {
+    //           createIngredientsObject(1, 2, i);
+    //         }
+    //       } else {
+    //         createIngredientsObject(1, 2, i);
+    //       }
+    //     }
+    //   }
+    // }
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp3).length; i++) {
       reportsLocalVars.trigger = false;
-      for (var itemName in reportsLocalVars.salesQuantity) {
-        if (reportsLocalVars.tmp2[i].itemName == itemName && reportsLocalVars.tmp2[i].ingredientsName == "Янним") {
-          if (Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length > 0) {
-            for (var ingredientsName in reportsLocalVars.salesIngredientsQuantityYannim) {
-              for (var j = 0; j <0; j++) {
-                if (reportsLocalVars.tmp3[j].ingredientsName == ingredientsName) {
-                  createIngredientsObject(1, 3, i);
-                }
+      if (Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length > 0) {
+        for (var ingredientsName in reportsLocalVars.salesIngredientsQuantityYannim) {
+          // for (var yannimSearch in reportsLocalVars.salesIngredientsQuantity) {
+            if (reportsLocalVars.salesIngredientsQuantity["Янним"] > 0) {
+              if (reportsLocalVars.tmp3[i].ingredientsName == ingredientsName) {
+                createIngredientsObject(1, 3, i);
               }
             }
-            if (reportsLocalVars.trigger == false) {
-              createIngredientsObject(1, 2, i);
-            }
-          } else {
-            createIngredientsObject(1, 2, i);
-          }
+          // }
         }
+        if (reportsLocalVars.trigger == false) {
+          createIngredientsObject(1, 2, i);
+        }
+      } else {
+        createIngredientsObject(1, 2, i);
       }
     }
   }
@@ -1325,10 +1346,10 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree) {
     reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * parseFloat(reportsLocalVars.tmp2[paramThree].ingredientsPrice, 4);
   }
   if (paramOne == 1) {
-    reportsLocalVars.tmpSalesQuantity = parseFloat(reportsLocalVars.salesQuantity[reportsLocalVars.tmp2[paramThree].itemName], 4);
+    reportsLocalVars.tmpSalesQuantity = parseFloat(reportsLocalVars.salesIngredientsQuantity["Янним"], 4);
     reportsLocalVars.tmpNameIngredients = reportsLocalVars.tmp3[paramThree].ingredientsName;
-    reportsLocalVars.tmpMultipliedQuantityIngredientsYannim = parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsQuantity, 4) * reportsLocalVars.tmpSalesQuantity;
-    reportsLocalVars.tmpMultipliedSumIngredientsYannim = reportsLocalVars.tmpMultipliedQuantityIngredientsYannim * parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsPrice, 4);
+    reportsLocalVars.tmpMultipliedQuantityIngredients = parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsQuantity, 4) * reportsLocalVars.tmpSalesQuantity;
+    reportsLocalVars.tmpMultipliedSumIngredients = reportsLocalVars.tmpMultipliedQuantityIngredients * parseFloat(reportsLocalVars.tmp3[paramThree].ingredientsPrice, 4);
   }
   if (paramTwo == 0) {
 
@@ -1358,10 +1379,29 @@ this.createIngredientsObject = function(paramOne, paramTwo, paramThree) {
     reportsLocalVars.trigger = true;
   }
   if (paramTwo == 2) {
+    reportsLocalVars.multipliedQuantityIngredients = parseFloat(reportsLocalVars.tmpMultipliedQuantityIngredients, 4);
+    reportsLocalVars.multipliedSumIngredients = parseFloat(reportsLocalVars.tmpMultipliedSumIngredients, 4);
 
+    Object.defineProperty(reportsLocalVars.salesIngredientsQuantityYannim, reportsLocalVars.tmpNameIngredients, {
+       value: reportsLocalVars.multipliedQuantityIngredients,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
+    Object.defineProperty(reportsLocalVars.salesIngredientsSumYannim, reportsLocalVars.tmpNameIngredients, {
+       value: reportsLocalVars.multipliedSumIngredients,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
   }
   if (paramTwo == 3) {
+    reportsLocalVars.multipliedQuantityIngredients = parseFloat(reportsLocalVars.salesIngredientsQuantityYannim[reportsLocalVars.tmpNameIngredients], 4) + parseFloat(reportsLocalVars.tmpMultipliedQuantityIngredients, 4);
+    reportsLocalVars.multipliedSumIngredients = parseFloat(reportsLocalVars.salesIngredientsSumYannim[reportsLocalVars.tmpNameIngredients], 4) + parseFloat(reportsLocalVars.tmpMultipliedSumIngredients, 4);
 
+    reportsLocalVars.salesIngredientsQuantityYannim[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedQuantityIngredients;
+    reportsLocalVars.salesIngredientsSumYannim[reportsLocalVars.tmpNameIngredients] = reportsLocalVars.multipliedSumIngredients;
+    reportsLocalVars.trigger = true;
   }
 }
 
@@ -2306,6 +2346,17 @@ this.renderReportTable = function(paramOne, paramTwo)	{
          $("#tableData").append(tableHeaderRow);
          triggerHeader = false;
        }
+       $("#tableData").append(productLine);
+     }
+     for (var i = 0; i < Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length; i++) {
+       var productLine = '<tbody><tr> \
+                           <td>' + (i + 1) + '</td> \
+                           <td>' + reportsLocalVars.dummy + '</td> \
+                           <td>' + Object.keys(reportsLocalVars.salesIngredientsSumYannim)[i] + '</td> \
+                           <td>' + reportsLocalVars.salesIngredientsQuantityYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
+                           <td>' + reportsLocalVars.dummy + '</td> \
+                           <td>' + reportsLocalVars.salesIngredientsSumYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
+                         </tr></tbody>';
        $("#tableData").append(productLine);
      }
      $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
