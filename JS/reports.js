@@ -1297,21 +1297,21 @@ this.ingredientsCalc = function(type) {
     // }
     for (var i = 0; i < Object.keys(reportsLocalVars.tmp3).length; i++) {
       reportsLocalVars.trigger = false;
-      if (Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length > 0) {
-        for (var ingredientsName in reportsLocalVars.salesIngredientsQuantityYannim) {
+      if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
+        for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
           // for (var yannimSearch in reportsLocalVars.salesIngredientsQuantity) {
             if (reportsLocalVars.salesIngredientsQuantity["Янним"] > 0) {
               if (reportsLocalVars.tmp3[i].ingredientsName == ingredientsName) {
-                createIngredientsObject(1, 3, i);
+                createIngredientsObject(1, 1, i);
               }
             }
           // }
         }
         if (reportsLocalVars.trigger == false) {
-          createIngredientsObject(1, 2, i);
+          createIngredientsObject(1, 0, i);
         }
       } else {
-        createIngredientsObject(1, 2, i);
+        createIngredientsObject(1, 0, i);
       }
     }
   }
@@ -2348,17 +2348,17 @@ this.renderReportTable = function(paramOne, paramTwo)	{
        }
        $("#tableData").append(productLine);
      }
-     for (var i = 0; i < Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length; i++) {
-       var productLine = '<tbody><tr> \
-                           <td>' + (i + 1) + '</td> \
-                           <td>' + reportsLocalVars.dummy + '</td> \
-                           <td>' + Object.keys(reportsLocalVars.salesIngredientsSumYannim)[i] + '</td> \
-                           <td>' + reportsLocalVars.salesIngredientsQuantityYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
-                           <td>' + reportsLocalVars.dummy + '</td> \
-                           <td>' + reportsLocalVars.salesIngredientsSumYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
-                         </tr></tbody>';
-       $("#tableData").append(productLine);
-     }
+     // for (var i = 0; i < Object.keys(reportsLocalVars.salesIngredientsQuantityYannim).length; i++) {
+     //   var productLine = '<tbody><tr> \
+     //                       <td>' + (i + 1) + '</td> \
+     //                       <td>' + reportsLocalVars.dummy + '</td> \
+     //                       <td>' + Object.keys(reportsLocalVars.salesIngredientsSumYannim)[i] + '</td> \
+     //                       <td>' + reportsLocalVars.salesIngredientsQuantityYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
+     //                       <td>' + reportsLocalVars.dummy + '</td> \
+     //                       <td>' + reportsLocalVars.salesIngredientsSumYannim[Object.keys(reportsLocalVars.salesIngredientsQuantityYannim)[i]].toFixed(4) + '</td> \
+     //                     </tr></tbody>';
+     //   $("#tableData").append(productLine);
+     // }
      $("#tableData").append("<script type='text/javascript' src='../js/createexcel.js'></script>")
      // $("#tableSummaryHeaderData").append(" \
      //   <tr> \
