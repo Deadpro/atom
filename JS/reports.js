@@ -1300,11 +1300,11 @@ this.ingredientsCalc = function(type) {
       if (Object.keys(reportsLocalVars.salesIngredientsQuantity).length > 0) {
         for (var ingredientsName in reportsLocalVars.salesIngredientsQuantity) {
           // for (var yannimSearch in reportsLocalVars.salesIngredientsQuantity) {
-            if (reportsLocalVars.salesIngredientsQuantity["Янним"] > 0) {
+            // if (reportsLocalVars.salesIngredientsQuantity["Янним"] > 0) {
               if (reportsLocalVars.tmp3[i].ingredientsName == ingredientsName) {
-                createIngredientsObject(1, 1, i);
+                createIngredientsObject(1, 1, i);alert(12345);
               }
-            }
+            // }
           // }
         }
         if (reportsLocalVars.trigger == false) {
