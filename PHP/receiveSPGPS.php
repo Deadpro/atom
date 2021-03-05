@@ -9,7 +9,7 @@
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
       Контакты, CurrState, Latitude, Longitude, addressLoadByPass
       FROM salespartners WHERE (Longitude NOT LIKE '' OR NOT Null)
-      AND (Latitude NOT LIKE '' OR NOT Null)";
+      AND (Latitude NOT LIKE '' OR NOT Null) AND CurrState=1";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();
@@ -61,7 +61,7 @@
       $sql = "SELECT ID, Наименование, Юр_Наименование, Район, DayOfTheWeek, ИНН, Учет, Адрес,
       Контакты, CurrState, Latitude, Longitude, addressLoadByPass
       FROM salespartners WHERE Район LIKE '$area' AND
-      (Longitude NOT LIKE '' OR NOT Null) AND (Latitude NOT LIKE '' OR NOT Null)";
+      (Longitude NOT LIKE '' OR NOT Null) AND (Latitude NOT LIKE '' OR NOT Null) AND CurrState=1";
       if ($result = mysqli_query($dbconnect, $sql)) {
          $resultArray = array();
          $tempArray = array();
