@@ -37,7 +37,8 @@ var request_mapLocalVars = {
   "addressTrigger" : false,
   "firstRunTrigger" : false
 };
-
+// Как только будет загружен API и готов DOM, выполняем инициализацию
+// ymaps.ready(init);
 $('#mapCaiman').on('click', function() {
   renderMap();
   // $('div#map').hide();
@@ -142,7 +143,7 @@ function scrollTop() {
   element.scrollIntoView({block: "end"});
   element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
 }
-
+// Открытие и уничтожение карты при нажатии на кнопку.
 function init() {
   // setTimeout(() => scrollTop(), 6000);
   // request_mapLocalVars.firstRunTrigger = false;
@@ -471,7 +472,7 @@ function updateSPCoords(area, latitude, longitude, spID) {
     }
   })
 }
-
+// Создание метки.
 function createPlacemark(coords) {
     return new ymaps.Placemark(coords, {
         iconCaption: 'поиск...'
@@ -480,7 +481,7 @@ function createPlacemark(coords) {
         draggable: true
     });
 }
-
+// Определяем адрес по координатам (обратное геокодирование).
 function getAddress(coords) {
     request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
     ymaps.geocode(coords).then(function (res) {
@@ -500,7 +501,7 @@ function getAddress(coords) {
             });
     });
 }
-
+// Определяем координаты по адресу
 function getCoords(address, i) {
   if (address != "" && request_mapLocalVars.salesPartnersList[i].addressLoadByPass != 1) {
     // request_mapLocalVars.myPlacemark.properties.set('iconCaption', 'поиск...');
@@ -543,11 +544,13 @@ function getCoords(address, i) {
     // alert(2 + " --- " + request_mapLocalVars.salesPartnersList[i].Наименование);
   }
 }
-
+// Провайдер данных для элемента управления ymaps.control.SearchControl.
+// Осуществляет поиск геообъектов в по массиву points.
+// Реализует интерфейс IGeocodeProvider.
 function CustomSearchProvider(points) {
     this.points = points;
 }
-
+// Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
 CustomSearchProvider.prototype.geocode = function (request, options) {
     var deferred = new ymaps.vow.defer(),
         geoObjects = new ymaps.GeoObjectCollection(),
@@ -601,3 +604,86 @@ CustomSearchProvider.prototype.geocode = function (request, options) {
     // Возвращаем объект-обещание.
     return deferred.promise();
 };
+
+// window.onload=getExif;
+
+// $('#jpgmetadata').on('click', function() {
+//   getExif();
+// });
+
+// $(document).ready(function() {
+//     $("a.ydisk-onclick").attr('target', '_blank').ydisk(); // с параметрами по умолчанию
+// });
+
+// function getExif() {
+//     // var img1 = document.getElementById("img1");
+//     // EXIF.getData(img1, function() {
+//     //     var make = EXIF.getTag(this, "Make");
+//     //     var model = EXIF.getTag(this, "Model");
+//     //     var makeAndModel = document.getElementById("makeAndModel");
+//     //     makeAndModel.innerHTML = `${make} ${model}`;
+//     // });
+//     // alert("hi");
+//     var img2 = document.getElementById("img3");
+//     EXIF.getData(img2, function() {
+//         var latitude = EXIF.getTag(this, "GPSLatitude");
+//         var longitude = EXIF.getTag(this, "GPSLongitude");
+//         // var allMetaData = EXIF.getAllTags(this);
+//         var allMetaData = "gps coordinates: ";
+//         var allMetaDataSpan = document.getElementById("allMetaDataSpan");
+//         allMetaDataSpan.innerHTML = JSON.stringify(allMetaData, null, "\t") + " " + `${latitude}` + " " + `${longitude}` ;
+//     });
+// }
+
+// function init () {
+//     var request_mapLocalVars.myMap = new ymaps.Map('map', {
+//             center: [55.76, 37.64],
+//             zoom: 10
+//         }, {
+//             searchControlProvider: 'yandex#search'
+//         }),
+//         objectManager = new ymaps.ObjectManager({
+//             // Чтобы метки начали кластеризоваться, выставляем опцию.
+//             clusterize: true,
+//             geoObjectOpenBalloonOnClick: false,
+//             clusterOpenBalloonOnClick: false
+//         });
+//
+//     request_mapLocalVars.myMap.geoObjects.add(objectManager);
+//
+//     $.ajax({
+//         url: "data.json"
+//     }).done(function(data) {
+//         objectManager.add(data);
+//     });
+//
+//     function onObjectEvent (e) {
+//         var objectId = e.get('objectId');
+//         if (e.get('type') == 'mouseenter') {
+//             // Метод setObjectOptions позволяет задавать опции объекта "на лету".
+//             objectManager.objects.setObjectOptions(objectId, {
+//                 preset: 'islands#yellowIcon'
+//             });
+//         } else {
+//             objectManager.objects.setObjectOptions(objectId, {
+//                 preset: 'islands#blueIcon'
+//             });
+//         }
+//     }
+//
+//     function onClusterEvent (e) {
+//         var objectId = e.get('objectId');
+//         if (e.get('type') == 'mouseenter') {
+//             objectManager.clusters.setClusterOptions(objectId, {
+//                 preset: 'islands#yellowClusterIcons'
+//             });
+//         } else {
+//             objectManager.clusters.setClusterOptions(objectId, {
+//                 preset: 'islands#blueClusterIcons'
+//             });
+//         }
+//     }
+//
+//     objectManager.objects.events.add(['mouseenter', 'mouseleave'], onObjectEvent);
+//     objectManager.clusters.events.add(['mouseenter', 'mouseleave'], onClusterEvent);
+// }
