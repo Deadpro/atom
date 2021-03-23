@@ -176,7 +176,7 @@
       $sql = "SELECT InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
       Quantity, Price, Total, DateTimeDocLocal, InvoiceSum,
       salespartners.Наименование, salespartners.ИНН, salespartners.ID as ID, salespartners.accSubject as type, salespartners.Юр_Наименование,
-      номенклатура.Наименование as itemName, номенклатура.Артикул_1С as item FROM $areaArrayTmp
+      номенклатура.Наименование as itemName, номенклатура.Артикул_1С as item, accAddress FROM $areaArrayTmp
       INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
       INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
       WHERE salespartners.accSubject LIKE '$accSubject' AND (DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd')  AND AccountingType LIKE 'провод' ";

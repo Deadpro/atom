@@ -133,6 +133,7 @@ function prepairDataToSave(param) {
 			{wch: 6},
 			{wch: 6},
 			{wch: 10},
+      {wch: 13},
       {wch: 13}
 		];
 		worksheet['!cols'] = localCreateExcel.sheetcols;
