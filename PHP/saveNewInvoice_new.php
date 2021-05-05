@@ -47,6 +47,7 @@
     $totalCost = $new_array[$i]['totalCost'];
     $exchange = $new_array[$i]['exchange'];
     $returns = $new_array[$i]['returns'];
+    $surplus = $new_array[$i]['surplus'];
     $dateTimeDocLocal = $new_array[$i]['dateTimeDocLocal'];
     $invoiceSum = $new_array[$i]['invoiceSum'];
     $comment = $new_array[$i]['comment'];
@@ -85,10 +86,10 @@
 
     $sql = "INSERT INTO $postfix (InvoiceNumber, AgentID, SalesPartnerID,
       AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-      ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
+      ReturnQuantity, Surplus, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
       VALUES ($invoiceNumber, $agentID, $salesPartnerID,
       '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
+      $returns, $surplus, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
     mysqli_query($dbconnect, $sql);
 
     $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID
@@ -106,10 +107,10 @@
     // $tempArray = array();
       $sql = "INSERT INTO $tableName (InvoiceNumber, AgentID, SalesPartnerID,
         AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-        ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
+        ReturnQuantity, Surplus, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
         VALUES ($invoiceNumber, $agentID, $salesPartnerID,
         '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-        $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
+        $returns, $surplus, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
 
       if (mysqli_query($dbconnect, $sql)) {
          // $tmpInfo = "New record created successfully";
@@ -117,10 +118,10 @@
          // array_push($resultArray, $tempArray);
          $sqlClone = "INSERT INTO $clone (InvoiceNumber, AgentID, SalesPartnerID,
            AccountingType, ItemID, Quantity, Price, Total, ExchangeQuantity,
-           ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
+           ReturnQuantity, Surplus, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal)
            VALUES ($invoiceNumber, $agentID, $salesPartnerID,
            '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-           $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
+           $returns, $surplus, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal') ";
          if (mysqli_query($dbconnect, $sqlClone)) {
          }
       } else {
