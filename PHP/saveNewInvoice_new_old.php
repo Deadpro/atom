@@ -47,6 +47,7 @@
     $totalCost = $new_array[$i]['totalCost'];
     $exchange = $new_array[$i]['exchange'];
     $returns = $new_array[$i]['returns'];
+    $surplus = $new_array[$i]['surplus'];
     $dateTimeDocLocal = $new_array[$i]['dateTimeDocLocal'];
     $invoiceSum = $new_array[$i]['invoiceSum'];
     $comment = $new_array[$i]['comment'];
