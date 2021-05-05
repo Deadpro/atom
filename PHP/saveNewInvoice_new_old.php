@@ -89,7 +89,7 @@
       ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal, Surplus)
       VALUES ($invoiceNumber, $agentID, $salesPartnerID,
       '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal, $surplus') ";
+      $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal', $surplus) ";
     mysqli_query($dbconnect, $sql);
 
     $sql = "SELECT COUNT(*) FROM $tableName WHERE InvoiceNumber LIKE $invoiceNumber AND ItemID LIKE $itemID
@@ -110,7 +110,7 @@
         ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal, Surplus)
         VALUES ($invoiceNumber, $agentID, $salesPartnerID,
         '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-        $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal, $surplus') ";
+        $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal', $surplus) ";
 
       if (mysqli_query($dbconnect, $sql)) {
          // $tmpInfo = "New record created successfully";
@@ -121,7 +121,7 @@
            ReturnQuantity, DateTimeDoc, InvoiceSum, Comment, InvoiceNumberLocal, DateTimeDocLocal, Surplus)
            VALUES ($invoiceNumber, $agentID, $salesPartnerID,
            '$accountingTypeDoc', $itemID, $quantity, $price, $totalCost, $exchange,
-           $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal, $surplus') ";
+           $returns, '$dateTimeDoc', $invoiceSum, '$comment', $invoiceNumberLocal, '$dateTimeDocLocal', $surplus) ";
          if (mysqli_query($dbconnect, $sqlClone)) {
          }
       } else {
