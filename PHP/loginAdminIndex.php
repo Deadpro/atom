@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Carter+One|Chewy|Cinzel+Decorative|Della+Respira|El+Messiri|Fahkwang|Kalam|Lobster|Merienda|Mirza|Oleo+Script|Oswald|Playfair+Display|Pridi|Righteous|Shrikhand" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Pacifico" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/menuLayout.css">
   <link rel="stylesheet" href="../CSS/report.css">
   <link rel="stylesheet" href="../CSS/adminMenu.css">
   <link rel="stylesheet" href="../CSS/accounting.css">
@@ -56,7 +57,6 @@
   <script type="text/javascript" src="../js/analytics.js"></script>
   <script type="text/javascript" src="../js/accounting.js"></script>
   <script type="text/javascript" src="../js/createexcel.js"></script>
-  <script type="text/javascript" src="../js/globalVariables.js"></script>
   <script type="text/javascript" src="../js/request_map.js"></script>
   <script type="text/javascript" src="../js/changeDataBaseTables.js"></script>
   <script type="text/javascript" src="../js/warehouse.js"></script>

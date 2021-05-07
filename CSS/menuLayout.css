@@ -1,0 +1,44 @@
+.col-100 {
+  font: normal 20px Arial;
+  width: 100%;
+  border-bottom: 1px solid darkgrey;
+  margin-bottom: 3px;
+}
+.menuContainer {
+   top: 10vh;
+   position: relative;
+   max-width: 880px;
+   width: 100vw;
+   margin: 0 auto;
+   height: 100vh;
+   /* border: 1px solid yellow; */
+   padding: 20px;
+   z-index: 1002;
+}
+.menuContainer .panel {
+  background-color: rgb(246, 248, 245);
+}
+.panel-body .radioContainer {
+   float: left;
+   position: relative;
+   /* max-width: 100px; */
+   width: 33%;
+   margin: 0 auto;
+   /* height: 100vh; */
+   /* background-color: grey; */
+   /* border: 1px solid yellow; */
+   /* padding: 20px; */
+   z-index: 1002;
+}
+.panel-body #radioLabel {
+   margin-left: 4px;
+}
+
+.container #tableContainer {
+  /* position: fixed; */
+  width: 95vw;
+  max-width: 880px;
+  height: 95vh;
+  overflow: auto;
+  /* border: 1px solid green; */
+}
