@@ -1,12 +1,12 @@
 $('#analytics').on('click', function() {
-  renderAnaliticsOptions();
+  renderAnalyticsOptions();
 });
 
-this.renderAnaliticsOptions = function() {
+this.renderAnalyticsOptions = function() {
   let currScriptName = "analytics";
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
-    <div id='" + currScriptName + "menuContainer' class='" + currScriptName + "menuContainer'> \
+    <div id='" + currScriptName + " menuContainer' class='" + currScriptName + " menuContainer'> \
       <div class='panel panel-custom border'> \
         <div class='panel-heading col-100'><span>" + commonLabels.choosePeriod + "</span></div> \
         <div class='panel-body'> \
@@ -30,11 +30,11 @@ this.renderAnaliticsOptions = function() {
       </div> \
     </div> \
     <script src='../js/globalVariables.js' type='text/javascript' ></script> \
-    <script src='../js/analitics.js' type='text/javascript' ></script> \
+    <script src='../js/analytics.js' type='text/javascript' ></script> \
   ");
-  if (analiticsLocalVars.dateStart != "" && analiticsLocalVars.dateEnd != "") {
-     $('input#dateStart').val(analiticsLocalVars.dateStart);
-     $('input#dateEnd').val(analiticsLocalVars.dateEnd);
+  if (commonLabels.dateStart != "" && commonLabels.dateEnd != "") {
+     $('input#dateStart').val(commonLabels.dateStart);
+     $('input#dateEnd').val(commonLabels.dateEnd);
   }
   $(".loginContainer").html("");
   $(".loginContainer").hide();

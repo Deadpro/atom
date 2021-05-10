@@ -17,7 +17,7 @@ var blocks = {
    "input" : ""
 };
 
-var analiticsLocalVars = {
+var analyticsLocalVars = {
   "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive", "checkSeven"],
   "checkedValue" : "",
   "radioCheckedTrigger" : false,
@@ -48,6 +48,6 @@ var commonLabels = {
   "tableHeaderRow" : ""
 };
 
-function blockConstructor(block, class, id, type, name, for, value) {
+function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock, forBlock, valueBlock) {
 
 }
