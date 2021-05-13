@@ -48,6 +48,11 @@ var commonLabels = {
   "tableHeaderRow" : ""
 };
 
+var analyticsStyles = {
+  "styles" : ["", "", "", "", "", ""],
+  "style" : ""
+};
+
 function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock, forBlock, valueBlock) {
 
 }
