@@ -17,11 +17,14 @@ var blocks = {
    "input" : ""
 };
 
-var analyticsLocalVars = {
+var analytics = {
   "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive", "checkSeven"],
   "checkedValue" : "",
-  "radioCheckedTrigger" : false,
-  "dateControl" : ""
+  "dateControl" : "",
+  "dateStart" : "",
+  "dateEnd" : "",
+  "tmp" : new Object(),
+  "executeChoice" : "analyticsExecuteChoice"
 };
 
 var commonLabels = {
