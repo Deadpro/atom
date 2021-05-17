@@ -394,10 +394,10 @@
           $areaArrayTmp = $areaArray[$i];
           $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
           ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-          InvoiceSum, Surplus, номенклатура.Наименование, salespartners.Наименование FROM $areaArrayTmp
+          InvoiceSum, Surplus, номенклатура.Наименование as itemName, salespartners.Наименование as spName FROM $areaArrayTmp
           INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
           INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
-          WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY ItemID";
+          WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY SalesPartnerID, DateTimeDocLocal, ItemID";
           if ($result = mysqli_query($dbconnect, $sql)){
             while($row = $result->fetch_object()){
               $tempArray = $row;
@@ -415,10 +415,10 @@
         $areaArrayTmp = $areaArray[(int)$index];
         $sql = "SELECT $areaArrayTmp.ID, InvoiceNumber, AgentID, SalesPartnerID, AccountingType,
         ItemID, Quantity, Price, Total, ExchangeQuantity, ReturnQuantity, DateTimeDocLocal,
-        InvoiceSum, Surplus, номенклатура.Наименование, salespartners.Наименование FROM $areaArrayTmp
+        InvoiceSum, Surplus, номенклатура.Наименование as itemName, salespartners.Наименование as spName FROM $areaArrayTmp
         INNER JOIN номенклатура ON $areaArrayTmp.ItemID = номенклатура.Артикул
         INNER JOIN salespartners ON $areaArrayTmp.SalesPartnerID = salespartners.ID
-        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY InvoiceNumber";
+        WHERE DateTimeDocLocal BETWEEN '$dateStart' AND '$dateEnd'  ORDER BY SalesPartnerID, DateTimeDocLocal, ItemID";
         if ($result = mysqli_query($dbconnect, $sql)){
           while($row = $result->fetch_object()){
             $tempArray = $row;

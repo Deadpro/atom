@@ -20,6 +20,11 @@ if (accountingLocalVars.dateStart != "") {
 } else {
 	localCreateExcel.salesDate = localCreateExcel.currDate;
 }
+if (analytics.dateStart != "") {
+	localCreateExcel.salesDate = analytics.dateStart;
+} else {
+	localCreateExcel.salesDate = localCreateExcel.currDate;
+}
 
 function add_cell_to_sheet(worksheet, address, value) {
 	/* cell object */
@@ -60,6 +65,12 @@ $("#button-b").click(async function(){
    await convert("b");
    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
    saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), 'отчет_'+ localCreateExcel.currDate +'.xlsx');
+});
+
+$("#saveAnalytics").click(function(){
+	prepairDataToSave("analytics");
+  // saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), 'fuck.xlsx');
+  saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), analytics.checkedValue +'_анализ_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'.xlsx');
 });
 
 $("#saveAccountantChe").click(function(){
@@ -228,6 +239,30 @@ function prepairDataToSave(param) {
       var strCell = valueCell.toString();
       add_cell_to_sheet(worksheet, cellM, strCell);
     }
+		workbook.Sheets[wsname] = worksheet;
+		localCreateExcel.wbxout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
+	}
+  if (param == "analytics") { alert("Аналитика продаж");
+		localCreateExcel.wbx = XLSX.utils.book_new();
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataAnalytics'));
+		localCreateExcel.wsx_name = "Анализ продаж";
+    var wsname = localCreateExcel.wsx_name;
+    var workbook = localCreateExcel.wbx;
+    var worksheet = localCreateExcel.wsx;
+    localCreateExcel.sheetcols = [
+			{wch: 3},
+			{wch: 9},
+			{wch: 5},
+			{wch: 40},
+			{wch: 35},
+			{wch: 6},
+			{wch: 6},
+			{wch: 6},
+			{wch: 9},
+      {wch: 6}
+		];
+		worksheet['!cols'] = localCreateExcel.sheetcols;
+		workbook.SheetNames.push(wsname);
 		workbook.Sheets[wsname] = worksheet;
 		localCreateExcel.wbxout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
 	}

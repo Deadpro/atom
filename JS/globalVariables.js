@@ -24,13 +24,15 @@ var analytics = {
   "dateStart" : "",
   "dateEnd" : "",
   "tmp" : new Object(),
-  "executeChoice" : "analyticsExecuteChoice"
+  "executeChoice" : "analyticsExecuteChoice",
+  "subjectHead" : "Анализ продаж за период: "
 };
 
 var commonLabels = {
   "itemName" : "Номенклатура",
   "itenmPrice" : "Цена",
   "quantity" : "Кол-во",
+  "returnQuantity" : "Обмен",
   "invoiceSum" : "Всего",
   "itemID" : "Артикул",
   "ID" : "№",
@@ -59,3 +61,11 @@ var analyticsStyles = {
 function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock, forBlock, valueBlock) {
 
 }
+
+// var h = document.getElementById('menu_bottom').clientHeight;
+// var h = document.getElementById('menu_bottom').offsetHeight;
+// var h = document.getElementById('menu_bottom').scrollHeight;
+
+// clientHeight высота содержимого вместе с полями padding, но без полосы прокрутки.
+// offsetHeight «внешняя» высота блока, включая рамки.
+// scrollHeight полная внутренняя высота, включая прокрученную область.
