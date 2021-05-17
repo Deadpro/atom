@@ -62,6 +62,8 @@ function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock,
 
 }
 
+// вариант 1:
+
 // var h = document.getElementById('menu_bottom').clientHeight;
 // var h = document.getElementById('menu_bottom').offsetHeight;
 // var h = document.getElementById('menu_bottom').scrollHeight;
@@ -69,3 +71,8 @@ function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock,
 // clientHeight высота содержимого вместе с полями padding, но без полосы прокрутки.
 // offsetHeight «внешняя» высота блока, включая рамки.
 // scrollHeight полная внутренняя высота, включая прокрученную область.
+
+// вариант 2:
+
+// var test = document.getElementById("menu_bottom");
+// var height = window.getComputedStyle(test, null).height;
