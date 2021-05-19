@@ -210,7 +210,7 @@ function prepairDataToSave(param) {
 	}
   if (param == "accountantCheRoma") { alert("Бухгалтерия ИП Че Роман Енгунович");
 		localCreateExcel.wbx = XLSX.utils.book_new();
-		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataCheRoma'));
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataCheRoma'), {raw: true});
 		localCreateExcel.wsx_name = "Продажи Че Рома";
     var wsname = localCreateExcel.wsx_name;
     var workbook = localCreateExcel.wbx;
@@ -235,8 +235,15 @@ function prepairDataToSave(param) {
     for (var i = 2; i < localCreateExcel.countCheRoma + 1; i++) {
       var cellE = 'E' + i;
       var cellM = 'M' + i;
+      var cellN = 'N' + i;
       var valueCell = worksheet[cellE].v;
       var strCell = valueCell.toString();
+      let address = worksheet[cellN].v;
+      let newAddress = address.replace(/_/g,' ');
+      // var address = worksheet[cellN].v;
+      // var strAddress = address.toString();
+      // worksheet[cellN].t = "s";
+      worksheet[cellN].v = newAddress;
       add_cell_to_sheet(worksheet, cellM, strCell);
     }
 		workbook.Sheets[wsname] = worksheet;

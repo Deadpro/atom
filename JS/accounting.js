@@ -318,7 +318,7 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                                 <td>' + count + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].accAddress + '</td> \
+                                <td><pre>' + String(accountingLocalVars.tmp[i].accAddress) + '</pre></td> \
                               </tr></tbody>';
             if (triggerLee == true) {
                $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
@@ -345,7 +345,7 @@ this.createAccountantTables = function() {
                                   <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                   <td>' + dTStrOut + '</td> \
                                   <td>' + count + '</td> \
-                                  <td>' + accountingLocalVars.tmp[i].accAddress + '</td> \
+                                  <td><pre>' + String(accountingLocalVars.tmp[i].accAddress) + '</pre></td> \
                                 </tr></tbody>';
               if (triggerLee == true) {
                  $("#tableDataLee").html("Продажи на ИП Ли Ген Сун");
@@ -404,7 +404,7 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
                                 <td>' + count + '</td> \
-                                <td>' + accountingLocalVars.tmp[i].accAddress + '</td> \
+                                <td><pre>' + String(accountingLocalVars.tmp[i].accAddress) + '</pre></td> \
                               </tr></tbody>';
             if (triggerCheRoma == true) {
                $("#tableDataCheRoma").html("Продажи на ИП Че Роман Енгунович");
@@ -438,6 +438,8 @@ this.createAccountantTables = function() {
                                 <td>' + accountingLocalVars.tmp[i].Total + '</td> \
                                 <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                                 <td>' + dTStrOut + '</td> \
+                                <td>' + count + '</td> \
+                                <td><pre>' + String(accountingLocalVars.tmp[i].accAddress) + '</pre></td> \
                               </tr></tbody>';
             if (triggerChe == true) {
                $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
@@ -463,6 +465,8 @@ this.createAccountantTables = function() {
                               <td>' + accountingLocalVars.tmp[i].Total + '</td> \
                               <td>' + accountingLocalVars.tmp[i].InvoiceSum + '</td> \
                               <td>' + dTStrOut + '</td> \
+                              <td>' + count + '</td> \
+                              <td><pre>' + String(accountingLocalVars.tmp[i].accAddress) + '</pre></td> \
                             </tr></tbody>';
           if (triggerChe == true) {
              $("#tableDataChe").html("Продажи на ИП Че Владимир Енгунович");
