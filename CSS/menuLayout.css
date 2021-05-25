@@ -5,6 +5,16 @@
   margin-bottom: 3px;
 }
 
+#analyticsExecuteChoiceDetailed,
+#analyticsExecuteChoiceSummary,
+#analyticsExecuteChoiceRaw {
+  padding: 5px;
+  margin: 5px;
+  width: 90%;
+  z-index: 2000;
+  /* background-color: yellow; */
+}
+
 .menuContainer {
    top: 10vh;
    position: relative;

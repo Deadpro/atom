@@ -2,8 +2,21 @@ $('#analytics').on('click', function() {
   renderAnalyticsOptions();
 });
 
-$('#analyticsExecuteChoice').on('click', function() {
+$('#analyticsExecuteChoiceDetailed').on('click', function() {
+  recieveAnalyticsData('analyticsExecuteChoiceDetailed');
+});
+
+$('#analyticsExecuteChoiceSummary').on('click', function() {
+  recieveAnalyticsData('analyticsExecuteChoiceSummary');
+});
+
+$('#analyticsExecuteChoiceRaw').on('click', function() {
+  recieveAnalyticsData('analyticsExecuteChoiceRaw');
+});
+
+this.recieveAnalyticsData = function(type) {
   analytics.dateControl = document.querySelector('input[type="date"]');
+  let analyticsType = document.getElementById(type).value;
   for (var i = 0; i < 6; i++) {
     if (document.getElementById(analytics.checkRadio[i]).checked == true) {
       analytics.checkedValue = document.getElementById(analytics.checkRadio[i]).value;
@@ -16,9 +29,9 @@ $('#analyticsExecuteChoice').on('click', function() {
                                           dateEnd: analytics.dateEnd, area: analytics.checkedValue,
                                           reportType: "analytics"}, function(data) {
     analytics.tmp = JSON.parse(data);
-    createAnalyticsReport();
+    createAnalyticsReport(analyticsType);
   });
-});
+}
 
 this.tableHeaderRowFunc = function() {
    commonLabels.tableHeaderRow  = tableConstructor.tbodyOpen + tableConstructor.trOpen +
@@ -58,7 +71,11 @@ this.renderAnalyticsOptions = function() {
         </div> \
       </div> \
       <div class='panel panel-custom border'> \
-        <div class='panel-body'><input type='submit' id='analyticsExecuteChoice' value='Анализ'></div> \
+        <div class='panel-body'> \
+          <div class='col-50'><input type='submit' id='analyticsExecuteChoiceDetailed' value='Подробный анализ'></div> \
+          <div class='col-50'><input type='submit' id='analyticsExecuteChoiceSummary' value='Сводный анализ'></div> \
+          <div class='col-50'><input type='submit' id='analyticsExecuteChoiceRaw' value='Без анализа'></div> \
+        </div> \
       </div> \
     </div> \
     <script src='../js/globalVariables.js' type='text/javascript' ></script> \
@@ -72,7 +89,7 @@ this.renderAnalyticsOptions = function() {
   $(".loginContainer").hide();
 }
 
-this.createAnalyticsReport = function() {
+this.createAnalyticsReport = function(analyticsType) {
   let currScriptName = "analytics";
   tableHeaderRowFunc();
   $('div#connection-data').html("");
@@ -88,12 +105,88 @@ this.createAnalyticsReport = function() {
       </div> \
     </div> \
   ");
+  calcAnalytics(analyticsType);
+  let saveTrigger = false;
+  for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
+    if (analytics.tmp[i].Quantity > 0 && saveTrigger == false) {
+      saveTrigger = true;
+    }
+  }
+  if (saveTrigger == true) {
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAnalytics'>Сохранить Аналитику</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
+  }
+}
+
+this.calcAnalytics = function(analyticsType) {
+
   var tableHeaderRow = commonLabels.tableHeaderRow;
   var count = 0;
   let triggerAnalytics = true;
   var tableRow;
   for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
     if (parseFloat(analytics.tmp[i].ExchangeQuantity) >= parseFloat(analytics.tmp[i].Quantity)) {
+
+      var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      count += 1;
+      if (analyticsType == 'Подробный анализ') {
+
+        tableRow = '<tbody><tr> \
+                            <td>' + count + '</td> \
+                            <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
+                            <td>' + analytics.tmp[i].AgentID + '</td> \
+                            <td>' + analytics.tmp[i].spName + '</td> \
+                            <td>' + analytics.tmp[i].itemName + '</td> \
+                            <td>' + analytics.tmp[i].Quantity + '</td> \
+                            <td>' + analytics.tmp[i].ExchangeQuantity + '</td> \
+                            <td>' + analytics.tmp[i].InvoiceSum + '</td> \
+                            <td>' + dTStrOut + '</td> \
+                          </tr></tbody>';
+      }
+
+      if (triggerAnalytics == true) {
+         $("#tableDataAnalytics").html("");
+         $("#tableDataAnalytics").append(tableHeaderRow);
+         triggerAnalytics = false;
+      }
+      $("#tableDataAnalytics").append(tableRow);
+    }
+    if (analyticsType == 'Сводный анализ') {
+      var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
+      var dt = new Date(dTStrSource);
+      var dTStrOut = formatDate(dt);
+      // if (analytics.tmp[i].InvoiceNumber == analytics.tmp[i + 1].InvoiceNumber) {
+      //   if (analytics.tmp[i].itemName == analytics.tmp[i + 1].itemName) {
+      //
+      //   }
+      // }
+      count += 1;
+      tableRow = '<tbody><tr> \
+                          <td>' + count + '</td> \
+                          <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
+                          <td>' + analytics.tmp[i].AgentID + '</td> \
+                          <td>' + analytics.tmp[i].spName + '</td> \
+                          <td>' + analytics.tmp[i].itemName + '</td> \
+                          <td>' + analytics.tmp[i].Quantity + '</td> \
+                          <td>' + analytics.tmp[i].ExchangeQuantity + '</td> \
+                          <td>' + analytics.tmp[i].InvoiceSum + '</td> \
+                          <td>' + dTStrOut + '</td> \
+                        </tr></tbody>';
+
+      if (triggerAnalytics == true) {
+         $("#tableDataAnalytics").html("");
+         $("#tableDataAnalytics").append(tableHeaderRow);
+         triggerAnalytics = false;
+      }
+      $("#tableDataAnalytics").append(tableRow);
+    }
+    if (analyticsType == 'Без анализа') {
       var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
       var dt = new Date(dTStrSource);
       var dTStrOut = formatDate(dt);
@@ -109,6 +202,7 @@ this.createAnalyticsReport = function() {
                           <td>' + analytics.tmp[i].InvoiceSum + '</td> \
                           <td>' + dTStrOut + '</td> \
                         </tr></tbody>';
+
       if (triggerAnalytics == true) {
          $("#tableDataAnalytics").html("");
          $("#tableDataAnalytics").append(tableHeaderRow);
@@ -116,20 +210,6 @@ this.createAnalyticsReport = function() {
       }
       $("#tableDataAnalytics").append(tableRow);
     }
-  }
-  let saveTrigger = false;
-  for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
-    if (analytics.tmp[i].Quantity > 0 && saveTrigger == false) {
-      saveTrigger = true;
-    }
-  }
-  if (saveTrigger == true) {
-    $("#tableContainer").append(" \
-                                <br><br> \
-                                <button id='saveAnalytics'>Сохранить Аналитику</button> \
-                                <br><br> \
-                                <script type='text/javascript' src='../js/createexcel.js'></script> \
-                                ");
   }
 }
 

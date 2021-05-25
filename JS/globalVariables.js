@@ -76,3 +76,15 @@ function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock,
 
 // var test = document.getElementById("menu_bottom");
 // var height = window.getComputedStyle(test, null).height;
+
+// отслеживание ширины экрана
+// window.addEventListener('resize',function(){
+//     watchResizeWindow();
+// });
+//
+// function watchResizeWindow() {
+//   var h = document.getElementById('menu').offsetHeight;
+//   if (h > 47){
+//
+//   }
+// }
