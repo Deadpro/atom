@@ -17,6 +17,45 @@ var blocks = {
    "input" : ""
 };
 
+var loginAdmin = {
+  "loginSecurityData" : new Object(),
+  "firstname" : "",
+  "secondname" : "",
+  "middlename" : "",
+  "attribute" : ""
+};
+
+var agentStatus = {
+  "area" : "Район: ",
+  "endTriggerOne" : "",
+  "endTriggerTwo" : "",
+  "endTriggerThree" : "",
+  "tmpAgentID" : "",
+  "endTriggerFour" : "",
+  "space" : " ",
+  "salesTotal" : "На сумму: ",
+  "salesCash" : "Наличный: ",
+  "salesCashless" : "Безналичный: ",
+  "debtSale" : "Реализация: ",
+  "salesInvoicesQuantity" : "Накладных: ",
+  "areaDevelopmentStatusLabel" : "Развитие: ",
+  "lastSyncDateTime" : "Завершение: ",
+  "responseDataObject" : new Object(),
+  "areaStatusSalesSum" : new Object(),
+  "areaStatusInvoicesNumber" : new Object(),
+  "areaStatusLastSyncDateTime" : new Object(),
+  "areaCashStatus" : new Object(),
+  "areaCashlessStatus" : new Object(),
+  "areaDevelopmentStatus" : new Object(),
+  "tmpAgentID" : "",
+  "endTriggerOne" : "",
+  "endTriggerTwo" : "",
+  "endTriggerThree" : "",
+  "endTriggerFour" : "",
+  "trigger" : false,
+  "loginSecurityData" : new Object()
+};
+
 var analytics = {
   "checkRadio" : ["checkOne", "checkTwo", "checkThree", "checkFour", "checkFive", "checkSeven"],
   "checkedValue" : "",

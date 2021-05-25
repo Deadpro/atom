@@ -129,14 +129,13 @@ this.calcAnalytics = function(analyticsType) {
   let triggerAnalytics = true;
   var tableRow;
   for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
-    if (parseFloat(analytics.tmp[i].ExchangeQuantity) >= parseFloat(analytics.tmp[i].Quantity)) {
+    if (analyticsType == 'Подробный анализ') {
+      if (parseFloat(analytics.tmp[i].ExchangeQuantity) >= parseFloat(analytics.tmp[i].Quantity)) {
 
-      var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
-      var dt = new Date(dTStrSource);
-      var dTStrOut = formatDate(dt);
-      count += 1;
-      if (analyticsType == 'Подробный анализ') {
-
+        var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
+        var dt = new Date(dTStrSource);
+        var dTStrOut = formatDate(dt);
+        count += 1;
         tableRow = '<tbody><tr> \
                             <td>' + count + '</td> \
                             <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
@@ -148,14 +147,13 @@ this.calcAnalytics = function(analyticsType) {
                             <td>' + analytics.tmp[i].InvoiceSum + '</td> \
                             <td>' + dTStrOut + '</td> \
                           </tr></tbody>';
+        if (triggerAnalytics == true) {
+           $("#tableDataAnalytics").html("");
+           $("#tableDataAnalytics").append(tableHeaderRow);
+           triggerAnalytics = false;
+        }
+        $("#tableDataAnalytics").append(tableRow);
       }
-
-      if (triggerAnalytics == true) {
-         $("#tableDataAnalytics").html("");
-         $("#tableDataAnalytics").append(tableHeaderRow);
-         triggerAnalytics = false;
-      }
-      $("#tableDataAnalytics").append(tableRow);
     }
     if (analyticsType == 'Сводный анализ') {
       var dTStrSource = analytics.tmp[i].DateTimeDocLocal;

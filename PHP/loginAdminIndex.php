@@ -38,7 +38,7 @@
     </div>
     <div class="collapse navbar-collapse" id="menu">
       <ul class="nav navbar-nav">
-        <li><div id="home"><img src="../images/icons/home.ico"></div></li>
+        <li><div id="home" data-toggle="collapse" data-target=".navbar-collapse.in" ><img src="../images/icons/home.ico"></div></li>
         <li><input type="submit" id="reports" data-toggle="collapse" data-target=".navbar-collapse.in" value="ОТЧЕТЫ"></li>
         <li><input type="submit" id="accounting" data-toggle="collapse" data-target=".navbar-collapse.in"  value="БУХГАЛТЕРИЯ"></li>
         <li><input type="submit" id="analytics" data-toggle="collapse" data-target=".navbar-collapse.in" value="АНАЛИТИКА"></li>
