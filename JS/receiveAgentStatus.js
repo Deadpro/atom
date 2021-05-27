@@ -1,5 +1,5 @@
 $('#home').on('click', function() {
-  
+
   agentStatus.areaStatusSalesSum = [];
   agentStatus.areaStatusInvoicesNumber = [];
   agentStatus.areaStatusLastSyncDateTime = [];
@@ -7,6 +7,7 @@ $('#home').on('click', function() {
   agentStatus.areaCashlessStatus = [];
   agentStatus.areaDevelopmentStatus = [];
   starter();
+  toTop("connection-data");
 });
 
 this.starter = function() {

@@ -117,14 +117,14 @@ this.chooseLoadType = function(myRadio) {
   }
 }
 
-function scrollTop() {
-
-  var element = document.getElementById("map");
-  element.scrollIntoView();
-  element.scrollIntoView(false);
-  element.scrollIntoView({block: "end"});
-  element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-}
+// this.scrollTop = function() {
+//
+//   var element = document.getElementById("map");
+//   element.scrollIntoView();
+//   element.scrollIntoView(false);
+//   element.scrollIntoView({block: "end"});
+//   element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+// }
 
 function init() {
 
@@ -135,7 +135,7 @@ function init() {
                 setTimeout(() => $('div.sleepHoverParent').remove(), 6000);
                 request_mapLocalVars.firstRunTrigger = true;
                 setTimeout(() => onClickNoMyMapInit(), 6000);
-                setTimeout(() => scrollTop(), 6000);
+                setTimeout(() => toTop("map"), 6000);
           } else {
               $('div#map').remove();
               request_mapLocalVars.myMap.destroy();// Деструктор карты

@@ -101,6 +101,15 @@ function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock,
 
 }
 
+function toTop(el) {
+
+  let element = document.getElementById(el);
+  element.scrollIntoView();
+  element.scrollIntoView(false);
+  element.scrollIntoView({block: "end"});
+  element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+}
+
 // вариант 1:
 
 // var h = document.getElementById('menu_bottom').clientHeight;
