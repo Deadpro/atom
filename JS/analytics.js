@@ -14,7 +14,7 @@ $('#analyticsExecuteChoiceRaw').on('click', function() {
   recieveAnalyticsData('analyticsExecuteChoiceRaw');
 });
 
-this.recieveAnalyticsData = function(type) {
+this.recieveAnalyticsData = async function(type) {
   analytics.dateControl = document.querySelector('input[type="date"]');
   let analyticsType = document.getElementById(type).value;
   for (var i = 0; i < 6; i++) {
@@ -24,13 +24,18 @@ this.recieveAnalyticsData = function(type) {
   }
   analytics.dateStart = $('input#dateStart').val();
   analytics.dateEnd = $('input#dateEnd').val();
-  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+  await $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                           dbPassword: localStorage.getItem('dbPassword'), dateStart: analytics.dateStart,
                                           dateEnd: analytics.dateEnd, area: analytics.checkedValue,
                                           reportType: "analytics"}, function(data) {
     analytics.tmp = JSON.parse(data);
-    createAnalyticsReport(analyticsType);
   });
+  if (analyticsType == "Сводный анализ") {
+    // await calcAnalytics();
+    createAnalyticsReport(analyticsType);
+  } else {
+    createAnalyticsReport(analyticsType);
+  }
 }
 
 this.tableHeaderRowFunc = function() {
@@ -105,7 +110,7 @@ this.createAnalyticsReport = function(analyticsType) {
       </div> \
     </div> \
   ");
-  calcAnalytics(analyticsType);
+  renderAnalyticsTable(analyticsType);
   let saveTrigger = false;
   for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
     if (analytics.tmp[i].Quantity > 0 && saveTrigger == false) {
@@ -122,7 +127,7 @@ this.createAnalyticsReport = function(analyticsType) {
   }
 }
 
-this.calcAnalytics = function(analyticsType) {
+this.renderAnalyticsTable = function(analyticsType) {
 
   var tableHeaderRow = commonLabels.tableHeaderRow;
   var count = 0;
@@ -208,6 +213,46 @@ this.calcAnalytics = function(analyticsType) {
       }
       $("#tableDataAnalytics").append(tableRow);
     }
+  }
+}
+
+this.calcAnalytics = function() {
+
+  for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
+    if (Object.keys(analytics.salesQuantity).length > 0) {
+      for (var key in analytics.salesQuantity) {
+        if (key == analytics.tmp[i].InvoiceNumber + " " + analytics.tmp[i].SalesPartnerID + " " + analytics.tmp[i].itemName) {
+          createObject(0, 1, i);
+        }
+      }
+      if (analytics.trigger == false) {
+        createObject(0, 0, i);
+      }
+    } else {
+      createObject(0, 0, i);
+    }
+  }
+}
+
+this.createObject = function(paramOne, paramTwo, i) {
+
+  analytics.tmpName = analytics.tmp[i].InvoiceNumber + " " + analytics.tmp[i].SalesPartnerID + " " + analytics.tmp[i].itemName
+  reportsLocalVars.tmpQuantity = parseFloat(analytics.tmp[i].Quantity, 10);
+
+  if (paramTwo == 0) {
+
+    Object.defineProperty(analytics.salesQuantity, analytics.tmpName, {
+       value: analytics.tmpQuantity,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
+  }
+  if (paramTwo == 1) {
+
+    analytics.quantity = parseFloat(analytics.salesQuantity[analytics.tmpName], 10) + parseFloat(analytics.tmpQuantity, 10);
+    analytics.salesQuantity[analytics.tmpName] = analytics.quantity;
+    analytics.trigger = true;
   }
 }
 
