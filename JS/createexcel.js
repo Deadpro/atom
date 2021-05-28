@@ -73,6 +73,12 @@ $("#saveAnalytics").click(function(){
   saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), analytics.checkedValue +'_анализ_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'.xlsx');
 });
 
+$("#saveAnalyticsSummary").click(function(){
+	prepairDataToSave("analyticsSummary");
+  // saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), 'fuck.xlsx');
+  saveAs(new Blob([s2ab(localCreateExcel.wbxout)],{type:"application/octet-stream"}), analytics.checkedValue +'_анализ_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'.xlsx');
+});
+
 $("#saveAccountantChe").click(function(){
 	prepairDataToSave("accountantChe");
   saveAs(new Blob([s2ab(localCreateExcel.wbout)],{type:"application/octet-stream"}), accountingLocalVars.checkedValue +'_накладные_Че_за_'+ localCreateExcel.salesDate +'_сформирован_'+ localCreateExcel.currDate +'_'+ localCreateExcel.countChe +'.xlsx');
@@ -267,6 +273,27 @@ function prepairDataToSave(param) {
 			{wch: 6},
 			{wch: 9},
       {wch: 6}
+		];
+		worksheet['!cols'] = localCreateExcel.sheetcols;
+		workbook.SheetNames.push(wsname);
+		workbook.Sheets[wsname] = worksheet;
+		localCreateExcel.wbxout = XLSX.write(workbook, {bookType:'xlsx', bookSST:true, type:'binary'});
+	}
+  if (param == "analyticsSummary") { alert("Сводка");
+		localCreateExcel.wbx = XLSX.utils.book_new();
+		localCreateExcel.wsx = XLSX.utils.table_to_sheet(document.getElementById('tableDataAnalyticsSummary'));
+		localCreateExcel.wsx_name = "Анализ продаж";
+    var wsname = localCreateExcel.wsx_name;
+    var workbook = localCreateExcel.wbx;
+    var worksheet = localCreateExcel.wsx;
+    localCreateExcel.sheetcols = [
+			{wch: 5},
+			{wch: 40},
+			{wch: 50},
+			{wch: 25},
+			{wch: 25},
+			{wch: 25},
+			{wch: 50}
 		];
 		worksheet['!cols'] = localCreateExcel.sheetcols;
 		workbook.SheetNames.push(wsname);

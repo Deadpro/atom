@@ -1808,6 +1808,7 @@ this.renderMenuPage = function() {
 }
 
 this.renderReportTable = function(paramOne, paramTwo)	{
+  toTop("connection-data");
   if ($.trim(reportsLocalVars.dateStart) != '' && $.trim(reportsLocalVars.dateEnd) != '') {
     if (paramOne == 0) {
       reportsLocalVars.reportSubjectHead = reportsLocalVars.reportSubjectHeadSalesManagerLabel;

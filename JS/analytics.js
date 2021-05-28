@@ -32,25 +32,37 @@ this.recieveAnalyticsData = async function(type) {
     analytics.tmp = JSON.parse(data);
   });
   if (analyticsType == "Сводный анализ") {
-    // await calcAnalytics();
+    await calcAnalytics();
     createAnalyticsReport(analyticsType);
   } else {
     createAnalyticsReport(analyticsType);
   }
 }
 
-this.tableHeaderRowFunc = function() {
-   commonLabels.tableHeaderRow  = tableConstructor.tbodyOpen + tableConstructor.trOpen +
-                                         tableConstructor.tdOpen + commonLabels.ID + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.invoiceID + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.areaID + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.salesPartnerName + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.itemName + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.quantity + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.returnQuantity + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.invoiceSum + tableConstructor.tdClose +
-                                         tableConstructor.tdOpen + commonLabels.date + tableConstructor.tdClose +
-                                         tableConstructor.trClose + tableConstructor.tbodyClose;
+this.tableHeaderRowFunc = function(analyticsType) {
+  if (analyticsType == 'Подробный анализ' || analyticsType == 'Без анализа') {
+    commonLabels.tableHeaderRow  = tableConstructor.tbodyOpen + tableConstructor.trOpen +
+                                          tableConstructor.tdOpen + commonLabels.ID + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.invoiceID + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.areaID + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.salesPartnerName + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.itemName + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.quantity + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.exchangeQuantity + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.invoiceSum + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.date + tableConstructor.tdClose +
+                                          tableConstructor.trClose + tableConstructor.tbodyClose;
+  } else {
+    commonLabels.tableHeaderRow  = tableConstructor.tbodyOpen + tableConstructor.trOpen +
+                                          tableConstructor.tdOpen + commonLabels.ID + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.salesPartnerName + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.itemName + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.quantity + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.exchangeQuantity + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.difference + tableConstructor.tdClose +
+                                          tableConstructor.tdOpen + commonLabels.evaluation + tableConstructor.tdClose +
+                                          tableConstructor.trClose + tableConstructor.tbodyClose;
+  }
 }
 
 this.renderAnalyticsOptions = function() {
@@ -97,7 +109,7 @@ this.renderAnalyticsOptions = function() {
 
 this.createAnalyticsReport = function(analyticsType) {
   let currScriptName = "analytics";
-  tableHeaderRowFunc();
+  tableHeaderRowFunc(analyticsType);
   $('div#connection-data').html("");
   $(".analytics").show();
   $('div#connection-data').append(" \
@@ -108,20 +120,28 @@ this.createAnalyticsReport = function(analyticsType) {
       </div> \
       <div id='tableContainer'> \
         <table class='tableDataAnalytics' id='tableDataAnalytics'></table> \
+        <table class='tableDataAnalyticsSummary' id='tableDataAnalyticsSummary'></table> \
       </div> \
     </div> \
   ");
   renderAnalyticsTable(analyticsType);
-  let saveTrigger = false;
-  for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
-    if (analytics.tmp[i].Quantity > 0 && saveTrigger == false) {
-      saveTrigger = true;
-    }
-  }
-  if (saveTrigger == true) {
+  // let saveTrigger = false;
+  // for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
+  //   if (analytics.tmp[i].Quantity > 0 && saveTrigger == false) {
+  //     saveTrigger = true;
+  //   }
+  // }
+  if (analyticsType == 'Подробный анализ' || analyticsType == 'Без анализа') {
     $("#tableContainer").append(" \
                                 <br><br> \
                                 <button id='saveAnalytics'>Сохранить Аналитику</button> \
+                                <br><br> \
+                                <script type='text/javascript' src='../js/createexcel.js'></script> \
+                                ");
+  } else {
+    $("#tableContainer").append(" \
+                                <br><br> \
+                                <button id='saveAnalyticsSummary'>Сохранить Сводку</button> \
                                 <br><br> \
                                 <script type='text/javascript' src='../js/createexcel.js'></script> \
                                 ");
@@ -134,10 +154,35 @@ this.renderAnalyticsTable = function(analyticsType) {
   var count = 0;
   let triggerAnalytics = true;
   var tableRow;
-  for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
-    if (analyticsType == 'Подробный анализ') {
-      if (parseFloat(analytics.tmp[i].ExchangeQuantity) >= parseFloat(analytics.tmp[i].Quantity)) {
+  if (analyticsType == 'Подробный анализ' || analyticsType == 'Без анализа') {
+    for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
+      if (analyticsType == 'Подробный анализ') {
+        if (parseFloat(analytics.tmp[i].ExchangeQuantity) >= parseFloat(analytics.tmp[i].Quantity)) {
 
+          var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
+          var dt = new Date(dTStrSource);
+          var dTStrOut = formatDate(dt);
+          count += 1;
+          tableRow = '<tbody><tr> \
+                              <td>' + count + '</td> \
+                              <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
+                              <td>' + analytics.tmp[i].AgentID + '</td> \
+                              <td>' + analytics.tmp[i].spName + '</td> \
+                              <td>' + analytics.tmp[i].itemName + '</td> \
+                              <td>' + analytics.tmp[i].Quantity + '</td> \
+                              <td>' + analytics.tmp[i].ExchangeQuantity + '</td> \
+                              <td>' + analytics.tmp[i].InvoiceSum + '</td> \
+                              <td>' + dTStrOut + '</td> \
+                            </tr></tbody>';
+          if (triggerAnalytics == true) {
+             $("#tableDataAnalytics").html("");
+             $("#tableDataAnalytics").append(tableHeaderRow);
+             triggerAnalytics = false;
+          }
+          $("#tableDataAnalytics").append(tableRow);
+        }
+      }
+      if (analyticsType == 'Без анализа') {
         var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
         var dt = new Date(dTStrSource);
         var dTStrOut = formatDate(dt);
@@ -153,6 +198,7 @@ this.renderAnalyticsTable = function(analyticsType) {
                             <td>' + analytics.tmp[i].InvoiceSum + '</td> \
                             <td>' + dTStrOut + '</td> \
                           </tr></tbody>';
+
         if (triggerAnalytics == true) {
            $("#tableDataAnalytics").html("");
            $("#tableDataAnalytics").append(tableHeaderRow);
@@ -161,58 +207,30 @@ this.renderAnalyticsTable = function(analyticsType) {
         $("#tableDataAnalytics").append(tableRow);
       }
     }
-    if (analyticsType == 'Сводный анализ') {
-      var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
-      var dt = new Date(dTStrSource);
-      var dTStrOut = formatDate(dt);
-      // if (analytics.tmp[i].InvoiceNumber == analytics.tmp[i + 1].InvoiceNumber) {
-      //   if (analytics.tmp[i].itemName == analytics.tmp[i + 1].itemName) {
-      //
-      //   }
-      // }
-      count += 1;
-      tableRow = '<tbody><tr> \
-                          <td>' + count + '</td> \
-                          <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
-                          <td>' + analytics.tmp[i].AgentID + '</td> \
-                          <td>' + analytics.tmp[i].spName + '</td> \
-                          <td>' + analytics.tmp[i].itemName + '</td> \
-                          <td>' + analytics.tmp[i].Quantity + '</td> \
-                          <td>' + analytics.tmp[i].ExchangeQuantity + '</td> \
-                          <td>' + analytics.tmp[i].InvoiceSum + '</td> \
-                          <td>' + dTStrOut + '</td> \
-                        </tr></tbody>';
+  } else {
+    for (var i = 0; i < Object.keys(analytics.salesQuantity).length; i++) {
+      if (analyticsType == 'Сводный анализ') {
+        // var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
+        // var dt = new Date(dTStrSource);
+        // var dTStrOut = formatDate(dt);
+        count += 1;
+        tableRow = '<tbody><tr> \
+                            <td>' + count + '</td> \
+                            <td>' + (Object.keys(analytics.salesQuantity)[i]).slice(0, (Object.keys(analytics.salesQuantity)[i]).indexOf(" --- ")) + '</td> \
+                            <td>' + (Object.keys(analytics.salesQuantity)[i]).slice((Object.keys(analytics.salesQuantity)[i]).indexOf(" --- ") + 4) + '</td> \
+                            <td>' + analytics.salesQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) + '</td> \
+                            <td>' + analytics.exchangeQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) + '</td> \
+                            <td>' + (analytics.salesQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) - analytics.exchangeQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2)).toFixed(2) + '</td> \
+                            <td>' + "---" + '</td> \
+                          </tr></tbody>';
 
-      if (triggerAnalytics == true) {
-         $("#tableDataAnalytics").html("");
-         $("#tableDataAnalytics").append(tableHeaderRow);
-         triggerAnalytics = false;
+        if (triggerAnalytics == true) {
+           $("#tableDataAnalyticsSummary").html("");
+           $("#tableDataAnalyticsSummary").append(tableHeaderRow);
+           triggerAnalytics = false;
+        }
+        $("#tableDataAnalyticsSummary").append(tableRow);
       }
-      $("#tableDataAnalytics").append(tableRow);
-    }
-    if (analyticsType == 'Без анализа') {
-      var dTStrSource = analytics.tmp[i].DateTimeDocLocal;
-      var dt = new Date(dTStrSource);
-      var dTStrOut = formatDate(dt);
-      count += 1;
-      tableRow = '<tbody><tr> \
-                          <td>' + count + '</td> \
-                          <td>' + analytics.tmp[i].InvoiceNumber + '</td> \
-                          <td>' + analytics.tmp[i].AgentID + '</td> \
-                          <td>' + analytics.tmp[i].spName + '</td> \
-                          <td>' + analytics.tmp[i].itemName + '</td> \
-                          <td>' + analytics.tmp[i].Quantity + '</td> \
-                          <td>' + analytics.tmp[i].ExchangeQuantity + '</td> \
-                          <td>' + analytics.tmp[i].InvoiceSum + '</td> \
-                          <td>' + dTStrOut + '</td> \
-                        </tr></tbody>';
-
-      if (triggerAnalytics == true) {
-         $("#tableDataAnalytics").html("");
-         $("#tableDataAnalytics").append(tableHeaderRow);
-         triggerAnalytics = false;
-      }
-      $("#tableDataAnalytics").append(tableRow);
     }
   }
 }
@@ -220,9 +238,10 @@ this.renderAnalyticsTable = function(analyticsType) {
 this.calcAnalytics = function() {
 
   for (var i = 0; i < Object.keys(analytics.tmp).length; i++) {
+    analytics.trigger = false;
     if (Object.keys(analytics.salesQuantity).length > 0) {
       for (var key in analytics.salesQuantity) {
-        if (key == analytics.tmp[i].InvoiceNumber + " " + analytics.tmp[i].SalesPartnerID + " " + analytics.tmp[i].itemName) {
+        if (key == (analytics.tmp[i].spName + " --- " + analytics.tmp[i].itemName)) {
           createObject(0, 1, i);
         }
       }
@@ -235,10 +254,11 @@ this.calcAnalytics = function() {
   }
 }
 
-this.createObject = function(paramOne, paramTwo, i) {
+this.createObject = function(paramOne, paramTwo, paramThree) {
 
-  analytics.tmpName = analytics.tmp[i].InvoiceNumber + " " + analytics.tmp[i].SalesPartnerID + " " + analytics.tmp[i].itemName
-  reportsLocalVars.tmpQuantity = parseFloat(analytics.tmp[i].Quantity, 10);
+  analytics.tmpName = analytics.tmp[paramThree].spName + " --- " + analytics.tmp[paramThree].itemName;
+  analytics.tmpQuantity = parseFloat(analytics.tmp[paramThree].Quantity, 10);
+  analytics.tmpExchangeQuantity = parseFloat(analytics.tmp[paramThree].ExchangeQuantity, 10);
 
   if (paramTwo == 0) {
 
@@ -248,11 +268,22 @@ this.createObject = function(paramOne, paramTwo, i) {
        enumerable: true,
        configurable: true
     });
+
+    Object.defineProperty(analytics.exchangeQuantity, analytics.tmpName, {
+       value: analytics.tmpExchangeQuantity,
+       writable: true,
+       enumerable: true,
+       configurable: true
+    });
   }
   if (paramTwo == 1) {
 
     analytics.quantity = parseFloat(analytics.salesQuantity[analytics.tmpName], 10) + parseFloat(analytics.tmpQuantity, 10);
     analytics.salesQuantity[analytics.tmpName] = analytics.quantity;
+
+    analytics.exchange = parseFloat(analytics.exchangeQuantity[analytics.tmpName], 10) + parseFloat(analytics.tmpExchangeQuantity, 10);
+    analytics.exchangeQuantity[analytics.tmpName] = analytics.exchange;
+
     analytics.trigger = true;
   }
 }

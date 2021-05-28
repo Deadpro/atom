@@ -65,14 +65,21 @@ var analytics = {
   "tmp" : new Object(),
   "executeChoice" : "analyticsExecuteChoice",
   "subjectHead" : "Анализ продаж за период: ",
-  "trigger" : false
+  "trigger" : false,
+  "tmpQuantity" : 0,
+  "quantity" : 0,
+  "tmpExchangeQuantity" : 0,
+  "exchange" : 0,
+  "tmpName" : "",
+  "salesQuantity" : new Object(),
+  "exchangeQuantity" : new Object()
 };
 
 var commonLabels = {
   "itemName" : "Номенклатура",
   "itenmPrice" : "Цена",
   "quantity" : "Кол-во",
-  "returnQuantity" : "Обмен",
+  "exchangeQuantity" : "Обмен",
   "invoiceSum" : "Всего",
   "itemID" : "Артикул",
   "ID" : "№",
@@ -90,7 +97,9 @@ var commonLabels = {
   "dash" : "---",
   "choosePeriod" : "Выберите период",
   "chooseArea" : "Выберите район",
-  "tableHeaderRow" : ""
+  "tableHeaderRow" : "",
+  "difference" : "разница",
+  "evaluation" : "оценка"
 };
 
 var analyticsStyles = {
