@@ -5,6 +5,7 @@ var warehouseLocalVars = {
 $('#warehouse').on('click', function() {
   // alert(1234567890);
   // renderMenuPageWarehouse();
+  toTop("connection-data");
 });
 
 this.renderMenuPageWarehouse = function() {

@@ -64,7 +64,8 @@ var analytics = {
   "dateEnd" : "",
   "tmp" : new Object(),
   "executeChoice" : "analyticsExecuteChoice",
-  "subjectHead" : "Анализ продаж за период: "
+  "subjectHead" : "Анализ продаж за период: ",
+  "trigger" : false
 };
 
 var commonLabels = {

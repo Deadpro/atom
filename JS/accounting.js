@@ -233,6 +233,7 @@ function createObject(paramOne, paramTwo, paramThree, paramFour) {
 
 $('#accounting').on('click', function() {
   renderAccountingOptions();
+  toTop("connection-data");
 });
 
 $('#executeChoice').on('click', function() {

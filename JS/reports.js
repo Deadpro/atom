@@ -304,6 +304,7 @@ function checkSumErrors() {
 
 $('#reports').on('click', function() {
   renderMenuPage();
+  toTop("connection-data");
 });
 
 $('#report-sales-manager').on('click', function() {

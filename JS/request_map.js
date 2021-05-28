@@ -40,6 +40,7 @@ var request_mapLocalVars = {
 
 $('#mapCaiman').on('click', function() {
   renderMap();
+  toTop("connection-data");
 });
 
 this.chooseArea = async function(myRadio) {

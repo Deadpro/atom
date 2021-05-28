@@ -37,6 +37,7 @@ var changeDBTablesLocalVars = {
 
 $('#changeDataBaseTables').on('click', function() {
   renderOptions();
+  toTop("connection-data");
 });
 
 $('#showSPInfo').on('click', function() {

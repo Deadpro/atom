@@ -8,6 +8,7 @@ var settingsLocalVars = {
 };
 // var ok;
 $('#adminSettings').on('click', function() {
+  toTop("connection-data");
   $('div#connection-data').html("");
   $('div#connection-data').append(" \
     <div class='loginContainer'> \

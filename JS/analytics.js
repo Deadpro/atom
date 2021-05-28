@@ -1,5 +1,6 @@
 $('#analytics').on('click', function() {
   renderAnalyticsOptions();
+  toTop("connection-data");
 });
 
 $('#analyticsExecuteChoiceDetailed').on('click', function() {
