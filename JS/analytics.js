@@ -15,6 +15,10 @@ $('#analyticsExecuteChoiceRaw').on('click', function() {
   recieveAnalyticsData('analyticsExecuteChoiceRaw');
 });
 
+$('#analyticsExecuteChoiceDetailedSummary').on('click', function() {
+  recieveAnalyticsData('analyticsExecuteChoiceDetailedSummary');
+});
+
 this.recieveAnalyticsData = async function(type) {
   analytics.dateControl = document.querySelector('input[type="date"]');
   let analyticsType = document.getElementById(type).value;
@@ -31,7 +35,7 @@ this.recieveAnalyticsData = async function(type) {
                                           reportType: "analytics"}, function(data) {
     analytics.tmp = JSON.parse(data);
   });
-  if (analyticsType == "Сводный анализ") {
+  if (analyticsType == "Сводный анализ" || analyticsType == "Чистый сводный") {
     await calcAnalytics();
     createAnalyticsReport(analyticsType);
   } else {
@@ -93,6 +97,7 @@ this.renderAnalyticsOptions = function() {
           <div class='col-50'><input type='submit' id='analyticsExecuteChoiceDetailed' value='Подробный анализ'></div> \
           <div class='col-50'><input type='submit' id='analyticsExecuteChoiceSummary' value='Сводный анализ'></div> \
           <div class='col-50'><input type='submit' id='analyticsExecuteChoiceRaw' value='Без анализа'></div> \
+          <div class='col-50'><input type='submit' id='analyticsExecuteChoiceDetailedSummary' value='Чистый сводный'></div> \
         </div> \
       </div> \
     </div> \
@@ -230,6 +235,27 @@ this.renderAnalyticsTable = function(analyticsType) {
            triggerAnalytics = false;
         }
         $("#tableDataAnalyticsSummary").append(tableRow);
+      }
+      if (analyticsType == 'Чистый сводный') {
+        if ((analytics.salesQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) - analytics.exchangeQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2)).toFixed(2) <= 0) {
+          count += 1;
+          tableRow = '<tbody><tr> \
+                              <td>' + count + '</td> \
+                              <td>' + (Object.keys(analytics.salesQuantity)[i]).slice(0, (Object.keys(analytics.salesQuantity)[i]).indexOf(" --- ")) + '</td> \
+                              <td>' + (Object.keys(analytics.salesQuantity)[i]).slice((Object.keys(analytics.salesQuantity)[i]).indexOf(" --- ") + 4) + '</td> \
+                              <td>' + analytics.salesQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) + '</td> \
+                              <td>' + analytics.exchangeQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) + '</td> \
+                              <td>' + (analytics.salesQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2) - analytics.exchangeQuantity[Object.keys(analytics.salesQuantity)[i]].toFixed(2)).toFixed(2) + '</td> \
+                              <td>' + "---" + '</td> \
+                            </tr></tbody>';
+
+          if (triggerAnalytics == true) {
+             $("#tableDataAnalyticsSummary").html("");
+             $("#tableDataAnalyticsSummary").append(tableHeaderRow);
+             triggerAnalytics = false;
+          }
+          $("#tableDataAnalyticsSummary").append(tableRow);
+        }
       }
     }
   }
