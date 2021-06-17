@@ -28,7 +28,7 @@ this.silentLogin = function(dbName, dbUser, dbPassword, login, password) {
      // $('div#connection-data').text(data);
      agentStatus.loginSecurityData = JSON.parse(data);
      // alert($.trim(agentStatus.loginSecurityData[0].attribute));
-     localStorage.setItem('attribute', agentStatus.loginSecurityData[0].attribute);
+     // localStorage.setItem('attribute', agentStatus.loginSecurityData[0].attribute);
      // alert(localStorage.getItem('attribute'));
      if ($.trim(agentStatus.loginSecurityData[0].attribute) == 'ceo') {
        getAgentStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
@@ -239,6 +239,7 @@ this.showAgentStatus = function() {
     </div> \
   ");
   linebreak = "<br />";
+  toTop("connection-data");
 
   if ($.trim(agentStatus.loginSecurityData[0].attribute) == 'ceo' || $.trim(agentStatus.loginSecurityData[0].attribute) == 'admin' || $.trim(agentStatus.loginSecurityData[0].attribute) == 'accountant') {
     for (var i = 0; i < Object.keys(agentStatus.areaStatusSalesSum).length; i++) {
@@ -273,7 +274,7 @@ this.showAgentStatus = function() {
       $("#agentStatusTableData").append(statusLine);
     }
   } else {
-    let statusLine = "Добро пожаловать, Агент.";
-    $("#agentStatusTableData").append(statusLine);
+    // let statusLine = "Добро пожаловать, Агент.";
+    $("#agentStatusContainer").append("<H1>Добро пожаловать, Агент.</H1>");
   }
 }

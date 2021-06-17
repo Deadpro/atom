@@ -308,7 +308,9 @@ $('#reports').on('click', function() {
 });
 
 $('#report-sales-manager').on('click', function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getArea("report");
     // alert("район: " + reportsLocalVars.checkedAreaValue); alert("магазин: " + reportsLocalVars.optionValue);
@@ -485,11 +487,15 @@ $('#report-sales-manager').on('click', function() {
       // $('div#connection-data').text(text);
       renderReportTable(0, 0);
     });
-  };
+  } else {
+    alert("У вас нет прав на это действие");
+  }
 });
 
 $('#report-by-sp').on('click', function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getArea("report");
     alert("район: " + reportsLocalVars.checkedAreaValue); alert("магазин: " + reportsLocalVars.optionValue);
@@ -665,11 +671,15 @@ $('#report-by-sp').on('click', function() {
       // $('div#connection-data').text(text);
       renderReportTable(0, 0);
     });
-  };
+  } else {
+    alert("У вас нет прав на это действие");
+  }
 });
 
 $('#report-ceo').on('click', async function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getArea("report");
     reportsLocalVars.dateStart = $('input#dateStart').val();
@@ -677,11 +687,15 @@ $('#report-ceo').on('click', async function() {
     await ceoFuncPost();
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
     renderReportTable(1, 0);
-  };
+  } else {
+    alert("У вас нет прав на это действие");
+  }
 });
 
 $('#report-by-day').on('click', function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getDay("byDayReport");
     getArea("byDayReport");
@@ -735,11 +749,15 @@ $('#report-by-day').on('click', function() {
      }
       renderReportTable(2, 0);
     });
-  };
+  } else {
+    alert("У вас нет прав на это действие");
+  }
 });
 
 $('#report-by-netcost').on('click', function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getArea("report");
     // alert("район: " + reportsLocalVars.checkedAreaValue); alert("магазин: " + reportsLocalVars.optionValue);
@@ -909,7 +927,9 @@ $('#report-by-netcost').on('click', function() {
      }
       renderReportTable(3, 1);
     });
-  };
+  } else {
+      alert("У вас нет прав на это действие");
+  }
 });
 
 $('#salary-report').on('click', function() {
@@ -918,98 +938,24 @@ $('#salary-report').on('click', function() {
   reportsLocalVars.dateStart = $('input#dateStart').val();
   reportsLocalVars.dateEnd = $('input#dateEnd').val();
 
-  if (reportsLocalVars.radioCheckedAreaTrigger == true) {
-    $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
-                                            dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
-                                            dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
-                                            salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
-      reportsLocalVars.tmp = JSON.parse(data);
-      for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
-        reportsLocalVars.trigger = false;
-        if (reportsLocalVars.tmp[i].AgentID != 7) {
-          if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
-            for (var key in reportsLocalVars.salesQuantity) {
-              // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
-              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
-                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                    reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-                  if (key == "Ким-ча весовая") {
-                    createObject(2, 1, i, 0);
-                  }
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
-                  if (key == "Ким-ча весовая") {
-                    createObject(3, 1, i, 0);
-                  }
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                    reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                  if (key == "Редька по-восточному весовая") {
-                    createObject(1, 1, i, 0);
-                  }
-                }
-              } else {
-                if (key == reportsLocalVars.tmp[i].Наименование) {
-                  createObject(0, 1, i, 0);
-                }
-              }
-            }
-            if (reportsLocalVars.trigger == false) {
-            // if (!(tmp[i].Наименование in salesQuantity)) {
-              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
-                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                    reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-                  createObject(2, 0, i, 0);
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
-                  createObject(3, 0, i, 0);
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                    reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                  createObject(1, 0, i, 0);
-                }
-              } else {
-                createObject(0, 0, i, 0);
-              }
-            }
-          } else {
-             if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
-                reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
-                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
-                   reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
-                   createObject(2, 0, i, 0);
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
-                   createObject(3, 0, i, 0);
-                }
-                if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
-                   reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
-                   createObject(1, 0, i, 0);
-                }
-             } else {
-               createObject(0, 0, i, 0);
-             }
-          }
-        }
-      }
-      renderReportTable(4, 2);
-    });
+  if (reportsLocalVars.radioCheckedAreaTrigger == true && agentStatus.loginSecurityData[0].agentArea == reportsLocalVars.checkedAreaValue) {
+    recieveReportDataPost();
+  } else {
+    if (reportsLocalVars.radioCheckedAreaTrigger == true &&
+        (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+        agentStatus.loginSecurityData[0].attribute == "admin" ||
+        agentStatus.loginSecurityData[0].attribute == "accountant")) {
+      recieveReportDataPost();
+    } else {
+      alert("У вас нет прав на это действие");
+    }
   }
 });
 
 $('#ingredients-report').on('click', async function() {
-  if (localStorage.getItem('attribute') == "ceo" || localStorage.getItem('attribute') == "admin" || localStorage.getItem('attribute') == "accountant") {
+  if (agentStatus.loginSecurityData[0].attribute == "ceo" ||
+      agentStatus.loginSecurityData[0].attribute == "admin" ||
+      agentStatus.loginSecurityData[0].attribute == "accountant") {
     getSalesPartnerID();
     getArea("report");
     reportsLocalVars.dateStart = $('input#dateStart').val();
@@ -1026,6 +972,8 @@ $('#ingredients-report').on('click', async function() {
     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
     await ingredientsCalc("additional");
     renderReportTable(5, 3);
+  } else {
+    alert("У вас нет прав на это действие");
   }
 });
 
@@ -1064,6 +1012,95 @@ $('#ingredients-report').on('click', async function() {
 //     renderReportTable(3, 1);
 //   });
 // });
+
+this.recieveReportDataPost = function() {
+  $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
+                                          dbPassword: localStorage.getItem('dbPassword'), dateStart: reportsLocalVars.dateStart,
+                                          dateEnd: reportsLocalVars.dateEnd, area: reportsLocalVars.checkedAreaValue,
+                                          salesPartnersID: reportsLocalVars.optionValue, reportType: "report"}, function(data) {
+    reportsLocalVars.tmp = JSON.parse(data);
+    for (var i = 0; i < Object.keys(reportsLocalVars.tmp).length; i++) {
+      reportsLocalVars.trigger = false;
+      if (reportsLocalVars.tmp[i].AgentID != 7) {
+        if (Object.keys(reportsLocalVars.salesQuantity).length > 0) {
+          for (var key in reportsLocalVars.salesQuantity) {
+            // if (salesQuantity.hasOwnProperty(tmp[i].Наименование)) {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+                if (key == "Ким-ча весовая") {
+                  createObject(2, 1, i, 0);
+                }
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
+                if (key == "Ким-ча весовая") {
+                  createObject(3, 1, i, 0);
+                }
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+                if (key == "Редька по-восточному весовая") {
+                  createObject(1, 1, i, 0);
+                }
+              }
+            } else {
+              if (key == reportsLocalVars.tmp[i].Наименование) {
+                createObject(0, 1, i, 0);
+              }
+            }
+          }
+          if (reportsLocalVars.trigger == false) {
+          // if (!(tmp[i].Наименование in salesQuantity)) {
+            if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+                reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                  reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+                createObject(2, 0, i, 0);
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
+                createObject(3, 0, i, 0);
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                  reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+                createObject(1, 0, i, 0);
+              }
+            } else {
+              createObject(0, 0, i, 0);
+            }
+          }
+        } else {
+           if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2" ||
+              reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+              reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 1" ||
+                 reportsLocalVars.tmp[i].Наименование == "Ким-ча 700 гр особая цена 2") {
+                 createObject(2, 0, i, 0);
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Ким-ча 500 гр") {
+                 createObject(3, 0, i, 0);
+              }
+              if (reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 1" ||
+                 reportsLocalVars.tmp[i].Наименование == "Редька по-восточному 500гр особая цена 2") {
+                 createObject(1, 0, i, 0);
+              }
+           } else {
+             createObject(0, 0, i, 0);
+           }
+        }
+      }
+    }
+    renderReportTable(4, 2);
+  });
+}
 
 this.ceoFuncPost = function() {
   $.post('../php/receiveReportData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),

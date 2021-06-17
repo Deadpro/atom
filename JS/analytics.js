@@ -1,8 +1,6 @@
 $('#analytics').on('click', function() {
-  if ($.trim(localStorage.getItem('attribute')) == 'ceo' || $.trim(localStorage.getItem('attribute')) == 'admin') {    
     renderAnalyticsOptions();
     toTop("connection-data");
-  }
 });
 
 $('#analyticsExecuteChoiceDetailed').on('click', function() {
