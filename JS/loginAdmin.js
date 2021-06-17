@@ -40,7 +40,7 @@ this.login = function(dbName, dbUser, dbPassword, login, password) {
 }
 
 this.checkReceivedLoginSecurityData = function() {
-  // alert(Object.keys(loginAdmin.loginSecurityData).length);
+  // alert(loginAdmin.loginSecurityData[0].attribute;);
   for (var i = 0; i < Object.keys(loginAdmin.loginSecurityData).length; i++) {
     loginAdmin.firstname = loginAdmin.loginSecurityData[i].firstname;
     loginAdmin.middlename = loginAdmin.loginSecurityData[i].middlename;

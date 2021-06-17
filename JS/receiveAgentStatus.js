@@ -28,7 +28,8 @@ this.silentLogin = function(dbName, dbUser, dbPassword, login, password) {
      // $('div#connection-data').text(data);
      agentStatus.loginSecurityData = JSON.parse(data);
      // alert($.trim(agentStatus.loginSecurityData[0].attribute));
-     // localStorage.setItem('attribute', loginAdmin.loginSecurityData[0].attribute);
+     localStorage.setItem('attribute', agentStatus.loginSecurityData[0].attribute);
+     // alert(localStorage.getItem('attribute'));
      if ($.trim(agentStatus.loginSecurityData[0].attribute) == 'ceo') {
        getAgentStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
              localStorage.getItem('login'), localStorage.getItem('password'));
@@ -272,7 +273,7 @@ this.showAgentStatus = function() {
       $("#agentStatusTableData").append(statusLine);
     }
   } else {
-    var statusLine = "Добро пожаловать, Агент.";
+    let statusLine = "Добро пожаловать, Агент.";
     $("#agentStatusTableData").append(statusLine);
   }
 }
