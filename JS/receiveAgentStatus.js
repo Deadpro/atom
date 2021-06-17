@@ -28,11 +28,14 @@ this.silentLogin = function(dbName, dbUser, dbPassword, login, password) {
      // $('div#connection-data').text(data);
      agentStatus.loginSecurityData = JSON.parse(data);
      // alert($.trim(agentStatus.loginSecurityData[0].attribute));
+     // localStorage.setItem('attribute', loginAdmin.loginSecurityData[0].attribute);
      if ($.trim(agentStatus.loginSecurityData[0].attribute) == 'ceo') {
        getAgentStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
              localStorage.getItem('login'), localStorage.getItem('password'));
        getCashStatus(localStorage.getItem('dbName'), localStorage.getItem('dbUser'), localStorage.getItem('dbPassword'),
              localStorage.getItem('login'), localStorage.getItem('password'));
+     } else {
+       showAgentStatus();
      }
    });
 }
@@ -235,35 +238,41 @@ this.showAgentStatus = function() {
     </div> \
   ");
   linebreak = "<br />";
-  for (var i = 0; i < Object.keys(agentStatus.areaStatusSalesSum).length; i++) {
-    if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaCashStatus)[i]) {
-      var cashTmp = agentStatus.areaCashStatus[Object.keys(agentStatus.areaCashStatus)[i]].toFixed(2);
-    } else {
-      var cashTmp = 0;
+
+  if ($.trim(agentStatus.loginSecurityData[0].attribute) == 'ceo' || $.trim(agentStatus.loginSecurityData[0].attribute) == 'admin' || $.trim(agentStatus.loginSecurityData[0].attribute) == 'accountant') {
+    for (var i = 0; i < Object.keys(agentStatus.areaStatusSalesSum).length; i++) {
+      if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaCashStatus)[i]) {
+        var cashTmp = agentStatus.areaCashStatus[Object.keys(agentStatus.areaCashStatus)[i]].toFixed(2);
+      } else {
+        var cashTmp = 0;
+      }
+      if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaCashlessStatus)[i]) {
+        var cashlessTmp = agentStatus.areaCashlessStatus[Object.keys(agentStatus.areaCashlessStatus)[i]].toFixed(2);
+      } else {
+        var cashlessTmp = 0;
+      }
+      if (cashTmp > 0) {
+        var debtSaleTmp = Math.abs(cashlessTmp - cashTmp).toFixed(2);
+      } else {
+        var debtSaleTmp = 0;
+      }
+      if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaDevelopmentStatus)[i]) {
+        var devStatus = agentStatus.areaDevelopmentStatus[Object.keys(agentStatus.areaDevelopmentStatus)[i]];
+      } else {
+        var devStatus = 0;
+      }
+      // devStatus = agentStatus.areaDevelopmentStatus[Object.keys(agentStatus.areaDevelopmentStatus)[i]];
+      var statusLine = '<tr> \
+                          <td>' + agentStatus.area + Object.keys(agentStatus.areaStatusSalesSum)[i] + '</td> \
+                          <td>' + agentStatus.salesTotal + agentStatus.areaStatusSalesSum[Object.keys(agentStatus.areaStatusSalesSum)[i]].toFixed(2) + '</td> \
+                          <td>' + agentStatus.salesCash + cashTmp + linebreak + agentStatus.salesCashless + cashlessTmp + linebreak + agentStatus.debtSale + debtSaleTmp + '</td> \
+                          <td>' + agentStatus.salesInvoicesQuantity + agentStatus.areaStatusInvoicesNumber[Object.keys(agentStatus.areaStatusInvoicesNumber)[i]] + linebreak + agentStatus.areaDevelopmentStatusLabel + devStatus + '</td> \
+                          <td>' + agentStatus.lastSyncDateTime + agentStatus.areaStatusLastSyncDateTime[Object.keys(agentStatus.areaStatusLastSyncDateTime)[i]] + '</td> \
+                        </tr>';
+      $("#agentStatusTableData").append(statusLine);
     }
-    if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaCashlessStatus)[i]) {
-      var cashlessTmp = agentStatus.areaCashlessStatus[Object.keys(agentStatus.areaCashlessStatus)[i]].toFixed(2);
-    } else {
-      var cashlessTmp = 0;
-    }
-    if (cashTmp > 0) {
-      var debtSaleTmp = Math.abs(cashlessTmp - cashTmp).toFixed(2);
-    } else {
-      var debtSaleTmp = 0;
-    }
-    if (Object.keys(agentStatus.areaStatusSalesSum)[i] == Object.keys(agentStatus.areaDevelopmentStatus)[i]) {
-      var devStatus = agentStatus.areaDevelopmentStatus[Object.keys(agentStatus.areaDevelopmentStatus)[i]];
-    } else {
-      var devStatus = 0;
-    }
-    // devStatus = agentStatus.areaDevelopmentStatus[Object.keys(agentStatus.areaDevelopmentStatus)[i]];
-    var statusLine = '<tr> \
-                        <td>' + agentStatus.area + Object.keys(agentStatus.areaStatusSalesSum)[i] + '</td> \
-                        <td>' + agentStatus.salesTotal + agentStatus.areaStatusSalesSum[Object.keys(agentStatus.areaStatusSalesSum)[i]].toFixed(2) + '</td> \
-                        <td>' + agentStatus.salesCash + cashTmp + linebreak + agentStatus.salesCashless + cashlessTmp + linebreak + agentStatus.debtSale + debtSaleTmp + '</td> \
-                        <td>' + agentStatus.salesInvoicesQuantity + agentStatus.areaStatusInvoicesNumber[Object.keys(agentStatus.areaStatusInvoicesNumber)[i]] + linebreak + agentStatus.areaDevelopmentStatusLabel + devStatus + '</td> \
-                        <td>' + agentStatus.lastSyncDateTime + agentStatus.areaStatusLastSyncDateTime[Object.keys(agentStatus.areaStatusLastSyncDateTime)[i]] + '</td> \
-                      </tr>';
+  } else {
+    var statusLine = "Добро пожаловать, Агент.";
     $("#agentStatusTableData").append(statusLine);
   }
 }
