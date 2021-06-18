@@ -7,8 +7,8 @@
     $password = (trim($_POST['password']));
     // mysql_real_escape_string
     // echo($login);
-    $sql = "SELECT firstname, secondname, middlename, attribute, агент.Район as agentArea FROM security
-    INNER JOIN агент ON security.login = агент.login
+    $sql = "SELECT firstname, secondname, middlename, attribute, агент_old.Район as agentArea FROM security
+    INNER JOIN агент_old ON security.login = агент_old.login
     WHERE security.login LIKE '$login' AND security.password LIKE '$password' ";
     // $query = mysqli_query($dbconnect, $sql);
     // if (mysqli_num_rows($query) !== 0) {
