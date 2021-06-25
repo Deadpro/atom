@@ -265,6 +265,25 @@
            echo "failed";
         }
       }
+      if ($updateType == "spAccAddress") {
+        $sql = "UPDATE salespartners SET accAddress = '$updateValue'
+        WHERE Наименование LIKE '$spName' AND Район LIKE '$areaStr' AND ID LIKE '$spID'";
+        if (mysqli_query($dbconnect, $sql)) {
+          $sql = "INSERT INTO changehistorydata_ceo (tableName, tableField, idOfRecordToChange, beforeValue,
+             afterValue, author, typeOfChange, changeGroupID, dateTimeOfChange)
+             VALUES ('salespartners', 'Адрес', $spID, '$beforeValue', '$updateValue', 'ceo', 'new', 1, '$dateTimeDoc') ";
+          if (mysqli_query($dbconnect, $sql)) {
+             $logSuccess = "success";
+          } else {
+             echo "failed";
+          }
+          if ($logSuccess == "success") {
+             echo "success";
+          }
+        } else {
+           echo "failed";
+        }
+      }
       if ($updateType == "tmpFixInvoiceNumbers") {
         // $tmp = 11082;
         // $row_cnt = 0;

@@ -1,40 +1,3 @@
-var changeDBTablesLocalVars = {
-  "someLabel" : "Nothing yet here",
-  "dbChangeLabel" : "Управление Базой Данных",
-  "chooseTableToChangeLabel" : "Выберите подменю для работы",
-  "chooseSPTableToChangeLabel" : "Выберите район контрагентов",
-  "chooseSalesTableToChangeLabel" : "Выберите район продаж",
-  "chooseReceiveTableToChangeLabel" : "Выберите район загрузки",
-  "chooseItemsTableToChangeLabel" : "Выберите вариант изменения номенклатуры",
-  "chooseItemsBasicTableToChangeLabel" : "Изменить общую номенклатуру",
-  "chooseItemsDiscountTableToChangeLabel" : "Изменить индивидуальные скидки",
-  "areaCurrentValue" : "",
-  "salesPartnersList" : new Object(),
-  "chooseSalesPartnerLable" : "Выберите контрагента из списка",
-  "selectedSPID" : "",
-  "spGetName" : new Object(),
-  "spGetLegalName" : new Object(),
-  "spGetArea" : new Object(),
-  "spGetDayOfTheWeek" : new Object(),
-  "spGetTaxNumber" : new Object(),
-  "spGetAccType" : new Object(),
-  "spGetAddress" : new Object(),
-  "spGetContacts" : new Object(),
-  "spGetCurrState" : new Object(),
-  "spGetLattitude" : new Object(),
-  "spGetLongitude" : new Object(),
-  "spGetByPass" : new Object(),
-  "spGetAccSubject" : new Object(),
-  "tmpName" : "",
-  "tmpID" : "",
-  "spInfoLable" : "Подробные сведения об контрагенте",
-  "statusUpdateData" : new Object(),
-  "reloadTrigger" : false,
-  "backButton" : new Object(),
-  "backButtonTriggers" : ["spName", "spLegalName", "spArea", "spRoot", "spTaxNumber", "spAccType", "spAddress", "spContacts", "spCurrState", "spLattitude", "spLongitude", "spByPass", "spAccSubject"],
-  "logFileData" : ""
-};
-
 $('#changeDataBaseTables').on('click', function() {
   renderOptions();
   toTop("connection-data");
@@ -196,6 +159,7 @@ function populateOptionList() {
   changeDBTablesLocalVars.spGetLongitude = new Object();
   changeDBTablesLocalVars.spGetByPass = new Object();
   changeDBTablesLocalVars.spGetAccSubject = new Object();
+  changeDBTablesLocalVars.spGetAccAddress = new Object();
   $("#list-of-sps").html("");
   $("#sp-list").html("");
   document.querySelector('#sp-list').value = "";
@@ -222,6 +186,7 @@ function populateOptionList() {
     changeDBTablesLocalVars.spGetLongitude[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].Longitude;
     changeDBTablesLocalVars.spGetByPass[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].addressLoadByPass;
     changeDBTablesLocalVars.spGetAccSubject[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].accSubject;
+    changeDBTablesLocalVars.spGetAccAddress[tmpID] = changeDBTablesLocalVars.salesPartnersList[i].accAddress;
   }
   // $("#sp-list").blur();
   // $("#list-of-sps").blur();
@@ -277,7 +242,7 @@ this.showSPInfoToChange = function(spIDToChange, autoTrigger) {
         <input class="col-100" id="spAccType" type="text" value="' + changeDBTablesLocalVars.spGetAccType[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccType();"></div> \
         <div class="separator"></div>\
-        <label for="spName">Адрес:</label> \
+        <label for="spName">Адрес для Карты:</label> \
         <input class="col-100" id="spAddress" type="text" value="' + changeDBTablesLocalVars.spGetAddress[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAddress();"></div> \
         <div class="separator"></div>\
@@ -304,6 +269,10 @@ this.showSPInfoToChange = function(spIDToChange, autoTrigger) {
         <label for="spName">Категория отчетности:</label> \
         <input class="col-100" id="spAccSubject" type="text" value="' + changeDBTablesLocalVars.spGetAccSubject[spIDToChange] + '"/> \
         <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccSubject();"></div> \
+        <div class="separator"></div>\
+        <label for="spName">Адрес для бухгалтерии:</label> \
+        <input class="col-100" id="spAccAddress" type="text" value="' + changeDBTablesLocalVars.spGetAccAddress[spIDToChange] + '"/> \
+        <div class="col-100"><input type="button" value="внести изменения" onclick="saveChangesToSPAccAddress();"></div> \
       </div> \
     </div> \
   ');
@@ -347,6 +316,9 @@ this.saveChangesToSPByPass = function() {
 }
 this.saveChangesToSPAccSubject = function() {
   processChangesToSp("spAccSubject", changeDBTablesLocalVars.spGetAccSubject);
+}
+this.saveChangesToSPAccAddress = function() {
+  processChangesToSp("spAccAddress", changeDBTablesLocalVars.spGetAccAddress);
 }
 
 this.processChangesToSp = function(trigger, table) {

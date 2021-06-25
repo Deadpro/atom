@@ -107,6 +107,44 @@ var analyticsStyles = {
   "style" : ""
 };
 
+var changeDBTablesLocalVars = {
+  "someLabel" : "Nothing yet here",
+  "dbChangeLabel" : "Управление Базой Данных",
+  "chooseTableToChangeLabel" : "Выберите подменю для работы",
+  "chooseSPTableToChangeLabel" : "Выберите район контрагентов",
+  "chooseSalesTableToChangeLabel" : "Выберите район продаж",
+  "chooseReceiveTableToChangeLabel" : "Выберите район загрузки",
+  "chooseItemsTableToChangeLabel" : "Выберите вариант изменения номенклатуры",
+  "chooseItemsBasicTableToChangeLabel" : "Изменить общую номенклатуру",
+  "chooseItemsDiscountTableToChangeLabel" : "Изменить индивидуальные скидки",
+  "areaCurrentValue" : "",
+  "salesPartnersList" : new Object(),
+  "chooseSalesPartnerLable" : "Выберите контрагента из списка",
+  "selectedSPID" : "",
+  "spGetName" : new Object(),
+  "spGetLegalName" : new Object(),
+  "spGetArea" : new Object(),
+  "spGetDayOfTheWeek" : new Object(),
+  "spGetTaxNumber" : new Object(),
+  "spGetAccType" : new Object(),
+  "spGetAddress" : new Object(),
+  "spGetContacts" : new Object(),
+  "spGetCurrState" : new Object(),
+  "spGetLattitude" : new Object(),
+  "spGetLongitude" : new Object(),
+  "spGetByPass" : new Object(),
+  "spGetAccSubject" : new Object(),
+  "spGetAccAddress" : new Object(),
+  "tmpName" : "",
+  "tmpID" : "",
+  "spInfoLable" : "Подробные сведения об контрагенте",
+  "statusUpdateData" : new Object(),
+  "reloadTrigger" : false,
+  "backButton" : new Object(),
+  "backButtonTriggers" : ["spName", "spLegalName", "spArea", "spRoot", "spTaxNumber", "spAccType", "spAddress", "spContacts", "spCurrState", "spLattitude", "spLongitude", "spByPass", "spAccSubject", "spAccAddress"],
+  "logFileData" : ""
+};
+
 function blockConstructor(blockBlock, classBlock, idBlock, typeBlock, nameBlock, forBlock, valueBlock) {
 
 }
