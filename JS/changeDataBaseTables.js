@@ -331,10 +331,12 @@ this.processChangesToSp = function(trigger, table) {
     let toChange;
     toChange = confirm("Заменить " + table[idTmp] + " -- на -- " + Value + "  -- ?");
     if (toChange) {
+      let address = Value;
+      let newAddress = address.replace(/  /g,'__');
       $.post('../php/updateData.php', {dbName: localStorage.getItem('dbName'), dbUser: localStorage.getItem('dbUser'),
                                               dbPassword: localStorage.getItem('dbPassword'),
                                               updateType: trigger, spName: nameTmp, spArea: areaTmp, spID: idTmp,
-                                              beforeValue: table[idTmp], updateValue: Value}, function(data) {
+                                              beforeValue: table[idTmp], updateValue: newAddress}, function(data) {
         // changeDBTablesLocalVars.statusUpdateData = JSON.parse(data);
         let isConfirmed;
         if (data == "success") {

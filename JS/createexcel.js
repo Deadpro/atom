@@ -172,8 +172,12 @@ function prepairDataToSave(param) {
     for (var i = 2; i < localCreateExcel.countChe + 1; i++) {
       var cellE = 'E' + i;
       var cellM = 'M' + i;
+      var cellN = 'N' + i;
       var valueCell = worksheet[cellE].v;
       var strCell = valueCell.toString();
+      let address = worksheet[cellN].v;
+      let newAddress = address.replace(/_/g,' ');
+      worksheet[cellN].v = newAddress;
       add_cell_to_sheet(worksheet, cellM, strCell);
     }
     workbook.Sheets[wsname] = worksheet;
@@ -207,8 +211,12 @@ function prepairDataToSave(param) {
     for (var i = 2; i < localCreateExcel.countLee + 1; i++) {
       var cellE = 'E' + i;
       var cellM = 'M' + i;
+      var cellN = 'N' + i;
       var valueCell = worksheet[cellE].v;
       var strCell = valueCell.toString();
+      let address = worksheet[cellN].v;
+      let newAddress = address.replace(/_/g,' ');
+      worksheet[cellN].v = newAddress;
       add_cell_to_sheet(worksheet, cellM, strCell);
     }
 		workbook.Sheets[wsname] = worksheet;
