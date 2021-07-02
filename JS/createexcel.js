@@ -177,7 +177,7 @@ function prepairDataToSave(param) {
       var strCell = valueCell.toString();
       if (valueCell == 010400323789) {
         strCell = '0' + strCell;
-        alert(strCell.substring(0, 1));
+        // alert(strCell.substring(0, 1));
       }
       let address = worksheet[cellN].v;
       let newAddress = address.replace(/_/g,' ');
